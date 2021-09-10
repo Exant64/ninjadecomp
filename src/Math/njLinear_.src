@@ -1,0 +1,28 @@
+	.EXPORT _njLinear
+	.SECTION PSG,CODE,ALIGN=4
+_njLinear:
+	fldi1 FR5
+	fsub FR4,FR5
+	fmov @R4,FR3
+	mov #12,R0
+	fmov @(R0,R4),FR2
+	mov #16,R0
+	fmov FR4,FR0
+	fmul FR5,FR3
+	fmac FR0,FR2,FR3
+	fmov FR5,FR0
+	fmov FR3,@R5
+	fmov @(R0,R4),FR3
+	mov #4,R0
+	fmov @(R0,R4),FR2
+	fmul FR4,FR3
+	fmac FR0,FR2,FR3
+	fmov FR3,@(R0,R5)
+	mov #20,R0
+	fmov @(R0,R4),FR3
+	mov #8,R0
+	fmov @(R0,R4),FR2
+	fmul FR4,FR3
+	fmac FR0,FR2,FR3
+	rts
+	fmov FR3,@(R0,R5)

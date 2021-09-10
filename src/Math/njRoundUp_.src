@@ -1,0 +1,23 @@
+	.IMPORT _ceilf
+	.EXPORT _njRoundUp
+	.SECTION PSG,CODE,ALIGN=4
+_njRoundUp:
+	mov.l lbl_00000018,R0
+	fldi0 FR0
+	fcmp/gt FR4,FR0
+	bf/s lbl_0000001C
+	fabs FR4
+	sts.l PR,@-R15
+	jsr @R0
+	nop
+	lds.l @R15+,PR
+	rts
+	fneg FR0
+	.data.w h'0000
+lbl_00000018:
+	.data.l _ceilf
+lbl_0000001C:
+	jmp @R0
+	nop
+	rts
+	nop

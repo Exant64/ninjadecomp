@@ -1,0 +1,120 @@
+	.EXPORT _njMemCopySQ
+	.EXPORT _njMemCopy32
+	.EXPORT _njMemCopy16
+	.EXPORT _njMemCopy2
+	.EXPORT _njMemCopy4
+	.EXPORT _njMemCopy8
+	.EXPORT _njMemCopy
+	.SECTION PSG,CODE,ALIGN=4
+_njMemCopySQ:
+	pref @R5
+	mov R4,R0
+	shlr16 R0
+	mov.l lbl_00000040,R1
+	shlr8 R0
+	and #28,R0
+	mov.l R0,@R1
+	add #4,R1
+	mov.l R0,@R1
+	mov R4,R2
+	mov R6,R3
+	mov.l lbl_00000044,R1
+	and R1,R4
+	mov.l lbl_00000048,R1
+	or R1,R4
+	fschg
+lbl_00000020:
+	fmov @R5+,FR0
+	fmov @R5+,FR2
+	add #32,R4
+	fmov @R5+,FR4
+	fmov @R5+,FR6
+	pref @R5
+	fmov FR6,@-R4
+	fmov FR4,@-R4
+	dt R6
+	fmov FR2,@-R4
+	fmov FR0,@-R4
+	pref @R4
+	bf/s lbl_00000020
+	add #32,R4
+	rts
+	fschg
+lbl_00000040:
+	.data.l h'FF000038
+lbl_00000044:
+	.data.l h'03FFFFFF
+lbl_00000048:
+	.data.l h'E0000000
+_njMemCopy32:
+	pref @R5
+	fschg
+lbl_00000050:
+	fmov @R5+,FR0
+	fmov @R5+,FR2
+	fmov @R5+,FR4
+	fmov @R5+,FR6
+	movca.l R0,@R4
+	add #32,R4
+	fmov FR6,@-R4
+	fmov FR4,@-R4
+	fmov FR2,@-R4
+	fmov FR0,@-R4
+	pref @R5
+	dt R6
+	bf/s lbl_00000050
+	add #32,R4
+	rts
+	fschg
+_njMemCopy16:
+	fschg
+	nop
+lbl_00000074:
+	fmov @R5+,FR0
+	add #16,R4
+	fmov @R5+,FR2
+	dt R6
+	fmov FR2,@-R4
+	fmov FR0,@-R4
+	bf/s lbl_00000074
+	add #16,R4
+	rts
+	fschg
+_njMemCopy8:
+	fschg
+	nop
+lbl_0000008C:
+	fmov @R5+,FR0
+	dt R6
+	fmov FR0,@R4
+	bf/s lbl_0000008C
+	add #8,R4
+	rts
+	fschg
+	nop
+_njMemCopy4:
+	mov.l @R5+,R0
+	dt R6
+	mov.l R0,@R4
+	bf/s _njMemCopy4
+	add #4,R4
+	rts
+	nop
+	nop
+_njMemCopy2:
+	mov.w @R5+,R0
+	dt R6
+	mov.w R0,@R4
+	bf/s _njMemCopy2
+	add #2,R4
+	rts
+	nop
+	nop
+_njMemCopy:
+	mov.b @R5+,R0
+	dt R6
+	mov.b R0,@R4
+	bf/s _njMemCopy
+	add #1,R4
+	rts
+	nop

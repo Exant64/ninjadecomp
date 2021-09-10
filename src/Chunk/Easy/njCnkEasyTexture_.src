@@ -1,0 +1,148 @@
+	.IMPORT __nj_calc_polygon_
+	.IMPORT __nj_draw_polygon_
+	.EXPORT _njCnkEasyTexture
+	.SECTION PSG,CODE,ALIGN=4
+_njCnkEasyTexture:
+	mov.l R10,@-R15
+	mov.l R9,@-R15
+	mov.l R8,@-R15
+	mov R6,R3
+	mova lbl_00000100,R0
+	mov.l @R0+,R1
+	and R1,R3
+	mov #-14,R2
+	shld R2,R6
+	mov #3,R2
+	mov #0,R1
+	and R2,R6
+	fmov @R0+,FR5
+	shll R6
+	fmov @R0,FR10
+	mov #0,R0
+	fldi1 FR11
+lbl_00000022:
+	mov.w @R4+,R2
+	mov.w @R4+,R8
+	shll2 R8
+	mov.w @R4+,R9
+	shll2 R8
+	lds R9,FPUL
+	cmp/pz R2
+	float FPUL,FR6
+	add R5,R8
+	fmul FR4,FR6
+	pref @R8
+	bt lbl_0000003C
+	neg R2,R2
+lbl_0000003C:
+	mov.w @R4+,R9
+	add R2,R0
+	lds R9,FPUL
+	fmov @R8+,FR1
+	float FPUL,FR7
+	fmov @R8+,FR2
+	fmul FR4,FR7
+	add R2,R1
+	fmov @R8+,FR3
+	add #-2,R2
+	fmov @R8+,FR8
+	mov.w @R4+,R8
+	shll2 R8
+	fmov FR5,FR0
+	shll2 R8
+	fmov FR8,FR9
+	fschg
+	add R5,R8
+	pref @R8
+	fsub FR11,FR9
+	add #32,R7
+	fmov FR8,@-R7
+	mov.w @R4+,R9
+	fmov FR6,@-R7
+	lds R9,FPUL
+	fmov FR2,@-R7
+	float FPUL,FR6
+	fmov FR0,@-R7
+	fmul FR4,FR6
+	pref @R7
+	add #32,R7
+	fschg
+	mov.w @R4+,R9
+	fmov @R8+,FR1
+	lds R9,FPUL
+	fmov @R8+,FR2
+	float FPUL,FR7
+	fmov @R8+,FR3
+	fmul FR4,FR7
+	fmov @R8+,FR8
+	fmov FR8,FR9
+lbl_0000008E:
+	mov.w @R4+,R8
+	shll2 R8
+	mov.w @R4+,R9
+	shll2 R8
+	mov.w @R4+,R10
+	add R5,R8
+	fschg
+	pref @R8
+	fsub FR11,FR9
+	add #32,R7
+	fmov FR8,@-R7
+	lds R9,FPUL
+	fmov FR6,@-R7
+	float FPUL,FR6
+	fmov FR2,@-R7
+	fmul FR4,FR6
+	fmov FR0,@-R7
+	lds R10,FPUL
+	float FPUL,FR7
+	pref @R7
+	fschg
+	add R6,R4
+	fmov @R8+,FR1
+	add #32,R7
+	fmov @R8+,FR2
+	fmul FR4,FR7
+	fmov @R8+,FR3
+	dt R2
+	fmov @R8+,FR8
+	bf/s lbl_0000008E
+	fmov FR8,FR9
+	add #32,R7
+	fmov FR10,FR0
+	fsub FR11,FR9
+	fschg
+	fmov FR8,@-R7
+	fmov FR6,@-R7
+	dt R3
+	fmov FR2,@-R7
+	fmov FR0,@-R7
+	pref @R7
+	fschg
+	bf/s lbl_00000022
+	add #32,R7
+	mov.l lbl_0000010C,R2
+	mov.l lbl_00000110,R3
+	mov.l @R2,R4
+	mov.l @R3,R5
+	add R0,R4
+	add R1,R5
+	mov.l R4,@R2
+	mov.l R5,@R3
+	mov R7,R0
+	mov.l @R15+,R8
+	mov.l @R15+,R9
+	rts
+	mov.l @R15+,R10
+lbl_00000100:
+	.data.l h'00003FFF
+	.data.w h'0000
+	mov #0,R0
+	.data.w h'0000
+	fadd FR0,FR0
+lbl_0000010C:
+	.data.l __nj_draw_polygon_
+lbl_00000110:
+	.data.l __nj_calc_polygon_
+	rts
+	nop

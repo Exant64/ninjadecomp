@@ -1,0 +1,138 @@
+	.IMPORT __nj_cnk_motlink_int_a_func_table_
+	.IMPORT __nj_cnk_int_a_func_table_old_
+	.IMPORT _njCnkBezierMotionAOld
+	.IMPORT _njCnkHermiteIntA
+	.IMPORT __nj_cnk_motlink_int_f_func_table_
+	.IMPORT _njCnkHermiteIntF
+	.IMPORT _njCnkBezierMotLinkAOld
+	.IMPORT __nj_cnk_motion_int_a_func_table_
+	.IMPORT __nj_cnk_motion_int_f_func_table_
+	.IMPORT __nj_cnk_motlink_int_a_func_table_old_
+	.IMPORT _njCnkBezierMotionA
+	.IMPORT __nj_cnk_int_a_func_table_
+	.IMPORT _njCnkOverhauserMotionA
+	.IMPORT _njCnkBezierMotionF
+	.IMPORT __nj_cnk_int_f_func_table_
+	.IMPORT _njCnkBezierMotLinkA
+	.IMPORT _njCnkOverhauserMotionF
+	.IMPORT _njCnkOverhauserMotLinkA
+	.IMPORT _njCnkBezierMotLinkF
+	.IMPORT _njCnkOverhauserMotLinkF
+	.IMPORT __nj_cnk_motion_int_a_func_table_old_
+	.EXPORT _njCnkMotionControl
+	.SECTION PSG,CODE,ALIGN=4
+_njCnkMotionControl:
+	mov.l R13,@-R15
+	mov #1,R3
+	mov.l R12,@-R15
+	tst R4,R3
+	mov.l lbl_00000094,R6
+	mov.l lbl_00000098,R5
+	mov.l lbl_00000090,R7
+	mov.l lbl_00000084,R12
+	mov.l lbl_00000088,R13
+	mov.l lbl_0000008C,R0
+	bt lbl_00000026
+	mov.l lbl_0000009C,R1
+	mov.l R1,@(4,R5)
+	mov R1,R3
+	mov.l lbl_000000A0,R5
+	mov.l R1,@(4,R0)
+	mov.l R5,@(4,R6)
+	bra lbl_0000003C
+	mov.l R5,@(4,R7)
+lbl_00000026:
+	mov #4,R2
+	tst R4,R2
+	bt lbl_00000044
+	mov.l lbl_000000A8,R3
+	mov.l lbl_000000AC,R2
+	mov.l lbl_000000A4,R1
+	mov.l R1,@(4,R5)
+	mov.l R3,@(4,R0)
+	mov.l lbl_000000B0,R3
+	mov.l R2,@(4,R6)
+	mov.l R3,@(4,R7)
+lbl_0000003C:
+	mov.l lbl_000000B4,R5
+	mov.l R5,@(4,R13)
+	bra lbl_0000005C
+	mov.l R5,@(4,R12)
+lbl_00000044:
+	mov.l @R5,R3
+	mov.l R3,@(4,R5)
+	mov.l @R0,R2
+	mov.l R2,@(4,R0)
+	mov.l @R6,R3
+	mov.l R3,@(4,R6)
+	mov.l @R7,R2
+	mov.l R2,@(4,R7)
+	mov.l @R13,R3
+	mov.l R3,@(4,R13)
+	mov.l @R12,R2
+	mov.l R2,@(4,R12)
+lbl_0000005C:
+	mov #2,R3
+	mov.l lbl_000000BC,R5
+	mov.l lbl_000000B8,R6
+	tst R3,R4
+	bt lbl_00000070
+	mov.l lbl_000000C0,R1
+	mov.l lbl_000000C4,R2
+	mov.l R1,@R5
+	bra lbl_00000076
+	nop
+lbl_00000070:
+	mov.l lbl_000000C8,R1
+	mov.l lbl_000000CC,R2
+	mov.l R1,@R5
+lbl_00000076:
+	mov.l R2,@(4,R6)
+	mov.l lbl_000000D4,R2
+	mov.l lbl_000000D0,R3
+	mov.l R2,@R3
+	mov.l @R15+,R12
+	rts
+	mov.l @R15+,R13
+lbl_00000084:
+	.data.l __nj_cnk_int_a_func_table_old_
+lbl_00000088:
+	.data.l __nj_cnk_int_a_func_table_
+lbl_0000008C:
+	.data.l __nj_cnk_motion_int_a_func_table_old_
+lbl_00000090:
+	.data.l __nj_cnk_motlink_int_a_func_table_old_
+lbl_00000094:
+	.data.l __nj_cnk_motlink_int_a_func_table_
+lbl_00000098:
+	.data.l __nj_cnk_motion_int_a_func_table_
+lbl_0000009C:
+	.data.l _njCnkOverhauserMotionA
+lbl_000000A0:
+	.data.l _njCnkOverhauserMotLinkA
+lbl_000000A4:
+	.data.l _njCnkBezierMotionA
+lbl_000000A8:
+	.data.l _njCnkBezierMotionAOld
+lbl_000000AC:
+	.data.l _njCnkBezierMotLinkA
+lbl_000000B0:
+	.data.l _njCnkBezierMotLinkAOld
+lbl_000000B4:
+	.data.l _njCnkHermiteIntA
+lbl_000000B8:
+	.data.l __nj_cnk_motlink_int_f_func_table_
+lbl_000000BC:
+	.data.l __nj_cnk_motion_int_f_func_table_+4
+lbl_000000C0:
+	.data.l _njCnkBezierMotionF
+lbl_000000C4:
+	.data.l _njCnkBezierMotLinkF
+lbl_000000C8:
+	.data.l _njCnkOverhauserMotionF
+lbl_000000CC:
+	.data.l _njCnkOverhauserMotLinkF
+lbl_000000D0:
+	.data.l __nj_cnk_int_f_func_table_+4
+lbl_000000D4:
+	.data.l _njCnkHermiteIntF

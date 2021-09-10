@@ -1,0 +1,39 @@
+	.IMPORT _njSqrt
+	.EXPORT _njDistanceP2P
+	.SECTION PSG,CODE,ALIGN=4
+_njDistanceP2P:
+	mov #4,R0
+	fmov @R5,FR3
+	fmov @(R0,R5),FR0
+	fmov @(R0,R4),FR6
+	mov #8,R0
+	fmov @R4,FR4
+	fsub FR0,FR6
+	fmov @(R0,R5),FR2
+	fsub FR3,FR4
+	fmov @(R0,R4),FR5
+	mova lbl_0000003C,R0
+	fsub FR2,FR5
+	fmov FR6,FR3
+	fmul FR6,FR3
+	fmov FR4,FR0
+	fmac FR0,FR4,FR3
+	fmov FR5,FR0
+	fmac FR0,FR5,FR3
+	fmov FR3,FR4
+	fmov @R0,FR3
+	fcmp/gt FR4,FR3
+	bf lbl_00000030
+	rts
+	fldi0 FR0
+lbl_00000030:
+	mov.l lbl_00000040,R3
+	jmp @R3
+	nop
+	rts
+	nop
+	.data.w h'0000
+lbl_0000003C:
+	.data.l h'3CCCCCCD
+lbl_00000040:
+	.data.l _njSqrt

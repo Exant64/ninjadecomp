@@ -1,0 +1,46 @@
+	.EXPORT _njSetLightAngle
+	.SECTION PSG,CODE,ALIGN=4
+_njSetLightAngle:
+	mov.w lbl_00000038,R0
+	mov.l R5,@(R0,R4)
+	mov.w lbl_0000003A,R0
+	mov.l R6,@(R0,R4)
+	lds R5,FPUL
+	fsca FPUL,DR0
+	mov.w lbl_0000003C,R0
+	lds R6,FPUL
+	fsca FPUL,DR2
+	fmul FR1,FR1
+	fmul FR3,FR3
+	fmov FR1,@(R0,R4)
+	mov.w lbl_0000003E,R0
+	fmov FR3,@(R0,R4)
+	mov.w lbl_00000038,R0
+	mov.l @(R0,R4),R3
+	mov.l lbl_00000044,R2
+	mov.w lbl_0000003A,R0
+	add R2,R3
+	mov.l @(R0,R4),R5
+	extu.w R3,R3
+	add R2,R5
+	shll16 R3
+	extu.w R5,R5
+	mov.w lbl_00000040,R0
+	or R5,R3
+	rts
+	mov.l R3,@(R0,R4)
+lbl_00000038:
+	.data.w h'0140
+lbl_0000003A:
+	.data.w h'0144
+lbl_0000003C:
+	.data.w h'0070
+lbl_0000003E:
+	.data.w h'0074
+lbl_00000040:
+	.data.w h'008c
+	.data.w h'0000
+lbl_00000044:
+	.data.l h'00010000
+	rts
+	nop

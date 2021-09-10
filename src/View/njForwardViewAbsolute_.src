@@ -1,0 +1,37 @@
+	.IMPORT __nj_view_
+	.EXPORT _njForwardViewAbsolute
+	.SECTION PSG,CODE,ALIGN=4
+_njForwardViewAbsolute:
+	tst R4,R4
+	mov.l lbl_00000034,R0
+	bf/s lbl_0000000C
+	fmov FR4,FR0
+	mov.l lbl_00000038,R2
+	mov.l @R2,R4
+lbl_0000000C:
+	mov R4,R2
+	mov R4,R3
+	add #92,R2
+	add #104,R3
+	fmov @R2+,FR1
+	fmov @R3+,FR8
+	fmov @R2+,FR2
+	fmov @R3+,FR9
+	fmac FR0,FR8,FR1
+	fmov @R2+,FR3
+	fmov @R3+,FR10
+	fmac FR0,FR9,FR2
+	fmov FR1,@(R0,R4)
+	add #4,R0
+	fmac FR0,FR10,FR3
+	fmov FR2,@(R0,R4)
+	add #4,R0
+	rts
+	fmov FR3,@(R0,R4)
+	.data.w h'0000
+lbl_00000034:
+	.data.l h'00000040
+lbl_00000038:
+	.data.l __nj_view_
+	rts
+	nop

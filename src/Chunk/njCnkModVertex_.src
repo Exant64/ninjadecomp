@@ -1,0 +1,69 @@
+	.EXPORT _njCnkModVertex
+	.SECTION PSG,CODE,ALIGN=4
+_njCnkModVertex:
+	mov.l @R4+,R1
+	mov.l @R4+,R3
+	mov.l @R4+,R7
+	pref @R3
+	mov.l @R4+,R2
+	mov R3,R5
+	add #12,R5
+	fmov @R4+,FR0
+	fmov @R4+,FR1
+	fmov @R4+,FR2
+	fmov @R4+,FR3
+	mova lbl_00000070,R0
+	fmov @R0+,FR8
+	fmov @R0,FR9
+	pref @R5
+	mov #0,R0
+	mov #0,R6
+lbl_00000022:
+	fmov @R3+,FR4
+	fmov @R3+,FR5
+	fmov @R3+,FR6
+	fldi1 FR7
+	ftrv XMTRX,FV4
+	add #12,R5
+	fldi1 FR7
+	pref @R5
+	fdiv FR6,FR7
+	add #16,R2
+	fmov FR6,@-R2
+	fcmp/gt FR8,FR6
+	bt lbl_00000040
+	add #1,R6
+	fmov FR9,FR7
+lbl_00000040:
+	fmul FR1,FR5
+	fmul FR0,FR4
+	fmul FR7,FR5
+	fmov FR7,@-R2
+	fmul FR7,FR4
+	fadd FR3,FR5
+	add #1,R0
+	fmov FR5,@-R2
+	tst #1,R0
+	fadd FR2,FR4
+	bf/s lbl_0000005E
+	fmov FR4,@-R2
+	ocbi @R7
+	add #32,R7
+	pref @R2
+lbl_0000005E:
+	dt R1
+	bf/s lbl_00000022
+	add #16,R2
+	tst #1,R0
+	bt lbl_0000006C
+	ocbi @R7
+	pref @R2
+lbl_0000006C:
+	rts
+	mov R6,R0
+lbl_00000070:
+	.data.l h'3727C5AC
+	mov.l @(0,R0),R0
+	.data.w h'47C3
+	rts
+	nop

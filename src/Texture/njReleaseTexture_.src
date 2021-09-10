@@ -1,0 +1,52 @@
+	.IMPORT _njReleaseTextureLN
+	.IMPORT __nj_texerr_
+	.EXPORT _njReleaseTexture
+	.SECTION PSG,CODE,ALIGN=4
+_njReleaseTexture:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov R4,R13
+	mov.l R12,@-R15
+	mov #1,R12
+	mov.l R11,@-R15
+	mov #-1,R11
+	mov.l R10,@-R15
+	mov.l R9,@-R15
+	sts.l PR,@-R15
+	mov.l lbl_00000054,R10
+	mov.l lbl_00000050,R9
+	bra lbl_00000038
+	mov #0,R14
+lbl_0000001C:
+	mov R14,R4
+	shll R4
+	mov R14,R3
+	mov.l @R13,R2
+	add R3,R4
+	shll2 R4
+	add R2,R4
+	jsr @R10
+	mov.l @(8,R4),R4
+	cmp/pz R0
+	bt lbl_00000036
+	mov R11,R12
+	mov.l R14,@R9
+lbl_00000036:
+	add #1,R14
+lbl_00000038:
+	mov.l @(4,R13),R2
+	cmp/hs R2,R14
+	bf lbl_0000001C
+	lds.l @R15+,PR
+	mov R12,R0
+	mov.l @R15+,R9
+	mov.l @R15+,R10
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+lbl_00000050:
+	.data.l __nj_texerr_
+lbl_00000054:
+	.data.l _njReleaseTextureLN

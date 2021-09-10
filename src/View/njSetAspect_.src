@@ -1,0 +1,17 @@
+	.IMPORT __nj_scr_aspect_x_
+	.IMPORT __nj_scr_aspect_y_
+	.EXPORT _njSetAspect
+	.SECTION PSG,CODE,ALIGN=4
+_njSetAspect:
+	mov.l lbl_0000000C,R1
+	fmov FR4,@R1
+	mov.l lbl_00000010,R2
+	rts
+	fmov FR5,@R2
+	.data.w h'0000
+lbl_0000000C:
+	.data.l __nj_scr_aspect_x_
+lbl_00000010:
+	.data.l __nj_scr_aspect_y_
+	rts
+	nop

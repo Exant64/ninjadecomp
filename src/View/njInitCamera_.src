@@ -1,0 +1,36 @@
+	.EXPORT _njInitCamera
+	.SECTION PSG,CODE,ALIGN=4
+_njInitCamera:
+	add #64,R4
+	fldi0 FR0
+	fldi1 FR1
+	fmov FR0,@-R4
+	fldi1 FR2
+	fmov FR1,@-R4
+	fneg FR2
+	fmov FR0,@-R4
+	mova lbl_00000038,R0
+	fmov FR0,@-R4
+	fmov @R0,FR3
+	fmov FR0,@-R4
+	mov.w lbl_00000034,R2
+	fmov FR1,@-R4
+	mov #0,R1
+	fmov FR3,@-R4
+	fmov FR2,@-R4
+	mov.l R2,@-R4
+	mov.l R1,@-R4
+	fmov FR2,@-R4
+	fmov FR0,@-R4
+	fmov FR0,@-R4
+	fmov FR0,@-R4
+	fmov FR0,@-R4
+	rts
+	fmov FR0,@-R4
+lbl_00000034:
+	.data.w h'2aaa
+	.data.w h'0000
+lbl_00000038:
+	.data.l h'C76A6000
+	rts
+	nop

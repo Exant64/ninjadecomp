@@ -1,0 +1,419 @@
+	.IMPORT __nj_texmemsize
+	.IMPORT __nj_texmemlist
+	.IMPORT _kmRenderTexture
+	.IMPORT _kmGetTexture
+	.IMPORT _kmSetStrideWidth
+	.IMPORT __nj_framebuffer_surface0_
+	.IMPORT __nj_framebuffer_surface1_
+	.IMPORT _kmfGetInternalSystemMetrics
+	.IMPORT _kmuConvertFBtoBMP
+	.IMPORT _njSearchTexList
+	.IMPORT _kmSetPixelClipping
+	.IMPORT __nj_frame_size_h
+	.IMPORT __nj_frame_mode_
+	.IMPORT __nj_current_texlist
+	.IMPORT __nj_frame_size_w
+	.EXPORT _njSetRenderWidth
+	.EXPORT _put_l
+	.EXPORT _put_w
+	.EXPORT _njFrameBufferBmp
+	.EXPORT _njRenderTextureNum
+	.EXPORT _put_b
+	.EXPORT _njRenderTextureNumG
+	.SECTION PSG,CODE,ALIGN=4
+_njRenderTextureNum:
+	mov.l lbl_0000011C,R3
+	mov R4,R2
+	mov.l R14,@-R15
+	shll R4
+	add R2,R4
+	mov.l lbl_00000120,R2
+	shll2 R4
+	sts.l PR,@-R15
+	mov.l @R3,R14
+	mov #0,R5
+	mov.l @R14,R14
+	add R4,R14
+	mov.l @(8,R14),R14
+	mov.l @(36,R14),R6
+	mov.l @(40,R14),R7
+	add #-1,R6
+	add #-1,R7
+	jsr @R2
+	mov R5,R4
+	mov.l lbl_00000124,R3
+	mov R14,R4
+	jsr @R3
+	add #24,R4
+	mov.l lbl_0000012C,R3
+	mov #0,R5
+	mov.l lbl_00000128,R2
+	mov R5,R4
+	mov.l @R3,R6
+	lds.l @R15+,PR
+	mov.l @R2,R7
+	add #-1,R6
+	mov.l lbl_00000120,R1
+	add #-1,R7
+	jmp @R1
+	mov.l @R15+,R14
+_njRenderTextureNumG:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	sts.l PR,@-R15
+	add #-8,R15
+	mov.l lbl_00000134,R3
+	mov R4,R6
+	mov.l lbl_00000138,R2
+	mov.l lbl_00000130,R14
+	mov.l R4,@R15
+	mov.l @R3,R5
+	jsr @R2
+	mov.l @R14,R4
+	mov R0,R13
+	cmp/pz R13
+	bf lbl_000000B2
+	mov R13,R7
+	shll2 R7
+	shll2 R7
+	mov R13,R3
+	add R3,R7
+	shll2 R7
+	mov.l R7,@R15
+	mov #0,R5
+	mov.l @R14,R3
+	add R3,R7
+	mov.l lbl_00000120,R3
+	mov.l R7,@(4,R15)
+	mov.l @(4,R15),R6
+	mov.l @(40,R7),R7
+	mov.l @(36,R6),R6
+	add #-1,R7
+	add #-1,R6
+	jsr @R3
+	mov R5,R4
+	mov.l @R15,R4
+	mov.l @R14,R3
+	add R3,R4
+	mov.l lbl_00000124,R3
+	jsr @R3
+	add #24,R4
+	mov.l lbl_0000012C,R3
+	mov #0,R5
+	mov.l lbl_00000128,R2
+	mov R5,R4
+	mov.l @R3,R6
+	mov.l @R2,R7
+	add #-1,R6
+	add #-1,R7
+	add #8,R15
+	lds.l @R15+,PR
+	mov.l lbl_00000120,R1
+	mov.l @R15+,R13
+	jmp @R1
+	mov.l @R15+,R14
+lbl_000000B2:
+	add #8,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+_njSetRenderWidth:
+	mov.l lbl_0000013C,R3
+	mov.l R4,@-R15
+	jmp @R3
+	add #4,R15
+_put_b:
+	rts
+	mov.b R4,@R5
+_put_l:
+	mov R4,R0
+	shlr8 R0
+	mov.b R4,@R5
+	mov.b R0,@(1,R5)
+	mov R4,R0
+	shlr16 R4
+	shlr16 R0
+	shlr8 R4
+	mov.b R0,@(2,R5)
+	mov R4,R0
+	rts
+	mov.b R0,@(3,R5)
+_put_w:
+	mov.b R4,@R5
+	shlr8 R4
+	mov R4,R0
+	rts
+	mov.b R0,@(1,R5)
+_njFrameBufferBmp:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R11,@-R15
+	mov.l R10,@-R15
+	mov.l R9,@-R15
+	mov.l R8,@-R15
+	sts.l PR,@-R15
+	mov.w lbl_0000011A,R0
+	add R0,R15
+	mov.l lbl_00000140,R3
+	mov R4,R14
+	mov R15,R4
+	mov.l R5,@R15
+	jsr @R3
+	add #4,R4
+	mov.l lbl_00000144,R2
+	mov.l @(52,R15),R4
+	mov.l @R2,R3
+	cmp/eq R4,R3
+	bf lbl_0000014C
+	mov.l lbl_00000148,R5
+	bra lbl_0000014E
+	nop
+lbl_0000011A:
+	.data.w h'ff24
+lbl_0000011C:
+	.data.l __nj_current_texlist
+lbl_00000120:
+	.data.l _kmSetPixelClipping
+lbl_00000124:
+	.data.l _kmRenderTexture
+lbl_00000128:
+	.data.l __nj_frame_size_h
+lbl_0000012C:
+	.data.l __nj_frame_size_w
+lbl_00000130:
+	.data.l __nj_texmemlist
+lbl_00000134:
+	.data.l __nj_texmemsize
+lbl_00000138:
+	.data.l _njSearchTexList
+lbl_0000013C:
+	.data.l _kmSetStrideWidth
+lbl_00000140:
+	.data.l _kmfGetInternalSystemMetrics
+lbl_00000144:
+	.data.l __nj_framebuffer_surface0_+20
+lbl_00000148:
+	.data.l __nj_framebuffer_surface0_
+lbl_0000014C:
+	mov.l lbl_0000023C,R5
+lbl_0000014E:
+	mov.l @(16,R5),R10
+	mov.l @(12,R5),R12
+	mov.w lbl_00000236,R0
+	mul.l R10,R12
+	mov.l @R15,R13
+	mov R13,R9
+	sts MACL,R3
+	mov R3,R2
+	shll R3
+	add R2,R3
+	mov.l R3,@(R0,R15)
+	mov.l lbl_00000240,R3
+	jsr @R3
+	mov R9,R4
+	tst R14,R14
+	bf lbl_00000172
+	bra lbl_000002C4
+	nop
+lbl_00000172:
+	mov.w lbl_00000238,R4
+	bsr _put_w
+	mov R14,R5
+	mov.w lbl_00000236,R0
+	mov R14,R5
+	add #2,R5
+	bsr _put_l
+	mov.l @(R0,R15),R4
+	mov R14,R5
+	add #6,R5
+	bsr _put_l
+	mov #0,R4
+	mov R14,R5
+	add #10,R5
+	bsr _put_l
+	mov #54,R4
+	mov R14,R5
+	add #14,R5
+	bsr _put_l
+	mov #40,R4
+	mov R14,R5
+	add #18,R5
+	bsr _put_l
+	mov R12,R4
+	mov R14,R5
+	add #22,R5
+	bsr _put_l
+	mov R10,R4
+	mov R14,R5
+	add #26,R5
+	bsr _put_w
+	mov #1,R4
+	mov R14,R5
+	add #28,R5
+	bsr _put_w
+	mov #24,R4
+	mov R14,R5
+	add #30,R5
+	bsr _put_l
+	mov #0,R4
+	mov R14,R5
+	add #34,R5
+	bsr _put_l
+	mov #0,R4
+	mov R14,R5
+	add #38,R5
+	bsr _put_l
+	mov #0,R4
+	mov R14,R5
+	add #42,R5
+	bsr _put_l
+	mov #0,R4
+	mov R14,R5
+	add #46,R5
+	bsr _put_l
+	mov #0,R4
+	mov R14,R5
+	add #50,R5
+	bsr _put_l
+	mov #0,R4
+	mov.l lbl_00000248,R3
+	mov #0,R11
+	mov.l lbl_00000244,R8
+	mov R10,R4
+	mov.l @R3,R0
+	cmp/eq #0,R0
+	bt/s lbl_0000020E
+	add #-1,R4
+	cmp/eq #1,R0
+	bt lbl_00000212
+	cmp/eq #3,R0
+	bt lbl_00000218
+	cmp/eq #4,R0
+	bt lbl_0000022C
+	cmp/eq #5,R0
+	bt lbl_00000284
+	bra lbl_000002C4
+	nop
+lbl_0000020E:
+	bra lbl_0000021C
+	mov.l R11,@-R15
+lbl_00000212:
+	mov #1,R1
+	bra lbl_0000021C
+	mov.l R1,@-R15
+lbl_00000218:
+	mov #3,R2
+	mov.l R2,@-R15
+lbl_0000021C:
+	mov R9,R5
+	mov R14,R4
+	mov R10,R7
+	mov R12,R6
+	jsr @R8
+	add #54,R4
+	bra lbl_000002C4
+	add #4,R15
+lbl_0000022C:
+	mov R4,R10
+	mul.l R10,R12
+	sts MACL,R7
+	bra lbl_0000027C
+	neg R12,R9
+lbl_00000236:
+	.data.w h'00d0
+lbl_00000238:
+	.data.w h'4d42
+	.data.w h'0000
+lbl_0000023C:
+	.data.l __nj_framebuffer_surface1_
+lbl_00000240:
+	.data.l _kmGetTexture
+lbl_00000244:
+	.data.l _kmuConvertFBtoBMP
+lbl_00000248:
+	.data.l __nj_frame_mode_
+lbl_0000024C:
+	mov R7,R5
+	shll R5
+	mov R7,R3
+	add R3,R5
+	cmp/pl R12
+	add R14,R5
+	mov R11,R6
+	bf/s lbl_00000278
+	add #54,R5
+lbl_0000025E:
+	mov.b @R13+,R2
+	mov R5,R4
+	add #1,R6
+	mov.b R2,@R4
+	add #1,R4
+	mov.b @R13+,R2
+	cmp/ge R12,R6
+	mov.b R2,@R4
+	add #1,R4
+	mov.b @R13+,R3
+	mov.b R3,@R4
+	bf/s lbl_0000025E
+	add #3,R5
+lbl_00000278:
+	add R9,R7
+	add #-1,R10
+lbl_0000027C:
+	cmp/pz R10
+	bt lbl_0000024C
+	bra lbl_000002C4
+	nop
+lbl_00000284:
+	mov R4,R10
+	mul.l R10,R12
+	sts MACL,R7
+	bra lbl_000002C0
+	neg R12,R9
+lbl_0000028E:
+	mov R7,R5
+	shll R5
+	mov R7,R3
+	add R3,R5
+	cmp/pl R12
+	add R14,R5
+	mov R11,R6
+	bf/s lbl_000002BC
+	add #54,R5
+lbl_000002A0:
+	mov.b @R13+,R2
+	mov R5,R4
+	add #1,R6
+	mov.b R2,@R4
+	add #1,R4
+	mov.b @R13+,R2
+	cmp/ge R12,R6
+	mov.b R2,@R4
+	add #1,R4
+	mov.b @R13+,R3
+	mov.b R3,@R4
+	add #1,R13
+	bf/s lbl_000002A0
+	add #3,R5
+lbl_000002BC:
+	add R9,R7
+	add #-1,R10
+lbl_000002C0:
+	cmp/pz R10
+	bt lbl_0000028E
+lbl_000002C4:
+	mov.w lbl_000002DA,R1
+	add R1,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R8
+	mov.l @R15+,R9
+	mov.l @R15+,R10
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+lbl_000002DA:
+	.data.w h'00dc

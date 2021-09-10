@@ -1,0 +1,35 @@
+	.EXPORT _njScaleEx
+	.SECTION PSG,CODE,ALIGN=4
+_njScaleEx:
+	fmov @R4+,FR4
+	fmov @R4+,FR5
+	fmov @R4+,FR6
+	fschg
+	fmov FR1,FR0
+	fmul FR4,FR0
+	fmov FR3,FR2
+	fmul FR4,FR1
+	fmov FR5,FR8
+	fmul FR4,FR2
+	fmov FR7,FR10
+	fmul FR4,FR3
+	fmov FR0,FR1
+	fmul FR5,FR8
+	fmov FR2,FR3
+	fmul FR5,FR9
+	fmov FR9,FR0
+	fmul FR5,FR10
+	fmov FR11,FR2
+	fmul FR5,FR11
+	fmov FR8,FR5
+	fmul FR6,FR0
+	fmov FR10,FR7
+	fmul FR6,FR1
+	fmul FR6,FR2
+	fmov FR0,FR9
+	fmul FR6,FR3
+	fmov FR2,FR11
+	rts
+	fschg
+	rts
+	nop

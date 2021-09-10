@@ -1,0 +1,16 @@
+	.IMPORT __nj_screen_
+	.EXPORT _njSetScreen
+	.SECTION PSG,CODE,ALIGN=4
+_njSetScreen:
+	mov #12,R0
+	mov.l lbl_00000014,R5
+	fmov @R4,FR3
+	fmov FR3,@R5
+	fmov @(R0,R4),FR2
+	fmov FR2,@(R0,R5)
+	mov #16,R0
+	fmov @(R0,R4),FR3
+	rts
+	fmov FR3,@(R0,R5)
+lbl_00000014:
+	.data.l __nj_screen_

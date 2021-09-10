@@ -1,0 +1,244 @@
+	.EXPORT _njRotateZXY
+	.SECTION PSG,CODE,ALIGN=4
+_njRotateZXY:
+	tst R4,R4
+	bf lbl_00000086
+	tst R6,R6
+	bt/s lbl_0000002E
+	lds R6,FPUL
+	fldi0 FR3
+	fsca FPUL,DR0
+	fldi0 FR5
+	fldi0 FR7
+	fmov FR0,FR2
+	fmov FR1,FR0
+	fldi0 FR1
+	fmov FR0,FR6
+	fmov FR2,FR4
+	fneg FR2
+	ftrv XMTRX,FV0
+	ftrv XMTRX,FV4
+	fschg
+	fmov FR0,FR1
+	fmov FR2,FR3
+	fmov FR4,FR9
+	fmov FR6,FR11
+	fschg
+lbl_0000002E:
+	tst R5,R5
+	bt/s lbl_00000056
+	lds R5,FPUL
+	fldi0 FR3
+	fsca FPUL,DR0
+	fldi0 FR4
+	fldi0 FR7
+	fmov FR0,FR2
+	fldi0 FR0
+	fmov FR2,FR5
+	fmov FR1,FR6
+	fneg FR5
+	ftrv XMTRX,FV0
+	ftrv XMTRX,FV4
+	fschg
+	fmov FR0,FR5
+	fmov FR2,FR7
+	fmov FR4,FR9
+	fmov FR6,FR11
+	fschg
+lbl_00000056:
+	tst R7,R7
+	bt/s lbl_00000082
+	lds R7,FPUL
+	fldi0 FR3
+	fsca FPUL,DR0
+	fldi0 FR6
+	fldi0 FR7
+	fmov FR0,FR2
+	fmov FR1,FR0
+	fmov FR2,FR1
+	fldi0 FR2
+	fmov FR0,FR5
+	fmov FR1,FR4
+	fneg FR4
+	ftrv XMTRX,FV0
+	ftrv XMTRX,FV4
+	fschg
+	fmov FR0,FR1
+	fmov FR2,FR3
+	fmov FR4,FR5
+	fmov FR6,FR7
+	fschg
+lbl_00000082:
+	rts
+	nop
+lbl_00000086:
+	tst R6,R6
+	bt/s lbl_000000F4
+	lds R6,FPUL
+	fldi0 FR3
+	fsca FPUL,DR0
+	fldi0 FR5
+	fldi0 FR7
+	fmov FR0,FR2
+	fmov FR1,FR0
+	fldi0 FR1
+	fmov FR0,FR6
+	fmov FR2,FR4
+	fneg FR2
+	fmov FR12,@-R15
+	fmov FR13,@-R15
+	fmov FR14,@-R15
+	fmov FR15,@-R15
+	fschg
+	fmov FR1,FR8
+	fmov FR3,FR10
+	fmov FR9,FR12
+	fmov FR11,FR14
+	fschg
+	frchg
+	fmov @R4+,FR0
+	fmov @R4+,FR1
+	fmov @R4+,FR2
+	fmov @R4+,FR3
+	add #16,R4
+	fmov @R4+,FR8
+	fmov @R4+,FR9
+	fmov @R4+,FR10
+	fmov @R4+,FR11
+	frchg
+	ftrv XMTRX,FV0
+	ftrv XMTRX,FV4
+	fmov FR7,@-R4
+	fmov FR6,@-R4
+	fmov FR5,@-R4
+	fmov FR4,@-R4
+	add #-16,R4
+	fmov FR3,@-R4
+	fmov FR2,@-R4
+	fmov FR1,@-R4
+	fmov FR0,@-R4
+	fschg
+	fmov FR8,FR1
+	fmov FR10,FR3
+	fmov FR12,FR9
+	fmov FR14,FR11
+	fschg
+	fmov @R15+,FR15
+	fmov @R15+,FR14
+	fmov @R15+,FR13
+	fmov @R15+,FR12
+lbl_000000F4:
+	tst R5,R5
+	bt/s lbl_00000160
+	lds R5,FPUL
+	fldi0 FR3
+	fsca FPUL,DR0
+	fldi0 FR4
+	fldi0 FR7
+	fmov FR0,FR2
+	fldi0 FR0
+	fmov FR2,FR5
+	fmov FR1,FR6
+	fneg FR5
+	fmov FR12,@-R15
+	fmov FR13,@-R15
+	fmov FR14,@-R15
+	fmov FR15,@-R15
+	fschg
+	fmov FR5,FR8
+	fmov FR7,FR10
+	fmov FR9,FR12
+	fmov FR11,FR14
+	fschg
+	frchg
+	add #16,R4
+	fmov @R4+,FR4
+	fmov @R4+,FR5
+	fmov @R4+,FR6
+	fmov @R4+,FR7
+	fmov @R4+,FR8
+	fmov @R4+,FR9
+	fmov @R4+,FR10
+	fmov @R4+,FR11
+	frchg
+	ftrv XMTRX,FV0
+	ftrv XMTRX,FV4
+	fmov FR7,@-R4
+	fmov FR6,@-R4
+	fmov FR5,@-R4
+	fmov FR4,@-R4
+	fmov FR3,@-R4
+	fmov FR2,@-R4
+	fmov FR1,@-R4
+	fmov FR0,@-R4
+	add #-16,R4
+	fschg
+	fmov FR8,FR5
+	fmov FR10,FR7
+	fmov FR12,FR9
+	fmov FR14,FR11
+	fschg
+	fmov @R15+,FR15
+	fmov @R15+,FR14
+	fmov @R15+,FR13
+	fmov @R15+,FR12
+lbl_00000160:
+	tst R7,R7
+	bt/s lbl_000001CC
+	lds R7,FPUL
+	fldi0 FR3
+	fsca FPUL,DR0
+	fldi0 FR6
+	fldi0 FR7
+	fmov FR0,FR2
+	fmov FR1,FR0
+	fmov FR2,FR1
+	fldi0 FR2
+	fmov FR0,FR5
+	fmov FR1,FR4
+	fneg FR4
+	fmov FR12,@-R15
+	fmov FR13,@-R15
+	fmov FR14,@-R15
+	fmov FR15,@-R15
+	fschg
+	fmov FR1,FR8
+	fmov FR3,FR10
+	fmov FR5,FR12
+	fmov FR7,FR14
+	fschg
+	frchg
+	fmov @R4+,FR0
+	fmov @R4+,FR1
+	fmov @R4+,FR2
+	fmov @R4+,FR3
+	fmov @R4+,FR4
+	fmov @R4+,FR5
+	fmov @R4+,FR6
+	fmov @R4+,FR7
+	frchg
+	ftrv XMTRX,FV0
+	ftrv XMTRX,FV4
+	fmov FR7,@-R4
+	fmov FR6,@-R4
+	fmov FR5,@-R4
+	fmov FR4,@-R4
+	fmov FR3,@-R4
+	fmov FR2,@-R4
+	fmov FR1,@-R4
+	fmov FR0,@-R4
+	fschg
+	fmov FR8,FR1
+	fmov FR10,FR3
+	fmov FR12,FR5
+	fmov FR14,FR7
+	fschg
+	fmov @R15+,FR15
+	fmov @R15+,FR14
+	fmov @R15+,FR13
+	fmov @R15+,FR12
+lbl_000001CC:
+	rts
+	nop
+	rts
+	nop

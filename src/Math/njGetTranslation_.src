@@ -1,0 +1,23 @@
+	.EXPORT _njGetTranslation
+	.SECTION PSG,CODE,ALIGN=4
+_njGetTranslation:
+	add #12,R5
+	tst R4,R4
+	bf lbl_00000010
+	fschg
+	fmov FR13,FR0
+	fmov FR15,FR2
+	bra lbl_00000018
+	fschg
+lbl_00000010:
+	add #48,R4
+	fmov @R4+,FR0
+	fmov @R4+,FR1
+	fmov @R4+,FR2
+lbl_00000018:
+	fmov FR2,@-R5
+	fmov FR1,@-R5
+	rts
+	fmov FR0,@-R5
+	rts
+	nop

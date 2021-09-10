@@ -1,0 +1,522 @@
+	.IMPORT __nj_shape_buf_
+	.IMPORT _njCnkInterpolatesF3
+	.IMPORT __nj_cnk_shape_init_flag_
+	.IMPORT __nj_cnk_draw_model_
+	.IMPORT __nj_cnk_shape_nextstep_
+	.IMPORT __nj_cnk_shape_c_ini_
+	.IMPORT __nj_shape_data_info_
+	.IMPORT __nj_cnk_shape_n_ini_
+	.IMPORT __nj_mot_shape_data_type_
+	.IMPORT __nj_mot_shape_data_cnt_
+	.IMPORT __nj_cnk_shape_v_ini_
+	.IMPORT _njCnkInterpolatesNormal
+	.IMPORT _njCnkGetLinearKFdata
+	.EXPORT _njCnkEasyMultiShapeLinearPoint
+	.EXPORT _njCnkInitEasyMultiShapeData
+	.SECTION PSG,CODE,ALIGN=4
+_njCnkInitEasyMultiShapeData:
+	mov R4,R0
+	mov.l lbl_00000210,R6
+	mov.l lbl_0000020C,R7
+	cmp/eq #41,R0
+	bf/s lbl_0000002A
+	mov #-1,R5
+	mov.l lbl_00000214,R3
+	mov #6,R2
+	mov.l lbl_00000218,R0
+	mov #2,R1
+	mov.l R2,@R3
+	mov #5,R2
+	mov.l R1,@R7
+	mov.l R2,@R0
+	mov.l lbl_00000220,R3
+	mov.l lbl_0000021C,R1
+	mov.l R5,@R1
+	mov.w @R6,R2
+	and R3,R2
+	bra lbl_0000003C
+	mov.w R2,@R6
+lbl_0000002A:
+	mov.l lbl_00000218,R2
+	mov #0,R4
+	mov.l lbl_0000021C,R1
+	mov.l lbl_00000214,R3
+	mov.l R4,@R3
+	mov.l R5,@R7
+	mov.l R5,@R2
+	mov.l R5,@R1
+	mov.w R4,@R6
+lbl_0000003C:
+	rts
+	nop
+_njCnkEasyMultiShapeLinearPoint:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R11,@-R15
+	mov.l R10,@-R15
+	mov.l R9,@-R15
+	mov.l R8,@-R15
+	fmov FR15,@-R15
+	fmov FR14,@-R15
+	sts.l PR,@-R15
+	add #-52,R15
+	mov R4,R3
+	mov.l R4,@(24,R15)
+	mov.l @(4,R3),R2
+	tst R2,R2
+	bf lbl_00000064
+	bra lbl_00000386
+	nop
+lbl_00000064:
+	mov.l @(24,R15),R0
+	mov.l @R0,R0
+	tst #8,R0
+	bt lbl_00000070
+	bra lbl_00000386
+	nop
+lbl_00000070:
+	mov.l @(24,R15),R2
+	mov.l @(4,R2),R3
+	mov.l @R3,R1
+	mov R1,R3
+	tst R3,R3
+	bf/s lbl_00000082
+	mov.l R1,@(32,R15)
+	bra lbl_00000374
+	nop
+lbl_00000082:
+	mov.l lbl_00000224,R2
+	mov.w @R2,R3
+	tst R3,R3
+	bf/s lbl_00000090
+	mov.l @(32,R15),R13
+	bra lbl_00000374
+	nop
+lbl_00000090:
+	mov.l lbl_00000228,R1
+	mov.l @R1,R3
+	mov.l R3,@(28,R15)
+	mov.l @(32,R15),R0
+	mov.l @R0,R0
+	mov.l R0,@R3
+	mov.l @(32,R15),R3
+	mov.l @(28,R15),R4
+	mov.l @(4,R3),R2
+	mov.l lbl_0000022C,R3
+	add #4,R4
+	mov R2,R10
+	mov.l R2,@R4
+	mov.l @R3,R2
+	shlr16 R10
+	exts.w R10,R10
+	tst R2,R2
+	extu.w R10,R10
+	bf/s lbl_000000C4
+	mov #1,R9
+	mov.l @(28,R15),R4
+	mov.l @R4,R4
+	bsr _njCnkInitEasyMultiShapeData
+	extu.w R4,R4
+	mov.l lbl_0000022C,R3
+	mov.l R9,@R3
+lbl_000000C4:
+	mov.l lbl_0000020C,R3
+	mov #0,R2
+	mov.l R2,@(4,R15)
+	mov.l @R3,R5
+	mov.l lbl_00000228,R2
+	mov R5,R0
+	cmp/eq #-1,R0
+	bt/s lbl_000000DE
+	mov.l @R2,R4
+	mov R5,R0
+	shll2 R0
+	mov R0,R12
+	add R4,R12
+lbl_000000DE:
+	mov.l lbl_00000218,R8
+	mov.l @R8,R0
+	cmp/eq #-1,R0
+	bt/s lbl_000000F0
+	mov R0,R5
+	mov R5,R0
+	shll2 R0
+	mov R0,R11
+	add R4,R11
+lbl_000000F0:
+	mov.l lbl_00000210,R3
+	mova lbl_00000230,R0
+	fmov @R0,FR14
+	mov.w @R3,R0
+	mov.l lbl_00000234,R14
+	extu.w R0,R0
+	tst #16,R0
+	bt lbl_00000172
+	mov.l @(20,R14),R4
+	mov.l @(4,R14),R0
+	shll2 R4
+	mov.l @(R0,R4),R4
+	tst R4,R4
+	bt lbl_0000016C
+	mov.l @(20,R14),R6
+	mov.l @(8,R14),R0
+	shll2 R6
+	mov.l @(R0,R6),R6
+	mov #12,R0
+	mov.l R6,@R15
+	fmov @(R0,R14),FR4
+	fcmp/gt FR14,FR4
+	bf/s lbl_0000012A
+	mov #0,R5
+	mova lbl_00000238,R0
+	fmov FR4,FR3
+	fmov @R0,FR2
+	bra lbl_0000012C
+	fadd FR2,FR3
+lbl_0000012A:
+	fmov FR4,FR3
+lbl_0000012C:
+	ftrc FR3,FPUL
+	sts FPUL,R2
+	bra lbl_00000150
+	mov.l R2,@(8,R15)
+lbl_00000134:
+	mov.l @R15,R7
+	mov.l @(8,R15),R1
+	add R5,R7
+	shlr R7
+	mov R7,R2
+	shll2 R2
+	shll R2
+	add R4,R2
+	mov.l @R2,R3
+	cmp/hs R3,R1
+	bf lbl_0000014E
+	bra lbl_00000150
+	mov R7,R5
+lbl_0000014E:
+	mov.l R7,@R15
+lbl_00000150:
+	mov.l @R15,R3
+	sub R5,R3
+	cmp/hi R9,R3
+	bt lbl_00000134
+	mov.l lbl_0000023C,R2
+	mov R15,R7
+	jsr @R2
+	add #44,R7
+	mov.l @(44,R15),R3
+	fmov FR0,FR15
+	mov.l R3,@(8,R15)
+	mov.l @(48,R15),R2
+	mov.l R2,@(16,R15)
+	mov.l R9,@(4,R15)
+lbl_0000016C:
+	mov.l @(20,R14),R3
+	add #1,R3
+	mov.l R3,@(20,R14)
+lbl_00000172:
+	mov.l lbl_00000210,R2
+	mov.w @R2,R0
+	extu.w R0,R0
+	tst #32,R0
+	bt lbl_000001F0
+	mov.l @(20,R14),R5
+	mov.l @(4,R14),R0
+	shll2 R5
+	mov.l @(R0,R5),R4
+	tst R4,R4
+	bt lbl_000001EA
+	mov.l @(8,R14),R0
+	mov.l @(R0,R5),R6
+	mov #12,R0
+	mov.l R6,@R15
+	fmov @(R0,R14),FR4
+	fcmp/gt FR14,FR4
+	bf/s lbl_000001A2
+	mov #0,R5
+	mova lbl_00000238,R0
+	fmov FR4,FR3
+	fmov @R0,FR2
+	bra lbl_000001A4
+	fadd FR2,FR3
+lbl_000001A2:
+	fmov FR4,FR3
+lbl_000001A4:
+	ftrc FR3,FPUL
+	sts FPUL,R2
+	bra lbl_000001C8
+	mov.l R2,@(12,R15)
+lbl_000001AC:
+	mov.l @R15,R7
+	mov.l @(12,R15),R1
+	add R5,R7
+	shlr R7
+	mov R7,R2
+	shll2 R2
+	shll R2
+	add R4,R2
+	mov.l @R2,R3
+	cmp/hs R3,R1
+	bf lbl_000001C6
+	bra lbl_000001C8
+	mov R7,R5
+lbl_000001C6:
+	mov.l R7,@R15
+lbl_000001C8:
+	mov.l @R15,R3
+	sub R5,R3
+	cmp/hi R9,R3
+	bt lbl_000001AC
+	mov.l lbl_0000023C,R2
+	mov R15,R9
+	add #36,R9
+	jsr @R2
+	mov R9,R7
+	mov.l @R9,R3
+	fmov FR0,FR14
+	mov.l R3,@R15
+	mov.l @(4,R9),R2
+	mov.l R2,@(12,R15)
+	mov.l @(4,R15),R3
+	add #2,R3
+	mov.l R3,@(4,R15)
+lbl_000001EA:
+	mov.l @(20,R14),R2
+	add #1,R2
+	mov.l R2,@(20,R14)
+lbl_000001F0:
+	mov.l @(4,R15),R0
+	mov.l lbl_00000214,R14
+	mov.l lbl_00000240,R9
+	cmp/eq #1,R0
+	bt lbl_00000244
+	cmp/eq #2,R0
+	bt lbl_000002B0
+	cmp/eq #3,R0
+	bf lbl_00000206
+	bra lbl_0000030E
+	nop
+lbl_00000206:
+	bra lbl_00000374
+	nop
+	.data.w h'0000
+lbl_0000020C:
+	.data.l __nj_cnk_shape_v_ini_
+lbl_00000210:
+	.data.l __nj_mot_shape_data_type_
+lbl_00000214:
+	.data.l __nj_cnk_shape_nextstep_
+lbl_00000218:
+	.data.l __nj_cnk_shape_n_ini_
+lbl_0000021C:
+	.data.l __nj_cnk_shape_c_ini_
+lbl_00000220:
+	.data.l h'0000BFFF
+lbl_00000224:
+	.data.l __nj_mot_shape_data_cnt_
+lbl_00000228:
+	.data.l __nj_shape_buf_
+lbl_0000022C:
+	.data.l __nj_cnk_shape_init_flag_
+lbl_00000230:
+	.data.l h'4F000000
+lbl_00000234:
+	.data.l __nj_shape_data_info_
+lbl_00000238:
+	.data.l h'CF800000
+lbl_0000023C:
+	.data.l _njCnkGetLinearKFdata
+lbl_00000240:
+	.data.l _njCnkInterpolatesF3
+lbl_00000244:
+	mov #0,R3
+	cmp/pl R10
+	mov R3,R2
+	mov.l R3,@(4,R15)
+	bt/s lbl_00000254
+	mov.l R2,@R15
+	bra lbl_0000035C
+	nop
+lbl_00000254:
+	mov.l @R15,R2
+	mov R12,R6
+	fmov FR15,FR4
+	mov R2,R5
+	shll2 R5
+	mov.l R2,@(20,R15)
+	mov.l R5,@(12,R15)
+	mov.l @(16,R15),R0
+	mov.l @(8,R15),R3
+	mov.l @(12,R15),R4
+	add R0,R5
+	jsr @R9
+	add R3,R4
+	mov.l @R14,R3
+	mov.l @R8,R0
+	shll2 R3
+	add R3,R12
+	shll2 R0
+	fmov @(R0,R13),FR3
+	mov #4,R0
+	fmov FR3,@R11
+	mov.l @R8,R3
+	shll2 R3
+	add R13,R3
+	fmov @(R0,R3),FR3
+	fmov FR3,@(R0,R11)
+	mov #8,R0
+	mov.l @R8,R3
+	shll2 R3
+	add R13,R3
+	fmov @(R0,R3),FR3
+	fmov FR3,@(R0,R11)
+	mov.l @(4,R15),R3
+	mov.l @R14,R4
+	add #1,R3
+	shll2 R4
+	cmp/ge R10,R3
+	add R4,R11
+	mov.l R3,@(4,R15)
+	mov.l @R15,R2
+	add R4,R13
+	add #3,R2
+	bf/s lbl_00000254
+	mov.l R2,@R15
+	bra lbl_0000035C
+	nop
+lbl_000002B0:
+	cmp/pl R10
+	mov #0,R8
+	bf/s lbl_0000035C
+	mov R8,R9
+lbl_000002B8:
+	mov.l lbl_000003A0,R3
+	mov R9,R5
+	shll2 R5
+	fmov FR14,FR4
+	mov.l @R3,R0
+	mov R11,R6
+	shll2 R0
+	fmov @(R0,R13),FR3
+	mov #4,R0
+	fmov FR3,@R12
+	mov.l @R3,R2
+	shll2 R2
+	add R13,R2
+	fmov @(R0,R2),FR3
+	fmov FR3,@(R0,R12)
+	mov #8,R0
+	mov.l @R3,R2
+	mov.l lbl_000003A4,R3
+	shll2 R2
+	add R13,R2
+	fmov @(R0,R2),FR3
+	fmov FR3,@(R0,R12)
+	mov.l @R14,R2
+	mov.l R9,@(16,R15)
+	shll2 R2
+	mov.l R5,@(8,R15)
+	mov.l @(12,R15),R0
+	add R2,R12
+	mov.l @R15,R2
+	mov.l @(8,R15),R4
+	add R0,R5
+	jsr @R3
+	add R2,R4
+	mov.l @R14,R4
+	add #1,R8
+	cmp/ge R10,R8
+	shll2 R4
+	add R4,R11
+	add R4,R13
+	bf/s lbl_000002B8
+	add #3,R9
+	bra lbl_0000035C
+	nop
+lbl_0000030E:
+	cmp/pl R10
+	mov #0,R8
+	bf/s lbl_0000035C
+	mov R8,R13
+lbl_00000316:
+	mov R13,R5
+	shll2 R5
+	mov R12,R6
+	fmov FR15,FR4
+	mov.l R13,@(4,R15)
+	mov.l R5,@(20,R15)
+	mov.l @(16,R15),R0
+	mov.l @(8,R15),R3
+	mov.l @(20,R15),R4
+	add R0,R5
+	jsr @R9
+	add R3,R4
+	mov.l @R14,R3
+	mov R13,R5
+	shll2 R5
+	mov.l R13,@(20,R15)
+	shll2 R3
+	mov.l R5,@(4,R15)
+	add R3,R12
+	mov.l @(4,R15),R4
+	mov.l @R15,R3
+	mov.l @(12,R15),R0
+	add R3,R4
+	mov.l lbl_000003A4,R3
+	add R0,R5
+	fmov FR14,FR4
+	jsr @R3
+	mov R11,R6
+	mov.l @R14,R2
+	add #1,R8
+	cmp/ge R10,R8
+	shll2 R2
+	add R2,R11
+	bf/s lbl_00000316
+	add #3,R13
+lbl_0000035C:
+	mov.l @(24,R15),R2
+	mov.l @(28,R15),R1
+	mov.l @(4,R2),R3
+	mov.l R1,@R3
+	mov.l @R14,R3
+	mov.l @(28,R15),R2
+	mul.l R10,R3
+	mov.w lbl_0000039E,R3
+	sts MACL,R10
+	shll2 R10
+	add R2,R10
+	mov.l R3,@(8,R10)
+lbl_00000374:
+	mov.l lbl_000003A8,R2
+	mov.l @(24,R15),R4
+	mov.l @R2,R1
+	jsr @R1
+	mov.l @(4,R4),R4
+	mov.l @(24,R15),R3
+	mov.l @(32,R15),R1
+	mov.l @(4,R3),R2
+	mov.l R1,@R2
+lbl_00000386:
+	add #52,R15
+	lds.l @R15+,PR
+	fmov @R15+,FR14
+	fmov @R15+,FR15
+	mov.l @R15+,R8
+	mov.l @R15+,R9
+	mov.l @R15+,R10
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+lbl_0000039E:
+	.data.w h'00ff
+lbl_000003A0:
+	.data.l __nj_cnk_shape_v_ini_
+lbl_000003A4:
+	.data.l _njCnkInterpolatesNormal
+lbl_000003A8:
+	.data.l __nj_cnk_draw_model_

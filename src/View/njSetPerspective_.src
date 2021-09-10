@@ -1,0 +1,25 @@
+	.IMPORT __nj_screen_
+	.IMPORT _njTan
+	.EXPORT _njSetPerspective
+	.SECTION PSG,CODE,ALIGN=4
+_njSetPerspective:
+	sts.l PR,@-R15
+	mov.l lbl_0000001C,R3
+	jsr @R3
+	shar R4
+	mov.l lbl_00000020,R3
+	fmov FR0,FR3
+	fmov @R3,FR2
+	fadd FR3,FR0
+	fdiv FR0,FR2
+	add #-4,R3
+	lds.l @R15+,PR
+	rts
+	fmov FR2,@R3
+	.data.w h'0000
+lbl_0000001C:
+	.data.l _njTan
+lbl_00000020:
+	.data.l __nj_screen_+4
+	rts
+	nop

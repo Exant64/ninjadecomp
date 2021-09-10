@@ -1,0 +1,384 @@
+	.IMPORT __nj_texmemsize
+	.IMPORT __nj_texmemlist
+	.IMPORT _njInitTextureErrStat
+	.IMPORT _kmSetVertexRenderState
+	.IMPORT _njTexFclose
+	.IMPORT __nj_current_ctx_
+	.IMPORT __nj_palette_mode_
+	.IMPORT _njTexFread
+	.IMPORT _njSearchTexList
+	.IMPORT _njTexFopen
+	.IMPORT __nj_current_texlist
+	.IMPORT __nj_palette_bpp_
+	.IMPORT _njMemCopy4
+	.IMPORT _kmSetPaletteMode
+	.EXPORT _njLoadPaletteFile
+	.EXPORT _njSetPaletteBankLN
+	.EXPORT _njSetPaletteBankNum
+	.EXPORT _njGetPaletteData
+	.EXPORT _njSetPaletteBankNumG
+	.EXPORT _njGetPaletteMode
+	.EXPORT _njSetPaletteData
+	.EXPORT _njSetPaletteBank
+	.EXPORT _njSetPaletteMode
+	.SECTION PSG,CODE,ALIGN=4
+_njSetPaletteBank:
+	mov.l lbl_00000100,R2
+	mov #104,R0
+	mov.l @R2,R3
+	mov.l R4,@(R0,R3)
+	mov.l lbl_00000104,R3
+	jmp @R3
+	mov.l @R2,R4
+_njSetPaletteBankLN:
+	mov.l @(24,R4),R6
+	mov.l lbl_00000108,R2
+	shlr16 R6
+	mov.w lbl_000000F6,R1
+	and R2,R6
+	mov R6,R0
+	cmp/eq R1,R0
+	bt lbl_00000034
+	mov.w lbl_000000F8,R1
+	cmp/eq R1,R0
+	bt lbl_00000034
+	mov.w lbl_000000FA,R1
+	cmp/eq R1,R0
+	bt lbl_00000038
+	mov.w lbl_000000FC,R1
+	cmp/eq R1,R0
+	bt lbl_00000038
+	rts
+	nop
+lbl_00000034:
+	bra lbl_0000003A
+	mov #63,R6
+lbl_00000038:
+	mov #48,R6
+lbl_0000003A:
+	mov.l @(12,R4),R2
+	and R5,R6
+	mov.l lbl_0000010C,R3
+	and R3,R2
+	mov.l R2,@(12,R4)
+	mov #21,R2
+	mov.l @(12,R4),R1
+	shad R2,R6
+	or R6,R1
+	mov.l R1,@(12,R4)
+	mov.l R5,@(4,R4)
+	rts
+	nop
+_njSetPaletteBankNum:
+	add #-4,R15
+	mov.l lbl_00000110,R2
+	mov R4,R1
+	shll R4
+	mov.l @R2,R3
+	add R1,R4
+	shll2 R4
+	mov.l @R3,R3
+	add R3,R4
+	mov.l @(8,R4),R1
+	mov R1,R4
+	mov.l R1,@R15
+	bra _njSetPaletteBankLN
+	add #4,R15
+_njSetPaletteBankNumG:
+	mov.l R14,@-R15
+	sts.l PR,@-R15
+	add #-8,R15
+	mov.l lbl_00000114,R3
+	mov.l lbl_00000118,R2
+	mov.l lbl_0000011C,R1
+	mov.l R4,@(4,R15)
+	mov.l R5,@R15
+	mov.l @R3,R5
+	mov.l @(4,R15),R6
+	jsr @R1
+	mov.l @R2,R4
+	mov R0,R14
+	cmp/pz R14
+	bf lbl_000000AA
+	mov R14,R4
+	shll2 R4
+	mov.l lbl_00000118,R1
+	shll2 R4
+	mov R14,R3
+	add R3,R4
+	mov.l @R1,R2
+	shll2 R4
+	mov.l @R15,R5
+	add R2,R4
+	add #8,R15
+	lds.l @R15+,PR
+	bra _njSetPaletteBankLN
+	mov.l @R15+,R14
+lbl_000000AA:
+	add #8,R15
+	lds.l @R15+,PR
+	rts
+	mov.l @R15+,R14
+_njSetPaletteMode:
+	mov.l lbl_00000120,R3
+	mov R4,R0
+	mov.l lbl_00000124,R6
+	cmp/eq #0,R0
+	mov.l R4,@R3
+	bt/s lbl_000000D0
+	mov #0,R5
+	cmp/eq #1,R0
+	bt lbl_000000D4
+	cmp/eq #2,R0
+	bt lbl_000000D8
+	cmp/eq #6,R0
+	bt lbl_000000DC
+	bra lbl_000000E4
+	nop
+lbl_000000D0:
+	bra lbl_000000E6
+	mov R5,R4
+lbl_000000D4:
+	bra lbl_000000E6
+	mov #1,R4
+lbl_000000D8:
+	bra lbl_000000E6
+	mov #2,R4
+lbl_000000DC:
+	mov #32,R1
+	mov #3,R4
+	bra lbl_000000EA
+	mov.l R1,@R6
+lbl_000000E4:
+	mov R5,R4
+lbl_000000E6:
+	mov #16,R3
+	mov.l R3,@R6
+lbl_000000EA:
+	mov.l lbl_00000128,R3
+	jmp @R3
+	nop
+_njGetPaletteMode:
+	mov.l lbl_00000120,R3
+	rts
+	mov.l @R3,R0
+lbl_000000F6:
+	.data.w h'0500
+lbl_000000F8:
+	.data.w h'0600
+lbl_000000FA:
+	.data.w h'0700
+lbl_000000FC:
+	.data.w h'0800
+	.data.w h'0000
+lbl_00000100:
+	.data.l __nj_current_ctx_
+lbl_00000104:
+	.data.l _kmSetVertexRenderState
+lbl_00000108:
+	.data.l h'0000FF00
+lbl_0000010C:
+	.data.l h'F81FFFFF
+lbl_00000110:
+	.data.l __nj_current_texlist
+lbl_00000114:
+	.data.l __nj_texmemsize
+lbl_00000118:
+	.data.l __nj_texmemlist
+lbl_0000011C:
+	.data.l _njSearchTexList
+lbl_00000120:
+	.data.l __nj_palette_mode_
+lbl_00000124:
+	.data.l __nj_palette_bpp_
+lbl_00000128:
+	.data.l _kmSetPaletteMode
+_njSetPaletteData:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	add #-8,R15
+	mov.l lbl_00000268,R3
+	mov.l lbl_00000264,R14
+	mov.l R5,@R15
+	mov.l R6,@(4,R15)
+	mov.l @R3,R0
+	cmp/eq #16,R0
+	bf/s lbl_0000016C
+	mov R4,R13
+	mov.l @R15,R6
+	mov R13,R4
+	mov.l lbl_0000026C,R2
+	mov R13,R5
+	add R13,R6
+	mov.l @(4,R15),R7
+	cmp/ge R6,R4
+	shll2 R5
+	bt/s lbl_00000184
+	add R2,R5
+lbl_00000156:
+	mov.w @R7+,R2
+	mov R5,R3
+	add #1,R4
+	extu.w R2,R2
+	cmp/ge R6,R4
+	or R14,R3
+	mov.l R2,@R3
+	bf/s lbl_00000156
+	add #4,R5
+	bra lbl_00000184
+	nop
+lbl_0000016C:
+	mov R13,R4
+	mov.l lbl_0000026C,R2
+	shll2 R4
+	mov.l @R15,R6
+	add R2,R4
+	mov.l @(4,R15),R5
+	or R14,R4
+	add #8,R15
+	mov.l lbl_00000270,R1
+	mov.l @R15+,R13
+	jmp @R1
+	mov.l @R15+,R14
+lbl_00000184:
+	add #8,R15
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+_njGetPaletteData:
+	mov.l R14,@-R15
+	add #-8,R15
+	mov.l lbl_00000268,R3
+	mov.l R5,@R15
+	mov.l R6,@(4,R15)
+	mov.l @R3,R0
+	cmp/eq #16,R0
+	bf/s lbl_000001C2
+	mov R4,R14
+	mov.l @R15,R7
+	mov R14,R4
+	mov.l lbl_0000026C,R2
+	mov R14,R5
+	add R14,R7
+	mov.l @(4,R15),R6
+	cmp/ge R7,R4
+	shll2 R5
+	bt/s lbl_000001D6
+	add R2,R5
+lbl_000001B2:
+	mov.l @R5+,R2
+	add #1,R4
+	cmp/ge R7,R4
+	mov.w R2,@R6
+	bf/s lbl_000001B2
+	add #2,R6
+	bra lbl_000001D6
+	nop
+lbl_000001C2:
+	mov.l lbl_0000026C,R2
+	mov R14,R5
+	mov.l @(4,R15),R4
+	shll2 R5
+	mov.l @R15,R6
+	add R2,R5
+	add #8,R15
+	mov.l lbl_00000270,R1
+	jmp @R1
+	mov.l @R15+,R14
+lbl_000001D6:
+	add #8,R15
+	rts
+	mov.l @R15+,R14
+_njLoadPaletteFile:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	sts.l PR,@-R15
+	add #-20,R15
+	mov.l lbl_00000274,R3
+	mov.l R4,@(4,R15)
+	jsr @R3
+	mov R5,R14
+	mov.l lbl_00000278,R3
+	jsr @R3
+	mov.l @(4,R15),R4
+	cmp/pz R0
+	bf lbl_0000024C
+	mov.l lbl_00000280,R13
+	mov #4,R5
+	mov.l lbl_0000027C,R12
+	jsr @R12
+	mov R15,R4
+	cmp/pz R0
+	bf lbl_0000022C
+	mov.l lbl_00000284,R1
+	mov.l @R15,R0
+	cmp/eq R1,R0
+	bf lbl_00000248
+	mov R15,R4
+	mov #12,R5
+	jsr @R12
+	add #8,R4
+	cmp/pz R0
+	bf lbl_0000022C
+	mov.w @(14,R15),R0
+	bsr _njSetPaletteBank
+	mov R0,R4
+	mov.l @(8,R15),R5
+	add #-8,R5
+	jsr @R12
+	mov.l @R14,R4
+	cmp/pz R0
+	bt lbl_00000234
+lbl_0000022C:
+	jsr @R13
+	nop
+	bra lbl_0000024C
+	nop
+lbl_00000234:
+	mov.w @(14,R15),R0
+	mov.w R0,@(6,R14)
+	mov.w @(16,R15),R0
+	mov.w R0,@(8,R14)
+	mov.w @(18,R15),R0
+	mov.w R0,@(10,R14)
+	mov.b @(12,R15),R0
+	extu.b R0,R0
+	bra lbl_00000250
+	mov.w R0,@(4,R14)
+lbl_00000248:
+	jsr @R13
+	nop
+lbl_0000024C:
+	bra lbl_00000256
+	mov #-1,R0
+lbl_00000250:
+	jsr @R13
+	nop
+	mov #1,R0
+lbl_00000256:
+	add #20,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+	.data.w h'0000
+lbl_00000264:
+	.data.l h'A0000000
+lbl_00000268:
+	.data.l __nj_palette_bpp_
+lbl_0000026C:
+	.data.l h'005F9000
+lbl_00000270:
+	.data.l _njMemCopy4
+lbl_00000274:
+	.data.l _njInitTextureErrStat
+lbl_00000278:
+	.data.l _njTexFopen
+lbl_0000027C:
+	.data.l _njTexFread
+lbl_00000280:
+	.data.l _njTexFclose
+lbl_00000284:
+	.data.l _njSetPaletteBank

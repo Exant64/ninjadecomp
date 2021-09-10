@@ -1,0 +1,43 @@
+	.IMPORT __nj_near_clip_
+	.IMPORT __nj_far_clip_
+	.EXPORT _njClipZ
+	.SECTION PSG,CODE,ALIGN=4
+_njClipZ:
+	mova lbl_00000030,R0
+	fmov @R0,FR0
+	mova lbl_00000034,R0
+	fmov @R0,FR1
+	fcmp/gt FR0,FR4
+	bf/s lbl_00000010
+	fcmp/gt FR4,FR1
+	fmov FR0,FR4
+lbl_00000010:
+	bf/s lbl_00000016
+	fcmp/gt FR0,FR5
+	fmov FR1,FR4
+lbl_00000016:
+	bf/s lbl_0000001C
+	fcmp/gt FR5,FR1
+	fmov FR0,FR5
+lbl_0000001C:
+	bf/s lbl_00000022
+	fneg FR4
+	fmov FR1,FR5
+lbl_00000022:
+	fneg FR5
+	mov.l lbl_00000038,R2
+	mov.l lbl_0000003C,R3
+	fmov FR4,@R2
+	rts
+	fmov FR5,@R3
+	.data.w h'0000
+lbl_00000030:
+	.data.l h'BF800000
+lbl_00000034:
+	.data.l h'C77FFF00
+lbl_00000038:
+	.data.l __nj_near_clip_
+lbl_0000003C:
+	.data.l __nj_far_clip_
+	rts
+	nop

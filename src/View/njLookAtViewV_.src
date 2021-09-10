@@ -1,0 +1,35 @@
+	.IMPORT __nj_view_
+	.EXPORT _njLookAtViewV
+	.SECTION PSG,CODE,ALIGN=4
+_njLookAtViewV:
+	fmov @R5+,FR4
+	tst R4,R4
+	fmov @R5+,FR5
+	bf/s lbl_0000000E
+	fmov @R5+,FR6
+	mov.l lbl_00000034,R2
+	mov.l @R2,R4
+lbl_0000000E:
+	fldi0 FR7
+	add #64,R4
+	fmov @R4+,FR0
+	fmov @R4+,FR1
+	fsub FR0,FR4
+	fmov @R4+,FR2
+	fsub FR1,FR5
+	fsub FR2,FR6
+	add #12,R4
+	fipr FV4,FV4
+	fsrra FR7
+	fmul FR7,FR6
+	fmul FR7,FR5
+	fmov FR6,@-R4
+	fmul FR7,FR4
+	fmov FR5,@-R4
+	rts
+	fmov FR4,@-R4
+	.data.w h'0000
+lbl_00000034:
+	.data.l __nj_view_
+	rts
+	nop

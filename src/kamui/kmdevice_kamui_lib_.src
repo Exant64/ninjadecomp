@@ -1,0 +1,1244 @@
+	.IMPORT _kmiWriteRegister
+	.IMPORT _kmiInitPAL
+	.IMPORT _kmiInitNTSC
+	.IMPORT _kmiInitVGA
+	.IMPORT _kmiFBControl
+	.IMPORT _kmiResetBoard
+	.IMPORT _kmiGetProfileInt
+	.IMPORT _kmiDeviceExtension
+	.IMPORT _kmiInitializeDriver
+	.IMPORT _kmiInitializeHardware
+	.IMPORT _kmiSetTAEnvironment
+	.IMPORT _kmiDiscardRenderPipeline
+	.EXPORT _kmInitDevice
+	.EXPORT _kmSetDisplayMode
+	.EXPORT _kmChangeDisplayFilterMode
+	.EXPORT _kmBlankScreen
+	.EXPORT _kmAdjustDisplayCenter
+	.EXPORT _kmStopDisplayFrameBuffer
+	.EXPORT _kmiWaitVlank
+	.SECTION PSG,CODE,ALIGN=32
+func_00000000:
+	mov.l R14,@-R15
+	sts.l PR,@-R15
+	mov.l lbl_000000AC,R3
+	mov.l lbl_000000A8,R14
+	mov.l @R3,R5
+	jsr @R14
+	mov #104,R4
+	mov.l lbl_000000B0,R2
+	mov.l @R2,R5
+	jsr @R14
+	mov #108,R4
+	mov.l lbl_000000B4,R3
+	mov.l @R3,R5
+	jsr @R14
+	mov #92,R4
+	mov.l lbl_000000B8,R2
+	mov.l @R2,R5
+	jsr @R14
+	mov #76,R4
+	mov.w lbl_000000A0,R4
+	mov.l lbl_000000BC,R3
+	jsr @R14
+	mov.l @R3,R5
+	mov.w lbl_000000A2,R4
+	mov.l lbl_000000C0,R2
+	jsr @R14
+	mov.l @R2,R5
+	mov.l lbl_000000C4,R3
+	mov.l @R3,R5
+	jsr @R14
+	mov #72,R4
+	mov.l lbl_000000C8,R2
+	mov #-2,R3
+	mov.l @R2,R5
+	and R3,R5
+	jsr @R14
+	mov #68,R4
+	mov.l lbl_000000CC,R3
+	mov.l @R3,R0
+	mov.w lbl_000000A4,R4
+	or #8,R0
+	jsr @R14
+	mov R0,R5
+	lds.l @R15+,PR
+	rts
+	mov.l @R15+,R14
+_kmiWaitVlank:
+	mov.l lbl_000000D0,R3
+	mov.l @R3,R4
+lbl_00000060:
+	mov.l lbl_000000D0,R2
+	mov.l @R2,R1
+	cmp/eq R1,R4
+	bt lbl_00000060
+	rts
+	nop
+_kmInitDevice:
+	mov.l R14,@-R15
+	sts.l PR,@-R15
+	mov.l lbl_000000D4,R3
+	jsr @R3
+	mov R4,R14
+	mov #2,R2
+	cmp/gt R2,R14
+	bt lbl_00000080
+	cmp/pz R14
+	bt lbl_000000E0
+lbl_00000080:
+	lds.l @R15+,PR
+	mov #2,R0
+	rts
+	mov.l @R15+,R14
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_000000A0:
+	.data.w h'0118
+lbl_000000A2:
+	.data.w h'00f4
+lbl_000000A4:
+	.data.w h'00e8
+	.data.w h'0000
+lbl_000000A8:
+	.data.l _kmiWriteRegister
+lbl_000000AC:
+	.data.l _kmiDeviceExtension+696
+lbl_000000B0:
+	.data.l _kmiDeviceExtension+700
+lbl_000000B4:
+	.data.l _kmiDeviceExtension+708
+lbl_000000B8:
+	.data.l _kmiDeviceExtension+712
+lbl_000000BC:
+	.data.l _kmiDeviceExtension+768
+lbl_000000C0:
+	.data.l _kmiDeviceExtension+772
+lbl_000000C4:
+	.data.l _kmiDeviceExtension+720
+lbl_000000C8:
+	.data.l _kmiDeviceExtension+716
+lbl_000000CC:
+	.data.l _kmiDeviceExtension+776
+lbl_000000D0:
+	.data.l _kmiDeviceExtension+884
+lbl_000000D4:
+	.data.l _kmiInitializeDriver
+	nop
+	nop
+	nop
+	nop
+lbl_000000E0:
+	mov.l lbl_000001C4,R4
+	mov #3,R6
+	mov.l lbl_000001C8,R3
+	mov.l lbl_000001C0,R5
+	jsr @R3
+	and R14,R6
+	mov.l lbl_000001D0,R3
+	mov.l lbl_000001CC,R2
+	jsr @R3
+	mov.l R0,@R2
+	mov #0,R0
+	lds.l @R15+,PR
+	rts
+	mov.l @R15+,R14
+_kmSetDisplayMode:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R11,@-R15
+	mov.l R10,@-R15
+	mov.l R9,@-R15
+	mov.l R8,@-R15
+	sts.l PR,@-R15
+	add #-20,R15
+	mov.l lbl_000001D4,R3
+	mov #0,R14
+	mov.l R4,@R15
+	mov R5,R9
+	mov.l R6,@(4,R15)
+	mov.l R7,@(8,R15)
+	jsr @R3
+	mov R14,R13
+	mov.l @R15,R6
+	mov.l lbl_000001D8,R5
+	mov.l lbl_000001C4,R10
+	mov.l lbl_000001C8,R12
+	jsr @R12
+	mov R10,R4
+	mov.l lbl_000001DC,R5
+	mov R0,R11
+	mov.l @(8,R15),R6
+	jsr @R12
+	mov R10,R4
+	mov.l lbl_000001E0,R5
+	mov.l R0,@R15
+	mov.l @(4,R15),R6
+	jsr @R12
+	mov R10,R4
+	mov.l lbl_000001CC,R2
+	mov #3,R3
+	mov.l R0,@(4,R15)
+	and R11,R3
+	mov.l R3,@R2
+	mov R11,R0
+	mov #66,R8
+	and R8,R0
+	cmp/eq #66,R0
+	bf/s lbl_0000017C
+	mov #1,R12
+	mov.l lbl_000001E4,R3
+	mov.l R11,@(12,R15)
+	mov.l @R3,R1
+	mov R15,R4
+	jsr @R1
+	add #12,R4
+	mov.l lbl_000001E8,R2
+	mov.l @(16,R15),R3
+	mov.l R3,@R2
+	mov R2,R3
+	mov.l @R3,R1
+	cmp/pz R1
+	bf lbl_00000178
+	mov.l lbl_000001E8,R2
+	mov #4,R1
+	mov.l @R2,R0
+	cmp/gt R1,R0
+	bf lbl_0000017C
+lbl_00000178:
+	mov.l lbl_000001E8,R3
+	mov.l R12,@R3
+lbl_0000017C:
+	mov R9,R0
+	cmp/eq #5,R0
+	bt lbl_00000194
+	cmp/eq #4,R0
+	bt lbl_00000194
+	cmp/eq #3,R0
+	bt lbl_00000194
+	cmp/eq #1,R0
+	bt lbl_00000194
+	cmp/eq #0,R0
+	bt lbl_00000194
+	mov R12,R13
+lbl_00000194:
+	mov.l @R15,R2
+	tst R2,R2
+	bt lbl_0000019E
+	bra lbl_000001A0
+	mov R12,R10
+lbl_0000019E:
+	mov R14,R10
+lbl_000001A0:
+	mov.l @(4,R15),R2
+	tst R2,R2
+	bt lbl_00000200
+	bra lbl_00000202
+	mov.l R12,@R15
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_000001C0:
+	.data.l CSG_8
+lbl_000001C4:
+	.data.l CSG_0
+lbl_000001C8:
+	.data.l _kmiGetProfileInt
+lbl_000001CC:
+	.data.l _kmiDeviceExtension+32
+lbl_000001D0:
+	.data.l _kmiInitializeHardware
+lbl_000001D4:
+	.data.l _kmiDiscardRenderPipeline
+lbl_000001D8:
+	.data.l CSG_20
+lbl_000001DC:
+	.data.l CSG_32
+lbl_000001E0:
+	.data.l CSG_44
+lbl_000001E4:
+	.data.l _kmiDeviceExtension+636
+lbl_000001E8:
+	.data.l _kmiDeviceExtension+52
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_00000200:
+	mov.l R14,@R15
+lbl_00000202:
+	tst R13,R13
+	bt lbl_0000020A
+	bra lbl_00000378
+	nop
+lbl_0000020A:
+	mov.l lbl_00000264,R2
+	mov.l R11,@R2
+	mov.l lbl_00000268,R3
+	mov.l R9,@R3
+	mov.l lbl_0000026C,R0
+	mov.l @R15,R1
+	mov.l R1,@R0
+	add #12,R2
+	mov.l R10,@R2
+	mov.w lbl_00000262,R4
+	add #-4,R3
+	mov.w lbl_00000260,R5
+	mov.l @R3,R0
+	cmp/eq #1,R0
+	bf lbl_00000234
+	mov.l lbl_00000270,R1
+	mov R5,R11
+	mov.l R4,@(8,R15)
+	mov.l R14,@(4,R15)
+	bra lbl_00000306
+	mov.l R11,@R1
+lbl_00000234:
+	mov.l lbl_00000264,R1
+	mov.l @R1,R0
+	and R12,R0
+	cmp/eq #1,R0
+	bt lbl_0000024E
+	mov.l lbl_00000264,R2
+	mov.l @R2,R0
+	tst #44,R0
+	bt lbl_0000024E
+	tst R12,R12
+	bt lbl_0000024E
+	bra lbl_00000250
+	mov.l R12,@(4,R15)
+lbl_0000024E:
+	mov.l R14,@(4,R15)
+lbl_00000250:
+	mov.l lbl_00000264,R3
+	mov.l @R3,R0
+	tst #16,R0
+	bt lbl_00000280
+	bra lbl_00000284
+	mov.l R4,@(8,R15)
+	nop
+	nop
+lbl_00000260:
+	.data.w h'01e0
+lbl_00000262:
+	.data.w h'0280
+lbl_00000264:
+	.data.l _kmiDeviceExtension+36
+lbl_00000268:
+	.data.l _kmiDeviceExtension+40
+lbl_0000026C:
+	.data.l _kmiDeviceExtension+44
+lbl_00000270:
+	.data.l _kmiDeviceExtension+804
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_00000280:
+	mov.w lbl_000002E0,R1
+	mov.l R1,@(8,R15)
+lbl_00000284:
+	mov.l lbl_000002E4,R3
+	mov.l @R3,R0
+	tst #32,R0
+	bt lbl_000002B4
+	mov.l lbl_000002E4,R2
+	mov.l @R2,R0
+	and R8,R0
+	cmp/eq #66,R0
+	bf lbl_000002A2
+	mov.l lbl_000002EC,R1
+	mov.l lbl_000002E8,R0
+	mov.l @R1,R11
+	shll2 R11
+	bra lbl_000002A4
+	mov.l @(R0,R11),R11
+lbl_000002A2:
+	mov R5,R11
+lbl_000002A4:
+	mov #0,R3
+	mov R11,R2
+	cmp/gt R2,R3
+	mov.l lbl_000002F0,R1
+	addc R3,R2
+	shar R2
+	bra lbl_00000306
+	mov.l R2,@R1
+lbl_000002B4:
+	mov.l lbl_000002E4,R2
+	mov.l @R2,R0
+	and R8,R0
+	cmp/eq #66,R0
+	bf lbl_00000300
+	mov.l lbl_000002EC,R1
+	mov #0,R3
+	mov.l lbl_000002E8,R0
+	mov.l @R1,R11
+	shll2 R11
+	mov.l @(R0,R11),R11
+	cmp/gt R11,R3
+	addc R3,R11
+	bra lbl_00000302
+	shar R11
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_000002E0:
+	.data.w h'0140
+	.data.w h'0000
+lbl_000002E4:
+	.data.l _kmiDeviceExtension+36
+lbl_000002E8:
+	.data.l _kmiDeviceExtension+1244
+lbl_000002EC:
+	.data.l _kmiDeviceExtension+52
+lbl_000002F0:
+	.data.l _kmiDeviceExtension+804
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_00000300:
+	mov.w lbl_00000340,R11
+lbl_00000302:
+	mov.l lbl_00000344,R3
+	mov.l R11,@R3
+lbl_00000306:
+	mov.l lbl_00000348,R2
+	mov.l @R2,R0
+	cmp/eq #1,R0
+	bt lbl_0000031A
+	cmp/eq #0,R0
+	bt lbl_00000324
+	cmp/eq #2,R0
+	bt lbl_0000032E
+	bra lbl_00000360
+	nop
+lbl_0000031A:
+	mov.l lbl_0000034C,R3
+	jsr @R3
+	mov R14,R13
+	bra lbl_00000362
+	nop
+lbl_00000324:
+	mov.l lbl_00000350,R3
+	jsr @R3
+	mov R14,R13
+	bra lbl_00000362
+	nop
+lbl_0000032E:
+	mov.l lbl_00000354,R3
+	jsr @R3
+	mov R14,R13
+	bra lbl_00000362
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_00000340:
+	.data.w h'00f0
+	.data.w h'0000
+lbl_00000344:
+	.data.l _kmiDeviceExtension+804
+lbl_00000348:
+	.data.l _kmiDeviceExtension+32
+lbl_0000034C:
+	.data.l _kmiInitVGA
+lbl_00000350:
+	.data.l _kmiInitNTSC
+lbl_00000354:
+	.data.l _kmiInitPAL
+	nop
+	nop
+	nop
+	nop
+lbl_00000360:
+	mov R12,R13
+lbl_00000362:
+	mov.l R10,@-R15
+	mov R11,R5
+	mov.l @(4,R15),R2
+	mov R9,R6
+	mov.l lbl_000003E4,R3
+	mov.l R2,@-R15
+	mov.l @(12,R15),R7
+	jsr @R3
+	mov.l @(16,R15),R4
+	bsr func_00000000
+	add #8,R15
+lbl_00000378:
+	mov R13,R0
+	add #20,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R8
+	mov.l @R15+,R9
+	mov.l @R15+,R10
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+_kmBlankScreen:
+	mov.l R14,@-R15
+	mov R4,R0
+	sts.l PR,@-R15
+	mov.l lbl_000003E8,R14
+	cmp/eq #1,R0
+	bf lbl_000003B0
+	mov.l lbl_000003EC,R2
+	mov #-2,R3
+	mov.l @R2,R5
+	and R3,R5
+	jsr @R14
+	mov #68,R4
+	mov.l lbl_000003F0,R3
+	mov.l @R3,R0
+	or #8,R0
+	bra lbl_000003C0
+	mov R0,R5
+lbl_000003B0:
+	mov.l lbl_000003EC,R2
+	mov #-2,R3
+	mov.l @R2,R5
+	and R3,R5
+	jsr @R14
+	mov #68,R4
+	mov.l lbl_000003F0,R3
+	mov.l @R3,R5
+lbl_000003C0:
+	mov.w lbl_000003E0,R4
+	jsr @R14
+	nop
+	mov.l lbl_000003EC,R2
+	mov.l @R2,R5
+	jsr @R14
+	mov #68,R4
+	lds.l @R15+,PR
+	mov #0,R0
+	rts
+	mov.l @R15+,R14
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_000003E0:
+	.data.w h'00e8
+	.data.w h'0000
+lbl_000003E4:
+	.data.l _kmiFBControl
+lbl_000003E8:
+	.data.l _kmiWriteRegister
+lbl_000003EC:
+	.data.l _kmiDeviceExtension+716
+lbl_000003F0:
+	.data.l _kmiDeviceExtension+776
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+_kmChangeDisplayFilterMode:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	sts.l PR,@-R15
+	add #-32,R15
+	mov.l lbl_00000484,R3
+	mov R15,R2
+	add #8,R2
+	mov.l R4,@R15
+	mov.l R5,@(4,R15)
+	mov.l @R3,R1
+	mov.l @(4,R3),R0
+	mov.l R1,@R2
+	mov.l R0,@(4,R2)
+	mov.l @(8,R3),R1
+	mov.l @(12,R3),R0
+	mov.l R1,@(8,R2)
+	mov.l R0,@(12,R2)
+	mov.l @(16,R3),R1
+	mov.l @(20,R3),R0
+	mov.l R1,@(16,R2)
+	mov.l R0,@(20,R2)
+	mov.l lbl_00000488,R2
+	jsr @R2
+	nop
+	mov.l @(4,R15),R3
+	mov #0,R13
+	tst R3,R3
+	bt/s lbl_00000440
+	mov #1,R14
+	bra lbl_00000442
+	mov R14,R6
+lbl_00000440:
+	mov R13,R6
+lbl_00000442:
+	mov.l @R15,R2
+	tst R2,R2
+	bt lbl_0000044C
+	bra lbl_0000044E
+	mov R14,R12
+lbl_0000044C:
+	mov R13,R12
+lbl_0000044E:
+	mov.l lbl_0000048C,R2
+	mov.l R12,@R2
+	mov.l lbl_00000490,R3
+	mov.l R6,@R3
+	mov.l lbl_00000494,R1
+	mov.w lbl_00000480,R5
+	mov.l @R1,R0
+	cmp/eq #1,R0
+	bf lbl_000004A0
+	mov R5,R4
+	mov.w lbl_00000482,R5
+	bra lbl_00000502
+	mov R13,R7
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_00000480:
+	.data.w h'0280
+lbl_00000482:
+	.data.w h'01e0
+lbl_00000484:
+	.data.l CSG_52
+lbl_00000488:
+	.data.l _kmiDiscardRenderPipeline
+lbl_0000048C:
+	.data.l _kmiDeviceExtension+44
+lbl_00000490:
+	.data.l _kmiDeviceExtension+48
+lbl_00000494:
+	.data.l _kmiDeviceExtension+36
+	nop
+	nop
+	nop
+	nop
+lbl_000004A0:
+	mov.l lbl_000004E4,R2
+	mov.l @R2,R0
+	and R14,R0
+	cmp/eq #1,R0
+	bt lbl_000004BA
+	mov.l lbl_000004E4,R3
+	mov.l @R3,R0
+	tst #44,R0
+	bt lbl_000004BA
+	tst R14,R14
+	bt lbl_000004BA
+	bra lbl_000004BC
+	mov R14,R7
+lbl_000004BA:
+	mov R13,R7
+lbl_000004BC:
+	mov.l lbl_000004E4,R2
+	mov.l @R2,R0
+	tst #16,R0
+	bt lbl_000004C8
+	bra lbl_000004CA
+	mov R5,R4
+lbl_000004C8:
+	mov.w lbl_000004E0,R4
+lbl_000004CA:
+	mov.l lbl_000004E4,R3
+	mov.l @R3,R0
+	tst #32,R0
+	bt lbl_00000500
+	mov.w lbl_000004E2,R5
+	bra lbl_00000502
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_000004E0:
+	.data.w h'0140
+lbl_000004E2:
+	.data.w h'01e0
+lbl_000004E4:
+	.data.l _kmiDeviceExtension+36
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_00000500:
+	mov.w lbl_000005A0,R5
+lbl_00000502:
+	mov.l lbl_000005A4,R3
+	mov.l @R3,R0
+lbl_00000506:
+	mov.l lbl_000005A4,R2
+	mov.l @R2,R1
+	cmp/eq R1,R0
+	bt lbl_00000506
+	mov.l lbl_000005A8,R2
+	mov.l lbl_000005AC,R3
+	mov.l R6,@-R15
+	mov.l R12,@-R15
+	jsr @R3
+	mov.l @R2,R6
+	bsr func_00000000
+	nop
+	mov.l lbl_000005B4,R2
+	mov #-2,R3
+	mov.l lbl_000005B0,R12
+	mov.l @R2,R5
+	and R3,R5
+	jsr @R12
+	mov #68,R4
+	mov.w lbl_000005A2,R4
+	mov.l lbl_000005B8,R3
+	jsr @R12
+	mov.l @R3,R5
+	mov.l lbl_000005B4,R2
+	mov.l @R2,R5
+	jsr @R12
+	mov #68,R4
+	mov.l lbl_000005BC,R3
+	jsr @R3
+	nop
+	mov.l lbl_000005C0,R3
+	mov.l R13,@-R15
+	mov.l @R3,R2
+	mov.l lbl_000005C4,R7
+	mov.l R2,@-R15
+	mov.l @(12,R7),R7
+	mov.l lbl_000005C4,R6
+	mov #-7,R2
+	shld R2,R7
+	mov.l @(8,R6),R6
+	mov.l lbl_000005C4,R5
+	shld R2,R6
+	mov.l @(4,R5),R5
+	mov.l lbl_000005C4,R4
+	shld R2,R5
+	mov.l @R4,R4
+	mov.l lbl_000005C8,R1
+	jsr @R1
+	shld R2,R4
+	add #16,R15
+	mov.l lbl_000005CC,R3
+	mov.l R14,@R3
+	mov.l lbl_000005A4,R2
+	mov.l @R2,R4
+lbl_00000572:
+	mov.l lbl_000005A4,R1
+	mov.l @R1,R3
+	cmp/eq R3,R4
+	bt lbl_00000572
+	mov #0,R0
+	add #32,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_000005A0:
+	.data.w h'00f0
+lbl_000005A2:
+	.data.w h'00e8
+lbl_000005A4:
+	.data.l _kmiDeviceExtension+884
+lbl_000005A8:
+	.data.l _kmiDeviceExtension+40
+lbl_000005AC:
+	.data.l _kmiFBControl
+lbl_000005B0:
+	.data.l _kmiWriteRegister
+lbl_000005B4:
+	.data.l _kmiDeviceExtension+716
+lbl_000005B8:
+	.data.l _kmiDeviceExtension+776
+lbl_000005BC:
+	.data.l _kmiResetBoard
+lbl_000005C0:
+	.data.l _kmiDeviceExtension+108
+lbl_000005C4:
+	.data.l _kmiDeviceExtension+112
+lbl_000005C8:
+	.data.l _kmiSetTAEnvironment
+lbl_000005CC:
+	.data.l _kmiDeviceExtension+684
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+_kmStopDisplayFrameBuffer:
+	mov.l R14,@-R15
+	mov #-2,R3
+	sts.l PR,@-R15
+	mov.l lbl_00000688,R2
+	mov.l lbl_00000684,R14
+	mov.l @R2,R5
+	and R3,R5
+	jsr @R14
+	mov #68,R4
+	mov.l lbl_0000068C,R3
+	mov.l @R3,R0
+	mov.w lbl_00000680,R4
+	or #8,R0
+	jsr @R14
+	mov R0,R5
+	mov.l lbl_00000690,R2
+	jsr @R2
+	nop
+	mov.l lbl_00000694,R3
+	jsr @R3
+	nop
+	mov.l lbl_00000688,R2
+	mov #-2,R3
+	mov.l @R2,R5
+	and R3,R5
+	jsr @R14
+	mov #68,R4
+	mov.l lbl_0000068C,R3
+	mov.l @R3,R0
+	mov.w lbl_00000680,R4
+	or #8,R0
+	jsr @R14
+	mov R0,R5
+	mov.l lbl_00000698,R2
+	mov.l @R2,R4
+lbl_00000626:
+	mov.l lbl_00000698,R3
+	mov.l @R3,R1
+	cmp/eq R1,R4
+	bt lbl_00000626
+	mov.l lbl_0000069C,R2
+	mov #1,R0
+	mov.l R0,@R2
+	lds.l @R15+,PR
+	mov #0,R0
+	rts
+	mov.l @R15+,R14
+_kmAdjustDisplayCenter:
+	mov.l lbl_000006A0,R2
+	mov #10,R1
+	mov.l R14,@-R15
+	mov R5,R14
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	sts.l PR,@-R15
+	mov.l @R2,R3
+	mov.l lbl_00000684,R13
+	add R4,R3
+	cmp/gt R1,R3
+	bf/s lbl_000006C0
+	mov #0,R12
+	mov.l lbl_000006A4,R3
+	mov.l @R3,R0
+	cmp/eq R4,R0
+	bt lbl_000006C2
+	mov.l lbl_000006A4,R2
+	mov.l R4,@R2
+	mov R2,R0
+	mov.l @R0,R1
+	mov.l lbl_000006A0,R3
+	mov.l @R3,R0
+	add R1,R0
+	mov.l lbl_000006A8,R1
+	mov.l R0,@R1
+	mov.w lbl_00000682,R4
+	mov R1,R2
+	jsr @R13
+	mov.l @R2,R5
+	bra lbl_000006C2
+	nop
+	nop
+	nop
+lbl_00000680:
+	.data.w h'00e8
+lbl_00000682:
+	.data.w h'00ec
+lbl_00000684:
+	.data.l _kmiWriteRegister
+lbl_00000688:
+	.data.l _kmiDeviceExtension+716
+lbl_0000068C:
+	.data.l _kmiDeviceExtension+776
+lbl_00000690:
+	.data.l _kmiDiscardRenderPipeline
+lbl_00000694:
+	.data.l _kmiResetBoard
+lbl_00000698:
+	.data.l _kmiDeviceExtension+884
+lbl_0000069C:
+	.data.l _kmiDeviceExtension+684
+lbl_000006A0:
+	.data.l _kmiDeviceExtension+92
+lbl_000006A4:
+	.data.l _kmiDeviceExtension+84
+lbl_000006A8:
+	.data.l _kmiDeviceExtension+780
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_000006C0:
+	mov #18,R12
+lbl_000006C2:
+	mov.l lbl_00000764,R3
+	mov.l @R3,R2
+	add R14,R2
+	cmp/pl R2
+	bt lbl_000006DA
+	mov.l lbl_00000768,R2
+	mov.l @R2,R1
+	add R14,R1
+	cmp/pl R1
+	bt lbl_000006DA
+	bra lbl_0000080A
+	nop
+lbl_000006DA:
+	mov.l lbl_0000076C,R2
+	mov.l @R2,R3
+	cmp/eq R14,R3
+	bf lbl_000006E6
+	bra lbl_0000080C
+	nop
+lbl_000006E6:
+	mov.l lbl_00000764,R1
+	mov.l @R1,R0
+	mov.l lbl_00000768,R2
+	add R14,R0
+	mov.l @R2,R3
+	add R14,R3
+	shll16 R3
+	or R3,R0
+	mov.l lbl_00000770,R3
+	mov.l R0,@R3
+	mov.w lbl_00000760,R4
+	mov R3,R2
+	jsr @R13
+	mov.l @R2,R5
+	mov.l lbl_00000778,R2
+	mov.l lbl_00000774,R3
+	mov.l @R2,R5
+	cmp/pl R14
+	bf/s lbl_000007A0
+	and R3,R5
+	mov.l lbl_00000780,R0
+	mov.l lbl_0000077C,R2
+	mov.l @R0,R1
+	cmp/ge R14,R1
+	bt/s lbl_0000071E
+	mov.l @R2,R4
+	bra lbl_00000724
+	sub R14,R4
+lbl_0000071E:
+	mov.l lbl_00000780,R1
+	mov.l @R1,R3
+	sub R3,R4
+lbl_00000724:
+	mov.l lbl_0000077C,R1
+	mov R14,R2
+	add R4,R2
+	mov.l @R1,R3
+	cmp/hi R3,R2
+	bf lbl_0000073A
+	mov.l lbl_00000780,R2
+	mov.l lbl_0000077C,R0
+	mov.l @R2,R3
+	mov.l @R0,R4
+	sub R3,R4
+lbl_0000073A:
+	mov.l lbl_0000077C,R3
+	mov.l @R3,R1
+	cmp/hs R4,R1
+	bt lbl_000007D8
+	mov.l lbl_0000077C,R0
+	bra lbl_000007D8
+	mov.l R4,@R0
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_00000760:
+	.data.w h'00f0
+	.data.w h'0000
+lbl_00000764:
+	.data.l _kmiDeviceExtension+96
+lbl_00000768:
+	.data.l _kmiDeviceExtension+100
+lbl_0000076C:
+	.data.l _kmiDeviceExtension+88
+lbl_00000770:
+	.data.l _kmiDeviceExtension+784
+lbl_00000774:
+	.data.l h'FFF003FF
+lbl_00000778:
+	.data.l _kmiDeviceExtension+708
+lbl_0000077C:
+	.data.l _kmiDeviceExtension+72
+lbl_00000780:
+	.data.l _kmiDeviceExtension+64
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_000007A0:
+	mov.l lbl_00000828,R2
+	mov #1,R4
+	mov.l @R2,R0
+	and R4,R0
+	cmp/eq #1,R0
+	bf lbl_000007B6
+	tst R4,R4
+	bt lbl_000007B6
+	mov.w lbl_00000820,R4
+	bra lbl_000007D8
+	nop
+lbl_000007B6:
+	mov.l lbl_00000828,R3
+	mov.l @R3,R0
+	and #66,R0
+	cmp/eq #66,R0
+	bf lbl_000007D6
+	mov.l lbl_00000830,R2
+	mov #0,R3
+	mov.l lbl_0000082C,R0
+	mov.l @R2,R4
+	shll2 R4
+	mov.l @(R0,R4),R4
+	cmp/gt R4,R3
+	addc R3,R4
+	shar R4
+	bra lbl_000007D8
+	add #-2,R4
+lbl_000007D6:
+	mov.w lbl_00000822,R4
+lbl_000007D8:
+	mov.l lbl_00000834,R3
+	mov.l R14,@R3
+	mov.w lbl_00000824,R2
+	mov.l lbl_00000838,R1
+	and R2,R4
+	shll8 R4
+	shll2 R4
+	or R5,R4
+	mov.l R4,@R1
+	mov.l lbl_0000083C,R2
+	mov #-2,R3
+	mov.l @R2,R5
+	and R3,R5
+	jsr @R13
+	mov #68,R4
+	mov.l lbl_00000838,R3
+	mov.l @R3,R5
+	jsr @R13
+	mov #92,R4
+	mov.l lbl_0000083C,R2
+	mov.l @R2,R5
+	jsr @R13
+	mov #68,R4
+	bra lbl_0000080C
+	nop
+lbl_0000080A:
+	mov #18,R12
+lbl_0000080C:
+	lds.l @R15+,PR
+	mov R12,R0
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+	nop
+	nop
+	nop
+	nop
+lbl_00000820:
+	.data.w h'01de
+lbl_00000822:
+	.data.w h'00ee
+lbl_00000824:
+	.data.w h'03ff
+	.data.w h'0000
+lbl_00000828:
+	.data.l _kmiDeviceExtension+36
+lbl_0000082C:
+	.data.l _kmiDeviceExtension+1244
+lbl_00000830:
+	.data.l _kmiDeviceExtension+52
+lbl_00000834:
+	.data.l _kmiDeviceExtension+88
+lbl_00000838:
+	.data.l _kmiDeviceExtension+708
+lbl_0000083C:
+	.data.l _kmiDeviceExtension+716
+	.SECTION CSG,DATA,ALIGN=4
+CSG_0:
+	.data.b h'004b
+	.data.b h'0041
+	.data.b h'004d
+	.data.b h'0055
+	.data.b h'0049
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+CSG_8:
+	.data.b h'0056
+	.data.b h'0069
+	.data.b h'0064
+	.data.b h'0065
+	.data.b h'006f
+	.data.b h'004d
+	.data.b h'006f
+	.data.b h'0064
+	.data.b h'0065
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+CSG_20:
+	.data.b h'0044
+	.data.b h'0069
+	.data.b h'0073
+	.data.b h'0070
+	.data.b h'006c
+	.data.b h'0061
+	.data.b h'0079
+	.data.b h'004d
+	.data.b h'006f
+	.data.b h'0064
+	.data.b h'0065
+	.data.b h'0000
+CSG_32:
+	.data.b h'0041
+	.data.b h'006e
+	.data.b h'0074
+	.data.b h'0069
+	.data.b h'0041
+	.data.b h'006c
+	.data.b h'0069
+	.data.b h'0061
+	.data.b h'0073
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+CSG_44:
+	.data.b h'0044
+	.data.b h'0069
+	.data.b h'0074
+	.data.b h'0068
+	.data.b h'0065
+	.data.b h'0072
+	.data.b h'0000
+	.data.b h'0000
+CSG_52:
+	.data.b h'0010
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0010
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0010
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0010
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0018
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0020
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000

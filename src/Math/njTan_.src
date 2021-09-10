@@ -1,0 +1,11 @@
+	.EXPORT _njTan
+	.SECTION PSG,CODE,ALIGN=4
+_njTan:
+	extu.w R4,R4
+	lds R4,FPUL
+	fsca FPUL,DR0
+	rts
+	fdiv FR1,FR0
+	nop
+	rts
+	nop

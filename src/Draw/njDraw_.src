@@ -1,0 +1,329 @@
+	.IMPORT _njStartVertexNonTexOpaque
+	.IMPORT _njEndVertex
+	.IMPORT _njGetkmPointer
+	.IMPORT _njSetkmPointer
+	.IMPORT _njStartVertexTexOpaque
+	.IMPORT _njSetkmTextureNumG
+	.IMPORT _njStartVertexNonTexTrans
+	.IMPORT _njSetkmTextureMemList
+	.IMPORT _njStartVertexTexTrans
+	.IMPORT _njSetkmColorMode
+	.EXPORT _njDrawPolygon
+	.EXPORT _njDrawTextureMemList
+	.EXPORT _njDrawTexture
+	.SECTION PSG,CODE,ALIGN=4
+_njDrawPolygon:
+	sts.l PR,@-R15
+	mov.l R4,@-R15
+	mov.l R5,@-R15
+	mov.l lbl_00000024,R3
+	tst R6,R6
+	bt lbl_00000034
+	jsr @R3
+	nop
+	mov.l lbl_00000028,R3
+	mov.l lbl_0000002C,R4
+	jsr @R3
+	nop
+	mov.l lbl_00000030,R3
+	jsr @R3
+	nop
+	bra lbl_00000046
+	nop
+	.data.w h'0000
+lbl_00000024:
+	.data.l _njGetkmPointer
+lbl_00000028:
+	.data.l _njSetkmColorMode
+lbl_0000002C:
+	.data.l h'02100002
+lbl_00000030:
+	.data.l _njStartVertexNonTexTrans
+lbl_00000034:
+	jsr @R3
+	nop
+	mov.l lbl_00000070,R3
+	mov.l lbl_00000074,R4
+	jsr @R3
+	nop
+	mov.l lbl_00000078,R3
+	jsr @R3
+	nop
+lbl_00000046:
+	mov.l @R15+,R1
+	mov.l @R15+,R2
+	mov.l lbl_0000007C,R3
+	add #28,R0
+lbl_0000004E:
+	mov.l @R2+,R4
+	mov.l @R2+,R5
+	mov.l @R2+,R6
+	mov.l @R2+,R7
+	pref @R2
+	dt R1
+	bt lbl_00000080
+	mov.l R7,@-R0
+	add #-8,R0
+	mov.l R6,@-R0
+	mov.l R5,@-R0
+	mov.l R4,@-R0
+	mov.l R3,@-R0
+	pref @R0
+	bra lbl_0000004E
+	add #60,R0
+	.data.w h'0000
+lbl_00000070:
+	.data.l _njSetkmColorMode
+lbl_00000074:
+	.data.l h'00080002
+lbl_00000078:
+	.data.l _njStartVertexNonTexOpaque
+lbl_0000007C:
+	.data.l h'E0000000
+lbl_00000080:
+	mov.l lbl_000000A0,R3
+	mov.l R7,@-R0
+	add #-8,R0
+	mov.l R6,@-R0
+	mov.l R5,@-R0
+	mov.l R4,@-R0
+	mov.l R3,@-R0
+	pref @R0
+	mov.l lbl_000000A4,R3
+	add #32,R0
+	jsr @R3
+	mov R0,R4
+	mov.l lbl_000000A8,R3
+	lds.l @R15+,PR
+	jmp @R3
+	nop
+lbl_000000A0:
+	.data.l h'F0000000
+lbl_000000A4:
+	.data.l _njEndVertex
+lbl_000000A8:
+	.data.l _njSetkmPointer
+	rts
+	nop
+_njDrawTexture:
+	mov.l R9,@-R15
+	mov.l R8,@-R15
+	sts.l PR,@-R15
+	mov.l R4,@-R15
+	mov.l R5,@-R15
+	mov.l R6,@-R15
+	mov.l lbl_000000E0,R3
+	tst R7,R7
+	bt lbl_000000F4
+	jsr @R3
+	nop
+	mov.l lbl_000000E4,R3
+	mov.l lbl_000000E8,R4
+	jsr @R3
+	nop
+	mov.l lbl_000000EC,R3
+	jsr @R3
+	mov.l @R15+,R4
+	mov.l lbl_000000F0,R3
+	jsr @R3
+	nop
+	bra lbl_0000010C
+	nop
+	.data.w h'0000
+lbl_000000E0:
+	.data.l _njGetkmPointer
+lbl_000000E4:
+	.data.l _njSetkmColorMode
+lbl_000000E8:
+	.data.l h'0210000A
+lbl_000000EC:
+	.data.l _njSetkmTextureNumG
+lbl_000000F0:
+	.data.l _njStartVertexTexTrans
+lbl_000000F4:
+	jsr @R3
+	nop
+	mov.l lbl_0000013C,R3
+	mov.l lbl_00000140,R4
+	jsr @R3
+	nop
+	mov.l lbl_00000144,R3
+	jsr @R3
+	mov.l @R15+,R4
+	mov.l lbl_00000148,R3
+	jsr @R3
+	nop
+lbl_0000010C:
+	mov.l @R15+,R1
+	mov.l @R15+,R2
+	mov.l lbl_0000014C,R3
+	add #28,R0
+lbl_00000114:
+	mov.l @R2+,R4
+	mov.l @R2+,R5
+	mov.l @R2+,R6
+	mov.l @R2+,R7
+	mov.l @R2+,R8
+	mov.l @R2+,R9
+	pref @R2
+	dt R1
+	bt lbl_00000150
+	mov.l R9,@-R0
+	mov.l R8,@-R0
+	mov.l R7,@-R0
+	mov.l R6,@-R0
+	mov.l R5,@-R0
+	mov.l R4,@-R0
+	mov.l R3,@-R0
+	pref @R0
+	bra lbl_00000114
+	add #60,R0
+	.data.w h'0000
+lbl_0000013C:
+	.data.l _njSetkmColorMode
+lbl_00000140:
+	.data.l h'0008000A
+lbl_00000144:
+	.data.l _njSetkmTextureNumG
+lbl_00000148:
+	.data.l _njStartVertexTexOpaque
+lbl_0000014C:
+	.data.l h'E0000000
+lbl_00000150:
+	mov.l lbl_00000174,R3
+	mov.l R9,@-R0
+	mov.l R8,@-R0
+	mov.l R7,@-R0
+	mov.l R6,@-R0
+	mov.l R5,@-R0
+	mov.l R4,@-R0
+	mov.l R3,@-R0
+	pref @R0
+	mov.l lbl_00000178,R3
+	add #32,R0
+	jsr @R3
+	mov R0,R4
+	mov.l lbl_0000017C,R3
+	lds.l @R15+,PR
+	mov.l @R15+,R8
+	jmp @R3
+	mov.l @R15+,R9
+lbl_00000174:
+	.data.l h'F0000000
+lbl_00000178:
+	.data.l _njEndVertex
+lbl_0000017C:
+	.data.l _njSetkmPointer
+	rts
+	nop
+_njDrawTextureMemList:
+	mov.l R9,@-R15
+	mov.l R8,@-R15
+	sts.l PR,@-R15
+	mov.l R4,@-R15
+	mov.l R5,@-R15
+	mov.l R6,@-R15
+	mov.l lbl_000001B4,R3
+	tst R7,R7
+	bt lbl_000001C8
+	jsr @R3
+	nop
+	mov.l lbl_000001B8,R3
+	mov.l lbl_000001BC,R4
+	jsr @R3
+	nop
+	mov.l lbl_000001C0,R3
+	jsr @R3
+	mov.l @R15+,R4
+	mov.l lbl_000001C4,R3
+	jsr @R3
+	nop
+	bra lbl_000001E0
+	nop
+	.data.w h'0000
+lbl_000001B4:
+	.data.l _njGetkmPointer
+lbl_000001B8:
+	.data.l _njSetkmColorMode
+lbl_000001BC:
+	.data.l h'0210000A
+lbl_000001C0:
+	.data.l _njSetkmTextureMemList
+lbl_000001C4:
+	.data.l _njStartVertexTexTrans
+lbl_000001C8:
+	jsr @R3
+	nop
+	mov.l lbl_00000210,R3
+	mov.l lbl_00000214,R4
+	jsr @R3
+	nop
+	mov.l lbl_00000218,R3
+	jsr @R3
+	mov.l @R15+,R4
+	mov.l lbl_0000021C,R3
+	jsr @R3
+	nop
+lbl_000001E0:
+	mov.l @R15+,R1
+	mov.l @R15+,R2
+	mov.l lbl_00000220,R3
+	add #28,R0
+lbl_000001E8:
+	mov.l @R2+,R4
+	mov.l @R2+,R5
+	mov.l @R2+,R6
+	mov.l @R2+,R7
+	mov.l @R2+,R8
+	mov.l @R2+,R9
+	pref @R2
+	dt R1
+	bt lbl_00000224
+	mov.l R9,@-R0
+	mov.l R8,@-R0
+	mov.l R7,@-R0
+	mov.l R6,@-R0
+	mov.l R5,@-R0
+	mov.l R4,@-R0
+	mov.l R3,@-R0
+	pref @R0
+	bra lbl_000001E8
+	add #60,R0
+	.data.w h'0000
+lbl_00000210:
+	.data.l _njSetkmColorMode
+lbl_00000214:
+	.data.l h'0008000A
+lbl_00000218:
+	.data.l _njSetkmTextureMemList
+lbl_0000021C:
+	.data.l _njStartVertexTexOpaque
+lbl_00000220:
+	.data.l h'E0000000
+lbl_00000224:
+	mov.l lbl_00000248,R3
+	mov.l R9,@-R0
+	mov.l R8,@-R0
+	mov.l R7,@-R0
+	mov.l R6,@-R0
+	mov.l R5,@-R0
+	mov.l R4,@-R0
+	mov.l R3,@-R0
+	pref @R0
+	mov.l lbl_0000024C,R3
+	add #32,R0
+	jsr @R3
+	mov R0,R4
+	mov.l lbl_00000250,R3
+	lds.l @R15+,PR
+	mov.l @R15+,R8
+	jmp @R3
+	mov.l @R15+,R9
+lbl_00000248:
+	.data.l h'F0000000
+lbl_0000024C:
+	.data.l _njEndVertex
+lbl_00000250:
+	.data.l _njSetkmPointer
+	rts
+	nop

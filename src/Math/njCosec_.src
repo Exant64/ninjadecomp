@@ -1,0 +1,13 @@
+	.EXPORT _njCosec
+	.SECTION PSG,CODE,ALIGN=4
+_njCosec:
+	extu.w R4,R4
+	lds R4,FPUL
+	fsca FPUL,DR0
+	fldi1 FR1
+	fdiv FR0,FR1
+	rts
+	fmov FR1,FR0
+	nop
+	rts
+	nop

@@ -1,0 +1,15 @@
+	.EXPORT _njTranslateEx
+	.SECTION PSG,CODE,ALIGN=4
+_njTranslateEx:
+	fmov @R4+,FR4
+	fmov @R4+,FR5
+	fmov @R4+,FR6
+	fldi1 FR7
+	ftrv XMTRX,FV4
+	fschg
+	fmov FR4,FR13
+	fmov FR6,FR15
+	rts
+	fschg
+	rts
+	nop

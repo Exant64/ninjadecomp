@@ -1,0 +1,165 @@
+	.IMPORT _frexp
+	.IMPORT _kmSetFogDensity
+	.EXPORT _njGenerateFogTable3
+	.SECTION PSG,CODE,ALIGN=4
+_njGenerateFogTable3:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R11,@-R15
+	fmov FR15,@-R15
+	fmov FR14,@-R15
+	fmov FR13,@-R15
+	sts.l PR,@-R15
+	add #-8,R15
+	mova lbl_0000010C,R0
+	fmov FR4,FR13
+	fmov @R0,FR3
+	mov #0,R12
+	fmov FR5,FR14
+	mov R4,R11
+	fcmp/gt FR13,FR3
+	fmov FR5,FR15
+	mov R12,R14
+	mov R12,R13
+	bf/s lbl_00000030
+	fneg FR14
+	mov.l lbl_00000110,R13
+	bra lbl_0000005C
+	nop
+lbl_00000030:
+	mov.l lbl_00000114,R3
+	mov R15,R4
+	jsr @R3
+	fmov FR14,FR4
+	mova lbl_00000118,R0
+	fmov FR0,FR2
+	fmov @R0,FR3
+	mov.l @R15,R2
+	fmul FR3,FR2
+	mov.l lbl_0000011C,R3
+	add #-1,R2
+	fmov FR0,FR4
+	mov R2,R0
+	mov.l R2,@R15
+	mov.b R0,@(4,R15)
+	ftrc FR2,FPUL
+	mov.b @(4,R15),R0
+	sts FPUL,R4
+	and R3,R4
+	extu.w R4,R4
+	or R4,R13
+	or R0,R13
+lbl_0000005C:
+	mov.l lbl_00000120,R3
+	jsr @R3
+	mov R13,R4
+	mova lbl_00000124,R0
+	fmov FR15,FR2
+	fmov @R0,FR3
+	mov R11,R6
+	fdiv FR3,FR2
+	fcmp/gt FR13,FR2
+	bf/s lbl_00000076
+	fldi1 FR5
+	bra lbl_00000078
+	fmov FR14,FR6
+lbl_00000076:
+	fmov FR5,FR6
+lbl_00000078:
+	mova lbl_00000128,R0
+	fmov FR13,FR7
+	mov #15,R13
+	fmov @R0,FR4
+	mov R13,R5
+	mov R12,R4
+	fneg FR7
+	mov #1,R7
+	add #113,R5
+lbl_0000008A:
+	mov #-4,R2
+	mov R4,R3
+	mov R7,R1
+	shad R2,R3
+	shad R3,R1
+	mov R4,R3
+	lds R1,FPUL
+	and R13,R3
+	fmov FR6,FR1
+	float FPUL,FR3
+	lds R3,FPUL
+	float FPUL,FR2
+	fadd FR4,FR2
+	fmul FR2,FR3
+	fdiv FR4,FR3
+	fdiv FR3,FR1
+	fmov FR1,FR3
+	fcmp/gt FR7,FR3
+	bf/s lbl_000000B4
+	fmov FR1,@R6
+	add #1,R14
+lbl_000000B4:
+	add #1,R4
+	cmp/ge R5,R4
+	bf/s lbl_0000008A
+	add #4,R6
+	fcmp/eq FR14,FR6
+	bf lbl_000000F6
+	mov R14,R0
+	shll2 R0
+	fmov @(R0,R11),FR4
+	cmp/pl R14
+	mov R12,R6
+	mov R11,R4
+	bf/s lbl_000000E4
+	fadd FR15,FR4
+lbl_000000D0:
+	fmov @R4,FR3
+	add #1,R6
+	fmov FR5,FR2
+	cmp/ge R14,R6
+	fadd FR15,FR3
+	fdiv FR4,FR3
+	fsub FR3,FR2
+	fmov FR2,@R4
+	bf/s lbl_000000D0
+	add #4,R4
+lbl_000000E4:
+	mov R14,R6
+	cmp/ge R5,R6
+	bt/s lbl_000000F6
+	fldi0 FR4
+lbl_000000EC:
+	add #1,R6
+	fmov FR4,@R4
+	cmp/ge R5,R6
+	bf/s lbl_000000EC
+	add #4,R4
+lbl_000000F6:
+	add #8,R15
+	lds.l @R15+,PR
+	fmov @R15+,FR13
+	fmov @R15+,FR14
+	fmov @R15+,FR15
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+	.data.w h'0000
+lbl_0000010C:
+	.data.l h'C77FFF00
+lbl_00000110:
+	.data.l h'00008010
+lbl_00000114:
+	.data.l _frexp
+lbl_00000118:
+	.data.l h'47800000
+lbl_0000011C:
+	.data.l h'0000FF00
+lbl_00000120:
+	.data.l _kmSetFogDensity
+lbl_00000124:
+	.data.l h'43800000
+lbl_00000128:
+	.data.l _njGenerateFogTable3

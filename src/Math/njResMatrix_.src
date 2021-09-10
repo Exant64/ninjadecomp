@@ -1,0 +1,5 @@
+	.EXPORT _njResMatrix
+	.SECTION PSG,CODE,ALIGN=4
+_njResMatrix:
+	rts
+	nop

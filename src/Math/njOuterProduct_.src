@@ -1,0 +1,39 @@
+	.EXPORT _njOuterProduct
+	.SECTION PSG,CODE,ALIGN=4
+_njOuterProduct:
+	mov #4,R0
+	fmov @R4,FR10
+	fmov @R5,FR6
+	fmov @(R0,R4),FR4
+	fmov @(R0,R5),FR5
+	mov #8,R0
+	fmov FR4,FR8
+	fmov @(R0,R4),FR9
+	fmov @(R0,R5),FR11
+	fmul FR11,FR8
+	fmov FR9,FR0
+	fneg FR0
+	fmac FR0,FR5,FR8
+	mov #4,R0
+	fmov FR8,@R6
+	fmul FR6,FR9
+	fmov FR10,FR0
+	fneg FR11
+	fmac FR0,FR11,FR9
+	fmov FR9,@(R0,R6)
+	fmul FR5,FR10
+	fneg FR6
+	fmov FR4,FR0
+	fmac FR0,FR6,FR10
+	mov #8,R0
+	fmov FR10,@(R0,R6)
+	fmov FR8,FR0
+	fmov FR9,FR1
+	fmov FR10,FR2
+	fldi0 FR3
+	fldi0 FR11
+	fipr FV0,FV8
+	fmov FR11,FR0
+	fsqrt FR0
+	rts
+	nop

@@ -1,0 +1,70 @@
+	.IMPORT _njUnitMatrix
+	.IMPORT _njCalcVector
+	.IMPORT _njRotateXYZ
+	.EXPORT _njSetLightDirection2
+	.SECTION PSG,CODE,ALIGN=4
+_njSetLightDirection2:
+	mov.l R14,@-R15
+	mov R4,R14
+	sts.l PR,@-R15
+	mov.l lbl_00000064,R3
+	mov.l lbl_00000068,R4
+	mov.l R5,@-R15
+	mov.l R6,@-R15
+	jsr @R3
+	mov.l R7,@-R15
+	mov.l lbl_0000006C,R3
+	mov.l lbl_00000068,R4
+	mov.l @R15+,R7
+	mov.l @R15+,R6
+	jsr @R3
+	mov.l @R15+,R5
+	mov #76,R2
+	add R14,R2
+	mov #4,R0
+	fmov @R2+,FR0
+	add #-12,R15
+	fmov @R2+,FR1
+	fmov @R2+,FR2
+	fmov FR0,@R15
+	fmov FR1,@(R0,R15)
+	mov #8,R0
+	fmov FR2,@(R0,R15)
+	mov.l lbl_00000070,R2
+	mov R14,R6
+	mov.l lbl_00000068,R4
+	add #76,R6
+	jsr @R2
+	mov R15,R5
+	mov.w lbl_00000060,R1
+	mov #76,R2
+	add R14,R2
+	add R14,R1
+	fmov @R2+,FR0
+	fmov @R2+,FR1
+	fmov @R2+,FR2
+	mov #4,R0
+	fmov FR0,@R1
+	fmov FR1,@(R0,R1)
+	mov #8,R0
+	fmov FR2,@(R0,R1)
+	add #12,R15
+	lds.l @R15+,PR
+	rts
+	mov.l @R15+,R14
+lbl_00000060:
+	.data.w h'009c
+	.data.w h'0000
+lbl_00000064:
+	.data.l _njUnitMatrix
+lbl_00000068:
+	.data.l BSG32_0
+lbl_0000006C:
+	.data.l _njRotateXYZ
+lbl_00000070:
+	.data.l _njCalcVector
+	rts
+	nop
+	.SECTION BSG32,DATA,ALIGN=32
+BSG32_0:
+	.res.b h'40

@@ -1,0 +1,11 @@
+	.EXPORT _njCot
+	.SECTION PSG,CODE,ALIGN=4
+_njCot:
+	extu.w R4,R4
+	lds R4,FPUL
+	fsca FPUL,DR0
+	fdiv FR0,FR1
+	rts
+	fmov FR1,FR0
+	rts
+	nop

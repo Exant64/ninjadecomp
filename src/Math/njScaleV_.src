@@ -1,0 +1,92 @@
+	.EXPORT _njScaleV
+	.SECTION PSG,CODE,ALIGN=4
+_njScaleV:
+	tst R4,R4
+	fmov @R5+,FR4
+	fmov @R5+,FR5
+	bf/s lbl_0000004C
+	fmov @R5+,FR6
+	fschg
+	fmov FR1,FR0
+	fmov FR3,FR2
+	fmov FR5,FR8
+	fmov FR7,FR10
+	fschg
+	fmul FR4,FR0
+	fmul FR4,FR1
+	fmul FR4,FR2
+	fmul FR4,FR3
+	fmul FR5,FR8
+	fmul FR5,FR9
+	fmul FR5,FR10
+	fmul FR5,FR11
+	fschg
+	fmov FR0,FR1
+	fmov FR2,FR3
+	fmov FR8,FR5
+	fmov FR10,FR7
+	fschg
+	fschg
+	fmov FR9,FR0
+	fmov FR11,FR2
+	fschg
+	fmul FR6,FR0
+	fmul FR6,FR1
+	fmul FR6,FR2
+	fmul FR6,FR3
+	fschg
+	fmov FR0,FR9
+	fmov FR2,FR11
+	rts
+	fschg
+lbl_0000004C:
+	mov R4,R5
+	fmov @R4+,FR3
+	fmul FR4,FR3
+	fmov @R4+,FR2
+	mov #4,R0
+	fmul FR4,FR2
+	fmov FR3,@R5
+	fmov @R4+,FR1
+	fmov FR2,@(R0,R5)
+	fmul FR4,FR1
+	fmov @R4+,FR3
+	mov #8,R0
+	fmul FR4,FR3
+	fmov FR1,@(R0,R5)
+	fmov @R4+,FR2
+	mov #12,R0
+	fmul FR5,FR2
+	fmov FR3,@(R0,R5)
+	fmov @R4+,FR1
+	mov #16,R0
+	fmul FR5,FR1
+	fmov FR2,@(R0,R5)
+	fmov @R4+,FR3
+	mov #20,R0
+	fmul FR5,FR3
+	fmov FR1,@(R0,R5)
+	fmov @R4+,FR2
+	mov #24,R0
+	fmul FR5,FR2
+	fmov FR3,@(R0,R5)
+	fmov @R4+,FR1
+	mov #28,R0
+	fmul FR6,FR1
+	fmov FR2,@(R0,R5)
+	fmov @R4+,FR3
+	mov #32,R0
+	fmul FR6,FR3
+	fmov FR1,@(R0,R5)
+	fmov @R4+,FR2
+	mov #36,R0
+	fmul FR6,FR2
+	fmov FR3,@(R0,R5)
+	fmov @R4,FR1
+	mov #40,R0
+	fmul FR6,FR1
+	fmov FR2,@(R0,R5)
+	rts
+	fmov FR1,@R4
+	rts
+	nop

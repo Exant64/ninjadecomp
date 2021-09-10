@@ -1,0 +1,29 @@
+	.IMPORT __nj_view_
+	.EXPORT _njTranslateViewVAbsolute
+	.SECTION PSG,CODE,ALIGN=4
+_njTranslateViewVAbsolute:
+	fmov @R5+,FR0
+	tst R4,R4
+	bf/s lbl_0000000C
+	fmov @R5+,FR1
+	mov.l lbl_00000028,R2
+	mov.l @R2,R4
+lbl_0000000C:
+	mov R4,R3
+	add #92,R4
+	fmov @R4+,FR4
+	fmov @R5+,FR2
+	fadd FR0,FR4
+	fmov @R4+,FR5
+	fadd FR1,FR5
+	fmov @R4+,FR6
+	add #76,R3
+	fadd FR2,FR6
+	fmov FR6,@-R3
+	fmov FR5,@-R3
+	rts
+	fmov FR4,@-R3
+lbl_00000028:
+	.data.l __nj_view_
+	rts
+	nop

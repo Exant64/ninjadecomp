@@ -1,0 +1,19 @@
+	.EXPORT _njAddVector
+	.SECTION PSG,CODE,ALIGN=4
+_njAddVector:
+	fmov @R4+,FR4
+	fmov @R5+,FR1
+	fmov @R4+,FR5
+	fadd FR4,FR1
+	fmov @R5+,FR2
+	fmov @R4,FR6
+	fadd FR5,FR2
+	fmov @R5,FR3
+	fadd FR6,FR3
+	fmov FR3,@R4
+	fmov FR2,@-R4
+	rts
+	fmov FR1,@-R4
+	nop
+	rts
+	nop

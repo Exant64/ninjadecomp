@@ -1,0 +1,94 @@
+	.IMPORT _njUnitVector
+	.IMPORT _njUnitMatrix
+	.IMPORT _njCalcVector
+	.IMPORT _njRotate
+	.IMPORT __nj_camera_matrix_
+	.EXPORT _njRollCameraInterest
+	.SECTION PSG,CODE,ALIGN=4
+_njRollCameraInterest:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov R4,R14
+	mov.l R12,@-R15
+	mov R5,R13
+	sts.l PR,@-R15
+	mov.l lbl_00000094,R12
+	add #-12,R15
+	mov.l @(24,R14),R2
+	add R5,R2
+	mov.l lbl_00000098,R3
+	mov R12,R4
+	jsr @R3
+	mov.l R2,@(24,R14)
+	mov R15,R5
+	mov #20,R0
+	add #12,R15
+	fmov @(R0,R14),FR3
+	fmov FR3,@-R15
+	mov #16,R0
+	fmov @(R0,R14),FR2
+	fmov FR2,@-R15
+	mov #12,R0
+	fmov @(R0,R14),FR3
+	fmov FR3,@-R15
+	mov.l lbl_0000009C,R3
+	mov R12,R4
+	jsr @R3
+	mov R13,R6
+	mov R15,R5
+	mov R14,R6
+	add #40,R6
+	fmov @R6+,FR3
+	fmov FR3,@R5
+	mov #4,R0
+	fmov @R6+,FR2
+	fmov FR2,@(R0,R5)
+	mov #8,R0
+	fmov @R6+,FR3
+	fmov FR3,@(R0,R5)
+	mov.l lbl_000000A0,R3
+	mov R12,R4
+	jsr @R3
+	add #-12,R6
+	mov.l lbl_000000A4,R3
+	mov R14,R4
+	jsr @R3
+	add #40,R4
+	mov R15,R5
+	mov R14,R6
+	add #52,R6
+	fmov @R6+,FR3
+	fmov FR3,@R5
+	mov #4,R0
+	fmov @R6+,FR2
+	fmov FR2,@(R0,R5)
+	mov #8,R0
+	fmov @R6+,FR3
+	fmov FR3,@(R0,R5)
+	mov.l lbl_000000A0,R3
+	mov R12,R4
+	jsr @R3
+	add #-12,R6
+	mov.l lbl_000000A4,R3
+	mov R14,R4
+	jsr @R3
+	add #52,R4
+	add #12,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+	.data.w h'0000
+lbl_00000094:
+	.data.l __nj_camera_matrix_
+lbl_00000098:
+	.data.l _njUnitMatrix
+lbl_0000009C:
+	.data.l _njRotate
+lbl_000000A0:
+	.data.l _njCalcVector
+lbl_000000A4:
+	.data.l _njUnitVector
+	rts
+	nop

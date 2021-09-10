@@ -1,0 +1,35 @@
+	.EXPORT _njSetCameraDepth
+	.SECTION PSG,CODE,ALIGN=4
+_njSetCameraDepth:
+	mova lbl_0000002C,R0
+	fmov @R0,FR7
+	fcmp/gt FR7,FR4
+	bf lbl_0000000A
+	fmov FR7,FR4
+lbl_0000000A:
+	mova lbl_00000030,R0
+	fmov @R0,FR6
+	fcmp/gt FR4,FR6
+	bf lbl_00000014
+	fmov FR6,FR4
+lbl_00000014:
+	fcmp/gt FR7,FR5
+	bf lbl_0000001A
+	fmov FR7,FR5
+lbl_0000001A:
+	fcmp/gt FR5,FR6
+	bf/s lbl_00000022
+	mov #32,R0
+	fmov FR6,FR5
+lbl_00000022:
+	fmov FR4,@(R0,R4)
+	mov #36,R0
+	rts
+	fmov FR5,@(R0,R4)
+	.data.w h'0000
+lbl_0000002C:
+	.data.l h'BF800000
+lbl_00000030:
+	.data.l h'C77FFF00
+	rts
+	nop

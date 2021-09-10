@@ -1,0 +1,836 @@
+	.IMPORT _gdFsGetErrStat
+	.IMPORT _gdFsClose
+	.IMPORT _gdFsGetFileSize
+	.IMPORT _gdFsRead
+	.IMPORT _gdFsGetStat
+	.IMPORT __divls
+	.IMPORT __divlu
+	.IMPORT _gdFsSeek
+	.IMPORT __nj_texerr_
+	.IMPORT __nj_file_buffer
+	.IMPORT _njMemCopy
+	.IMPORT _gdFsOpen
+	.EXPORT __nj_sect_max_size_
+	.EXPORT __nj_buffer_read_flag_
+	.EXPORT _njTexFclose
+	.EXPORT __nj_file_ptr
+	.EXPORT _njTexFread
+	.EXPORT __nj_buffer_r_byte_size_
+	.EXPORT __nj_buffer_byte_ptr_
+	.EXPORT _njTexFseek
+	.EXPORT _njTexFopen
+	.EXPORT __nj_file_buffer_max_size
+	.EXPORT __nj_file_max_size_
+	.EXPORT __nj_file_buffer_st
+	.EXPORT __nj_buffer_sect_size_
+	.EXPORT __nj_file_sect_ptr_
+	.EXPORT __nj_file_byte_ptr_
+	.EXPORT _njTexFread2
+	.SECTION PSG,CODE,ALIGN=4
+_njTexFopen:
+	sts.l PR,@-R15
+	mov.l lbl_000000DC,R3
+	jsr @R3
+	mov #0,R5
+	mov.l lbl_000000E0,R2
+	tst R0,R0
+	bt/s lbl_0000001E
+	mov.l R0,@R2
+	mov.l lbl_000000E8,R2
+	mov.l lbl_000000E0,R3
+	mov.l lbl_000000E4,R5
+	jsr @R2
+	mov.l @R3,R4
+	tst R0,R0
+	bf lbl_0000002A
+lbl_0000001E:
+	mov.l lbl_000000EC,R1
+	mov #2,R2
+	mov.l R2,@R1
+	lds.l @R15+,PR
+	rts
+	mov #-2,R0
+lbl_0000002A:
+	mov.l lbl_000000E4,R1
+	mov #0,R4
+	mov.w lbl_000000DA,R3
+	mov.l @R1,R2
+	mov #-11,R1
+	mov.l lbl_000000F0,R0
+	add R3,R2
+	mov.l lbl_000000F4,R3
+	shad R1,R2
+	mov.l lbl_000000FC,R1
+	mov.l R2,@R0
+	mov R4,R0
+	mov.l lbl_000000F8,R2
+	mov.l R4,@R3
+	mov.l R4,@R2
+	mov.l lbl_00000100,R3
+	mov.l lbl_00000104,R2
+	mov.l R4,@R1
+	mov.l R4,@R3
+	mov.l R4,@R2
+	lds.l @R15+,PR
+	rts
+	nop
+_njTexFclose:
+	mov.l lbl_00000108,R2
+	mov.l lbl_000000E0,R3
+	jmp @R2
+	mov.l @R3,R4
+_njTexFread:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R11,@-R15
+	mov.l R10,@-R15
+	mov.l R9,@-R15
+	mov.l R8,@-R15
+	sts.l PR,@-R15
+	add #-16,R15
+	mov R5,R3
+	mov.l lbl_0000010C,R14
+	tst R3,R3
+	mov.l R4,@(8,R15)
+	bt/s lbl_000000D4
+	mov.l R5,@R15
+	mov.l lbl_000000F8,R12
+	mov.l lbl_000000E4,R1
+	mov.l @R15,R2
+	mov.l @R12,R4
+	mov.l @R1,R3
+	add R4,R2
+	cmp/hs R2,R3
+	bf lbl_000000D4
+	mov.l lbl_00000110,R10
+	mov R4,R1
+	mov.l lbl_00000114,R3
+	mov.l @R10,R5
+	jsr @R3
+	mov R5,R0
+	mov R0,R11
+	mov.l lbl_000000F4,R8
+	mul.l R11,R5
+	mov.l lbl_00000118,R2
+	mov R4,R9
+	mov.l lbl_00000114,R3
+	mov.l @R8,R1
+	sts MACL,R5
+	sub R5,R9
+	mov.l @R2,R5
+	jsr @R3
+	mov R5,R0
+	mov.l lbl_000000E0,R13
+	mov R0,R4
+	cmp/eq R4,R11
+	bf lbl_000000C2
+	mov.l lbl_00000100,R1
+	mov.l @R1,R3
+	tst R3,R3
+	bf lbl_0000014A
+lbl_000000C2:
+	mul.l R5,R11
+	mov.l lbl_0000011C,R3
+	mov #0,R6
+	sts MACL,R11
+	mov R11,R5
+	jsr @R3
+	mov.l @R13,R4
+	tst R0,R0
+	bt lbl_00000120
+lbl_000000D4:
+	mov #5,R3
+	bra lbl_00000246
+	mov.l R3,@(8,R14)
+lbl_000000DA:
+	.data.w h'07ff
+lbl_000000DC:
+	.data.l _gdFsOpen
+lbl_000000E0:
+	.data.l __nj_file_ptr
+lbl_000000E4:
+	.data.l __nj_file_max_size_
+lbl_000000E8:
+	.data.l _gdFsGetFileSize
+lbl_000000EC:
+	.data.l __nj_texerr_+8
+lbl_000000F0:
+	.data.l __nj_sect_max_size_
+lbl_000000F4:
+	.data.l __nj_file_sect_ptr_
+lbl_000000F8:
+	.data.l __nj_file_byte_ptr_
+lbl_000000FC:
+	.data.l __nj_buffer_byte_ptr_
+lbl_00000100:
+	.data.l __nj_buffer_r_byte_size_
+lbl_00000104:
+	.data.l __nj_buffer_read_flag_
+lbl_00000108:
+	.data.l _gdFsClose
+lbl_0000010C:
+	.data.l __nj_texerr_
+lbl_00000110:
+	.data.l __nj_file_buffer_max_size
+lbl_00000114:
+	.data.l __divls
+lbl_00000118:
+	.data.l __nj_buffer_sect_size_
+lbl_0000011C:
+	.data.l _gdFsSeek
+lbl_00000120:
+	mov.l lbl_00000340,R2
+	mov.l lbl_0000033C,R3
+	mov.l lbl_00000344,R1
+	mov.l @R2,R5
+	mov.l @R3,R6
+	jsr @R1
+	mov.l @R13,R4
+	tst R0,R0
+	bt lbl_00000148
+	mov.l lbl_00000348,R2
+	jsr @R2
+	mov.l @R13,R4
+	mov.l lbl_0000034C,R3
+	mov.l R0,@(12,R14)
+	jsr @R3
+	mov.l @R13,R4
+	mov #5,R2
+	mov.l R0,@(16,R14)
+	bra lbl_00000246
+	mov.l R2,@(8,R14)
+lbl_00000148:
+	mov.l R11,@R8
+lbl_0000014A:
+	mov.l lbl_00000350,R11
+	mov.l @R11,R3
+	cmp/eq R3,R9
+	bt lbl_00000154
+	mov.l R9,@R11
+lbl_00000154:
+	mov.l @R10,R2
+	mov.l @R11,R3
+	mov.l lbl_00000354,R1
+	sub R3,R2
+	mov R2,R6
+	mov.l R2,@R1
+	mov.l @R15,R3
+	cmp/hs R3,R6
+	bf lbl_00000190
+	mov.l lbl_0000033C,R0
+	mov.l @R11,R3
+	mov.l @R0,R5
+	mov.l @R15,R14
+	add R3,R5
+	mov.l lbl_00000358,R3
+	mov R14,R6
+	jsr @R3
+	mov.l @(8,R15),R4
+	mov.l @R11,R2
+	mov.l lbl_00000354,R1
+	add R14,R2
+	mov.l R2,@R11
+	mov.l @R12,R3
+	add R14,R3
+	mov.l R3,@R12
+	mov.l @R10,R2
+	mov.l @R11,R3
+	sub R3,R2
+	bra lbl_00000282
+	mov.l R2,@R1
+lbl_00000190:
+	tst R6,R6
+	bt/s lbl_000001B0
+	mov #0,R9
+	mov.l lbl_0000033C,R0
+	mov.l @R11,R3
+	mov.l @R0,R5
+	add R3,R5
+	mov.l lbl_00000358,R3
+	jsr @R3
+	mov.l @(8,R15),R4
+	mov.l lbl_00000354,R2
+	mov.l @R12,R1
+	mov.l @R2,R9
+	mov R9,R3
+	add R3,R1
+	mov.l R1,@R12
+lbl_000001B0:
+	mov.l @R15,R2
+	cmp/hi R9,R2
+	bf lbl_00000282
+lbl_000001B6:
+	mov.l lbl_00000340,R2
+	mov.l @R15,R5
+	mov.l @R2,R3
+	sub R9,R5
+	mov.l R3,@(12,R15)
+	mov.l @R10,R3
+	cmp/hi R3,R5
+	bf/s lbl_00000222
+	mov.l @R13,R4
+	mov.l lbl_0000035C,R3
+	mov R5,R1
+	jsr @R3
+	mov.l @R10,R0
+	mov.l lbl_00000344,R2
+	mov.l R0,@(4,R15)
+	mov.l @(4,R15),R3
+	mov.l @(12,R15),R1
+	mov.l @(8,R15),R6
+	mul.l R3,R1
+	add R9,R6
+	jsr @R2
+	sts MACL,R5
+	tst R0,R0
+	bt lbl_000001FC
+	mov.l lbl_00000348,R2
+	jsr @R2
+	mov.l @R13,R4
+	mov.l lbl_0000034C,R3
+	mov.l R0,@(12,R14)
+	jsr @R3
+	mov.l @R13,R4
+	mov #5,R2
+	mov.l R0,@(16,R14)
+	bra lbl_00000246
+	mov.l R2,@(8,R14)
+lbl_000001FC:
+	mov.l @R10,R2
+	mov.l @(4,R15),R3
+	mov.l lbl_00000340,R1
+	mul.l R3,R2
+	mov.l @R12,R2
+	sts MACL,R4
+	add R4,R2
+	mov.l R2,@R12
+	add R4,R9
+	mov.l @R1,R2
+	mov.l @(4,R15),R3
+	mov.l @R8,R0
+	mul.l R3,R2
+	sts MACL,R3
+	add R3,R0
+	mov #0,R3
+	mov.l R0,@R8
+	bra lbl_0000027C
+	mov.l R3,@R11
+lbl_00000222:
+	mov.l lbl_0000033C,R3
+	mov.l lbl_00000344,R1
+	mov.l R5,@(4,R15)
+	mov.l @R3,R6
+	jsr @R1
+	mov.l @(12,R15),R5
+	tst R0,R0
+	bt lbl_0000024A
+	mov.l lbl_00000348,R2
+	jsr @R2
+	mov.l @R13,R4
+	mov.l lbl_0000034C,R3
+	mov.l R0,@(12,R14)
+	jsr @R3
+	mov.l @R13,R4
+	mov #5,R2
+	mov.l R0,@(16,R14)
+	mov.l R2,@(8,R14)
+lbl_00000246:
+	bra lbl_00000284
+	mov #-1,R0
+lbl_0000024A:
+	mov.l lbl_0000033C,R3
+	mov.l @(8,R15),R4
+	mov.l lbl_00000358,R2
+	mov.l @(4,R15),R6
+	mov.l @R3,R5
+	jsr @R2
+	add R9,R4
+	mov.l @R12,R2
+	mov.l @(4,R15),R3
+	add R3,R2
+	mov.l R2,@R12
+	mov.l lbl_00000340,R2
+	mov.l @R8,R1
+	mov.l @R2,R3
+	add R3,R1
+	mov.l R1,@R8
+	mov.l @(4,R15),R0
+	mov R0,R3
+	mov.l R0,@R11
+	mov.l @R10,R1
+	mov.l lbl_00000354,R0
+	sub R3,R1
+	mov.l R1,@R0
+	mov.l @(4,R15),R3
+	add R3,R9
+lbl_0000027C:
+	mov.l @R15,R2
+	cmp/hi R9,R2
+	bt lbl_000001B6
+lbl_00000282:
+	mov #1,R0
+lbl_00000284:
+	add #16,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R8
+	mov.l @R15+,R9
+	mov.l @R15+,R10
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+_njTexFread2:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R11,@-R15
+	mov.l R10,@-R15
+	mov.l R9,@-R15
+	mov.l R8,@-R15
+	sts.l PR,@-R15
+	add #-16,R15
+	mov R5,R3
+	mov.l lbl_00000360,R14
+	tst R3,R3
+	mov.l R4,@(8,R15)
+	bt/s lbl_0000030C
+	mov.l R5,@R15
+	mov.l lbl_00000364,R13
+	mov.l lbl_00000368,R1
+	mov.l @R15,R2
+	mov.l @R13,R4
+	mov.l @R1,R3
+	add R4,R2
+	cmp/hs R2,R3
+	bf lbl_0000030C
+	mov.l lbl_0000036C,R9
+	mov R4,R1
+	mov.l lbl_00000370,R3
+	mov.l @R9,R5
+	jsr @R3
+	mov R5,R0
+	mov R0,R11
+	mov.l lbl_00000374,R8
+	mul.l R11,R5
+	mov.l lbl_00000340,R2
+	mov R4,R10
+	mov.l lbl_00000370,R3
+	mov.l @R8,R1
+	sts MACL,R5
+	sub R5,R10
+	mov.l @R2,R5
+	jsr @R3
+	mov R5,R0
+	mov.l lbl_00000378,R12
+	mov R0,R4
+	cmp/eq R4,R11
+	bf lbl_000002FA
+	mov.l lbl_00000354,R1
+	mov.l @R1,R3
+	tst R3,R3
+	bf lbl_00000382
+lbl_000002FA:
+	mul.l R5,R11
+	mov.l lbl_0000037C,R3
+	mov #0,R6
+	sts MACL,R11
+	mov R11,R5
+	jsr @R3
+	mov.l @R12,R4
+	tst R0,R0
+	bt lbl_00000312
+lbl_0000030C:
+	mov #5,R3
+	bra lbl_000004E8
+	mov.l R3,@(8,R14)
+lbl_00000312:
+	mov.l lbl_00000340,R2
+	mov.l lbl_0000033C,R3
+	mov.l lbl_00000344,R1
+	mov.l @R2,R5
+	mov.l @R3,R6
+	jsr @R1
+	mov.l @R12,R4
+	tst R0,R0
+	bt lbl_00000380
+	mov.l lbl_00000348,R2
+	jsr @R2
+	mov.l @R12,R4
+	mov.l lbl_0000034C,R3
+	mov.l R0,@(12,R14)
+	jsr @R3
+	mov.l @R12,R4
+	mov #5,R2
+	mov.l R0,@(16,R14)
+	bra lbl_000004E8
+	mov.l R2,@(8,R14)
+	.data.w h'0000
+lbl_0000033C:
+	.data.l __nj_file_buffer_st
+lbl_00000340:
+	.data.l __nj_buffer_sect_size_
+lbl_00000344:
+	.data.l _gdFsRead
+lbl_00000348:
+	.data.l _gdFsGetStat
+lbl_0000034C:
+	.data.l _gdFsGetErrStat
+lbl_00000350:
+	.data.l __nj_buffer_byte_ptr_
+lbl_00000354:
+	.data.l __nj_buffer_r_byte_size_
+lbl_00000358:
+	.data.l _njMemCopy
+lbl_0000035C:
+	.data.l __divlu
+lbl_00000360:
+	.data.l __nj_texerr_
+lbl_00000364:
+	.data.l __nj_file_byte_ptr_
+lbl_00000368:
+	.data.l __nj_file_max_size_
+lbl_0000036C:
+	.data.l __nj_file_buffer_max_size
+lbl_00000370:
+	.data.l __divls
+lbl_00000374:
+	.data.l __nj_file_sect_ptr_
+lbl_00000378:
+	.data.l __nj_file_ptr
+lbl_0000037C:
+	.data.l _gdFsSeek
+lbl_00000380:
+	mov.l R11,@R8
+lbl_00000382:
+	mov.l lbl_0000049C,R11
+	mov.l @R11,R3
+	cmp/eq R3,R10
+	bt lbl_0000038C
+	mov.l R10,@R11
+lbl_0000038C:
+	mov.l @R9,R2
+	mov.l @R11,R3
+	mov.l lbl_000004A0,R1
+	sub R3,R2
+	mov R2,R6
+	mov.l R2,@R1
+	mov.l @R15,R3
+	cmp/hs R3,R6
+	bf lbl_000003C8
+	mov.l lbl_000004A4,R0
+	mov.l @R11,R3
+	mov.l @R0,R5
+	mov.l @R15,R14
+	add R3,R5
+	mov.l lbl_000004A8,R3
+	mov R14,R6
+	jsr @R3
+	mov.l @(8,R15),R4
+	mov.l @R11,R2
+	mov.l lbl_000004A0,R1
+	add R14,R2
+	mov.l R2,@R11
+	mov.l @R13,R3
+	add R14,R3
+	mov.l R3,@R13
+	mov.l @R9,R2
+	mov.l @R11,R3
+	sub R3,R2
+	bra lbl_00000524
+	mov.l R2,@R1
+lbl_000003C8:
+	tst R6,R6
+	bt/s lbl_000003E8
+	mov #0,R10
+	mov.l lbl_000004A4,R0
+	mov.l @R11,R3
+	mov.l @R0,R5
+	add R3,R5
+	mov.l lbl_000004A8,R3
+	jsr @R3
+	mov.l @(8,R15),R4
+	mov.l lbl_000004A0,R2
+	mov.l @R13,R1
+	mov.l @R2,R10
+	mov R10,R3
+	add R3,R1
+	mov.l R1,@R13
+lbl_000003E8:
+	mov.l lbl_000004AC,R1
+	mov.l @R15,R4
+	mov.l @R1,R2
+	mov.l @R13,R3
+	sub R10,R4
+	sub R3,R2
+	cmp/hs R2,R4
+	bf lbl_00000428
+	mov.w lbl_0000049A,R14
+	mov.l @(8,R15),R6
+	add R4,R14
+	mov.l lbl_000004B0,R3
+	shlr8 R14
+	shlr2 R14
+	shlr R14
+	mov R14,R5
+	add R10,R6
+	jsr @R3
+	mov.l @R12,R4
+	mov R14,R4
+	shll8 R4
+	mov.l @R13,R2
+	shll2 R4
+	shll R4
+	add R4,R2
+	mov #0,R3
+	mov.l R2,@R13
+	mov R3,R2
+	mov.l R3,@R8
+	mov.l R3,@R11
+	bra lbl_00000524
+	nop
+lbl_00000428:
+	mov.l @R15,R0
+	cmp/hi R10,R0
+	bf lbl_00000524
+lbl_0000042E:
+	mov.l lbl_000004B4,R2
+	mov.l @R15,R5
+	mov.l @R2,R3
+	sub R10,R5
+	mov.l R3,@(12,R15)
+	mov.l @R9,R3
+	cmp/hi R3,R5
+	bf/s lbl_000004C4
+	mov.l @R12,R4
+	mov.l lbl_000004B8,R3
+	mov R5,R1
+	jsr @R3
+	mov.l @R9,R0
+	mov.l lbl_000004B0,R2
+	mov.l R0,@(4,R15)
+	mov.l @(4,R15),R3
+	mov.l @(12,R15),R1
+	mov.l @(8,R15),R6
+	mul.l R3,R1
+	add R10,R6
+	jsr @R2
+	sts MACL,R5
+	tst R0,R0
+	bt lbl_00000474
+	mov.l lbl_000004BC,R2
+	jsr @R2
+	mov.l @R12,R4
+	mov.l lbl_000004C0,R3
+	mov.l R0,@(12,R14)
+	jsr @R3
+	mov.l @R12,R4
+	mov #5,R2
+	mov.l R0,@(16,R14)
+	bra lbl_000004E8
+	mov.l R2,@(8,R14)
+lbl_00000474:
+	mov.l @R9,R2
+	mov.l @(4,R15),R3
+	mov.l lbl_000004B4,R1
+	mul.l R3,R2
+	mov.l @R13,R2
+	sts MACL,R4
+	add R4,R2
+	mov.l R2,@R13
+	add R4,R10
+	mov.l @R1,R2
+	mov.l @(4,R15),R3
+	mov.l @R8,R0
+	mul.l R3,R2
+	sts MACL,R3
+	add R3,R0
+	mov #0,R3
+	mov.l R0,@R8
+	bra lbl_0000051E
+	mov.l R3,@R11
+lbl_0000049A:
+	.data.w h'07ff
+lbl_0000049C:
+	.data.l __nj_buffer_byte_ptr_
+lbl_000004A0:
+	.data.l __nj_buffer_r_byte_size_
+lbl_000004A4:
+	.data.l __nj_file_buffer_st
+lbl_000004A8:
+	.data.l _njMemCopy
+lbl_000004AC:
+	.data.l __nj_file_max_size_
+lbl_000004B0:
+	.data.l _gdFsRead
+lbl_000004B4:
+	.data.l __nj_buffer_sect_size_
+lbl_000004B8:
+	.data.l __divlu
+lbl_000004BC:
+	.data.l _gdFsGetStat
+lbl_000004C0:
+	.data.l _gdFsGetErrStat
+lbl_000004C4:
+	mov.l lbl_00000568,R3
+	mov.l lbl_0000056C,R1
+	mov.l R5,@(4,R15)
+	mov.l @R3,R6
+	jsr @R1
+	mov.l @(12,R15),R5
+	tst R0,R0
+	bt lbl_000004EC
+	mov.l lbl_00000570,R2
+	jsr @R2
+	mov.l @R12,R4
+	mov.l lbl_00000574,R3
+	mov.l R0,@(12,R14)
+	jsr @R3
+	mov.l @R12,R4
+	mov #5,R2
+	mov.l R0,@(16,R14)
+	mov.l R2,@(8,R14)
+lbl_000004E8:
+	bra lbl_00000526
+	mov #-1,R0
+lbl_000004EC:
+	mov.l lbl_00000568,R3
+	mov.l @(8,R15),R4
+	mov.l lbl_00000578,R2
+	mov.l @(4,R15),R6
+	mov.l @R3,R5
+	jsr @R2
+	add R10,R4
+	mov.l @R13,R2
+	mov.l @(4,R15),R3
+	add R3,R2
+	mov.l R2,@R13
+	mov.l lbl_0000057C,R2
+	mov.l @R8,R1
+	mov.l @R2,R3
+	add R3,R1
+	mov.l R1,@R8
+	mov.l @(4,R15),R0
+	mov R0,R3
+	mov.l R0,@R11
+	mov.l @R9,R1
+	mov.l lbl_00000580,R0
+	sub R3,R1
+	mov.l R1,@R0
+	mov.l @(4,R15),R3
+	add R3,R10
+lbl_0000051E:
+	mov.l @R15,R2
+	cmp/hi R10,R2
+	bt lbl_0000042E
+lbl_00000524:
+	mov #1,R0
+lbl_00000526:
+	add #16,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R8
+	mov.l @R15+,R9
+	mov.l @R15+,R10
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+_njTexFseek:
+	mov R5,R0
+	mov.l lbl_00000584,R6
+	cmp/eq #1,R0
+	bt lbl_0000054E
+	cmp/eq #0,R0
+	bt lbl_00000556
+	cmp/eq #2,R0
+	bt lbl_0000055A
+	bra lbl_00000562
+	nop
+lbl_0000054E:
+	mov.l @R6,R3
+	add R4,R3
+	bra lbl_00000562
+	mov.l R3,@R6
+lbl_00000556:
+	bra lbl_00000562
+	mov.l R4,@R6
+lbl_0000055A:
+	mov.l lbl_00000588,R3
+	mov.l @R3,R2
+	sub R4,R2
+	mov.l R2,@R6
+lbl_00000562:
+	rts
+	nop
+	.data.w h'0000
+lbl_00000568:
+	.data.l __nj_file_buffer_st
+lbl_0000056C:
+	.data.l _gdFsRead
+lbl_00000570:
+	.data.l _gdFsGetStat
+lbl_00000574:
+	.data.l _gdFsGetErrStat
+lbl_00000578:
+	.data.l _njMemCopy
+lbl_0000057C:
+	.data.l __nj_buffer_sect_size_
+lbl_00000580:
+	.data.l __nj_buffer_r_byte_size_
+lbl_00000584:
+	.data.l __nj_file_byte_ptr_
+lbl_00000588:
+	.data.l __nj_file_max_size_
+	.SECTION DSG,DATA,ALIGN=4
+__nj_file_buffer_st:
+	.data.l __nj_file_buffer
+__nj_file_buffer_max_size:
+	.data.b h'0000
+	.data.b h'0008
+	.data.b h'0000
+	.data.b h'0000
+__nj_buffer_sect_size_:
+	.data.b h'0001
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+__nj_file_sect_ptr_:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+__nj_sect_max_size_:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+__nj_file_max_size_:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+__nj_file_byte_ptr_:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+__nj_buffer_byte_ptr_:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+__nj_buffer_r_byte_size_:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+__nj_buffer_read_flag_:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.SECTION BSG,DATA,ALIGN=4
+__nj_file_ptr:
+	.res.b h'4

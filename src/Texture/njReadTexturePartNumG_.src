@@ -1,0 +1,47 @@
+	.IMPORT __nj_texmemsize
+	.IMPORT __nj_texmemlist
+	.IMPORT _njReadTexturePartLN
+	.IMPORT _njSearchTexList
+	.EXPORT _njReadTexturePartNumG
+	.SECTION PSG,CODE,ALIGN=4
+_njReadTexturePartNumG:
+	sts.l PR,@-R15
+	add #-16,R15
+	mov.l lbl_00000040,R3
+	mov.l lbl_00000048,R1
+	mov.l lbl_00000044,R2
+	mov.l R4,@R15
+	mov.l R5,@(12,R15)
+	mov.l R6,@(8,R15)
+	mov.l R7,@(4,R15)
+	mov.l @R3,R5
+	mov.l @R15,R6
+	jsr @R1
+	mov.l @R2,R4
+	mov.l lbl_00000044,R1
+	mov.l R0,@R15
+	mov.l @R15,R4
+	mov.l @R1,R2
+	mov R4,R3
+	shll2 R4
+	shll2 R4
+	mov.l @(12,R15),R5
+	add R3,R4
+	mov.l @(4,R15),R7
+	mov.l lbl_0000004C,R3
+	shll2 R4
+	mov.l @(8,R15),R6
+	jsr @R3
+	add R2,R4
+	add #16,R15
+	lds.l @R15+,PR
+	rts
+	nop
+lbl_00000040:
+	.data.l __nj_texmemsize
+lbl_00000044:
+	.data.l __nj_texmemlist
+lbl_00000048:
+	.data.l _njSearchTexList
+lbl_0000004C:
+	.data.l _njReadTexturePartLN

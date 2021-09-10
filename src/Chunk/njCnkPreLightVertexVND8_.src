@@ -1,0 +1,33 @@
+	.EXPORT _njCnkPreLightVertexVND8
+	.SECTION PSG,CODE,ALIGN=4
+_njCnkPreLightVertexVND8:
+	fmov @R4+,FR4
+	fmov @R4+,FR5
+	fmov @R4+,FR6
+	fldi1 FR7
+	ftrv XMTRX,FV4
+	fmov @R4+,FR8
+	fmov @R4+,FR9
+	fmov @R4+,FR10
+	add #32,R4
+	fldi0 FR11
+	pref @R4
+	ftrv XMTRX,FV8
+	add #-28,R4
+	ocbi @R6
+	add #32,R6
+	fschg
+	add #32,R7
+	fmov FR10,@-R7
+	dt R5
+	fmov FR8,@-R7
+	fmov FR6,@-R7
+	fmov FR4,@-R7
+	pref @R7
+	fschg
+	bf/s _njCnkPreLightVertexVND8
+	add #32,R7
+	rts
+	nop
+	rts
+	nop

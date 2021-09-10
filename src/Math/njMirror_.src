@@ -1,0 +1,78 @@
+	.IMPORT _njMultiMatrix
+	.EXPORT _njMirror
+	.SECTION PSG,CODE,ALIGN=4
+_njMirror:
+	sts.l PR,@-R15
+	mov R15,R6
+	add #-64,R15
+	fmov @R5+,FR0
+	fmov @R5+,FR1
+	fmov @R5+,FR2
+	fmov @R5+,FR3
+	fmov @R5+,FR4
+	fmov @R5+,FR5
+	fmul FR3,FR0
+	mov R6,R5
+	fldi1 FR9
+	fmul FR4,FR1
+	fldi1 FR10
+	fmul FR5,FR2
+	fmov FR3,FR6
+	fadd FR9,FR10
+	fmov FR4,FR7
+	fadd FR0,FR2
+	fmov FR5,FR8
+	fadd FR1,FR2
+	fmul FR10,FR2
+	fmov FR9,@-R5
+	fmul FR2,FR8
+	fneg FR10
+	fmov FR5,FR11
+	fmul FR2,FR7
+	fmov FR8,@-R5
+	fmul FR2,FR6
+	fmov FR7,@-R5
+	fmov FR6,@-R5
+	fldi0 FR7
+	fmov FR7,@-R5
+	fmul FR11,FR11
+	fmul FR10,FR11
+	fmov FR4,FR8
+	fadd FR9,FR11
+	fmov FR11,@-R5
+	fmul FR5,FR8
+	fmov FR3,FR6
+	fmul FR10,FR8
+	fmov FR8,@-R5
+	fmul FR5,FR6
+	fmov FR4,FR0
+	fmul FR10,FR6
+	fmov FR6,@-R5
+	fmov FR7,@-R5
+	fmul FR0,FR0
+	fmov FR8,@-R5
+	fmul FR10,FR0
+	fadd FR9,FR0
+	fmov FR0,@-R5
+	fmul FR3,FR4
+	fmul FR10,FR4
+	fmov FR4,@-R5
+	fmov FR7,@-R5
+	fmul FR3,FR3
+	fmov FR6,@-R5
+	fmov FR4,@-R5
+	fmul FR10,FR3
+	mov.l lbl_0000008C,R3
+	fadd FR9,FR3
+	fmov FR3,@-R5
+	jsr @R3
+	nop
+	add #64,R15
+	lds.l @R15+,PR
+	rts
+	nop
+	.data.w h'0000
+lbl_0000008C:
+	.data.l _njMultiMatrix
+	rts
+	nop

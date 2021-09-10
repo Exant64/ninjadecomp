@@ -1,0 +1,28 @@
+	.IMPORT _toupper
+	.EXPORT _strupr
+	.SECTION PSG,CODE,ALIGN=4
+_strupr:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	sts.l PR,@-R15
+	mov.l lbl_00000028,R13
+	bra lbl_00000014
+	mov R4,R14
+lbl_0000000C:
+	jsr @R13
+	mov.b @R14,R4
+	mov.b R0,@R14
+	add #1,R14
+lbl_00000014:
+	mov.b @R14,R2
+	tst R2,R2
+	bf lbl_0000000C
+	mov #0,R3
+	mov.b R3,@R14
+	lds.l @R15+,PR
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+	.data.w h'0000
+lbl_00000028:
+	.data.l _toupper

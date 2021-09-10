@@ -1,0 +1,12 @@
+	.IMPORT __nj_screen_
+	.EXPORT _njSetScreenDist
+	.SECTION PSG,CODE,ALIGN=4
+_njSetScreenDist:
+	mov.l lbl_00000008,R2
+	rts
+	fmov FR4,@R2
+	.data.w h'0000
+lbl_00000008:
+	.data.l __nj_screen_
+	rts
+	nop

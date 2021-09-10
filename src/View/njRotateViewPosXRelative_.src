@@ -1,0 +1,33 @@
+	.IMPORT __nj_view_
+	.EXPORT _njRotateViewPosXRelative
+	.SECTION PSG,CODE,ALIGN=4
+_njRotateViewPosXRelative:
+	tst R4,R4
+	lds R5,FPUL
+	mov.l lbl_00000028,R0
+	bf/s lbl_0000000E
+	fsca FPUL,DR0
+	mov.l lbl_0000002C,R2
+	mov.l @R2,R4
+lbl_0000000E:
+	fmov @(R0,R4),FR2
+	mov.l lbl_00000030,R0
+	fmov @(R0,R4),FR3
+	fmov FR3,FR4
+	fmul FR1,FR4
+	fmac FR0,FR2,FR4
+	fmov FR4,@(R0,R4)
+	fmul FR1,FR2
+	fneg FR0
+	fmac FR0,FR3,FR2
+	mov.l lbl_00000028,R0
+	rts
+	fmov FR2,@(R0,R4)
+lbl_00000028:
+	.data.l h'00000044
+lbl_0000002C:
+	.data.l __nj_view_
+lbl_00000030:
+	.data.l h'00000048
+	rts
+	nop

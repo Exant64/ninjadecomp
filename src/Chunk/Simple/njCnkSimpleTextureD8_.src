@@ -1,0 +1,239 @@
+	.IMPORT __nj_control_3d_flag_
+	.IMPORT __nj_calc_polygon_
+	.IMPORT __nj_draw_polygon_
+	.EXPORT _njCnkSimpleTextureD8
+	.SECTION PSG,CODE,ALIGN=4
+_njCnkSimpleTextureD8:
+	mov.l R8,@-R15
+	mov.l R9,@-R15
+	mov.l R10,@-R15
+	mov.l R11,@-R15
+	mov.l R12,@-R15
+	mov.l R13,@-R15
+	mov.l R14,@-R15
+	fmov FR12,@-R15
+	fmov FR13,@-R15
+	fmov FR14,@-R15
+	fmov FR15,@-R15
+	sts.l PR,@-R15
+	add #-4,R15
+	mov.l lbl_000001B8,R0
+	mov.l @R0,R0
+	mov.l R0,@R15
+	mov.l lbl_000001A4,R0
+	mov R4,R2
+	add #6,R2
+	pref @R2
+	mov R6,R1
+	and R0,R1
+	mov #-14,R2
+	shld R2,R6
+	mov #3,R3
+	mov #0,R2
+	and R3,R6
+	fldi1 FR9
+	mov #0,R3
+	shll R6
+	mov.l lbl_000001A8,R13
+	mov.l lbl_000001AC,R14
+	fschg
+lbl_00000042:
+	mov #5,R0
+	mov.w @R4+,R8
+	mov.w @R4+,R9
+	shld R0,R9
+	mov.l @R15,R0
+	shll R0
+	fldi1 FR9
+	bf lbl_00000054
+	fneg FR9
+lbl_00000054:
+	add R5,R9
+	cmp/pz R8
+	pref @R9
+	bt lbl_00000060
+	neg R8,R8
+	fneg FR9
+lbl_00000060:
+	add R8,R3
+	add #-2,R8
+	mov #0,R12
+	mov.w @R4+,R0
+	lds R0,FPUL
+	mov.w @R4+,R0
+	float FPUL,FR10
+	lds R0,FPUL
+	mov #5,R0
+	float FPUL,FR11
+	mov.w @R4+,R10
+	shld R0,R10
+	fmul FR4,FR10
+	add R5,R10
+	fmul FR4,FR11
+	pref @R10
+	mov.w @R4+,R0
+	lds R0,FPUL
+	mov.w @R4+,R0
+	float FPUL,FR12
+	lds R0,FPUL
+	float FPUL,FR13
+	fmul FR4,FR12
+	fmul FR4,FR13
+lbl_00000090:
+	mov.w @R4+,R11
+	fschg
+	mov.w @R4+,R0
+	add #4,R9
+	lds R0,FPUL
+	add #4,R10
+	mov.w @R4+,R0
+	float FPUL,FR14
+	lds R0,FPUL
+	mov #5,R0
+	fmov @R9+,FR0
+	shld R0,R11
+	fmov @R9+,FR6
+	float FPUL,FR15
+	fmov @R10+,FR1
+	add R5,R11
+	fmov @R10+,FR7
+	fmul FR4,FR14
+	pref @R11
+	fmul FR4,FR15
+	add #-12,R9
+	fsub FR1,FR0
+	add #-12,R10
+	fsub FR7,FR6
+	add #4,R11
+	fmov @R11+,FR2
+	add #20,R4
+	fmov @R11+,FR8
+	add #-12,R11
+	fsub FR1,FR2
+	fsub FR7,FR8
+	pref @R4
+	fmul FR0,FR8
+	fmul FR2,FR6
+	fldi0 FR7
+	fsub FR8,FR6
+	add #-20,R4
+	fmul FR9,FR6
+	fschg
+	fcmp/gt FR6,FR7
+	fneg FR9
+	bf/s lbl_0000011E
+	tst R12,R12
+	bf lbl_00000102
+	fmov @R9+,FR0
+	add #1,R12
+	fmov @R9+,FR2
+	add #32,R7
+	fmov @R9+,FR6
+	add #-24,R9
+	fmov FR6,@-R7
+	fmov FR10,@-R7
+	fmov FR2,@-R7
+	fmov FR0,@-R7
+	mov.l R13,@R7
+	pref @R7
+	add #32,R7
+lbl_00000102:
+	fmov @R10+,FR0
+	add #1,R12
+	fmov @R10+,FR2
+	add #32,R7
+	fmov @R10+,FR6
+	add #-24,R10
+	fmov FR6,@-R7
+	fmov FR12,@-R7
+	fmov FR2,@-R7
+	fmov FR0,@-R7
+	mov.l R13,@R7
+	pref @R7
+	bra lbl_0000013E
+	add #32,R7
+lbl_0000011E:
+	bt lbl_0000013E
+	fmov @R10+,FR0
+	add #1,R12
+	fmov @R10+,FR2
+	add #32,R7
+	fmov @R10+,FR6
+	add #-24,R10
+	fmov FR6,@-R7
+	fmov FR12,@-R7
+	add R12,R2
+	fmov FR2,@-R7
+	mov #0,R12
+	fmov FR0,@-R7
+	mov.l R14,@R7
+	pref @R7
+	add #32,R7
+lbl_0000013E:
+	mov R10,R9
+	add R6,R4
+	mov R11,R10
+	dt R8
+	fmov FR12,FR10
+	bf/s lbl_00000090
+	fmov FR14,FR12
+	tst R12,R12
+	bt lbl_0000016C
+	fmov @R11+,FR0
+	add R12,R2
+	fmov @R11+,FR2
+	add #32,R7
+	fmov @R11+,FR6
+	add #-24,R11
+	fmov FR6,@-R7
+	fmov FR14,@-R7
+	fmov FR2,@-R7
+	add #1,R2
+	fmov FR0,@-R7
+	mov.l R14,@R7
+	pref @R7
+	add #32,R7
+lbl_0000016C:
+	dt R1
+	bt lbl_00000174
+	bra lbl_00000042
+	nop
+lbl_00000174:
+	fschg
+	mov.l lbl_000001B0,R4
+	mov R7,R0
+	mov.l lbl_000001B4,R5
+	mov.l @R4,R6
+	mov.l @R5,R7
+	add R2,R6
+	add R3,R7
+	mov.l R6,@R4
+	mov.l R7,@R5
+	add #4,R15
+	lds.l @R15+,PR
+	fmov @R15+,FR15
+	fmov @R15+,FR14
+	fmov @R15+,FR13
+	fmov @R15+,FR12
+	mov.l @R15+,R14
+	mov.l @R15+,R13
+	mov.l @R15+,R12
+	mov.l @R15+,R11
+	mov.l @R15+,R10
+	mov.l @R15+,R9
+	rts
+	mov.l @R15+,R8
+lbl_000001A4:
+	.data.l h'00003FFF
+lbl_000001A8:
+	.data.l h'E0000000
+lbl_000001AC:
+	.data.l h'F0000000
+lbl_000001B0:
+	.data.l __nj_draw_polygon_
+lbl_000001B4:
+	.data.l __nj_calc_polygon_
+lbl_000001B8:
+	.data.l __nj_control_3d_flag_
+	rts
+	nop

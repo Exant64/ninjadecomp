@@ -1,0 +1,30 @@
+	.EXPORT _memcpy4
+	.EXPORT _memcpy8
+	.SECTION PSG,CODE,ALIGN=4
+_memcpy8:
+	mov R4,R0
+	or R5,R0
+	or R6,R0
+	tst #7,R0
+	bf _memcpy4
+	fschg
+	shlr2 R6
+	shlr R6
+lbl_00000010:
+	fmov @R5+,FR0
+	dt R6
+	fmov FR0,@R4
+	bf/s lbl_00000010
+	add #8,R4
+	rts
+	fschg
+_memcpy4:
+	shlr2 R6
+lbl_00000020:
+	mov.l @R5+,R0
+	dt R6
+	mov.l R0,@R4
+	bf/s lbl_00000020
+	add #4,R4
+	rts
+	nop

@@ -1,0 +1,279 @@
+	.IMPORT __nj_depth_far_
+	.IMPORT __nj_cnk_simple_multilight_buffer_mdst_
+	.IMPORT __nj_depth_range_
+	.IMPORT __nj_depth_near_
+	.EXPORT _njCnkSimpleMultiVertexVNNFDepthQueue
+	.SECTION PSG,CODE,ALIGN=4
+_njCnkSimpleMultiVertexVNNFDepthQueue:
+	fmov FR15,@-R15
+	fmov FR14,@-R15
+	fmov FR13,@-R15
+	fmov FR12,@-R15
+	mov.l R11,@-R15
+	mov.l R10,@-R15
+	mov.l R9,@-R15
+	mov.l R8,@-R15
+	mov.l @R4+,R3
+	mov.l @R4+,R7
+	mov.l @R4+,R6
+	add #4,R4
+	mova lbl_000001F0,R0
+	shlr8 R5
+	mov #0,R8
+	extu.b R5,R5
+	mov R0,R11
+lbl_00000022:
+	fmov @R7+,FR12
+	fmov @R7+,FR13
+	fmov @R7+,FR14
+	fldi1 FR15
+	ftrv XMTRX,FV12
+	fmov @R7+,FR8
+	fmov @R7+,FR9
+	fmov @R7+,FR10
+	fldi0 FR11
+	mov.l @R7+,R9
+	ftrv XMTRX,FV8
+	exts.w R9,R10
+	shlr16 R9
+	shll2 R10
+	lds R9,FPUL
+	shll2 R10
+	float FPUL,FR0
+	shll2 R10
+	add R6,R10
+	fmov @R11,FR1
+	pref @R10
+	mov R5,R0
+	fmul FR1,FR0
+	cmp/eq #0,R0
+	bf lbl_00000072
+	fmul FR0,FR10
+	fschg
+	fmul FR0,FR9
+	add #32,R10
+	fmul FR0,FR8
+	fmov FR10,@-R10
+	fmul FR0,FR14
+	fmov FR8,@-R10
+	fmul FR0,FR13
+	fmov FR14,@-R10
+	fmul FR0,FR12
+	dt R3
+	fmov FR12,@-R10
+	bra lbl_000001D4
+	fschg
+lbl_00000072:
+	cmp/eq #1,R0
+	bf lbl_0000009C
+	fschg
+	fmov @R10+,FR4
+	fmov @R10+,FR6
+	fmac FR0,FR12,FR4
+	fmac FR0,FR13,FR5
+	fmac FR0,FR14,FR6
+	fmov FR6,@-R10
+	fmov FR4,@-R10
+	add #16,R10
+	fmov @R10+,FR4
+	fmov @R10+,FR6
+	fmac FR0,FR8,FR4
+	fmac FR0,FR9,FR5
+	fmac FR0,FR10,FR6
+	fmov FR6,@-R10
+	dt R3
+	fmov FR4,@-R10
+	bra lbl_000001D4
+	fschg
+lbl_0000009C:
+	fmov @R10+,FR4
+	fmac FR0,FR12,FR4
+	fmov FR4,FR12
+	fmov @R10+,FR4
+	fmac FR0,FR13,FR4
+	fmov FR4,FR13
+	fmov @R10+,FR4
+	fmac FR0,FR14,FR4
+	fmov FR4,FR14
+	add #4,R10
+	fmov @R10+,FR4
+	fmac FR0,FR8,FR4
+	fmov FR4,FR8
+	fmov @R10+,FR4
+	fmac FR0,FR9,FR4
+	fmov FR4,FR9
+	fmov @R10+,FR4
+	fmac FR0,FR10,FR4
+	fmov FR4,FR10
+	mov.l lbl_000000E0,R1
+	fldi0 FR1
+	mov.l @R1,R2
+	fldi0 FR2
+	add #16,R1
+	fldi0 FR3
+lbl_000000CE:
+	rotr R2
+lbl_000000D0:
+	pref @R1
+	bt/s lbl_000000E4
+	rotr R2
+	rotr R2
+	add #32,R1
+	bt lbl_00000168
+	bra lbl_000000D0
+	rotr R2
+lbl_000000E0:
+	.data.l __nj_cnk_simple_multilight_buffer_mdst_
+lbl_000000E4:
+	fmov @R1+,FR4
+	bt/s lbl_00000118
+	fmov @R1+,FR5
+	fmov @R1+,FR6
+	fldi0 FR11
+	fipr FV4,FV8
+	fldi0 FR7
+	fcmp/gt FR11,FR7
+	add #20,R1
+	bt/s lbl_00000100
+	rotr R2
+	bt lbl_00000168
+	bra lbl_000000D0
+	rotr R2
+lbl_00000100:
+	add #-12,R1
+	fmov FR11,FR0
+	fmov @R1+,FR4
+	fneg FR0
+	fmov @R1+,FR5
+	fmac FR0,FR4,FR1
+	fmov @R1+,FR6
+	fmac FR0,FR5,FR2
+	bt/s lbl_00000168
+	fmac FR0,FR6,FR3
+	bra lbl_000000D0
+	rotr R2
+lbl_00000118:
+	fsub FR12,FR4
+	fmov @R1+,FR6
+	fsub FR13,FR5
+	fldi0 FR7
+	fsub FR14,FR6
+	fldi0 FR11
+	fldi0 FR0
+	fipr FV4,FV8
+	fmov @R1+,FR15
+	fipr FV4,FV4
+	mov #0,R0
+	fcmp/gt FR0,FR11
+	fmov FR7,FR4
+	rotcl R0
+	fcmp/gt FR7,FR15
+	fsrra FR4
+	rotcl R0
+	cmp/eq #3,R0
+	bt/s lbl_0000014A
+	fmov @R1+,FR15
+	rotr R2
+	add #12,R1
+	bt lbl_00000168
+	bra lbl_000000D0
+	rotr R2
+lbl_0000014A:
+	fmul FR4,FR11
+	fcmp/gt FR15,FR7
+	fmul FR4,FR4
+	bf/s lbl_00000158
+	fmov @R1+,FR5
+	fmul FR15,FR11
+	fmul FR4,FR11
+lbl_00000158:
+	fmov FR11,FR0
+	rotr R2
+	fmov @R1+,FR4
+	fmac FR0,FR5,FR1
+	fmov @R1+,FR6
+	fmac FR0,FR4,FR2
+	bf/s lbl_000000CE
+	fmac FR0,FR6,FR3
+lbl_00000168:
+	mov.l lbl_000001F4,R9
+	fmov @R9+,FR4
+	fcmp/gt FR4,FR14
+	bf lbl_00000188
+	fmov @R9+,FR5
+	fcmp/gt FR14,FR5
+	bf lbl_00000184
+	fmov @R9,FR7
+	fmov FR14,FR5
+	fsub FR4,FR5
+	fldi1 FR15
+	fmul FR7,FR5
+	bra lbl_0000018A
+	fsub FR5,FR15
+lbl_00000184:
+	bra lbl_0000018A
+	fldi0 FR15
+lbl_00000188:
+	fldi1 FR15
+lbl_0000018A:
+	fldi1 FR0
+	add #4,R10
+	fcmp/gt FR14,FR0
+	fdiv FR14,FR0
+	fmov @R4+,FR4
+	fmov @R4+,FR5
+	fmov @R4+,FR6
+	movt R0
+	fmov @R4+,FR7
+	add #-16,R4
+	fmov FR3,@-R10
+	fmul FR13,FR5
+	fmov FR2,@-R10
+	fmul FR12,FR4
+	fldi1 FR11
+	fmov FR1,@-R10
+	fmul FR15,FR11
+	fmov FR11,@-R10
+	fmac FR0,FR5,FR7
+	fmov FR0,@-R10
+	fmac FR0,FR4,FR6
+	fmov FR7,@-R10
+	fsub FR11,FR3
+	fmov FR6,@-R10
+	fsub FR11,FR2
+	add R0,R8
+	fneg FR11
+	fmov FR14,@-R10
+	fschg
+	add #64,R10
+	fadd FR1,FR11
+	fmov FR2,@-R10
+	fmov FR10,@-R10
+	fmov FR8,@-R10
+	dt R3
+	fmov FR12,@-R10
+	fschg
+lbl_000001D4:
+	bt lbl_000001DA
+	bra lbl_00000022
+	nop
+lbl_000001DA:
+	mov R8,R0
+	mov.l @R15+,R8
+	mov.l @R15+,R9
+	mov.l @R15+,R10
+	mov.l @R15+,R11
+	fmov @R15+,FR12
+	fmov @R15+,FR13
+	fmov @R15+,FR14
+	rts
+	fmov @R15+,FR15
+	nop
+lbl_000001F0:
+	.data.l h'3B808080
+lbl_000001F4:
+	.data.l __nj_depth_near_
+	.data.l __nj_depth_far_
+	.data.l __nj_depth_range_
+	rts
+	nop

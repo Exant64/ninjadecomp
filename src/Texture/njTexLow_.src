@@ -1,0 +1,306 @@
+	.IMPORT _kmQueryFinishLastTextureDMA
+	.IMPORT _njCreateTextureSurface
+	.IMPORT _njTexMemCopy
+	.IMPORT _kmFreeTexture
+	.IMPORT __nj_texerr_
+	.IMPORT _njMemCopy
+	.IMPORT _kmLoadTexturePart
+	.IMPORT _njLoadTexturePart
+	.EXPORT _njLoadTexturePartLowOld
+	.EXPORT _njGetTexSurface
+	.EXPORT _njReleaseTextureLow
+	.EXPORT _njLoadTextureFinishDMA
+	.EXPORT _njReadTexturePartLow
+	.EXPORT _njLoadTexturePartLow
+	.EXPORT _njLoadPvrHeader
+	.EXPORT __nj_dummy_texsurface
+	.SECTION PSG,CODE,ALIGN=4
+_njLoadPvrHeader:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R11,@-R15
+	mov.l R10,@-R15
+	sts.l PR,@-R15
+	add #-4,R15
+	mov #-1,R3
+	mov.l lbl_00000184,R10
+	mov.l lbl_00000188,R12
+	mov R5,R11
+	mov.l R4,@R15
+	mov R6,R14
+	mov.l R3,@R11
+lbl_0000001C:
+	mov.l @R14+,R13
+	mov.l lbl_00000188,R1
+	mov R13,R0
+	cmp/eq R1,R0
+	bt lbl_00000030
+	mov.l lbl_0000018C,R1
+	cmp/eq R1,R0
+	bt lbl_0000003E
+	bra lbl_0000004C
+	nop
+lbl_00000030:
+	add #4,R14
+	mov R14,R5
+	mov #8,R6
+	jsr @R10
+	mov.l @R15,R4
+	bra lbl_00000050
+	add #8,R14
+lbl_0000003E:
+	mov.l @R14+,R4
+	mov.l @R14,R3
+	shlr2 R4
+	shll2 R4
+	mov.l R3,@R11
+	bra lbl_00000050
+	add R4,R14
+lbl_0000004C:
+	bra lbl_00000056
+	mov #0,R0
+lbl_00000050:
+	cmp/eq R12,R13
+	bf lbl_0000001C
+	mov R14,R0
+lbl_00000056:
+	add #4,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R10
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+_njGetTexSurface:
+	sts.l PR,@-R15
+	add #-12,R15
+	mov R4,R3
+	add #24,R3
+	mov.l R3,@(8,R15)
+	mov.w @(4,R5),R0
+	mov.l lbl_00000190,R3
+	extu.w R0,R0
+	mov.l R0,@R15
+	mov.w @(6,R5),R0
+	extu.w R0,R0
+	mov.l R0,@(4,R15)
+	mov R0,R6
+	mov.l @R5,R7
+	mov.l @R15,R5
+	jsr @R3
+	mov.l @(8,R15),R4
+	tst R0,R0
+	bt lbl_0000009A
+	mov.l lbl_00000194,R2
+	mov #6,R3
+	mov.l R3,@R2
+	add #12,R15
+	lds.l @R15+,PR
+	rts
+	mov #-1,R0
+lbl_0000009A:
+	mov #1,R0
+	add #12,R15
+	lds.l @R15+,PR
+	rts
+	nop
+_njLoadTexturePartLow:
+	sts.l PR,@-R15
+	add #-4,R15
+	mov.l lbl_00000198,R3
+	mov.l R4,@R15
+	jsr @R3
+	add #24,R4
+	tst R0,R0
+	bt lbl_000000C2
+	mov.l lbl_00000194,R2
+	mov #8,R3
+	mov.l R3,@R2
+	add #4,R15
+	lds.l @R15+,PR
+	rts
+	mov #-1,R0
+lbl_000000C2:
+	mov #1,R0
+	add #4,R15
+	lds.l @R15+,PR
+	rts
+	nop
+_njLoadTexturePartLowOld:
+	mov.l R14,@-R15
+	mov R4,R14
+	mov.l lbl_0000019C,R3
+	sts.l PR,@-R15
+	mov.l @(24,R14),R4
+	tst R4,R3
+	bf lbl_000000E0
+	mov.l lbl_000001A0,R1
+	tst R4,R1
+	bt lbl_000000F8
+lbl_000000E0:
+	mov.l @(52,R14),R2
+	mov.l lbl_000001A4,R3
+	add #-4,R2
+	mov.l lbl_000001A8,R4
+	mov.l R2,@R3
+	mov.l lbl_000001AC,R2
+	jsr @R2
+	nop
+	tst R0,R0
+	bf lbl_00000104
+	bra lbl_00000112
+	nop
+lbl_000000F8:
+	mov.l lbl_000001AC,R2
+	mov R14,R4
+	jsr @R2
+	add #24,R4
+	tst R0,R0
+	bt lbl_00000112
+lbl_00000104:
+	mov.l lbl_00000194,R3
+	mov #8,R2
+	mov #-1,R0
+	mov.l R2,@R3
+	lds.l @R15+,PR
+	rts
+	mov.l @R15+,R14
+lbl_00000112:
+	mov #1,R0
+	lds.l @R15+,PR
+	rts
+	mov.l @R15+,R14
+_njReadTexturePartLow:
+	sts.l PR,@-R15
+	add #-8,R15
+	tst R4,R4
+	mov.l R5,@R15
+	bf/s lbl_0000012E
+	mov.l R7,@(4,R15)
+	add #8,R15
+	lds.l @R15+,PR
+	rts
+	mov #-1,R0
+lbl_0000012E:
+	mov.l @(52,R4),R5
+	mov.l lbl_000001B0,R3
+	mov.l lbl_000001B4,R2
+	or R3,R5
+	add R6,R5
+	mov.l @(4,R15),R6
+	jsr @R2
+	mov.l @R15,R4
+	mov #1,R0
+	add #8,R15
+	lds.l @R15+,PR
+	rts
+	nop
+_njReleaseTextureLow:
+	sts.l PR,@-R15
+	add #-4,R15
+	mov.l lbl_000001B8,R3
+	mov.l R4,@R15
+	jsr @R3
+	add #24,R4
+	tst R0,R0
+	bt lbl_00000160
+	add #4,R15
+	lds.l @R15+,PR
+	rts
+	mov #-1,R0
+lbl_00000160:
+	mov #1,R0
+	add #4,R15
+	lds.l @R15+,PR
+	rts
+	nop
+_njLoadTextureFinishDMA:
+	sts.l PR,@-R15
+	mov.l lbl_000001BC,R3
+	jsr @R3
+	nop
+	tst R0,R0
+	bf lbl_0000017C
+	lds.l @R15+,PR
+	rts
+	mov #1,R0
+lbl_0000017C:
+	mov #-1,R0
+	lds.l @R15+,PR
+	rts
+	nop
+lbl_00000184:
+	.data.l _njMemCopy
+lbl_00000188:
+	.data.l h'54525650
+lbl_0000018C:
+	.data.l h'58494247
+lbl_00000190:
+	.data.l _njCreateTextureSurface
+lbl_00000194:
+	.data.l __nj_texerr_+8
+lbl_00000198:
+	.data.l _njLoadTexturePart
+lbl_0000019C:
+	.data.l h'10000000
+lbl_000001A0:
+	.data.l h'11000000
+lbl_000001A4:
+	.data.l DSG_28
+lbl_000001A8:
+	.data.l __nj_dummy_texsurface
+lbl_000001AC:
+	.data.l _kmLoadTexturePart
+lbl_000001B0:
+	.data.l h'A4000000
+lbl_000001B4:
+	.data.l _njTexMemCopy
+lbl_000001B8:
+	.data.l _kmFreeTexture
+lbl_000001BC:
+	.data.l _kmQueryFinishLastTextureDMA
+	.SECTION DSG,DATA,ALIGN=4
+__nj_dummy_texsurface:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0004
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0004
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'00ac
+	.data.b h'00aa
+	.data.b h'002a
+	.data.b h'0000
+	.data.b h'0005
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+DSG_28:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000

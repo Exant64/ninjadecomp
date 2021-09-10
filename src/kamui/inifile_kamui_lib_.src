@@ -1,0 +1,87 @@
+	.IMPORT _strcmp
+	.EXPORT _kmiGetProfileInt
+	.SECTION PSG,CODE,ALIGN=32
+_kmiGetProfileInt:
+	sts.l PR,@-R15
+	add #-8,R15
+	mov.l R5,@R15
+	mov.l lbl_00000044,R3
+	mov.l lbl_00000040,R5
+	jsr @R3
+	mov.l R6,@(4,R15)
+	tst R0,R0
+	bf lbl_00000022
+	mov.l lbl_00000044,R3
+	mov.l lbl_00000048,R5
+	jsr @R3
+	mov.l @R15,R4
+	tst R0,R0
+	bf lbl_00000024
+	bra lbl_00000024
+	mov #0,R4
+lbl_00000022:
+	mov.l @(4,R15),R4
+lbl_00000024:
+	add #8,R15
+	lds.l @R15+,PR
+	rts
+	mov R4,R0
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_00000040:
+	.data.l CSG_0
+lbl_00000044:
+	.data.l _strcmp
+lbl_00000048:
+	.data.l CSG_12
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.SECTION CSG,DATA,ALIGN=4
+CSG_0:
+	.data.b h'0048
+	.data.b h'0041
+	.data.b h'0052
+	.data.b h'0044
+	.data.b h'0057
+	.data.b h'0041
+	.data.b h'0052
+	.data.b h'0045
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+CSG_12:
+	.data.b h'0045
+	.data.b h'006e
+	.data.b h'0061
+	.data.b h'0062
+	.data.b h'006c
+	.data.b h'0065
+	.data.b h'0054
+	.data.b h'0065
+	.data.b h'0078
+	.data.b h'0074
+	.data.b h'0075
+	.data.b h'0072
+	.data.b h'0065
+	.data.b h'0031
+	.data.b h'0036
+	.data.b h'004d
+	.data.b h'0042
+	.data.b h'0000

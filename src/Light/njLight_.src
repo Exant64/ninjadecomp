@@ -1,0 +1,194 @@
+	.IMPORT __nj_view_matrix_
+	.IMPORT __nj_light_control_
+	.IMPORT __nj_light_material_
+	.IMPORT _njCalcVector
+	.IMPORT _njMemCopy4
+	.IMPORT __nj_light_queue_
+	.IMPORT _njCalcPoint
+	.IMPORT _njMultiMatrix
+	.EXPORT _njCalcLightMatrices
+	.EXPORT _njSetLightSystem
+	.EXPORT _njSetLightMaterials
+	.EXPORT _njResetQueue
+	.SECTION PSG,CODE,ALIGN=4
+_njSetLightMaterials:
+	mov.l lbl_00000080,R4
+	mov.l lbl_00000084,R7
+	mova lbl_00000088,R0
+	fldi1 FR4
+	fmov @R0,FR3
+	mov #48,R1
+	mova lbl_0000008C,R0
+	add R4,R1
+	fmov @R0,FR5
+	fldi0 FR6
+	mov.w lbl_00000074,R0
+	fmov FR3,@R1
+	fmov FR5,@-R1
+	fmov FR5,@-R1
+	fmov FR5,@-R1
+	fmov FR4,@-R1
+	fmov FR5,@-R1
+	fmov FR5,@-R1
+	fmov FR5,@-R1
+	fmov FR4,@-R1
+	fmov FR6,@-R1
+	fmov FR6,@-R1
+	fmov FR6,@-R1
+	fmov FR4,@-R1
+	mov.l @(R0,R7),R5
+	mov.l lbl_00000090,R6
+	tst R5,R5
+	bt/s lbl_0000006E
+	mov R5,R4
+	shll2 R4
+	add R4,R7
+	mov.w lbl_00000076,R3
+	mov.w lbl_00000078,R2
+lbl_00000042:
+	add #-4,R7
+	mov.l @R7,R4
+	mov.w lbl_0000007A,R0
+	shll2 R4
+	add R6,R4
+	mov.l @R4,R4
+	mov.l @(R0,R4),R1
+	mov.w lbl_0000007C,R0
+	cmp/eq R3,R1
+	bt lbl_0000005A
+	cmp/eq R2,R1
+	bf lbl_0000006A
+lbl_0000005A:
+	fmov @(R0,R4),FR3
+	add #-4,R0
+	fmov @(R0,R4),FR2
+	add #16,R0
+	fsub FR3,FR2
+	fmul FR2,FR2
+	fsrra FR2
+	fmov FR2,@(R0,R4)
+lbl_0000006A:
+	dt R5
+	bf lbl_00000042
+lbl_0000006E:
+	nop
+	rts
+	nop
+lbl_00000074:
+	.data.w h'0080
+lbl_00000076:
+	.data.w h'0088
+lbl_00000078:
+	.data.w h'00c8
+lbl_0000007A:
+	.data.w h'0124
+lbl_0000007C:
+	.data.w h'0074
+	.data.w h'0000
+lbl_00000080:
+	.data.l __nj_light_material_
+lbl_00000084:
+	.data.l __nj_light_queue_
+lbl_00000088:
+	.data.l h'40C00000
+lbl_0000008C:
+	.data.l h'3F000000
+lbl_00000090:
+	.data.l __nj_light_control_
+_njCalcLightMatrices:
+	mov.l lbl_0000010C,R2
+	mov.w lbl_00000104,R0
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R11,@-R15
+	mov.l @(R0,R2),R13
+	mov.l R10,@-R15
+	mov.l R8,@-R15
+	mov R13,R14
+	sts.l PR,@-R15
+	tst R13,R13
+	bt/s lbl_000000F4
+	shll2 R14
+	mov.l lbl_00000110,R11
+	mov.l lbl_00000114,R10
+	add R2,R14
+	mov.l lbl_00000118,R8
+lbl_000000B8:
+	add #-4,R14
+	mov #16,R6
+	mov.l @R14,R0
+	mov.l lbl_0000011C,R3
+	mov R11,R5
+	shll2 R0
+	mov.l @(R0,R10),R12
+	jsr @R3
+	mov R8,R4
+	mov.l lbl_00000120,R2
+	mov R12,R5
+	add #0,R5
+	jsr @R2
+	mov R8,R4
+	mov.w lbl_00000106,R6
+	mov.l lbl_00000124,R3
+	mov R12,R5
+	add R12,R6
+	add #64,R5
+	jsr @R3
+	mov R8,R4
+	mov.w lbl_00000108,R6
+	mov.l lbl_00000128,R2
+	mov R12,R5
+	add R12,R6
+	add #76,R5
+	jsr @R2
+	mov R8,R4
+	dt R13
+	bf lbl_000000B8
+lbl_000000F4:
+	lds.l @R15+,PR
+	mov.l @R15+,R8
+	mov.l @R15+,R10
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+lbl_00000104:
+	.data.w h'0080
+lbl_00000106:
+	.data.w h'0090
+lbl_00000108:
+	.data.w h'009c
+	.data.w h'0000
+lbl_0000010C:
+	.data.l __nj_light_queue_
+lbl_00000110:
+	.data.l __nj_view_matrix_
+lbl_00000114:
+	.data.l __nj_light_control_
+lbl_00000118:
+	.data.l BSG32_0
+lbl_0000011C:
+	.data.l _njMemCopy4
+lbl_00000120:
+	.data.l _njMultiMatrix
+lbl_00000124:
+	.data.l _njCalcPoint
+lbl_00000128:
+	.data.l _njCalcVector
+	rts
+	nop
+_njResetQueue:
+	mov.l lbl_0000013C,R2
+	mov #0,R3
+	rts
+	mov.l R3,@R2
+_njSetLightSystem:
+	rts
+	nop
+lbl_0000013C:
+	.data.l __nj_light_queue_+128
+	.SECTION BSG32,DATA,ALIGN=32
+BSG32_0:
+	.res.b h'40

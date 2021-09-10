@@ -1,0 +1,21 @@
+	.EXPORT _njRotateCameraPositionY
+	.SECTION PSG,CODE,ALIGN=4
+_njRotateCameraPositionY:
+	lds R5,FPUL
+	mov.l lbl_0000001C,R0
+	fsca FPUL,DR0
+	fmov @R4,FR2
+	fmov @(R0,R4),FR3
+	fmov FR2,FR4
+	fmul FR1,FR4
+	fmac FR0,FR3,FR4
+	fmov FR4,@R4
+	fmul FR1,FR3
+	fneg FR0
+	fmac FR0,FR2,FR3
+	rts
+	fmov FR3,@(R0,R4)
+lbl_0000001C:
+	.data.l h'00000008
+	rts
+	nop

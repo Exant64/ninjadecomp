@@ -1,0 +1,367 @@
+	.IMPORT _njUnitVector
+	.IMPORT __nj_direct_compile_light_
+	.IMPORT __nj_direct_compile_mode_
+	.IMPORT _njCalcVector
+	.IMPORT _njCalcPoint
+	.EXPORT _njCnkDirectVertexV
+	.EXPORT _njCnkDirectVertexVND8
+	.EXPORT _njCnkDirectVertexVN
+	.EXPORT _njCnkDirectVertexVD8
+	.SECTION PSG,CODE,ALIGN=4
+_njCnkDirectVertexVN:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R11,@-R15
+	mov.l R10,@-R15
+	mov.l R9,@-R15
+	mov.l R8,@-R15
+	fmov FR15,@-R15
+	fmov FR14,@-R15
+	fmov FR13,@-R15
+	sts.l PR,@-R15
+	add #-4,R15
+	mova lbl_0000013C,R0
+	mov.l lbl_00000138,R10
+	mov.w lbl_0000012E,R13
+	mov R4,R12
+	mov.l lbl_00000134,R9
+	mov #-1,R11
+	mov.l lbl_00000130,R8
+	mov R5,R14
+	fldi0 FR14
+	fldi1 FR15
+	mov.l R6,@R15
+	fmov @R0,FR13
+lbl_00000030:
+	mov R12,R5
+	mov R14,R6
+	jsr @R10
+	mov #0,R4
+	mov.l lbl_00000140,R3
+	mov R14,R6
+	add #12,R12
+	mov R12,R5
+	add #12,R6
+	jsr @R3
+	mov #0,R4
+	mov R14,R4
+	jsr @R9
+	add #12,R4
+	mov.l @R8,R0
+	cmp/eq #1,R0
+	bt/s lbl_00000058
+	add #12,R12
+	bra lbl_00000160
+	nop
+lbl_00000058:
+	mov.l lbl_00000144,R3
+	mov #20,R0
+	mov.l @R3,R4
+	fmov @(R0,R4),FR5
+	mov #24,R0
+	fmov @(R0,R4),FR7
+	mov #28,R0
+	fmov @(R0,R4),FR6
+	mov #4,R0
+	fmov @(R0,R4),FR0
+	mov #16,R0
+	fmov @(R0,R14),FR3
+	mov #12,R0
+	fmov @(R0,R14),FR2
+	mov #8,R0
+	fmul FR0,FR3
+	fmov @R4,FR0
+	fmac FR0,FR2,FR3
+	fmov @(R0,R4),FR0
+	mov #20,R0
+	fmov @(R0,R14),FR2
+	mov #12,R0
+	fmac FR0,FR2,FR3
+	fmov FR3,FR4
+	fmov @(R0,R4),FR3
+	mov #16,R0
+	fmov @(R0,R4),FR9
+	fneg FR3
+	fmul FR3,FR4
+	fadd FR9,FR4
+	fcmp/gt FR4,FR9
+	bf/s lbl_0000009C
+	fmov FR15,FR8
+	fmov @(R0,R4),FR4
+lbl_0000009C:
+	fcmp/gt FR15,FR4
+	bf lbl_000000A2
+	fmov FR15,FR4
+lbl_000000A2:
+	fldi0 FR3
+	fcmp/gt FR5,FR3
+	bf/s lbl_000000AC
+	fmul FR13,FR4
+	fmov FR14,FR5
+lbl_000000AC:
+	fcmp/gt FR15,FR5
+	bf/s lbl_000000B4
+	fldi0 FR3
+	fmov FR15,FR5
+lbl_000000B4:
+	fcmp/gt FR7,FR3
+	bf lbl_000000BA
+	fmov FR14,FR7
+lbl_000000BA:
+	fcmp/gt FR15,FR7
+	bf/s lbl_000000C2
+	fldi0 FR3
+	fmov FR15,FR7
+lbl_000000C2:
+	fcmp/gt FR6,FR3
+	bf lbl_000000C8
+	fmov FR14,FR6
+lbl_000000C8:
+	fcmp/gt FR15,FR6
+	bf lbl_000000CE
+	fmov FR15,FR6
+lbl_000000CE:
+	fcmp/gt FR15,FR8
+	bf/s lbl_000000D6
+	fmul FR4,FR5
+	fmov FR15,FR8
+lbl_000000D6:
+	mov.l lbl_00000148,R3
+	fmul FR4,FR7
+	fmul FR4,FR6
+	lds R3,FPUL
+	fsts FPUL,FR3
+	fcmp/gt FR7,FR3
+	bt/s lbl_000000EA
+	fmul FR13,FR8
+	fadd FR3,FR3
+	fsub FR3,FR7
+lbl_000000EA:
+	ftrc FR7,FPUL
+	mov.l lbl_00000148,R1
+	sts FPUL,R2
+	lds R1,FPUL
+	and R13,R2
+	fsts FPUL,FR3
+	fcmp/gt FR5,FR3
+	bt/s lbl_00000100
+	shll8 R2
+	fadd FR3,FR3
+	fsub FR3,FR5
+lbl_00000100:
+	ftrc FR5,FPUL
+	mov.l lbl_00000148,R1
+	sts FPUL,R3
+	lds R1,FPUL
+	and R13,R3
+	fsts FPUL,FR3
+	fcmp/gt FR8,FR3
+	shll16 R3
+	bt/s lbl_00000118
+	or R3,R2
+	fadd FR3,FR3
+	fsub FR3,FR8
+lbl_00000118:
+	ftrc FR8,FPUL
+	mov.l lbl_00000148,R1
+	sts FPUL,R3
+	lds R1,FPUL
+	and R13,R3
+	fsts FPUL,FR3
+	fcmp/gt FR6,FR3
+	shll16 R3
+	shll8 R3
+	bra lbl_0000014C
+	or R3,R2
+lbl_0000012E:
+	.data.w h'00ff
+lbl_00000130:
+	.data.l __nj_direct_compile_mode_
+lbl_00000134:
+	.data.l _njUnitVector
+lbl_00000138:
+	.data.l _njCalcPoint
+lbl_0000013C:
+	.data.l h'437F0000
+lbl_00000140:
+	.data.l _njCalcVector
+lbl_00000144:
+	.data.l __nj_direct_compile_light_
+lbl_00000148:
+	.data.l h'4F000000
+lbl_0000014C:
+	bt/s lbl_00000154
+	nop
+	fadd FR3,FR3
+	fsub FR3,FR6
+lbl_00000154:
+	ftrc FR6,FPUL
+	sts FPUL,R3
+	and R13,R3
+	or R3,R2
+	bra lbl_00000162
+	mov.l R2,@(24,R14)
+lbl_00000160:
+	mov.l R11,@(24,R14)
+lbl_00000162:
+	mov.l @R15,R2
+	add #32,R14
+	add #-1,R2
+	tst R2,R2
+	bt/s lbl_00000172
+	mov.l R2,@R15
+	bra lbl_00000030
+	nop
+lbl_00000172:
+	add #4,R15
+	lds.l @R15+,PR
+	fmov @R15+,FR13
+	fmov @R15+,FR14
+	fmov @R15+,FR15
+	mov.l @R15+,R8
+	mov.l @R15+,R9
+	mov.l @R15+,R10
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+_njCnkDirectVertexV:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R11,@-R15
+	fmov FR15,@-R15
+	fmov FR14,@-R15
+	sts.l PR,@-R15
+	add #-4,R15
+	mov.l lbl_00000288,R11
+	mov #-1,R12
+	fldi1 FR14
+	mov R5,R14
+	fldi0 FR15
+	mov R4,R13
+	mov.l R6,@R15
+lbl_000001AA:
+	mov R13,R5
+	mov R14,R6
+	jsr @R11
+	mov #0,R4
+	mov #12,R0
+	fmov FR15,@(R0,R14)
+	mov #16,R0
+	fmov FR15,@(R0,R14)
+	mov #20,R0
+	fmov FR14,@(R0,R14)
+	add #12,R13
+	mov.l R12,@(24,R14)
+	add #32,R14
+	mov.l @R15,R3
+	add #-1,R3
+	tst R3,R3
+	bf/s lbl_000001AA
+	mov.l R3,@R15
+	add #4,R15
+	lds.l @R15+,PR
+	fmov @R15+,FR14
+	fmov @R15+,FR15
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+_njCnkDirectVertexVD8:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	fmov FR15,@-R15
+	fmov FR14,@-R15
+	sts.l PR,@-R15
+	add #-4,R15
+	mov.l lbl_00000288,R12
+	mov R4,R13
+	fldi1 FR14
+	mov R5,R14
+	fldi0 FR15
+	mov.l R6,@R15
+lbl_000001FA:
+	mov R13,R5
+	mov R14,R6
+	jsr @R12
+	mov #0,R4
+	mov #12,R0
+	fmov FR15,@(R0,R14)
+	mov #16,R0
+	add #12,R13
+	fmov FR15,@(R0,R14)
+	mov #20,R0
+	fmov FR14,@(R0,R14)
+	mov.l @R13+,R3
+	mov.l R3,@(24,R14)
+	add #32,R14
+	mov.l @R15,R2
+	add #-1,R2
+	tst R2,R2
+	bf/s lbl_000001FA
+	mov.l R2,@R15
+	add #4,R15
+	lds.l @R15+,PR
+	fmov @R15+,FR14
+	fmov @R15+,FR15
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+_njCnkDirectVertexVND8:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R11,@-R15
+	mov.l R10,@-R15
+	sts.l PR,@-R15
+	add #-4,R15
+	mov.l lbl_0000028C,R10
+	mov R4,R13
+	mov.l lbl_00000288,R11
+	mov R5,R14
+	mov.l lbl_00000290,R12
+	mov.l R6,@R15
+lbl_0000024A:
+	mov R13,R5
+	mov R14,R6
+	jsr @R11
+	mov #0,R4
+	mov R14,R6
+	add #12,R13
+	mov R13,R5
+	add #12,R6
+	jsr @R10
+	mov #0,R4
+	mov R14,R4
+	jsr @R12
+	add #12,R4
+	add #12,R13
+	mov.l @R13+,R3
+	mov.l R3,@(24,R14)
+	add #32,R14
+	mov.l @R15,R2
+	add #-1,R2
+	tst R2,R2
+	bf/s lbl_0000024A
+	mov.l R2,@R15
+	add #4,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R10
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+	.data.w h'0000
+lbl_00000288:
+	.data.l _njCalcPoint
+lbl_0000028C:
+	.data.l _njCalcVector
+lbl_00000290:
+	.data.l _njUnitVector

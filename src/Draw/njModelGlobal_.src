@@ -1,0 +1,27 @@
+	.EXPORT __njm_inten
+	.EXPORT _polyvtx
+	.EXPORT _texvtx
+	.EXPORT __njm_col2
+	.EXPORT __njm_col
+	.EXPORT _vtx2
+	.EXPORT _vtx3
+	.EXPORT _vtx4
+	.EXPORT _vtxbuf
+	.SECTION BSG32,DATA,ALIGN=32
+_polyvtx:
+	.res.b h'820
+_texvtx:
+	.res.b h'820
+_vtx2:
+	.res.b h'80
+_vtx3:
+	.res.b h'80
+_vtx4:
+	.res.b h'80
+_vtxbuf:
+	.res.b h'80
+__njm_col2:
+__njm_inten:
+__njm_col:
+	.res.b h'60
+

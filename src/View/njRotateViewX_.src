@@ -1,0 +1,20 @@
+	.IMPORT __nj_view_
+	.IMPORT _njRotateX
+	.EXPORT _njRotateViewX
+	.SECTION PSG,CODE,ALIGN=4
+_njRotateViewX:
+	tst R4,R4
+	bf lbl_00000008
+	mov.l lbl_00000010,R2
+	mov.l @R2,R4
+lbl_00000008:
+	mov.l lbl_00000014,R3
+	jmp @R3
+	neg R5,R5
+	.data.w h'0000
+lbl_00000010:
+	.data.l __nj_view_
+lbl_00000014:
+	.data.l _njRotateX
+	rts
+	nop

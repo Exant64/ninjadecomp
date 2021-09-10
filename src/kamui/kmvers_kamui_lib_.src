@@ -1,0 +1,52 @@
+	.IMPORT _kmiDeviceExtension
+	.EXPORT _kmGetVersionInfo
+	.SECTION PSG,CODE,ALIGN=32
+_kmGetVersionInfo:
+	mov.l lbl_00000040,R2
+	mov.l @R2,R3
+	mov.l @R3,R1
+	mov R2,R0
+	mov.l R1,@R4
+	mov.l @R0,R3
+	mov.l @(4,R3),R1
+	extu.b R1,R1
+	shll16 R1
+	shll8 R1
+	mov.l @R2,R3
+	mov.l @(8,R3),R3
+	extu.b R3,R3
+	shll16 R3
+	or R3,R1
+	mov.l @R2,R3
+	mov.l @(12,R3),R3
+	or R3,R1
+	mov.l R1,@(4,R4)
+	mov.l lbl_00000044,R1
+	mov.l @R1,R3
+	mov.l R3,@(8,R4)
+	rts
+	mov #0,R0
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_00000040:
+	.data.l _kmiDeviceExtension
+lbl_00000044:
+	.data.l _kmiDeviceExtension+24
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000

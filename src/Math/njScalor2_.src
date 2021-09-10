@@ -1,0 +1,13 @@
+	.EXPORT _njScalor2
+	.SECTION PSG,CODE,ALIGN=4
+_njScalor2:
+	fldi0 FR7
+	fmov @R4+,FR4
+	fmov @R4+,FR5
+	fmov @R4+,FR6
+	fipr FV4,FV4
+	rts
+	fmov FR7,FR0
+	nop
+	rts
+	nop

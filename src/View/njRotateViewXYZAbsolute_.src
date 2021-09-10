@@ -1,0 +1,43 @@
+	.IMPORT _njRotateViewXRelative
+	.IMPORT _njRotateViewYAbsolute
+	.IMPORT _njRotateViewZAbsolute
+	.EXPORT _njRotateViewXYZAbsolute
+	.SECTION PSG,CODE,ALIGN=4
+_njRotateViewXYZAbsolute:
+	mov.l R5,@-R15
+	mov.l R6,@-R15
+	sts.l PR,@-R15
+	mov.l R4,@-R15
+	tst R4,R4
+	bf lbl_0000000C
+lbl_0000000C:
+	mov.l lbl_00000030,R3
+	jsr @R3
+	mov R7,R5
+	mov.l lbl_00000034,R2
+	mov.l lbl_00000038,R0
+	mov.l @R15,R4
+	jsr @R2
+	mov.l @(R0,R15),R5
+	mov.l lbl_0000003C,R3
+	mov.l lbl_00000040,R0
+	mov.l @R15,R4
+	jsr @R3
+	mov.l @(R0,R15),R5
+	mov.l @R15+,R4
+	lds.l @R15+,PR
+	mov.l @R15+,R6
+	rts
+	mov.l @R15+,R5
+lbl_00000030:
+	.data.l _njRotateViewZAbsolute
+lbl_00000034:
+	.data.l _njRotateViewYAbsolute
+lbl_00000038:
+	.data.l h'00000008
+lbl_0000003C:
+	.data.l _njRotateViewXRelative
+lbl_00000040:
+	.data.l lbl_0000000C
+	rts
+	nop

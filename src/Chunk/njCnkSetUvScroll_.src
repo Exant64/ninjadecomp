@@ -1,0 +1,15 @@
+	.IMPORT __nj_uv_scroll_u_
+	.IMPORT __nj_uv_scroll_v_
+	.EXPORT _njCnkSetUvScroll
+	.SECTION PSG,CODE,ALIGN=4
+_njCnkSetUvScroll:
+	mov.l lbl_0000000C,R3
+	mov.l lbl_00000010,R2
+	fmov FR4,@R3
+	rts
+	fmov FR5,@R2
+	.data.w h'0000
+lbl_0000000C:
+	.data.l __nj_uv_scroll_u_
+lbl_00000010:
+	.data.l __nj_uv_scroll_v_

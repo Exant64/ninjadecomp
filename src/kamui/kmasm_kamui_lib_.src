@@ -1,0 +1,86 @@
+	.EXPORT _kmiMemCopy4
+	.EXPORT _kmiMemCopy8
+	.EXPORT _kmiExCallBackFunc
+	.EXPORT _kmiPurgeCache
+	.SECTION PSG,CODE,ALIGN=32
+_kmiMemCopy8:
+	mov R4,R0
+	or R5,R0
+	or R6,R0
+	tst #7,R0
+	bf _kmiMemCopy4
+	fschg
+	shlr2 R6
+	shlr R6
+lbl_00000010:
+	fmov @R5+,FR0
+	dt R6
+	fmov FR0,@R4
+	bf/s lbl_00000010
+	add #8,R4
+	rts
+	fschg
+_kmiMemCopy4:
+	shlr2 R6
+lbl_00000020:
+	mov.l @R5+,R0
+	dt R6
+	mov.l R0,@R4
+	bf/s lbl_00000020
+	add #4,R4
+	rts
+	nop
+_kmiPurgeCache:
+	ocbwb @R4
+	rts
+	nop
+_kmiExCallBackFunc:
+	sts FPSCR,R0
+	mov.l R0,@-R15
+	mov #16,R1
+	shll16 R1
+	not R0,R0
+	or R1,R0
+	not R0,R0
+	lds R0,FPSCR
+	fmov FR0,@-R15
+	fmov FR1,@-R15
+	fmov FR2,@-R15
+	fmov FR3,@-R15
+	fmov FR4,@-R15
+	fmov FR5,@-R15
+	fmov FR6,@-R15
+	fmov FR7,@-R15
+	fmov FR8,@-R15
+	fmov FR9,@-R15
+	fmov FR10,@-R15
+	fmov FR11,@-R15
+	fmov FR12,@-R15
+	fmov FR13,@-R15
+	fmov FR14,@-R15
+	fmov FR15,@-R15
+	sts.l PR,@-R15
+	mov R4,R3
+	jsr @R3
+	mov R5,R4
+	lds.l @R15+,PR
+	fmov @R15+,FR15
+	fmov @R15+,FR14
+	fmov @R15+,FR13
+	fmov @R15+,FR12
+	fmov @R15+,FR11
+	fmov @R15+,FR10
+	fmov @R15+,FR9
+	fmov @R15+,FR8
+	fmov @R15+,FR7
+	fmov @R15+,FR6
+	fmov @R15+,FR5
+	fmov @R15+,FR4
+	fmov @R15+,FR3
+	fmov @R15+,FR2
+	fmov @R15+,FR1
+	fmov @R15+,FR0
+	mov.l @R15+,R0
+	lds R0,FPSCR
+	rts
+	nop

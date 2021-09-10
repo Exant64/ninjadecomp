@@ -1,0 +1,81 @@
+	.EXPORT _njCnkSimpleVertexVI
+	.SECTION PSG,CODE,ALIGN=4
+_njCnkSimpleVertexVI:
+	add #20,R4
+	mov.l @R4+,R1
+	mov.l @R4+,R3
+	mov.l @R4+,R7
+	pref @R3
+	mov.l @R4+,R2
+	mov R3,R5
+	add #16,R5
+	fmov @R4+,FR0
+	fmov @R4+,FR1
+	fmov @R4+,FR2
+	fmov @R4+,FR3
+	pref @R5
+	mov #0,R6
+	mova lbl_00000090,R0
+	fmov @R0,FR9
+lbl_00000020:
+	fmov @R3+,FR4
+	fmov @R3+,FR5
+	fmov @R3+,FR6
+	fldi1 FR7
+	ftrv XMTRX,FV4
+	mov.l @R3,R4
+	fldi1 FR8
+	add #16,R5
+	pref @R5
+	fdiv FR6,FR8
+	fmov FR6,@R2
+	add #32,R2
+	fmov FR5,@-R2
+	fmul FR1,FR5
+	fmov FR4,@-R2
+	fmul FR0,FR4
+	shlr16 R4
+	mov.l lbl_00000088,R0
+	shlr8 R4
+	mul.l R0,R4
+	mov.l lbl_0000008C,R0
+	sts MACL,R4
+	add #-4,R2
+	or R0,R4
+	mov.l R4,@-R2
+	fldi1 FR10
+	fcmp/gt FR10,FR6
+	bt lbl_0000005A
+	add #1,R6
+lbl_0000005A:
+	fmov FR8,@-R2
+	fmul FR8,FR5
+	mov.l @R3+,R4
+	fmul FR8,FR4
+	ocbi @R7
+	fadd FR3,FR5
+	fmov FR5,@-R2
+	fadd FR2,FR4
+	fmov FR4,@-R2
+	add #32,R7
+	exts.w R4,R4
+	lds R4,FPUL
+	float FPUL,FR10
+	add #16,R2
+	fmul FR9,FR10
+	fmov FR10,@R2
+	dt R1
+	pref @R2
+	bf/s lbl_00000020
+	add #12,R2
+	rts
+	mov R6,R0
+	.data.w h'0000
+lbl_00000088:
+	.data.l h'00010101
+lbl_0000008C:
+	.data.l h'FF000000
+lbl_00000090:
+	.data.l h'37FFFFFF
+	rts
+	nop

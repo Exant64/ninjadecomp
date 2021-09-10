@@ -1,0 +1,393 @@
+	.IMPORT __nj_texmemsize
+	.IMPORT __nj_texmemlist
+	.IMPORT _njInitTextureErrStat
+	.IMPORT _kmLoadVQCodebook
+	.IMPORT _njTexFclose
+	.IMPORT _kmQueryFinishLastTextureDMA
+	.IMPORT _njTexFread
+	.IMPORT _syCacheOCWB
+	.IMPORT _njTexFseek
+	.IMPORT _njCheckFileName
+	.IMPORT _njSearchTexList
+	.IMPORT _njTexFopen
+	.IMPORT __nj_current_texlist
+	.IMPORT __nj_texture_buffer_st
+	.IMPORT __nj_texerr_
+	.IMPORT __quick_evn_mvn
+	.EXPORT _njReLoadVQCodebookLN
+	.EXPORT _njReLoadVQCodebookNum
+	.EXPORT _njReLoadVQCodebookNumG
+	.SECTION PSG,CODE,ALIGN=4
+_njReLoadVQCodebookLN:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R11,@-R15
+	mov.l R10,@-R15
+	sts.l PR,@-R15
+	mov.w lbl_000000DC,R0
+	add R0,R15
+	mov.l lbl_000000F4,R3
+	mov.l lbl_000000F0,R12
+	mov.l lbl_000000EC,R11
+	tst R3,R6
+	bt/s lbl_0000003A
+	mov.l R4,@(8,R15)
+	mov.l lbl_000000F8,R2
+	mov.l @(8,R15),R4
+	jsr @R2
+	add #24,R4
+	tst R0,R0
+	bt lbl_0000002E
+	mov #8,R2
+	bra lbl_0000018A
+	mov.l R2,@(8,R11)
+lbl_0000002E:
+	jsr @R12
+	nop
+	tst R0,R0
+	bf lbl_0000002E
+	bra lbl_00000196
+	nop
+lbl_0000003A:
+	mov.l lbl_00000100,R1
+	mov R5,R4
+	mov.l lbl_000000FC,R6
+	mov R15,R4
+	jsr @R1
+	add #76,R4
+	mov.l lbl_00000104,R3
+	mov R15,R4
+	jsr @R3
+	add #76,R4
+	cmp/pz R0
+	bt lbl_00000056
+	bra lbl_0000018A
+	nop
+lbl_00000056:
+	mov.l @(8,R15),R2
+	mov R15,R1
+	mov.l lbl_00000108,R3
+	add #28,R1
+	add #24,R2
+	jsr @R3
+	mov #40,R0
+lbl_00000064:
+	mov.l lbl_0000010C,R14
+	mov #4,R5
+	jsr @R14
+	mov R15,R4
+	cmp/pz R0
+	bt lbl_00000074
+	bra lbl_00000184
+	nop
+lbl_00000074:
+	mov.l lbl_00000110,R1
+	mov.l @R15,R0
+	cmp/eq R1,R0
+	bf lbl_0000008C
+	mov R15,R4
+	mov #12,R5
+	jsr @R14
+	add #12,R4
+	cmp/pz R0
+	bt lbl_000000A0
+	bra lbl_00000184
+	nop
+lbl_0000008C:
+	mov R15,R4
+	mov #4,R5
+	jsr @R14
+	add #4,R4
+	cmp/pz R0
+	bf lbl_00000184
+	mov.l lbl_00000114,R13
+	mov #1,R5
+	jsr @R13
+	mov.l @(4,R15),R4
+lbl_000000A0:
+	mov.l @R15,R2
+	mov.l lbl_00000110,R4
+	cmp/eq R4,R2
+	bf lbl_00000064
+	mov.w @(20,R15),R0
+	mov #4,R4
+	mov.l @(16,R15),R6
+	mov.l lbl_00000118,R3
+	mov R0,R5
+	mov.w lbl_000000E0,R1
+	and R3,R6
+	mov.w lbl_000000DE,R7
+	mov R6,R0
+	cmp/eq R1,R0
+	bt/s lbl_000000D6
+	extu.w R5,R5
+	mov.w lbl_000000E2,R1
+	cmp/eq R1,R0
+	bt lbl_000000D6
+	mov.w lbl_000000E4,R1
+	cmp/eq R1,R0
+	bt lbl_0000011C
+	mov.w lbl_000000E6,R1
+	cmp/eq R1,R0
+	bt lbl_0000013E
+	bra lbl_0000015A
+	nop
+lbl_000000D6:
+	mov.w lbl_000000E8,R13
+	bra lbl_0000015E
+	nop
+lbl_000000DC:
+	.data.w h'fdb4
+lbl_000000DE:
+	.data.w h'0080
+lbl_000000E0:
+	.data.w h'0300
+lbl_000000E2:
+	.data.w h'0400
+lbl_000000E4:
+	.data.w h'1000
+lbl_000000E6:
+	.data.w h'1100
+lbl_000000E8:
+	.data.w h'0800
+	.data.w h'0000
+lbl_000000EC:
+	.data.l __nj_texerr_
+lbl_000000F0:
+	.data.l _kmQueryFinishLastTextureDMA
+lbl_000000F4:
+	.data.l h'40000000
+lbl_000000F8:
+	.data.l _kmLoadVQCodebook
+lbl_000000FC:
+	.data.l CSG_0
+lbl_00000100:
+	.data.l _njCheckFileName
+lbl_00000104:
+	.data.l _njTexFopen
+lbl_00000108:
+	.data.l __quick_evn_mvn
+lbl_0000010C:
+	.data.l _njTexFread
+lbl_00000110:
+	.data.l h'54525650
+lbl_00000114:
+	.data.l _njTexFseek
+lbl_00000118:
+	.data.l h'0000FF00
+lbl_0000011C:
+	mov R5,R0
+	cmp/eq #16,R0
+	bt lbl_0000014C
+	cmp/eq #32,R0
+	bt lbl_0000012E
+	cmp/eq #64,R0
+	bt lbl_00000134
+	bra lbl_0000013A
+	nop
+lbl_0000012E:
+	mov.w lbl_000001F0,R13
+	bra lbl_0000015E
+	nop
+lbl_00000134:
+	mov.w lbl_000001F2,R13
+	bra lbl_0000015E
+	nop
+lbl_0000013A:
+	bra lbl_00000184
+	mov.l R4,@(8,R11)
+lbl_0000013E:
+	mov R5,R0
+	cmp/eq #16,R0
+	bt lbl_0000014C
+	cmp/eq #32,R0
+	bt lbl_00000150
+	bra lbl_00000156
+	nop
+lbl_0000014C:
+	bra lbl_0000015E
+	mov R7,R13
+lbl_00000150:
+	mov.w lbl_000001F4,R13
+	bra lbl_0000015E
+	nop
+lbl_00000156:
+	bra lbl_00000184
+	mov.l R4,@(8,R11)
+lbl_0000015A:
+	bra lbl_00000184
+	mov.l R4,@(8,R11)
+lbl_0000015E:
+	mov.l lbl_000001F8,R10
+	mov R13,R5
+	jsr @R14
+	mov.l @R10,R4
+	cmp/pz R0
+	bf lbl_00000184
+	mov.l lbl_000001FC,R3
+	mov R13,R5
+	jsr @R3
+	mov.l @R10,R4
+	mov.l lbl_00000200,R2
+	mov R15,R4
+	mov.l @R10,R5
+	jsr @R2
+	add #28,R4
+	tst R0,R0
+	bt lbl_0000018E
+	mov #8,R2
+	mov.l R2,@(8,R11)
+lbl_00000184:
+	mov.l lbl_00000204,R3
+	jsr @R3
+	nop
+lbl_0000018A:
+	bra lbl_0000019E
+	mov #-1,R0
+lbl_0000018E:
+	jsr @R12
+	nop
+	tst R0,R0
+	bf lbl_0000018E
+lbl_00000196:
+	mov.l lbl_00000204,R2
+	jsr @R2
+	nop
+	mov #1,R0
+lbl_0000019E:
+	mov.w lbl_000001F6,R1
+	add R1,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R10
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+_njReLoadVQCodebookNum:
+	sts.l PR,@-R15
+	add #-16,R15
+	mov.l lbl_00000208,R2
+	mov.l R4,@R15
+	mov.l R5,@(4,R15)
+	mov.l R6,@(8,R15)
+	mov.l @R15,R1
+	mov.l @R2,R3
+	mov R1,R0
+	shll R1
+	add R0,R1
+	mov.l @R3,R3
+	shll2 R1
+	add R3,R1
+	mov.l lbl_0000020C,R3
+	mov.l @(8,R1),R0
+	jsr @R3
+	mov.l R0,@(12,R15)
+	mov.l @(4,R15),R5
+	mov.l @(8,R15),R6
+	bsr _njReLoadVQCodebookLN
+	mov.l @(12,R15),R4
+	mov R0,R4
+	cmp/pz R4
+	bt lbl_000001E8
+	mov.l lbl_00000210,R2
+	mov.l @R15,R3
+	mov.l R3,@R2
+lbl_000001E8:
+	add #16,R15
+	lds.l @R15+,PR
+	rts
+	mov R4,R0
+lbl_000001F0:
+	.data.w h'0100
+lbl_000001F2:
+	.data.w h'0400
+lbl_000001F4:
+	.data.w h'0200
+lbl_000001F6:
+	.data.w h'024c
+lbl_000001F8:
+	.data.l __nj_texture_buffer_st
+lbl_000001FC:
+	.data.l _syCacheOCWB
+lbl_00000200:
+	.data.l _kmLoadVQCodebook
+lbl_00000204:
+	.data.l _njTexFclose
+lbl_00000208:
+	.data.l __nj_current_texlist
+lbl_0000020C:
+	.data.l _njInitTextureErrStat
+lbl_00000210:
+	.data.l __nj_texerr_
+_njReLoadVQCodebookNumG:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	sts.l PR,@-R15
+	add #-8,R15
+	mov.l lbl_00000278,R3
+	mov R4,R14
+	mov.l R5,@R15
+	mov.l lbl_0000027C,R2
+	mov.l R6,@(4,R15)
+	mov R14,R6
+	mov.l @R3,R5
+	mov.l lbl_00000280,R1
+	jsr @R1
+	mov.l @R2,R4
+	mov.l lbl_00000284,R12
+	mov R0,R13
+	cmp/pz R13
+	bt lbl_00000244
+	mov #1,R2
+	mov.l R2,@(8,R12)
+	mov.l R14,@(4,R12)
+	bra lbl_0000026C
+	mov #-1,R0
+lbl_00000244:
+	mov.l lbl_00000288,R3
+	jsr @R3
+	nop
+	mov R13,R4
+	shll2 R4
+	mov.l lbl_0000027C,R1
+	shll2 R4
+	mov R13,R3
+	mov.l @(4,R15),R6
+	mov.l @R1,R2
+	add R3,R4
+	mov.l @R15,R5
+	shll2 R4
+	bsr _njReLoadVQCodebookLN
+	add R2,R4
+	mov R0,R4
+	cmp/pz R4
+	bt/s lbl_0000026C
+	mov R4,R0
+	mov.l R14,@(4,R12)
+lbl_0000026C:
+	add #8,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+lbl_00000278:
+	.data.l __nj_texmemsize
+lbl_0000027C:
+	.data.l __nj_texmemlist
+lbl_00000280:
+	.data.l _njSearchTexList
+lbl_00000284:
+	.data.l __nj_texerr_
+lbl_00000288:
+	.data.l _njInitTextureErrStat
+	.SECTION CSG,DATA,ALIGN=4
+CSG_0:
+	.data.b h'002e
+	.data.b h'0050
+	.data.b h'0056
+	.data.b h'0052
+	.data.b h'0000

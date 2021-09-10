@@ -1,0 +1,154 @@
+	.IMPORT __nj_near_clip_
+	.IMPORT _njStartVertexNonTexOpaque
+	.IMPORT _njEndVertex
+	.IMPORT _njGetkmPointer
+	.IMPORT __nj_scr_aspect_x_
+	.IMPORT __nj_scr_aspect_y_
+	.IMPORT __nj_screen_
+	.IMPORT __nj_far_clip_
+	.IMPORT _njSetkmPointer
+	.IMPORT _njSetkmColorMode
+	.IMPORT __nj_ptcl_sq_ptr_
+	.EXPORT _njPtclStrip
+	.EXPORT _njPtclStripStart
+	.EXPORT _njPtclStripEnd
+	.SECTION PSG,CODE,ALIGN=4
+_njPtclStripStart:
+	sts.l PR,@-R15
+	mov.l lbl_00000030,R3
+	jsr @R3
+	nop
+	mov.l lbl_00000038,R2
+	mov.l lbl_00000034,R4
+	jsr @R2
+	nop
+	mov.l lbl_0000003C,R3
+	jsr @R3
+	nop
+	lds.l @R15+,PR
+	mov.l lbl_00000040,R2
+	rts
+	mov.l R0,@R2
+_njPtclStripEnd:
+	sts.l PR,@-R15
+	mov.l lbl_00000044,R2
+	mov.l lbl_00000040,R3
+	jsr @R2
+	mov.l @R3,R4
+	mov.l lbl_00000048,R1
+	jmp @R1
+	lds.l @R15+,PR
+	.data.w h'0000
+lbl_00000030:
+	.data.l _njGetkmPointer
+lbl_00000034:
+	.data.l h'00080002
+lbl_00000038:
+	.data.l _njSetkmColorMode
+lbl_0000003C:
+	.data.l _njStartVertexNonTexOpaque
+lbl_00000040:
+	.data.l __nj_ptcl_sq_ptr_
+lbl_00000044:
+	.data.l _njEndVertex
+lbl_00000048:
+	.data.l _njSetkmPointer
+_njPtclStrip:
+	mov.l lbl_000000E8,R1
+	fmov @R1,FR5
+	mov.l lbl_000000EC,R1
+	fmov @R1,FR6
+	mov.l lbl_000000F0,R1
+	mov.l lbl_000000F4,R2
+	mov.l lbl_000000F8,R3
+	fmov @R1,FR4
+	add #12,R1
+	fmov @R2,FR10
+	fmov @R3,FR11
+	fmul FR4,FR10
+	fmov @R1+,FR8
+	fmul FR4,FR11
+	fmov @R1+,FR9
+	mov.l lbl_000000FC,R1
+	add #-1,R6
+	mov.l @R1,R2
+	mov.l lbl_00000100,R3
+lbl_00000072:
+	fmov @R4+,FR0
+	fmov @R4+,FR1
+	fmov @R4+,FR2
+	fldi1 FR3
+	ftrv XMTRX,FV0
+	fldi1 FR4
+	fdiv FR2,FR4
+	fcmp/gt FR5,FR2
+	bf lbl_000000E2
+	fcmp/gt FR2,FR6
+	bf lbl_000000E2
+	fmul FR11,FR1
+	add #28,R2
+	fmul FR4,FR1
+	mov.l R5,@-R2
+	add #-8,R2
+	fadd FR9,FR1
+	fmul FR10,FR0
+	fmov FR4,@-R2
+	fmul FR4,FR0
+	fmov FR1,@-R2
+	fadd FR8,FR0
+	dt R6
+	fmov FR0,@-R2
+	mov.l R3,@-R2
+	pref @R2
+	bf/s lbl_00000072
+	add #32,R2
+	fmov @R4+,FR0
+	fmov @R4+,FR1
+	fmov @R4+,FR2
+	fldi1 FR3
+	ftrv XMTRX,FV0
+	mov.l lbl_00000104,R3
+	fldi1 FR4
+	fdiv FR2,FR4
+	fcmp/gt FR5,FR2
+	bf lbl_000000E2
+	fcmp/gt FR2,FR6
+	bf lbl_000000E2
+	fmul FR11,FR1
+	add #28,R2
+	fmul FR4,FR1
+	mov.l R5,@-R2
+	add #-8,R2
+	fadd FR9,FR1
+	fmov FR4,@-R2
+	fmul FR10,FR0
+	fmov FR1,@-R2
+	fmul FR4,FR0
+	fadd FR8,FR0
+	fmov FR0,@-R2
+	mov.l R3,@-R2
+	pref @R2
+	add #32,R2
+	mov.l R2,@R1
+lbl_000000E2:
+	rts
+	nop
+	nop
+lbl_000000E8:
+	.data.l __nj_near_clip_
+lbl_000000EC:
+	.data.l __nj_far_clip_
+lbl_000000F0:
+	.data.l __nj_screen_
+lbl_000000F4:
+	.data.l __nj_scr_aspect_x_
+lbl_000000F8:
+	.data.l __nj_scr_aspect_y_
+lbl_000000FC:
+	.data.l __nj_ptcl_sq_ptr_
+lbl_00000100:
+	.data.l h'E0000000
+lbl_00000104:
+	.data.l h'F0000000
+	rts
+	nop

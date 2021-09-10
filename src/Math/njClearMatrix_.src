@@ -1,0 +1,103 @@
+	.IMPORT __nj_current_matrix_ptr_
+	.IMPORT __nj_view_matrix_
+	.IMPORT __nj_stack_size_
+	.IMPORT __nj_unit_matrix_
+	.IMPORT __nj_view_
+	.IMPORT __nj_base_matrix_ptr_
+	.IMPORT _njScale
+	.IMPORT _njMultiMatrix
+	.EXPORT _njClearMatrix
+	.SECTION PSG,CODE,ALIGN=4
+_njClearMatrix:
+	mov #1,R1
+	mov.l R14,@-R15
+	mov.l lbl_00000094,R0
+	sts.l PR,@-R15
+	mov.l lbl_00000098,R14
+	mov.l lbl_0000009C,R5
+	mov.l @R14,R14
+	mov.l R1,@R0
+	fschg
+	fmov @R14+,FR1
+	fmov @R14+,FR3
+	fmov @R14+,FR5
+	fmov @R14+,FR7
+	fmov @R14+,FR9
+	fmov @R14+,FR11
+	fmov @R14+,FR13
+	fmov @R14+,FR15
+	add #32,R5
+	fmov @R5+,FR0
+	fmov @R5+,FR2
+	fmov @R5+,FR4
+	fmov @R5+,FR6
+	fmov FR6,@-R14
+	add #-64,R5
+	fmov FR4,@-R14
+	fmov FR2,@-R14
+	fmov FR0,@-R14
+	fmov @R5+,FR0
+	fmov @R5+,FR2
+	fmov @R5+,FR4
+	fmov @R5+,FR6
+	fmov FR6,@-R14
+	fmov FR4,@-R14
+	fmov FR2,@-R14
+	fmov FR0,@-R14
+	fschg
+	mov.l lbl_000000A0,R2
+	mov.l R14,@R2
+	fldi1 FR4
+	mov.l lbl_000000A4,R3
+	fneg FR4
+	fldi1 FR6
+	fmov FR4,FR5
+	jsr @R3
+	mov R14,R4
+	mov.l lbl_000000A8,R3
+	mov.l lbl_000000AC,R2
+	mov.l @R3,R5
+	jsr @R2
+	mov R14,R4
+	mov.l lbl_000000B0,R2
+	mov R14,R5
+	add #64,R2
+	fschg
+	fmov @R5+,FR1
+	fmov @R5+,FR3
+	fmov @R5+,FR5
+	fmov @R5+,FR7
+	fmov @R5+,FR9
+	fmov @R5+,FR11
+	fmov @R5+,FR13
+	fmov @R5+,FR15
+	fmov FR15,@-R2
+	fmov FR13,@-R2
+	fmov FR11,@-R2
+	fmov FR9,@-R2
+	fmov FR7,@-R2
+	fmov FR5,@-R2
+	fmov FR3,@-R2
+	fmov FR1,@-R2
+	fschg
+	lds.l @R15+,PR
+	rts
+	mov.l @R15+,R14
+lbl_00000094:
+	.data.l __nj_stack_size_
+lbl_00000098:
+	.data.l __nj_base_matrix_ptr_
+lbl_0000009C:
+	.data.l __nj_unit_matrix_
+lbl_000000A0:
+	.data.l __nj_current_matrix_ptr_
+lbl_000000A4:
+	.data.l _njScale
+lbl_000000A8:
+	.data.l __nj_view_
+lbl_000000AC:
+	.data.l _njMultiMatrix
+lbl_000000B0:
+	.data.l __nj_view_matrix_
+	rts
+	nop

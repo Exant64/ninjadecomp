@@ -1,0 +1,38 @@
+	.EXPORT _njGenerateFogTable
+	.SECTION PSG,CODE,ALIGN=4
+_njGenerateFogTable:
+	mov.l R14,@-R15
+	mova lbl_00000040,R0
+	mov #1,R14
+	fmov @R0,FR4
+	mov R14,R7
+	mov #15,R6
+	mov #0,R5
+	fldi1 FR5
+	add #127,R7
+lbl_00000012:
+	mov R5,R3
+	mov #-4,R2
+	shad R2,R3
+	mov R14,R1
+	shad R3,R1
+	mov R5,R3
+	and R6,R3
+	fmov FR5,FR2
+	add #16,R3
+	mov R5,R0
+	mul.l R3,R1
+	add #1,R5
+	cmp/ge R7,R5
+	shll2 R0
+	sts MACL,R1
+	lds R1,FPUL
+	float FPUL,FR3
+	fdiv FR4,FR3
+	fdiv FR3,FR2
+	bf/s lbl_00000012
+	fmov FR2,@(R0,R4)
+	rts
+	mov.l @R15+,R14
+lbl_00000040:
+	.data.l _njGenerateFogTable

@@ -1,0 +1,284 @@
+	.IMPORT __nj_light_control_
+	.IMPORT _njUnitMatrix
+	.IMPORT __nj_light_material_
+	.EXPORT _njCreateLight
+	.SECTION PSG,CODE,ALIGN=4
+func_00000000:
+	mov #17,R1
+	cmp/hs R1,R4
+	bt lbl_00000056
+	shll R4
+	mova lbl_00000010,R0
+	mov.w @(R0,R4),R0
+	braf R0
+	nop
+lbl_00000010:
+	.data.l h'00260022
+	mov.b R5,@(R0,R0)
+	mov.b @(R0,R2),R0
+	.data.w h'0052
+	mov.l @(R0,R3),R0
+	.data.w h'0050
+	mov.b @(R0,R3),R0
+	mov.l @(R0,R4),R0
+	stc SGR,R0
+	mov.b @(R0,R4),R0
+	ldtlb
+	.data.w h'004A
+	mov.l R3,@(R0,R0)
+	clrs
+	mov.b R3,@(R0,R0)
+	mov.l R4,@(R0,R0)
+	rts
+	fldi1 FR0
+	fmov FR4,FR0
+	rts
+	fsqrt FR0
+	fmov FR4,FR0
+	fsqrt FR4
+	rts
+	fmul FR4,FR0
+	fmul FR4,FR4
+	fmul FR4,FR4
+	fmul FR4,FR4
+	fmul FR4,FR4
+	fmul FR4,FR4
+	fmov FR4,FR0
+	fmul FR4,FR0
+	rts
+	fmul FR4,FR0
+lbl_00000056:
+	fmul FR4,FR4
+	fmul FR4,FR4
+	fmul FR4,FR4
+	fmul FR4,FR4
+	fmul FR4,FR4
+	fmul FR4,FR4
+	fmul FR4,FR4
+	fmov FR4,FR0
+	rts
+	nop
+	nop
+	rts
+	nop
+func_00000070:
+	fmov @R5+,FR3
+	fmul FR4,FR3
+	fmov @R5+,FR2
+	fmul FR4,FR2
+	fmov @R5+,FR1
+	fmul FR4,FR1
+	fmov @R5+,FR0
+	fmul FR4,FR0
+	fmov FR3,@R4
+	add #4,R4
+	fmov FR2,@R4
+	add #4,R4
+	fmov FR1,@R4
+	add #4,R4
+	rts
+	fmov FR0,@R4
+_njCreateLight:
+	mov.w lbl_000000A2,R0
+	mov.l lbl_000000A4,R3
+	mov #32,R1
+	mov.l @(R0,R3),R2
+	cmp/ge R1,R2
+	bf/s lbl_000000A8
+	mov R2,R1
+	rts
+	nop
+lbl_000000A2:
+	.data.w h'0080
+lbl_000000A4:
+	.data.l __nj_light_control_
+lbl_000000A8:
+	mov.l R14,@-R15
+	sts.l PR,@-R15
+	mov R4,R14
+	shll2 R1
+	add R3,R1
+	mov.l R4,@R1
+	add #1,R2
+	mov.l R2,@(R0,R3)
+	mov.w lbl_00000194,R7
+	mov.w lbl_00000196,R6
+	add R4,R7
+	add R4,R6
+	fldi1 FR11
+	mov #1,R1
+	fmov FR11,FR10
+	mov #88,R3
+	fldi0 FR9
+	add R4,R3
+	fneg FR10
+	mov.l R1,@R3
+	add #-4,R3
+	fmov FR10,@R3
+	fmov FR9,@-R3
+	fmov FR9,@-R3
+	fmov FR9,@-R3
+	fmov FR9,@-R3
+	fmov FR9,@-R3
+	mov.w lbl_00000198,R2
+	mov.w lbl_0000019A,R1
+	mova lbl_000001A0,R0
+	fmov @R0,FR3
+	mova lbl_000001A4,R0
+	fmov @R0,FR2
+	mov #48,R3
+	add R7,R3
+	mova lbl_000001A8,R0
+	fmov @R0,FR1
+	fmov FR11,@R3
+	fmov FR11,@-R3
+	fmov FR11,@-R3
+	fmov FR9,@-R3
+	mov.l R2,@-R3
+	mov.l R1,@-R3
+	add #-4,R3
+	fmov FR3,@-R3
+	fmov FR11,@-R3
+	fmov FR2,@-R3
+	fmov FR11,@-R3
+	fmov FR1,@-R3
+	mov.l R5,@-R3
+	mov #68,R3
+	add R6,R3
+	fmov FR10,@R3
+	fmov FR9,@-R3
+	fmov FR9,@-R3
+	fmov FR9,@-R3
+	fmov FR9,@-R3
+	fmov FR9,@-R3
+	mov #16,R0
+	fmov @(R0,R7),FR4
+	mov #20,R0
+	fmov @(R0,R7),FR3
+	fmul FR4,FR4
+	fmul FR3,FR3
+	mov #8,R0
+	fmov FR4,@(R0,R6)
+	mov #12,R0
+	fmov FR3,@(R0,R6)
+	lds R1,FPUL
+	fsca FPUL,DR0
+	lds R2,FPUL
+	fsca FPUL,DR2
+	fmul FR1,FR1
+	fmul FR3,FR3
+	mov #16,R0
+	fmov FR1,@(R0,R6)
+	mov #20,R0
+	fmov FR3,@(R0,R6)
+	mov #16,R0
+	fmov @(R0,R7),FR4
+	mov #20,R0
+	fmov @(R0,R7),FR3
+	fsub FR3,FR4
+	fneg FR4
+	fldi1 FR2
+	fdiv FR4,FR2
+	fmul FR2,FR3
+	mov #24,R0
+	fmov FR2,@(R0,R6)
+	mov #28,R0
+	fmov FR3,@(R0,R6)
+	mov #44,R0
+	mov.w R2,@(R0,R6)
+	add #2,R0
+	mov.w R1,@(R0,R6)
+	mov.l lbl_000001AC,R3
+	fmov @R3,FR4
+	ftrc FR4,FPUL
+	mov #40,R0
+	sts FPUL,R1
+	mov.l R1,@(R0,R6)
+	mov #36,R0
+	fmov FR11,@(R0,R6)
+	mov.w lbl_0000019C,R2
+	cmp/eq R2,R5
+	bt lbl_00000182
+	mov.w lbl_0000019E,R1
+	cmp/eq R1,R5
+	bf lbl_000001B0
+lbl_00000182:
+	mov #20,R0
+	fmov @(R0,R6),FR3
+	add #-4,R0
+	fmov @(R0,R6),FR2
+	fsub FR3,FR2
+	fmul FR2,FR2
+	fsrra FR2
+	bra lbl_000001C2
+	add #16,R0
+lbl_00000194:
+	.data.w h'0124
+lbl_00000196:
+	.data.w h'0060
+lbl_00000198:
+	.data.w h'1555
+lbl_0000019A:
+	.data.w h'071c
+lbl_0000019C:
+	.data.w h'0088
+lbl_0000019E:
+	.data.w h'00c8
+lbl_000001A0:
+	.data.l h'477FFF00
+lbl_000001A4:
+	.data.l h'3E999999
+lbl_000001A8:
+	.data.l h'3E4CCCCC
+lbl_000001AC:
+	.data.l __nj_light_material_+48
+lbl_000001B0:
+	mov #40,R0
+	mov.l @(R0,R6),R4
+	add #-24,R0
+	bsr func_00000000
+	fmov @(R0,R6),FR4
+	fmov FR0,FR2
+	fmul FR2,FR2
+	fsrra FR2
+	mov #32,R0
+lbl_000001C2:
+	fmov FR2,@(R0,R6)
+	mov #36,R0
+	mov #84,R4
+	mov #36,R5
+	fmov @(R0,R6),FR4
+	add R7,R5
+	bsr func_00000070
+	add R6,R4
+	mov #4,R0
+	mov #84,R5
+	mov #16,R4
+	fmov @(R0,R7),FR4
+	add R6,R5
+	bsr func_00000070
+	add R5,R4
+	mov #8,R0
+	mov #84,R5
+	mov #32,R4
+	fmov @(R0,R7),FR4
+	add R6,R5
+	bsr func_00000070
+	add R5,R4
+	mov #12,R0
+	mov #84,R5
+	mov #48,R4
+	fmov @(R0,R7),FR4
+	add R6,R5
+	bsr func_00000070
+	add R5,R4
+	mov.l lbl_00000208,R2
+	mov R14,R4
+	lds.l @R15+,PR
+	mov.l @R15+,R14
+	jmp @R2
+	add #0,R4
+lbl_00000208:
+	.data.l _njUnitMatrix
+	rts
+	nop

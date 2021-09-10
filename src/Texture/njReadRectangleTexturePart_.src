@@ -1,0 +1,207 @@
+	.IMPORT __nj_texmemsize
+	.IMPORT __nj_texmemlist
+	.IMPORT _njSearchTexList
+	.IMPORT __nj_current_texlist
+	.EXPORT _njReadRectangleTexturePartNum
+	.EXPORT _njReadRectangleTexturePartNumG
+	.EXPORT _njReadRectangleTexturePartLN
+	.SECTION PSG,CODE,ALIGN=4
+_njReadRectangleTexturePartLN:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R11,@-R15
+	mov.l R10,@-R15
+	mov.l R9,@-R15
+	mov.l R8,@-R15
+	add #-20,R15
+	mov R4,R7
+	add #24,R7
+	mov.l @R7,R4
+	mov.l lbl_00000130,R2
+	shlr16 R4
+	mov.w lbl_0000012C,R1
+	and R2,R4
+	mov R4,R0
+	cmp/eq R1,R0
+	bt lbl_0000002E
+	mov.w lbl_0000012E,R1
+	cmp/eq R1,R0
+	bt lbl_0000002E
+	bra lbl_000000C6
+	nop
+lbl_0000002E:
+	mov.l lbl_00000134,R3
+	mov.l @(28,R7),R1
+	or R3,R1
+	mov.l R1,@(16,R15)
+	mov.l @R6,R4
+	mov.l @(8,R6),R14
+	mov.l @(12,R7),R13
+	mov R4,R2
+	add R14,R2
+	mov.l @(12,R6),R11
+	mov.l @(4,R6),R8
+	cmp/gt R13,R2
+	bf/s lbl_0000004E
+	mov.l @(16,R7),R7
+	mov R13,R4
+	sub R14,R4
+lbl_0000004E:
+	mov R8,R3
+	add R11,R3
+	cmp/gt R7,R3
+	bf/s lbl_0000005C
+	mov.l @(16,R6),R3
+	mov R7,R8
+	sub R11,R8
+lbl_0000005C:
+	mov.l R3,@R15
+	mov.l @(20,R6),R2
+	mov.l R2,@(12,R15)
+	mov.l @(24,R6),R12
+	tst R12,R12
+	bf lbl_0000006A
+	mov R4,R12
+lbl_0000006A:
+	mov R11,R9
+	add R11,R8
+	shll R12
+	mov.l R5,@(8,R15)
+	mov.l @R15,R3
+	shll R3
+	shll R14
+	mov.l R3,@R15
+	shll R13
+	mul.l R9,R13
+	shll R4
+	mov R4,R10
+	add R14,R10
+	sts MACL,R7
+	bra lbl_000000BC
+	mov.l R8,@(4,R15)
+lbl_0000008A:
+	mov.l @(12,R15),R5
+	mov R7,R6
+	mov R14,R4
+	add R4,R6
+	add #1,R5
+	cmp/ge R10,R4
+	mov.l R5,@(12,R15)
+	add #-1,R5
+	mul.l R12,R5
+	mov.l @R15,R3
+	mov.l @(8,R15),R2
+	sts MACL,R5
+	add R3,R5
+	add R2,R5
+	mov.l @(16,R15),R2
+	add R2,R6
+	bt lbl_000000B8
+lbl_000000AC:
+	mov.w @R6+,R3
+	add #2,R4
+	cmp/ge R10,R4
+	mov.w R3,@R5
+	bf/s lbl_000000AC
+	add #2,R5
+lbl_000000B8:
+	add R13,R7
+	add #1,R9
+lbl_000000BC:
+	mov.l @(4,R15),R3
+	cmp/ge R3,R9
+	bf lbl_0000008A
+	bra lbl_000000CA
+	nop
+lbl_000000C6:
+	bra lbl_000000CC
+	mov #-1,R0
+lbl_000000CA:
+	mov #1,R0
+lbl_000000CC:
+	add #20,R15
+	mov.l @R15+,R8
+	mov.l @R15+,R9
+	mov.l @R15+,R10
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+_njReadRectangleTexturePartNum:
+	sts.l PR,@-R15
+	add #-4,R15
+	mov.l lbl_00000138,R2
+	mov R4,R1
+	shll R4
+	mov.l @R2,R3
+	add R1,R4
+	shll2 R4
+	mov.l @R3,R3
+	add R3,R4
+	mov.l @(8,R4),R1
+	mov.l R1,@R15
+	bsr _njReadRectangleTexturePartLN
+	mov R1,R4
+	add #4,R15
+	lds.l @R15+,PR
+	rts
+	nop
+_njReadRectangleTexturePartNumG:
+	mov.l R14,@-R15
+	sts.l PR,@-R15
+	add #-12,R15
+	mov.l lbl_0000013C,R3
+	mov.l lbl_00000144,R1
+	mov.l lbl_00000140,R2
+	mov.l R4,@(8,R15)
+	mov.l R5,@(4,R15)
+	mov.l R6,@R15
+	mov.l @R3,R5
+	mov.l @(8,R15),R6
+	jsr @R1
+	mov.l @R2,R4
+	mov R0,R14
+	cmp/pz R14
+	bt lbl_00000148
+	mov #-1,R0
+	add #12,R15
+	lds.l @R15+,PR
+	rts
+	mov.l @R15+,R14
+lbl_0000012C:
+	.data.w h'0900
+lbl_0000012E:
+	.data.w h'0b00
+lbl_00000130:
+	.data.l h'0000FF00
+lbl_00000134:
+	.data.l h'A4000000
+lbl_00000138:
+	.data.l __nj_current_texlist
+lbl_0000013C:
+	.data.l __nj_texmemsize
+lbl_00000140:
+	.data.l __nj_texmemlist
+lbl_00000144:
+	.data.l _njSearchTexList
+lbl_00000148:
+	mov R14,R4
+	shll2 R4
+	mov.l lbl_00000168,R1
+	shll2 R4
+	mov R14,R3
+	mov.l @R15,R6
+	mov.l @R1,R2
+	add R3,R4
+	mov.l @(4,R15),R5
+	shll2 R4
+	bsr _njReadRectangleTexturePartLN
+	add R2,R4
+	add #12,R15
+	lds.l @R15+,PR
+	rts
+	mov.l @R15+,R14
+lbl_00000168:
+	.data.l __nj_texmemlist

@@ -1,0 +1,157 @@
+	.IMPORT __nj_texmemsize
+	.IMPORT __nj_texmemlist
+	.IMPORT _njInitTextureErrStat
+	.IMPORT _njSetTextureParam
+	.IMPORT _njCheckPaletteType
+	.IMPORT _njSearchTexList2
+	.IMPORT _njLoadTexMemFromMemory
+	.IMPORT _njSetFlagAddrAllTexture
+	.IMPORT __nj_current_texlist
+	.IMPORT __nj_texerr_
+	.EXPORT _njLoadCacheTextureLN
+	.EXPORT _njLoadCacheTextureNum
+	.SECTION PSG,CODE,ALIGN=4
+_njLoadCacheTextureLN:
+	mov.l R14,@-R15
+	mov R4,R14
+	sts.l PR,@-R15
+	mov.l @(16,R14),R0
+	tst #2,R0
+	bt lbl_00000016
+	mov #64,R0
+	mov.w @(R0,R14),R2
+	add #1,R2
+	bra lbl_00000072
+	mov.w R2,@(R0,R14)
+lbl_00000016:
+	mov.l lbl_000000E4,R2
+	mov R14,R5
+	add #20,R5
+	jsr @R2
+	mov #0,R4
+	cmp/pz R0
+	bt/s lbl_00000034
+	mov R0,R4
+	mov #66,R0
+	neg R4,R4
+	mov.w R4,@(R0,R14)
+	mov #-1,R0
+	lds.l @R15+,PR
+	rts
+	mov.l @R15+,R14
+lbl_00000034:
+	mov #66,R0
+	mov.l lbl_000000EC,R3
+	mov #0,R2
+	mov.w R2,@(R0,R14)
+	mov.l @(24,R14),R4
+	mov.l lbl_000000E8,R2
+	shlr16 R4
+	jsr @R3
+	and R2,R4
+	mov R0,R4
+	tst R4,R4
+	bt lbl_0000005E
+	mov.l lbl_000000F0,R3
+	mov #2,R5
+	mov.l @(20,R14),R6
+	jsr @R3
+	mov.l @R14,R4
+	mov.l @(16,R14),R0
+	or #8,R0
+	bra lbl_00000072
+	mov.l R0,@(16,R14)
+lbl_0000005E:
+	mov #64,R0
+	mov.l lbl_000000F4,R2
+	mov.w @(R0,R14),R3
+	add #1,R3
+	mov.w R3,@(R0,R14)
+	mov.l @(16,R14),R0
+	or #2,R0
+	mov.l R0,@(16,R14)
+	jsr @R2
+	mov R14,R4
+lbl_00000072:
+	mov #1,R0
+	lds.l @R15+,PR
+	rts
+	mov.l @R15+,R14
+_njLoadCacheTextureNum:
+	mov.l lbl_000000F8,R3
+	mov R4,R2
+	shll R2
+	mov R4,R1
+	add R1,R2
+	mov.l R14,@-R15
+	shll2 R2
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov R4,R14
+	sts.l PR,@-R15
+	mov.l @R3,R6
+	mov.l lbl_00000100,R1
+	mov.l @R6,R6
+	mov.l lbl_00000104,R3
+	add R2,R6
+	mov.l lbl_000000FC,R2
+	mov.l @(8,R6),R6
+	mov.l @R2,R5
+	jsr @R3
+	mov.l @R1,R4
+	mov.l lbl_00000108,R2
+	jsr @R2
+	mov R0,R13
+	mov.l lbl_0000010C,R12
+	cmp/pz R13
+	bt lbl_000000BA
+	mov #1,R2
+	mov.l R14,@R12
+	mov.l R2,@(8,R12)
+	bra lbl_000000D8
+	mov #-1,R0
+lbl_000000BA:
+	mov R13,R4
+	shll2 R4
+	mov.l lbl_00000100,R1
+	shll2 R4
+	mov R13,R3
+	add R3,R4
+	mov.l @R1,R2
+	shll2 R4
+	bsr _njLoadCacheTextureLN
+	add R2,R4
+	mov R0,R4
+	cmp/pz R4
+	bt/s lbl_000000D8
+	mov R4,R0
+	mov.l R14,@R12
+lbl_000000D8:
+	lds.l @R15+,PR
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+	.data.w h'0000
+lbl_000000E4:
+	.data.l _njLoadTexMemFromMemory
+lbl_000000E8:
+	.data.l h'0000FF00
+lbl_000000EC:
+	.data.l _njCheckPaletteType
+lbl_000000F0:
+	.data.l _njSetFlagAddrAllTexture
+lbl_000000F4:
+	.data.l _njSetTextureParam
+lbl_000000F8:
+	.data.l __nj_current_texlist
+lbl_000000FC:
+	.data.l __nj_texmemsize
+lbl_00000100:
+	.data.l __nj_texmemlist
+lbl_00000104:
+	.data.l _njSearchTexList2
+lbl_00000108:
+	.data.l _njInitTextureErrStat
+lbl_0000010C:
+	.data.l __nj_texerr_

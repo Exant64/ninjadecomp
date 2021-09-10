@@ -1,0 +1,7 @@
+	.EXPORT _njSetCameraAngle
+	.SECTION PSG,CODE,ALIGN=4
+_njSetCameraAngle:
+	rts
+	mov.l R5,@(28,R4)
+	rts
+	nop

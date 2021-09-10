@@ -1,0 +1,40 @@
+	.IMPORT _njRotateViewXRelative
+	.IMPORT _njRotateViewYRelative
+	.IMPORT _njRotateViewZRelative
+	.EXPORT _njRotateViewXYZRelative
+	.SECTION PSG,CODE,ALIGN=4
+_njRotateViewXYZRelative:
+	mov.l R5,@-R15
+	mov.l R6,@-R15
+	sts.l PR,@-R15
+	mov.l R4,@-R15
+	mov.l lbl_0000002C,R3
+	jsr @R3
+	mov R7,R5
+	mov.l lbl_00000030,R2
+	mov.l lbl_00000034,R0
+	mov.l @R15,R4
+	jsr @R2
+	mov.l @(R0,R15),R5
+	mov.l lbl_00000038,R3
+	mov.l lbl_0000003C,R0
+	mov.l @R15,R4
+	jsr @R3
+	mov.l @(R0,R15),R5
+	mov.l @R15+,R4
+	lds.l @R15+,PR
+	mov.l @R15+,R6
+	rts
+	mov.l @R15+,R5
+lbl_0000002C:
+	.data.l _njRotateViewZRelative
+lbl_00000030:
+	.data.l _njRotateViewYRelative
+lbl_00000034:
+	.data.l h'00000008
+lbl_00000038:
+	.data.l _njRotateViewXRelative
+lbl_0000003C:
+	.data.l h'0000000C
+	rts
+	nop

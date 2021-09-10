@@ -1,0 +1,102 @@
+	.IMPORT __nj_depth_far_
+	.IMPORT __nj_control_3d_flag_
+	.IMPORT __nj_vertex_buf_
+	.IMPORT __nj_depth_range_
+	.IMPORT __nj_constant_attr_or_
+	.IMPORT __nj_vertex_num_
+	.IMPORT __nj_constant_attr_and_
+	.IMPORT __nj_constant_material_
+	.IMPORT __nj_depth_near_
+	.EXPORT _njInit3D
+	.EXPORT _njSetConstantAttr
+	.EXPORT _njControl3D
+	.EXPORT _njSetConstantMaterial
+	.EXPORT _njSetDepthQueue
+	.SECTION PSG,CODE,ALIGN=4
+_njInit3D:
+	mov.l lbl_00000080,R2
+	mov.l lbl_0000007C,R3
+	mov.l lbl_00000088,R0
+	mov.l R4,@R3
+	mov #-1,R3
+	mov.l R5,@R2
+	mov #0,R4
+	mov.l lbl_0000008C,R2
+	mov.l lbl_00000084,R1
+	fldi0 FR4
+	mov.l R4,@R1
+	mov.l R3,@R0
+	mova lbl_00000094,R0
+	mov.l R4,@R2
+	fmov @R0,FR3
+	mov #4,R0
+	mov.l lbl_00000090,R4
+	fmov FR3,@R4
+	fmov FR4,@(R0,R4)
+	mov #8,R0
+	fmov FR4,@(R0,R4)
+	mov #12,R0
+	rts
+	fmov FR4,@(R0,R4)
+_njControl3D:
+	mov.l lbl_00000084,R3
+	rts
+	mov.l R4,@R3
+_njSetConstantAttr:
+	mov.l lbl_00000088,R2
+	mov.l lbl_0000008C,R3
+	mov.l R4,@R2
+	rts
+	mov.l R5,@R3
+_njSetConstantMaterial:
+	mov #4,R0
+	mov.l lbl_00000090,R5
+	fmov @R4,FR3
+	fmov FR3,@R5
+	fmov @(R0,R4),FR2
+	fmov FR2,@(R0,R5)
+	mov #8,R0
+	fmov @(R0,R4),FR3
+	fmov FR3,@(R0,R5)
+	mov #12,R0
+	fmov @(R0,R4),FR3
+	rts
+	fmov FR3,@(R0,R5)
+_njSetDepthQueue:
+	mov.l lbl_00000098,R4
+	fneg FR5
+	fmov FR5,FR2
+	mov.l lbl_0000009C,R5
+	mov.l lbl_000000A0,R3
+	fneg FR4
+	fmov FR4,@R4
+	fmov FR5,@R5
+	fmov @R4,FR3
+	fsub FR3,FR2
+	fldi1 FR3
+	fdiv FR2,FR3
+	rts
+	fmov FR3,@R3
+	nop
+	.data.w h'0000
+	.data.w h'0000
+lbl_0000007C:
+	.data.l __nj_vertex_buf_
+lbl_00000080:
+	.data.l __nj_vertex_num_
+lbl_00000084:
+	.data.l __nj_control_3d_flag_
+lbl_00000088:
+	.data.l __nj_constant_attr_and_
+lbl_0000008C:
+	.data.l __nj_constant_attr_or_
+lbl_00000090:
+	.data.l __nj_constant_material_
+lbl_00000094:
+	.data.l h'437F0000
+lbl_00000098:
+	.data.l __nj_depth_near_
+lbl_0000009C:
+	.data.l __nj_depth_far_
+lbl_000000A0:
+	.data.l __nj_depth_range_

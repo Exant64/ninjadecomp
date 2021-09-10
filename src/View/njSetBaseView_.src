@@ -1,0 +1,39 @@
+	.IMPORT __nj_view_
+	.EXPORT _njSetBaseView
+	.SECTION PSG,CODE,ALIGN=4
+_njSetBaseView:
+	tst R4,R4
+	bf lbl_00000008
+	mov.l lbl_00000038,R2
+	mov.l @R2,R4
+lbl_00000008:
+	mov R4,R3
+	mov.l lbl_0000003C,R0
+	add #64,R4
+	fmov @R4+,FR0
+	fmov FR0,@(R0,R3)
+	add #4,R0
+	fmov @R4+,FR0
+	fmov FR0,@(R0,R3)
+	add #4,R0
+	fmov @R4+,FR0
+	fmov FR0,@(R0,R3)
+	add #4,R0
+	fmov @R4+,FR0
+	fmov FR0,@(R0,R3)
+	add #4,R0
+	fmov @R4+,FR0
+	fmov FR0,@(R0,R3)
+	add #4,R0
+	fmov @R4+,FR0
+	fmov FR0,@(R0,R3)
+	add #4,R0
+	fmov @R4+,FR0
+	rts
+	fmov FR0,@(R0,R3)
+lbl_00000038:
+	.data.l __nj_view_
+lbl_0000003C:
+	.data.l h'0000005C
+	rts
+	nop

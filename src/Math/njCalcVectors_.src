@@ -1,0 +1,95 @@
+	.IMPORT __nj_matrix_flag_
+	.EXPORT _njCalcVectors
+	.SECTION PSG,CODE,ALIGN=4
+_njCalcVectors:
+	add #12,R6
+	mov.l lbl_00000014,R2
+	tst R4,R4
+	mov.l @R2,R3
+	bf lbl_00000042
+	cmp/pl R7
+	bt lbl_00000018
+	rts
+	nop
+	.data.w h'0000
+lbl_00000014:
+	.data.l __nj_matrix_flag_
+lbl_00000018:
+	fmov @R5+,FR4
+	fmov @R5+,FR5
+	fmov @R5+,FR6
+	fldi0 FR7
+	ftrv XMTRX,FV4
+	tst R3,R3
+	bt lbl_00000032
+	fldi0 FR7
+	fipr FV4,FV4
+	fsrra FR7
+	fmul FR7,FR4
+	fmul FR7,FR5
+	fmul FR7,FR6
+lbl_00000032:
+	fmov FR6,@-R6
+	fmov FR5,@-R6
+	fmov FR4,@-R6
+	add #24,R6
+	dt R7
+	bf lbl_00000018
+	rts
+	nop
+lbl_00000042:
+	cmp/pl R7
+	bt lbl_0000004A
+	rts
+	nop
+lbl_0000004A:
+	fmov @R5+,FR0
+	fmov @R5+,FR1
+	fmov @R5+,FR2
+	fldi0 FR3
+	mov #16,R0
+	fmov @R4,FR4
+	fmov @(R0,R4),FR5
+	mov #32,R0
+	fmov @(R0,R4),FR6
+	fldi0 FR7
+	fipr FV0,FV4
+	mov #4,R0
+	fmov @(R0,R4),FR8
+	mov #20,R0
+	fmov @(R0,R4),FR9
+	mov #36,R0
+	fmov @(R0,R4),FR10
+	fldi0 FR11
+	fipr FV0,FV8
+	fmov FR7,FR4
+	fmov FR11,FR5
+	mov #8,R0
+	fmov @(R0,R4),FR8
+	mov #24,R0
+	fmov @(R0,R4),FR9
+	mov #40,R0
+	fmov @(R0,R4),FR10
+	fldi0 FR11
+	fipr FV0,FV8
+	fmov FR11,FR6
+	tst R3,R3
+	bt lbl_00000096
+	fldi0 FR7
+	fipr FV4,FV4
+	fsrra FR7
+	fmul FR7,FR4
+	fmul FR7,FR5
+	fmul FR7,FR6
+lbl_00000096:
+	fmov FR6,@-R6
+	fmov FR5,@-R6
+	fmov FR4,@-R6
+	add #24,R6
+	dt R7
+	bf lbl_0000004A
+	rts
+	nop
+	nop
+	rts
+	nop

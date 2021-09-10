@@ -1,0 +1,98 @@
+	.IMPORT _frexp
+	.IMPORT _kmSetFogDensity
+	.EXPORT _njGenerateFogTable2
+	.SECTION PSG,CODE,ALIGN=4
+_njGenerateFogTable2:
+	mov.l R14,@-R15
+	fmov FR15,@-R15
+	sts.l PR,@-R15
+	add #-12,R15
+	mova lbl_00000098,R0
+	fmov FR4,FR15
+	mov.l R4,@(8,R15)
+	fmov @R0,FR3
+	fcmp/gt FR15,FR3
+	bf/s lbl_0000001C
+	mov #0,R14
+	mov.l lbl_0000009C,R14
+	bra lbl_0000004A
+	nop
+lbl_0000001C:
+	mov.l lbl_000000A0,R3
+	mov R15,R4
+	fmov FR15,FR4
+	jsr @R3
+	fneg FR4
+	mova lbl_000000A4,R0
+	fmov FR0,FR2
+	fmov @R0,FR3
+	mov.l @R15,R2
+	fmul FR3,FR2
+	mov.l lbl_000000A8,R3
+	add #-1,R2
+	fmov FR0,FR4
+	mov R2,R0
+	mov.l R2,@R15
+	mov.b R0,@(4,R15)
+	ftrc FR2,FPUL
+	mov.b @(4,R15),R0
+	sts FPUL,R4
+	and R3,R4
+	extu.w R4,R4
+	or R4,R14
+	or R0,R14
+lbl_0000004A:
+	mov.l lbl_000000AC,R3
+	jsr @R3
+	mov R14,R4
+	mov #15,R7
+	fldi1 FR4
+	mova lbl_000000B0,R0
+	mov R7,R5
+	fmov @R0,FR5
+	mov #0,R4
+	add #113,R5
+	mov #1,R6
+lbl_00000060:
+	mov R4,R2
+	mov #-4,R1
+	shad R1,R2
+	mov R6,R1
+	shad R2,R1
+	mov R4,R2
+	and R7,R2
+	fmov FR4,FR2
+	add #16,R2
+	mov.l @(8,R15),R0
+	mul.l R2,R1
+	mov R4,R3
+	add #1,R4
+	shll2 R3
+	cmp/ge R5,R4
+	sts MACL,R1
+	lds R1,FPUL
+	float FPUL,FR3
+	fdiv FR5,FR3
+	fdiv FR3,FR2
+	fmov FR2,@(R0,R3)
+	bf lbl_00000060
+	add #12,R15
+	lds.l @R15+,PR
+	fmov @R15+,FR15
+	rts
+	mov.l @R15+,R14
+	.data.w h'0000
+lbl_00000098:
+	.data.l h'C7800000
+lbl_0000009C:
+	.data.l h'00008010
+lbl_000000A0:
+	.data.l _frexp
+lbl_000000A4:
+	.data.l h'47800000
+lbl_000000A8:
+	.data.l h'0000FF00
+lbl_000000AC:
+	.data.l _kmSetFogDensity
+lbl_000000B0:
+	.data.l _njGenerateFogTable2

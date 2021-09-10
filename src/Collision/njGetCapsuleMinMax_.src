@@ -1,0 +1,100 @@
+	.EXPORT _njGetCapsuleMinMax
+	.SECTION PSG,CODE,ALIGN=4
+_njGetCapsuleMinMax:
+	fmov FR15,@-R15
+	add #-8,R15
+	mov #24,R0
+	fmov @R4,FR5
+	fmov @(R0,R4),FR4
+	mov #4,R0
+	fmov @(R0,R4),FR8
+	mov #8,R0
+	fmov @(R0,R4),FR6
+	mov #12,R0
+	fmov FR5,FR7
+	fadd FR4,FR7
+	fmov FR5,FR10
+	fsub FR4,FR10
+	fmov @(R0,R4),FR5
+	mov #16,R0
+	fmov @(R0,R4),FR3
+	mov #20,R0
+	fmov FR5,FR11
+	fsub FR4,FR11
+	fmov FR3,FR0
+	fsub FR4,FR0
+	fmov FR3,@R15
+	fmov @(R0,R4),FR3
+	mov #4,R0
+	fmov FR8,FR15
+	fsub FR4,FR15
+	fmov FR3,FR1
+	fsub FR4,FR1
+	fmov FR6,FR2
+	fsub FR4,FR2
+	fadd FR4,FR6
+	fmov FR3,@(R0,R15)
+	fadd FR4,FR8
+	fmov FR5,FR9
+	fcmp/gt FR10,FR11
+	fmov @R15,FR5
+	fadd FR4,FR9
+	mov #4,R0
+	fmov FR4,FR3
+	fadd FR4,FR5
+	fmov @(R0,R15),FR4
+	bf/s lbl_0000005C
+	fadd FR3,FR4
+	bra lbl_0000005E
+	fmov FR10,FR3
+lbl_0000005C:
+	fmov FR11,FR3
+lbl_0000005E:
+	fcmp/gt FR15,FR0
+	bf/s lbl_00000068
+	fmov FR3,@R5
+	bra lbl_0000006A
+	fmov FR15,FR3
+lbl_00000068:
+	fmov FR0,FR3
+lbl_0000006A:
+	fcmp/gt FR2,FR1
+	mov #4,R0
+	bf/s lbl_00000076
+	fmov FR3,@(R0,R5)
+	bra lbl_00000078
+	fmov FR2,FR3
+lbl_00000076:
+	fmov FR1,FR3
+lbl_00000078:
+	fcmp/gt FR9,FR7
+	mov #8,R0
+	bf/s lbl_00000084
+	fmov FR3,@(R0,R5)
+	bra lbl_00000086
+	fmov FR7,FR3
+lbl_00000084:
+	fmov FR9,FR3
+lbl_00000086:
+	fcmp/gt FR5,FR8
+	bf/s lbl_00000090
+	fmov FR3,@R6
+	bra lbl_00000092
+	fmov FR8,FR3
+lbl_00000090:
+	fmov FR5,FR3
+lbl_00000092:
+	fcmp/gt FR4,FR6
+	mov #4,R0
+	bf/s lbl_0000009E
+	fmov FR3,@(R0,R6)
+	bra lbl_000000A0
+	fmov FR6,FR3
+lbl_0000009E:
+	fmov FR4,FR3
+lbl_000000A0:
+	mov #8,R0
+	fmov FR3,@(R0,R6)
+	add #8,R15
+	rts
+	fmov @R15+,FR15

@@ -1,0 +1,1377 @@
+	.IMPORT __nj_depth_far_
+	.IMPORT __nj_view_matrix_
+	.IMPORT __nj_light_control_
+	.IMPORT __nj_depth_range_
+	.IMPORT __nj_light_material_
+	.IMPORT _njCalcVector
+	.IMPORT _njSqrt
+	.IMPORT _acosf
+	.IMPORT __nj_depth_near_
+	.IMPORT __nj_depth_enable_
+	.IMPORT __nj_light_queue_
+	.IMPORT _njCalcPoint
+	.IMPORT _njMultiMatrix
+	.IMPORT __nj_tmp_local_mtrx_
+	.EXPORT _njChunkLightLoop
+	.EXPORT _njChunkDirectLight
+	.EXPORT _njChunkSpotLight
+	.EXPORT __nj_ignore_specular_flag_
+	.EXPORT __nj_ignore_ambient_flag_
+	.EXPORT __nj_chunk_rgb_lt_func_
+	.EXPORT __nj_chunk_light_calc_ambient_
+	.EXPORT _njSetChunkLightQueue
+	.EXPORT __nj_ptr_chunk_rgb_lt_nml_
+	.EXPORT __nj_chunk_light_ambient_
+	.EXPORT _njCheckChunkLightMaterials
+	.EXPORT _njCalculateChunkLights
+	.EXPORT __nj_ptr_chunk_rgb_lt_pnt_
+	.EXPORT __nj_light_clip_flag_
+	.EXPORT _njResetChunkLightQueue
+	.EXPORT _njChunkPointLight
+	.EXPORT _njGetChunkLightDistance
+	.EXPORT _njChunkDummyLight
+	.EXPORT __nj_ptr_chunk_rgb_lt_argb_
+	.EXPORT __nj_ptr_chunk_rgb_lt_
+	.EXPORT _njCalcChunkLightMaterials
+	.EXPORT _njCnkSetAmbient
+	.SECTION PSG,CODE,ALIGN=4
+PSG_0:
+	mov #17,R1
+	cmp/hs R1,R4
+	bt lbl_00000056
+	shll R4
+	mova lbl_00000010,R0
+	mov.w @(R0,R4),R0
+	braf R0
+	nop
+lbl_00000010:
+	.data.l h'00260022
+	mov.b R5,@(R0,R0)
+	mov.b @(R0,R2),R0
+	.data.w h'0052
+	mov.l @(R0,R3),R0
+	.data.w h'0050
+	mov.b @(R0,R3),R0
+	mov.l @(R0,R4),R0
+	stc SGR,R0
+	mov.b @(R0,R4),R0
+	ldtlb
+	.data.w h'004A
+	mov.l R3,@(R0,R0)
+	clrs
+	mov.b R3,@(R0,R0)
+	mov.l R4,@(R0,R0)
+	rts
+	fldi1 FR0
+	fmov FR4,FR0
+	rts
+	fsqrt FR0
+	fmov FR4,FR0
+	fsqrt FR4
+	rts
+	fmul FR4,FR0
+	fmul FR4,FR4
+	fmul FR4,FR4
+	fmul FR4,FR4
+	fmul FR4,FR4
+	fmul FR4,FR4
+	fmov FR4,FR0
+	fmul FR4,FR0
+	rts
+	fmul FR4,FR0
+lbl_00000056:
+	fmul FR4,FR4
+	fmul FR4,FR4
+	fmul FR4,FR4
+	fmul FR4,FR4
+	fmul FR4,FR4
+	fmul FR4,FR4
+	fmul FR4,FR4
+	fmov FR4,FR0
+	rts
+	nop
+	nop
+	rts
+	nop
+_njChunkDirectLight:
+	mov.l lbl_00000110,R3
+	mov.w lbl_00000106,R1
+	mov.l @R3,R3
+	add R4,R1
+	fmov @R1+,FR0
+	fmov @R1+,FR1
+	fmov @R1+,FR2
+	fldi0 FR3
+	fmov @R3+,FR4
+	fmov @R3+,FR5
+	fmov @R3+,FR6
+	fldi0 FR7
+	fipr FV4,FV0
+	fldi0 FR1
+	fneg FR3
+	fcmp/gt FR1,FR3
+	bf lbl_00000102
+	fmov FR3,FR0
+	mov.w lbl_00000108,R2
+	add R4,R2
+	fmov @R2+,FR4
+	mov.l lbl_00000114,R1
+	fmov @R2+,FR5
+	mov.l @R1,R1
+	add #4,R1
+	fmov @R2+,FR6
+	fmov @R1+,FR7
+	fmov @R1+,FR8
+	fmov @R1+,FR9
+	fmac FR0,FR4,FR7
+	fmac FR0,FR5,FR8
+	fmac FR0,FR6,FR9
+	mov.l lbl_00000118,R3
+	fmov FR9,@-R1
+	mov.l @R3,R3
+	fmov FR8,@-R1
+	fmov FR7,@-R1
+	tst R3,R3
+	bf lbl_00000102
+	fmul FR0,FR0
+	sts.l PR,@-R15
+	mov.l lbl_0000011C,R3
+	mov.l R4,@-R15
+	mov.w lbl_0000010A,R2
+	add R2,R4
+	mov.l @R4,R4
+	fmov FR0,FR4
+	jsr @R3
+	nop
+	mov.l lbl_00000114,R1
+	mov.l @R15+,R4
+	mov.l @R1,R1
+	mov.w lbl_0000010C,R2
+	lds.l @R15+,PR
+	add R4,R2
+	mov R1,R3
+	fmov @R2+,FR1
+	fmov @R2+,FR2
+	fmov @R2+,FR3
+	add #20,R1
+	fmov @R2+,FR4
+	fmov @R3+,FR5
+	fmov @R1+,FR6
+	fmov @R1+,FR7
+	fmov @R1+,FR8
+	fmac FR0,FR1,FR5
+	fmac FR0,FR2,FR6
+	fmac FR0,FR3,FR7
+	fmac FR0,FR4,FR8
+	fmov FR5,@-R3
+	fmov FR8,@-R1
+	fmov FR7,@-R1
+	fmov FR6,@-R1
+lbl_00000102:
+	rts
+	nop
+lbl_00000106:
+	.data.w h'009c
+lbl_00000108:
+	.data.w h'0108
+lbl_0000010A:
+	.data.w h'0088
+lbl_0000010C:
+	.data.w h'0114
+	.data.w h'0000
+lbl_00000110:
+	.data.l __nj_ptr_chunk_rgb_lt_nml_
+lbl_00000114:
+	.data.l __nj_ptr_chunk_rgb_lt_argb_
+lbl_00000118:
+	.data.l __nj_ignore_specular_flag_
+lbl_0000011C:
+	.data.l PSG_0
+	rts
+	nop
+_njChunkDummyLight:
+	rts
+	nop
+_njChunkPointLight:
+	mov.w lbl_00000200,R2
+	mov.l lbl_00000210,R3
+	add R4,R2
+	mov.l @R3,R3
+	fmov @R2+,FR0
+	fmov @R2+,FR1
+	fmov @R2+,FR2
+	fldi0 FR3
+	fmov @R3+,FR4
+	fmov @R3+,FR5
+	fmov @R3+,FR6
+	fldi0 FR7
+	fsub FR4,FR0
+	mov.l lbl_00000214,R2
+	fsub FR5,FR1
+	mov.l @R2,R2
+	fsub FR6,FR2
+	fmov @R2+,FR4
+	fmov @R2+,FR5
+	fmov @R2+,FR6
+	fipr FV0,FV4
+	fmov FR0,FR8
+	fmov FR1,FR9
+	fmov FR2,FR10
+	fldi0 FR11
+	fipr FV0,FV8
+	mov.w lbl_00000202,R0
+	fcmp/gt FR3,FR7
+	fmov @(R0,R4),FR1
+	bf lbl_000001FC
+	fcmp/gt FR11,FR1
+	bf lbl_000001FC
+	fmov FR11,FR0
+	fsrra FR0
+	fldi1 FR3
+	mov.w lbl_00000204,R0
+	fmul FR0,FR7
+	fmov @(R0,R4),FR2
+	fcmp/gt FR2,FR11
+	bf lbl_00000186
+	mov.w lbl_00000206,R0
+	fsqrt FR11
+	fmov @(R0,R4),FR0
+	mov.w lbl_00000208,R0
+	fneg FR0
+	fmov @(R0,R4),FR3
+	fmac FR0,FR11,FR3
+lbl_00000186:
+	mov.w lbl_0000020A,R2
+	fmov FR7,FR0
+	add R4,R2
+	fmul FR3,FR0
+	fmov @R2+,FR4
+	mov.l lbl_00000218,R3
+	fmov @R2+,FR5
+	mov.l @R3,R3
+	fmov @R2+,FR6
+	add #4,R3
+	fmov @R3+,FR8
+	fmov @R3+,FR9
+	fmac FR0,FR4,FR8
+	fmov @R3+,FR10
+	fmac FR0,FR5,FR9
+	fmac FR0,FR6,FR10
+	mov.l lbl_0000021C,R5
+	fmov FR10,@-R3
+	mov.l @R5,R5
+	fmov FR9,@-R3
+	mov #0,R6
+	fmov FR8,@-R3
+	cmp/eq R6,R5
+	bf lbl_000001FC
+	sts.l PR,@-R15
+	fmul FR7,FR7
+	mov.l R4,@-R15
+	mov.l lbl_00000220,R1
+	fmov FR3,@-R15
+	mov.w lbl_0000020C,R0
+	fmov FR7,FR4
+	jsr @R1
+	mov.l @(R0,R4),R4
+	fmov @R15+,FR3
+	mov.l @R15+,R4
+	fmul FR3,FR0
+	mov.w lbl_0000020E,R2
+	lds.l @R15+,PR
+	add R4,R2
+	mov.l lbl_00000218,R3
+	fmov @R2+,FR1
+	mov.l @R3,R3
+	fmov @R2+,FR2
+	mov R3,R5
+	fmov @R2+,FR3
+	fmov @R2+,FR4
+	add #20,R3
+	fmov @R5+,FR5
+	fmov @R3+,FR6
+	fmac FR0,FR1,FR5
+	fmov @R3+,FR7
+	fmac FR0,FR2,FR6
+	fmov @R3+,FR8
+	fmac FR0,FR3,FR7
+	fmac FR0,FR4,FR8
+	fmov FR5,@-R5
+	fmov FR8,@-R3
+	fmov FR7,@-R3
+	fmov FR6,@-R3
+lbl_000001FC:
+	rts
+	nop
+lbl_00000200:
+	.data.w h'0090
+lbl_00000202:
+	.data.w h'006c
+lbl_00000204:
+	.data.w h'0068
+lbl_00000206:
+	.data.w h'0078
+lbl_00000208:
+	.data.w h'007c
+lbl_0000020A:
+	.data.w h'0108
+lbl_0000020C:
+	.data.w h'0088
+lbl_0000020E:
+	.data.w h'0114
+lbl_00000210:
+	.data.l __nj_ptr_chunk_rgb_lt_pnt_
+lbl_00000214:
+	.data.l __nj_ptr_chunk_rgb_lt_nml_
+lbl_00000218:
+	.data.l __nj_ptr_chunk_rgb_lt_argb_
+lbl_0000021C:
+	.data.l __nj_ignore_specular_flag_
+lbl_00000220:
+	.data.l PSG_0
+	rts
+	nop
+_njChunkSpotLight:
+	sts.l PR,@-R15
+	mov.w lbl_00000364,R2
+	mov.l lbl_0000037C,R3
+	add R4,R2
+	mov.l @R3,R3
+	fmov @R2+,FR4
+	fmov @R2+,FR5
+	fmov @R2+,FR6
+	fldi0 FR7
+	fmov @R3+,FR0
+	fmov @R3+,FR1
+	fsub FR4,FR0
+	fmov @R3+,FR2
+	fldi0 FR3
+	mov.w lbl_00000366,R2
+	fsub FR5,FR1
+	add R4,R2
+	fsub FR6,FR2
+	fmov @R2+,FR4
+	fmov @R2+,FR5
+	mov.l lbl_00000380,R3
+	fmov @R2+,FR6
+	mov.l @R3,R3
+	fipr FV0,FV4
+	fmov @R3+,FR8
+	fmov @R3+,FR9
+	fmov @R3+,FR10
+	fldi0 FR11
+	fipr FV0,FV8
+	fmov FR7,FR10
+	fneg FR11
+	fmov FR0,FR4
+	fmov FR1,FR5
+	fmov FR2,FR6
+	fldi0 FR7
+	fipr FV0,FV4
+	mov.w lbl_00000368,R0
+	fcmp/gt FR3,FR11
+	bf lbl_0000035E
+	fcmp/gt FR3,FR10
+	bf lbl_0000035E
+	fmov @(R0,R4),FR9
+	fcmp/gt FR7,FR9
+	bf lbl_0000035E
+	fmov FR7,FR9
+	fsrra FR7
+	mov.w lbl_0000036A,R0
+	fmov @(R0,R4),FR6
+	fmul FR7,FR10
+	fmov FR10,FR8
+	fmul FR8,FR8
+	fcmp/gt FR6,FR8
+	bf lbl_0000035E
+	mov.w lbl_0000036C,R0
+	fmul FR7,FR11
+	fmov @(R0,R4),FR5
+	fldi1 FR6
+	fcmp/gt FR5,FR9
+	bf lbl_000002AC
+	mov.w lbl_0000036E,R0
+	fsqrt FR9
+	fmov @(R0,R4),FR0
+	mov.w lbl_00000370,R0
+	fneg FR0
+	fmov @(R0,R4),FR6
+	fmac FR0,FR9,FR6
+lbl_000002AC:
+	mov.w lbl_00000372,R0
+	fmul FR6,FR11
+	fmov @(R0,R4),FR5
+	fcmp/gt FR8,FR5
+	bf/s lbl_000002FC
+	fmov FR11,FR0
+	mov.w lbl_00000374,R0
+	fmov FR3,FR4
+	mov.l @(R0,R4),R3
+	extu.w R3,R2
+	shlr16 R3
+	mov R2,R5
+	sub R3,R2
+	lds R2,FPUL
+	fldi0 FR1
+	float FPUL,FR9
+	fcmp/eq FR9,FR1
+	bt lbl_000002FC
+	mov.l lbl_00000384,R3
+	mov.l R4,@-R15
+	fmov FR9,@-R15
+	mov.l R5,@-R15
+	fmov FR8,@-R15
+	fmov FR10,FR4
+	jsr @R3
+	fmov FR0,@-R15
+	fmov @R15+,FR11
+	mova lbl_00000390,R0
+	fmov @R15+,FR10
+	fmov @R0,FR9
+	mov.l @R15+,R5
+	fmul FR9,FR0
+	fmov @R15+,FR9
+	mov.l @R15+,R4
+	lds R5,FPUL
+	float FPUL,FR8
+	fsub FR0,FR8
+	fdiv FR9,FR8
+	fmul FR8,FR11
+	fmov FR11,FR0
+lbl_000002FC:
+	mov.w lbl_00000376,R2
+	mov.l R4,@-R15
+	mov.l lbl_00000388,R3
+	fmov FR0,@-R15
+	add R4,R2
+	mov.l @R3,R3
+	fmov @R2+,FR1
+	add #4,R3
+	fmov @R2+,FR2
+	fmov @R2+,FR3
+	fmov @R3+,FR4
+	fmov @R3+,FR5
+	fmov @R3+,FR6
+	fmac FR0,FR3,FR6
+	fmac FR0,FR2,FR5
+	fmac FR0,FR1,FR4
+	mov.l lbl_0000038C,R1
+	fmov FR6,@-R3
+	fmov FR5,@-R3
+	mov.w lbl_00000378,R0
+	fmov FR4,@-R3
+	mov.l @(R0,R4),R4
+	jsr @R1
+	fmov FR10,FR4
+	fmov @R15+,FR1
+	mov.w lbl_0000037A,R2
+	fmul FR1,FR0
+	mov.l @R15+,R4
+	mov.l lbl_00000388,R3
+	add R4,R2
+	mov.l @R3,R3
+	fmov @R2+,FR1
+	mov R3,R5
+	fmov @R2+,FR2
+	add #20,R5
+	fmov @R2+,FR3
+	fmov @R2+,FR4
+	fmov @R3+,FR5
+	fmov @R5+,FR6
+	fmac FR0,FR1,FR5
+	fmov @R5+,FR7
+	fmac FR0,FR2,FR6
+	fmov @R5+,FR8
+	fmac FR0,FR3,FR7
+	fmov FR5,@-R3
+	fmac FR0,FR4,FR8
+	fmov FR8,@-R5
+	fmov FR7,@-R5
+	fmov FR6,@-R5
+lbl_0000035E:
+	lds.l @R15+,PR
+	rts
+	nop
+lbl_00000364:
+	.data.w h'0090
+lbl_00000366:
+	.data.w h'009c
+lbl_00000368:
+	.data.w h'006c
+lbl_0000036A:
+	.data.w h'0074
+lbl_0000036C:
+	.data.w h'0068
+lbl_0000036E:
+	.data.w h'0078
+lbl_00000370:
+	.data.w h'007c
+lbl_00000372:
+	.data.w h'0070
+lbl_00000374:
+	.data.w h'008c
+lbl_00000376:
+	.data.w h'0108
+lbl_00000378:
+	.data.w h'0088
+lbl_0000037A:
+	.data.w h'0114
+lbl_0000037C:
+	.data.l __nj_ptr_chunk_rgb_lt_pnt_
+lbl_00000380:
+	.data.l __nj_ptr_chunk_rgb_lt_nml_
+lbl_00000384:
+	.data.l _acosf
+lbl_00000388:
+	.data.l __nj_ptr_chunk_rgb_lt_argb_
+lbl_0000038C:
+	.data.l PSG_0
+lbl_00000390:
+	.data.l h'4622F986
+	rts
+	nop
+_njChunkLightLoop:
+	mov.w lbl_000003D4,R0
+	mov.l R8,@-R15
+	sts.l PR,@-R15
+	mov.l lbl_000003D8,R3
+	mov.l R9,@-R15
+	mov.l @(R0,R3),R8
+	mov.l R10,@-R15
+	mov.l lbl_000003DC,R9
+	mov.l R11,@-R15
+	mov.l lbl_000003E0,R10
+	mov.l lbl_000003E4,R11
+lbl_000003AE:
+	tst R8,R8
+	bt lbl_000003E8
+	add #-1,R8
+	mov R10,R6
+	mov R8,R3
+	shll2 R3
+	add R3,R6
+	mov #0,R2
+	mov.l @R6,R6
+	cmp/eq R2,R6
+	bf lbl_000003AE
+	mov R11,R7
+	add R3,R7
+	add R9,R3
+	mov.l @R7,R2
+	jsr @R2
+	mov.l @R3,R4
+	bra lbl_000003AE
+	nop
+lbl_000003D4:
+	.data.w h'0080
+	.data.w h'0000
+lbl_000003D8:
+	.data.l __nj_light_queue_
+lbl_000003DC:
+	.data.l __nj_ptr_chunk_rgb_lt_
+lbl_000003E0:
+	.data.l __nj_light_clip_flag_
+lbl_000003E4:
+	.data.l __nj_chunk_rgb_lt_func_
+lbl_000003E8:
+	mov.l @R15+,R11
+	mov.l @R15+,R10
+	mov.l @R15+,R9
+	lds.l @R15+,PR
+	rts
+	mov.l @R15+,R8
+	rts
+	nop
+_njCalculateChunkLights:
+	sts.l PR,@-R15
+	mov.l lbl_0000042C,R1
+	add #-12,R15
+	mov.l R6,@R1
+	mov.l lbl_00000430,R2
+	mov.l R5,@R2
+	mov.l lbl_00000434,R3
+	mov.l @R2,R2
+	mov.l R4,@R3
+	fldi0 FR1
+	mov.l @R3,R3
+	add #32,R3
+	fmov FR1,@-R3
+	fmov FR1,@-R3
+	fmov FR1,@-R3
+	mov.l lbl_00000438,R0
+	add #-4,R3
+	mov.l @R0,R0
+	cmp/eq #0,R0
+	bt lbl_0000043C
+	fmov FR1,@-R3
+	fmov FR1,@-R3
+	fmov FR1,@-R3
+	bra lbl_0000044E
+	fmov FR1,@-R3
+	.data.w h'0000
+lbl_0000042C:
+	.data.l __nj_ptr_chunk_rgb_lt_nml_
+lbl_00000430:
+	.data.l __nj_ptr_chunk_rgb_lt_pnt_
+lbl_00000434:
+	.data.l __nj_ptr_chunk_rgb_lt_argb_
+lbl_00000438:
+	.data.l __nj_ignore_ambient_flag_
+lbl_0000043C:
+	mov.l lbl_000004BC,R2
+	add #4,R2
+	fmov @R2+,FR2
+	fmov @R2+,FR3
+	fmov @R2+,FR4
+	fmov FR4,@-R3
+	fmov FR3,@-R3
+	fmov FR2,@-R3
+	fmov FR1,@-R3
+lbl_0000044E:
+	tst R7,R7
+	bt lbl_0000046E
+	mov.l lbl_000004C0,R2
+	mov.l @R2,R3
+	fmov @R3+,FR1
+	fmov @R3+,FR2
+	fmov @R3+,FR3
+	fneg FR1
+	mov #4,R0
+	fneg FR2
+	fmov FR1,@R15
+	fmov FR2,@(R0,R15)
+	fneg FR3
+	add #4,R0
+	fmov FR3,@(R0,R15)
+	mov.l R15,@R2
+lbl_0000046E:
+	mov.l lbl_000004C4,R2
+	jsr @R2
+	nop
+	mov.l lbl_000004C8,R3
+	mov.w lbl_000004BA,R0
+	mov.l lbl_000004CC,R2
+	fmov @(R0,R3),FR1
+	mov.l @R2,R2
+	mov.l lbl_000004D0,R3
+	fmov @R2+,FR2
+	mov.l @R3,R3
+	fadd FR2,FR1
+	tst R3,R3
+	fmov FR1,@-R2
+	bt lbl_000004E8
+	mov.l lbl_000004D4,R2
+	mov.l @R2,R2
+	mov.l lbl_000004D8,R1
+	add #8,R2
+	fmov @R1,FR2
+	fmov @R2,FR1
+	fcmp/gt FR2,FR1
+	mov.l lbl_000004DC,R2
+	bf lbl_000004E8
+	fmov @R2,FR3
+	mov.l lbl_000004CC,R3
+	fcmp/gt FR1,FR3
+	mov.l @R3,R3
+	bf/s lbl_000004E4
+	fmov @R3+,FR4
+	mov.l lbl_000004E0,R1
+	fsub FR2,FR1
+	fmov @R1,FR0
+	fldi1 FR6
+	fneg FR1
+	fmac FR0,FR1,FR6
+	bra lbl_000004E6
+	fmul FR6,FR4
+lbl_000004BA:
+	.data.w h'0010
+lbl_000004BC:
+	.data.l __nj_chunk_light_calc_ambient_
+lbl_000004C0:
+	.data.l __nj_ptr_chunk_rgb_lt_nml_
+lbl_000004C4:
+	.data.l _njChunkLightLoop
+lbl_000004C8:
+	.data.l __nj_light_material_
+lbl_000004CC:
+	.data.l __nj_ptr_chunk_rgb_lt_argb_
+lbl_000004D0:
+	.data.l __nj_depth_enable_
+lbl_000004D4:
+	.data.l __nj_ptr_chunk_rgb_lt_pnt_
+lbl_000004D8:
+	.data.l __nj_depth_near_
+lbl_000004DC:
+	.data.l __nj_depth_far_
+lbl_000004E0:
+	.data.l __nj_depth_range_
+lbl_000004E4:
+	fldi0 FR4
+lbl_000004E6:
+	fmov FR4,@-R3
+lbl_000004E8:
+	add #12,R15
+	lds.l @R15+,PR
+	rts
+	nop
+	rts
+	nop
+_njGetChunkLightDistance:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R11,@-R15
+	mov R4,R11
+	mov.l R10,@-R15
+	mov.l R9,@-R15
+	mov.l R8,@-R15
+	fmov FR15,@-R15
+	sts.l PR,@-R15
+	mov.w lbl_0000058C,R0
+	mov.l lbl_00000598,R9
+	fmov FR4,FR15
+	bra lbl_00000574
+	mov.l @(R0,R9),R13
+lbl_00000512:
+	add #-1,R13
+	mov R9,R14
+	mov R13,R12
+	shll2 R12
+	add R12,R14
+	mov.l lbl_0000059C,R3
+	mov.l @R14,R14
+	mov #40,R4
+	mov.w lbl_0000058E,R0
+	shll2 R14
+	mov.l lbl_000005A0,R10
+	add R3,R14
+	mov.l @R14,R14
+	mov.l @(R0,R14),R2
+	tst R4,R2
+	bt lbl_0000056E
+	mov.w lbl_00000590,R0
+	fmov @R11,FR3
+	fmov @(R0,R14),FR4
+	mov #4,R0
+	mov.l lbl_000005A4,R8
+	fsub FR3,FR4
+	fmov FR4,FR3
+	fmul FR3,FR4
+	fmov @(R0,R11),FR3
+	mov.w lbl_00000592,R0
+	fmov @(R0,R14),FR5
+	mov #8,R0
+	fsub FR3,FR5
+	fmov @(R0,R11),FR3
+	mov.w lbl_00000594,R0
+	fmov FR5,FR0
+	fmac FR0,FR5,FR4
+	fmov @(R0,R14),FR5
+	fsub FR3,FR5
+	fmov FR5,FR0
+	jsr @R8
+	fmac FR0,FR5,FR4
+	mov.w lbl_00000596,R0
+	fmov FR0,FR4
+	fmov @(R0,R14),FR3
+	fadd FR15,FR3
+	fcmp/gt FR4,FR3
+	bt lbl_0000056E
+	bra lbl_00000570
+	mov #1,R4
+lbl_0000056E:
+	mov #0,R4
+lbl_00000570:
+	mov R12,R0
+	mov.l R4,@(R0,R10)
+lbl_00000574:
+	tst R13,R13
+	bf lbl_00000512
+	lds.l @R15+,PR
+	fmov @R15+,FR15
+	mov.l @R15+,R8
+	mov.l @R15+,R9
+	mov.l @R15+,R10
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+lbl_0000058C:
+	.data.w h'0080
+lbl_0000058E:
+	.data.w h'0124
+lbl_00000590:
+	.data.w h'0090
+lbl_00000592:
+	.data.w h'0094
+lbl_00000594:
+	.data.w h'0098
+lbl_00000596:
+	.data.w h'0138
+lbl_00000598:
+	.data.l __nj_light_queue_
+lbl_0000059C:
+	.data.l __nj_light_control_
+lbl_000005A0:
+	.data.l __nj_light_clip_flag_
+lbl_000005A4:
+	.data.l _njSqrt
+_njCnkSetAmbient:
+	mov.l lbl_000005B4,R1
+	add #16,R1
+	fmov FR6,@-R1
+	fmov FR5,@-R1
+	rts
+	fmov FR4,@-R1
+lbl_000005B4:
+	.data.l __nj_chunk_light_ambient_
+	rts
+	nop
+_njCalcChunkLightMaterials:
+	mov.l R8,@-R15
+	mov.l lbl_000006AC,R1
+	mov.l lbl_000006B0,R2
+	mov.l lbl_000006B4,R4
+	mov.w lbl_00000696,R0
+	mov.l @(R0,R1),R8
+	add #4,R4
+	add #4,R2
+	fmov @R4+,FR1
+	fmov @R2+,FR4
+	fmov @R4+,FR2
+	fmul FR4,FR1
+	fmov @R2+,FR5
+	fmov @R4+,FR3
+	fmul FR5,FR2
+	fmov @R2+,FR6
+	mov.l lbl_000006B8,R5
+	fmul FR6,FR3
+	add #16,R5
+	fmov FR3,@-R5
+	fmov FR2,@-R5
+	fmov FR1,@-R5
+	mov.l R9,@-R15
+	tst R8,R8
+	bt lbl_000006C4
+	mov.l lbl_000006BC,R6
+	add #-16,R2
+lbl_000005F2:
+	add #-1,R8
+	mov R1,R3
+	mov R8,R7
+	shll2 R7
+	add R7,R3
+	mov.l @R3,R9
+	mov.w lbl_00000698,R0
+	shll2 R9
+	add R6,R9
+	mov R2,R3
+	mov.l @R9,R9
+	add R0,R3
+	fmov @R3+,FR1
+	fmov @R3+,FR2
+	fmov @R3+,FR3
+	mov.w lbl_0000069A,R0
+	add R9,R0
+	fmov @R0+,FR4
+	fmov @R0+,FR5
+	fmov @R0+,FR6
+	fmul FR4,FR1
+	fmul FR5,FR2
+	fmul FR6,FR3
+	mov.w lbl_0000069C,R0
+	add R9,R0
+	fmov FR3,@R0
+	fmov FR2,@-R0
+	fmov FR1,@-R0
+	mov.w lbl_0000069E,R7
+	add R9,R7
+	mov.w lbl_000006A0,R6
+	fmov @R7+,FR1
+	add R9,R6
+	fmov @R7+,FR2
+	fmov @R7+,FR3
+	fmov @R7+,FR4
+	mov.w lbl_000006A2,R0
+	add R2,R0
+	fmov @R0+,FR5
+	fmov @R0+,FR6
+	fmov @R0+,FR7
+	fmul FR5,FR2
+	fmul FR6,FR3
+	fmul FR7,FR4
+	fmov FR4,@R6
+	fmov FR3,@-R6
+	fmov FR2,@-R6
+	fmov FR1,@-R6
+	mov.w lbl_000006A4,R0
+	fmov @(R0,R2),FR5
+	ftrc FR5,FPUL
+	mov.w lbl_000006A6,R0
+	sts FPUL,R7
+	mov.l R7,@(R0,R9)
+	mov #8,R1
+	mov.w lbl_000006A8,R0
+	mov #32,R2
+	mov.l @(R0,R9),R7
+	or R2,R1
+	mov #16,R3
+	or R3,R1
+	tst R7,R1
+	bt lbl_00000688
+	mov.w lbl_000006AA,R0
+	mov.l lbl_000006C0,R2
+	fmov @(R0,R9),FR4
+	sts.l PR,@-R15
+	mov.w lbl_000006A6,R0
+	jsr @R2
+	mov.l @(R0,R9),R4
+	fldi1 FR1
+	lds.l @R15+,PR
+	fdiv FR0,FR1
+	mov.w lbl_00000696,R0
+	fmov FR1,@(R0,R9)
+lbl_00000688:
+	mov.l lbl_000006AC,R1
+	mov.l lbl_000006B0,R2
+	mov.l lbl_000006BC,R6
+	tst R8,R8
+	bt lbl_000006C4
+	bra lbl_000005F2
+	nop
+lbl_00000696:
+	.data.w h'0080
+lbl_00000698:
+	.data.w h'0014
+lbl_0000069A:
+	.data.w h'00d8
+lbl_0000069C:
+	.data.w h'0110
+lbl_0000069E:
+	.data.w h'00e4
+lbl_000006A0:
+	.data.w h'0120
+lbl_000006A2:
+	.data.w h'0024
+lbl_000006A4:
+	.data.w h'0030
+lbl_000006A6:
+	.data.w h'0088
+lbl_000006A8:
+	.data.w h'0124
+lbl_000006AA:
+	.data.w h'0070
+lbl_000006AC:
+	.data.l __nj_light_queue_
+lbl_000006B0:
+	.data.l __nj_light_material_
+lbl_000006B4:
+	.data.l __nj_chunk_light_ambient_
+lbl_000006B8:
+	.data.l __nj_chunk_light_calc_ambient_
+lbl_000006BC:
+	.data.l __nj_light_control_
+lbl_000006C0:
+	.data.l PSG_0
+lbl_000006C4:
+	mov.l @R15+,R9
+	rts
+	mov.l @R15+,R8
+	nop
+	rts
+	nop
+_njCheckChunkLightMaterials:
+	mov #0,R3
+	mov.l lbl_000006F8,R1
+	mov.l lbl_000006FC,R2
+	mov.l R3,@R1
+	mov #2,R5
+	mov.l R3,@R2
+	and R4,R5
+	mov #4,R6
+	tst R5,R5
+	mov #1,R3
+	bt lbl_000006EA
+	mov.l lbl_000006F8,R1
+	mov.l R3,@R1
+lbl_000006EA:
+	and R4,R6
+	tst R6,R6
+	bt lbl_000006F4
+	mov.l lbl_000006FC,R1
+	mov.l R3,@R1
+lbl_000006F4:
+	rts
+	nop
+lbl_000006F8:
+	.data.l __nj_ignore_specular_flag_
+lbl_000006FC:
+	.data.l __nj_ignore_ambient_flag_
+	rts
+	nop
+_njSetChunkLightQueue:
+	mov.w lbl_00000720,R0
+	mov.l lbl_00000724,R3
+	mov #0,R7
+	mov.l @(R0,R3),R1
+	mov.l R8,@-R15
+	cmp/gt R7,R1
+	mov #0,R7
+	mov.l R9,@-R15
+	mov #1,R2
+	sts.l PR,@-R15
+	mov.l lbl_00000728,R4
+	bt lbl_0000072C
+	bra lbl_00000844
+	nop
+lbl_00000720:
+	.data.w h'0080
+	.data.w h'0000
+lbl_00000724:
+	.data.l __nj_light_control_
+lbl_00000728:
+	.data.l __nj_light_queue_
+lbl_0000072C:
+	cmp/ge R1,R7
+	bt lbl_0000075A
+	mov R7,R6
+	mov.w lbl_00000756,R0
+	shll2 R6
+	add R3,R6
+	mov.l @R6,R5
+	add R0,R5
+	mov.l @R5,R5
+	cmp/eq R5,R2
+	bf lbl_00000752
+	mov.w lbl_00000758,R0
+	mov.l @(R0,R4),R5
+	mov R5,R0
+	shll2 R0
+	add #1,R5
+	mov.l R7,@(R0,R4)
+	mov.w lbl_00000758,R0
+	mov.l R5,@(R0,R4)
+lbl_00000752:
+	bra lbl_0000072C
+	add #1,R7
+lbl_00000756:
+	.data.w h'0058
+lbl_00000758:
+	.data.w h'0080
+lbl_0000075A:
+	mov.w lbl_000007DA,R0
+	mov.l lbl_000007E8,R1
+	mov.l @(R0,R1),R8
+lbl_00000760:
+	tst R8,R8
+	bt lbl_00000844
+	add #-1,R8
+	mov.l lbl_000007E8,R1
+	mov R8,R7
+	mov.w lbl_000007DC,R0
+	shll2 R7
+	mov.l lbl_000007EC,R2
+	add R7,R0
+	mov.l @(R0,R1),R6
+	mov.w lbl_000007DC,R0
+	shll2 R6
+	mov.l lbl_000007F0,R3
+	add R6,R0
+	mov.l @(R0,R2),R9
+	add R7,R3
+	mov.l R9,@R3
+	mov.l lbl_000007F4,R1
+	mov.l lbl_000007F8,R4
+	mov #16,R3
+lbl_00000788:
+	mov.l @R1+,R0
+	dt R3
+	mov.l R0,@R4
+	bf/s lbl_00000788
+	add #4,R4
+	mov.l lbl_000007FC,R2
+	mov.w lbl_000007DC,R0
+	mov.l lbl_000007F8,R4
+	mov R9,R5
+	jsr @R2
+	add R0,R5
+	mov.w lbl_000007DE,R0
+	mov.l lbl_00000800,R2
+	mov R9,R5
+	mov.w lbl_000007E0,R3
+	add R0,R5
+	mov.l lbl_000007F8,R4
+	mov R9,R6
+	jsr @R2
+	add R3,R6
+	mov.w lbl_000007E2,R0
+	mov.l lbl_00000804,R2
+	mov R9,R5
+	mov.w lbl_000007E4,R3
+	add R0,R5
+	mov R9,R6
+	mov.l lbl_000007F8,R4
+	jsr @R2
+	add R3,R6
+	mov.w lbl_000007E6,R0
+	mov R8,R6
+	mov.l @(R0,R9),R1
+	mov #16,R2
+	mov.l lbl_00000808,R7
+	cmp/eq R1,R2
+	shll2 R6
+	bf/s lbl_00000810
+	add R6,R7
+	mov.l lbl_0000080C,R3
+	bra lbl_0000083C
+	mov.l R3,@R7
+lbl_000007DA:
+	.data.w h'0080
+lbl_000007DC:
+	.data.w h'0000
+lbl_000007DE:
+	.data.w h'0040
+lbl_000007E0:
+	.data.w h'0090
+lbl_000007E2:
+	.data.w h'004c
+lbl_000007E4:
+	.data.w h'009c
+lbl_000007E6:
+	.data.w h'0124
+lbl_000007E8:
+	.data.l __nj_light_queue_
+lbl_000007EC:
+	.data.l __nj_light_control_
+lbl_000007F0:
+	.data.l __nj_ptr_chunk_rgb_lt_
+lbl_000007F4:
+	.data.l __nj_view_matrix_
+lbl_000007F8:
+	.data.l __nj_tmp_local_mtrx_
+lbl_000007FC:
+	.data.l _njMultiMatrix
+lbl_00000800:
+	.data.l _njCalcPoint
+lbl_00000804:
+	.data.l _njCalcVector
+lbl_00000808:
+	.data.l __nj_chunk_rgb_lt_func_
+lbl_0000080C:
+	.data.l _njChunkDirectLight
+lbl_00000810:
+	mov.l lbl_0000081C,R2
+	cmp/eq R1,R2
+	bf lbl_00000824
+	mov.l lbl_00000820,R3
+	bra lbl_0000083C
+	mov.l R3,@R7
+lbl_0000081C:
+	.data.l h'00000020
+lbl_00000820:
+	.data.l _njChunkPointLight
+lbl_00000824:
+	mov.l lbl_00000830,R2
+	cmp/eq R1,R2
+	bf lbl_00000838
+	mov.l lbl_00000834,R3
+	bra lbl_0000083C
+	mov.l R3,@R7
+lbl_00000830:
+	.data.l h'00000008
+lbl_00000834:
+	.data.l _njChunkSpotLight
+lbl_00000838:
+	mov.l lbl_00000840,R3
+	mov.l R3,@R7
+lbl_0000083C:
+	bra lbl_00000760
+	nop
+lbl_00000840:
+	.data.l _njChunkDummyLight
+lbl_00000844:
+	lds.l @R15+,PR
+	mov.l @R15+,R9
+	rts
+	mov.l @R15+,R8
+	rts
+	nop
+_njResetChunkLightQueue:
+	mov.l lbl_00000858,R2
+	mov #0,R3
+	rts
+	mov.l R3,@R2
+lbl_00000858:
+	.data.l __nj_light_queue_+128
+	.SECTION DSG,DATA,ALIGN=4
+__nj_ignore_specular_flag_:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+__nj_ignore_ambient_flag_:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+__nj_chunk_rgb_lt_func_:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+__nj_chunk_light_ambient_:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'00cd
+	.data.b h'00cc
+	.data.b h'004c
+	.data.b h'003e
+	.data.b h'00cd
+	.data.b h'00cc
+	.data.b h'004c
+	.data.b h'003e
+	.data.b h'00cd
+	.data.b h'00cc
+	.data.b h'004c
+	.data.b h'003e
+	.SECTION BSG,DATA,ALIGN=4
+__nj_ptr_chunk_rgb_lt_argb_:
+	.res.b h'4
+__nj_ptr_chunk_rgb_lt_pnt_:
+	.res.b h'4
+__nj_ptr_chunk_rgb_lt_nml_:
+	.res.b h'4
+__nj_ptr_chunk_rgb_lt_:
+	.res.b h'80
+__nj_light_clip_flag_:
+	.res.b h'80
+__nj_chunk_light_calc_ambient_:
+	.res.b h'10

@@ -1,0 +1,36 @@
+	.EXPORT _njGetSphereMinMax
+	.SECTION PSG,CODE,ALIGN=4
+_njGetSphereMinMax:
+	mov #12,R0
+	fmov @R4,FR2
+	fmov @(R0,R4),FR3
+	fsub FR3,FR2
+	fmov FR2,@R5
+	fmov @(R0,R4),FR3
+	mov #4,R0
+	fmov @(R0,R4),FR2
+	fsub FR3,FR2
+	fmov FR2,@(R0,R5)
+	mov #12,R0
+	fmov @(R0,R4),FR3
+	mov #8,R0
+	fmov @(R0,R4),FR2
+	fsub FR3,FR2
+	fmov FR2,@(R0,R5)
+	mov #12,R0
+	fmov @R4,FR2
+	fmov @(R0,R4),FR3
+	fadd FR3,FR2
+	fmov FR2,@R6
+	fmov @(R0,R4),FR3
+	mov #4,R0
+	fmov @(R0,R4),FR2
+	fadd FR3,FR2
+	fmov FR2,@(R0,R6)
+	mov #12,R0
+	fmov @(R0,R4),FR3
+	mov #8,R0
+	fmov @(R0,R4),FR2
+	fadd FR3,FR2
+	rts
+	fmov FR2,@(R0,R6)

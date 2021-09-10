@@ -1,0 +1,289 @@
+	.EXPORT _njRgbAdd1
+	.EXPORT _njRgbAdd2
+	.EXPORT _njRgbPack
+	.SECTION PSG,CODE,ALIGN=4
+_njRgbPack:
+	fmov @R4+,FR4
+	fldi0 FR3
+	fmov @R4+,FR5
+	fcmp/gt FR4,FR3
+	fldi0 FR9
+	fmov @R4+,FR6
+	fmov @R4,FR7
+	bf/s lbl_00000016
+	fldi1 FR8
+	bra lbl_0000001C
+	fmov FR9,FR4
+lbl_00000016:
+	fcmp/gt FR8,FR4
+	bf lbl_0000001C
+	fmov FR8,FR4
+lbl_0000001C:
+	fldi0 FR3
+	fcmp/gt FR5,FR3
+	bf lbl_00000026
+	bra lbl_0000002C
+	fmov FR9,FR5
+lbl_00000026:
+	fcmp/gt FR8,FR5
+	bf lbl_0000002C
+	fmov FR8,FR5
+lbl_0000002C:
+	fldi0 FR3
+	fcmp/gt FR6,FR3
+	bf lbl_00000036
+	bra lbl_0000003C
+	fmov FR9,FR6
+lbl_00000036:
+	fcmp/gt FR8,FR6
+	bf lbl_0000003C
+	fmov FR8,FR6
+lbl_0000003C:
+	fldi0 FR3
+	fcmp/gt FR7,FR3
+	bf lbl_00000046
+	bra lbl_0000004C
+	fmov FR9,FR7
+lbl_00000046:
+	fcmp/gt FR8,FR7
+	bf lbl_0000004C
+	fmov FR8,FR7
+lbl_0000004C:
+	mova lbl_00000200,R0
+	fmov FR4,FR3
+	fmov @R0,FR8
+	fmov FR5,FR2
+	fmul FR8,FR3
+	fmul FR8,FR2
+	ftrc FR3,FPUL
+	fmov FR6,FR3
+	fmul FR8,FR3
+	sts FPUL,R6
+	ftrc FR2,FPUL
+	fmov FR7,FR2
+	fmul FR8,FR2
+	shll16 R6
+	sts FPUL,R5
+	ftrc FR3,FPUL
+	shll8 R6
+	mov R6,R0
+	shll16 R5
+	sts FPUL,R4
+	ftrc FR2,FPUL
+	or R5,R0
+	shll8 R4
+	sts FPUL,R7
+	or R4,R0
+	rts
+	or R7,R0
+_njRgbAdd1:
+	mov R4,R2
+	shlr16 R2
+	shlr8 R2
+	mov R5,R3
+	lds R2,FPUL
+	mova lbl_00000204,R0
+	fmov @R0,FR4
+	cmp/pz R2
+	add #4,R5
+	bt/s lbl_0000009E
+	float FPUL,FR3
+	mova lbl_00000208,R0
+	fmov @R0,FR2
+	fadd FR2,FR3
+lbl_0000009E:
+	fmov @R3,FR1
+	mov R5,R2
+	fmov FR4,FR0
+	add #4,R5
+	fmac FR0,FR3,FR1
+	fmov FR1,@R3
+	mov R4,R3
+	shlr16 R3
+	extu.b R3,R3
+	lds R3,FPUL
+	cmp/pz R3
+	bt/s lbl_000000BE
+	float FPUL,FR3
+	mova lbl_00000208,R0
+	fmov @R0,FR2
+	fadd FR2,FR3
+lbl_000000BE:
+	fmov @R2,FR1
+	mov R5,R3
+	fmov FR4,FR0
+	add #4,R5
+	fmac FR0,FR3,FR1
+	fmov FR1,@R2
+	mov R4,R2
+	shlr8 R2
+	extu.b R2,R2
+	lds R2,FPUL
+	cmp/pz R2
+	bt/s lbl_000000DE
+	float FPUL,FR3
+	mova lbl_00000208,R0
+	fmov @R0,FR2
+	fadd FR2,FR3
+lbl_000000DE:
+	fmov @R3,FR1
+	extu.b R4,R4
+	fmov FR4,FR0
+	cmp/pz R4
+	fmac FR0,FR3,FR1
+	lds R4,FPUL
+	fmov FR1,@R3
+	bt/s lbl_000000F8
+	float FPUL,FR3
+	mov.l lbl_00000208,R3
+	lds R3,FPUL
+	fsts FPUL,FR2
+	fadd FR2,FR3
+lbl_000000F8:
+	fmov @R5,FR1
+	fmov FR4,FR0
+	fmac FR0,FR3,FR1
+	rts
+	fmov FR1,@R5
+_njRgbAdd2:
+	mov R4,R2
+	shlr16 R2
+	shlr8 R2
+	mov R6,R3
+	lds R2,FPUL
+	mova lbl_00000204,R0
+	fmov @R0,FR4
+	cmp/pz R2
+	add #4,R6
+	bt/s lbl_0000011E
+	float FPUL,FR3
+	mova lbl_00000208,R0
+	fmov @R0,FR2
+	fadd FR2,FR3
+lbl_0000011E:
+	fmov @R3,FR1
+	mov R6,R2
+	fmov FR4,FR0
+	add #4,R6
+	fmac FR0,FR3,FR1
+	fmov FR1,@R3
+	mov R4,R3
+	shlr16 R3
+	extu.b R3,R3
+	lds R3,FPUL
+	cmp/pz R3
+	bt/s lbl_0000013E
+	float FPUL,FR3
+	mova lbl_00000208,R0
+	fmov @R0,FR2
+	fadd FR2,FR3
+lbl_0000013E:
+	fmov @R2,FR1
+	mov R6,R3
+	fmov FR4,FR0
+	add #4,R6
+	fmac FR0,FR3,FR1
+	fmov FR1,@R2
+	mov R4,R2
+	shlr8 R2
+	extu.b R2,R2
+	lds R2,FPUL
+	cmp/pz R2
+	bt/s lbl_0000015E
+	float FPUL,FR3
+	mova lbl_00000208,R0
+	fmov @R0,FR2
+	fadd FR2,FR3
+lbl_0000015E:
+	fmov @R3,FR1
+	extu.b R4,R4
+	fmov FR4,FR0
+	mov R6,R2
+	fmac FR0,FR3,FR1
+	lds R4,FPUL
+	cmp/pz R4
+	add #4,R6
+	fmov FR1,@R3
+	bt/s lbl_0000017C
+	float FPUL,FR3
+	mov.l lbl_00000208,R3
+	lds R3,FPUL
+	fsts FPUL,FR2
+	fadd FR2,FR3
+lbl_0000017C:
+	fmov @R2,FR1
+	mov R6,R3
+	fmov FR4,FR0
+	add #4,R6
+	fmac FR0,FR3,FR1
+	fmov FR1,@R2
+	mov R5,R2
+	shlr16 R2
+	shlr8 R2
+	lds R2,FPUL
+	cmp/pz R2
+	bt/s lbl_0000019C
+	float FPUL,FR3
+	mova lbl_00000208,R0
+	fmov @R0,FR2
+	fadd FR2,FR3
+lbl_0000019C:
+	fmov @R3,FR1
+	mov R6,R2
+	fmov FR4,FR0
+	add #4,R6
+	fmac FR0,FR3,FR1
+	fmov FR1,@R3
+	mov R5,R3
+	shlr16 R3
+	extu.b R3,R3
+	lds R3,FPUL
+	cmp/pz R3
+	bt/s lbl_000001BC
+	float FPUL,FR3
+	mova lbl_00000208,R0
+	fmov @R0,FR2
+	fadd FR2,FR3
+lbl_000001BC:
+	fmov @R2,FR1
+	mov R6,R3
+	fmov FR4,FR0
+	add #4,R6
+	fmac FR0,FR3,FR1
+	fmov FR1,@R2
+	mov R5,R2
+	shlr8 R2
+	extu.b R2,R2
+	lds R2,FPUL
+	cmp/pz R2
+	bt/s lbl_000001DC
+	float FPUL,FR3
+	mova lbl_00000208,R0
+	fmov @R0,FR2
+	fadd FR2,FR3
+lbl_000001DC:
+	fmov @R3,FR1
+	extu.b R5,R5
+	fmov FR4,FR0
+	cmp/pz R5
+	fmac FR0,FR3,FR1
+	lds R5,FPUL
+	fmov FR1,@R3
+	bt/s lbl_000001F6
+	float FPUL,FR3
+	mov.l lbl_00000208,R3
+	lds R3,FPUL
+	fsts FPUL,FR2
+	fadd FR2,FR3
+lbl_000001F6:
+	fmov @R6,FR1
+	fmov FR4,FR0
+	fmac FR0,FR3,FR1
+	rts
+	fmov FR1,@R6
+lbl_00000200:
+	.data.l h'437F0000
+lbl_00000204:
+	.data.l h'3B808083
+lbl_00000208:
+	.data.l _njRgbPack

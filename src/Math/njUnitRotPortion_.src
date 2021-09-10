@@ -1,0 +1,40 @@
+	.EXPORT _njUnitRotPortion
+	.SECTION PSG,CODE,ALIGN=4
+_njUnitRotPortion:
+	tst R4,R4
+	fldi1 FR1
+	bt/s lbl_00000022
+	fldi0 FR0
+	add #44,R4
+	fmov FR1,@-R4
+	fmov FR0,@-R4
+	fmov FR0,@-R4
+	add #-4,R4
+	fmov FR0,@-R4
+	fmov FR1,@-R4
+	fmov FR0,@-R4
+	add #-4,R4
+	fmov FR0,@-R4
+	fmov FR0,@-R4
+	rts
+	fmov FR1,@-R4
+lbl_00000022:
+	fschg
+	fmov FR0,FR5
+	fldi0 FR1
+	fmov FR0,FR9
+	fldi1 FR0
+	fmov FR0,FR1
+	fmov FR3,FR0
+	fmov FR7,FR2
+	fmov FR11,FR4
+	fldi0 FR0
+	fldi0 FR2
+	fldi1 FR4
+	fmov FR0,FR3
+	fmov FR2,FR7
+	fmov FR4,FR11
+	rts
+	fschg
+	rts
+	nop

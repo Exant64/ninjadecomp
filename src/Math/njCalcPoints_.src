@@ -1,0 +1,96 @@
+	.EXPORT _njCalcPoints
+	.SECTION PSG,CODE,ALIGN=4
+_njCalcPoints:
+	cmp/pl R7
+	bf lbl_0000003E
+	tst R4,R4
+	bf lbl_00000042
+	add #12,R6
+	fmov @R5+,FR0
+	fmov @R5+,FR1
+	fmov @R5+,FR2
+	fldi1 FR3
+lbl_00000012:
+	ftrv XMTRX,FV0
+	fmov @R5+,FR4
+	fmov @R5+,FR5
+	fmov @R5+,FR6
+	fldi1 FR7
+	fmov FR2,@-R6
+	fmov FR1,@-R6
+	fmov FR0,@-R6
+	dt R7
+	bt lbl_0000003E
+	add #24,R6
+	ftrv XMTRX,FV4
+	fmov @R5+,FR0
+	fmov @R5+,FR1
+	fmov @R5+,FR2
+	fldi1 FR3
+	fmov FR6,@-R6
+	fmov FR5,@-R6
+	fmov FR4,@-R6
+	dt R7
+	bf/s lbl_00000012
+	add #24,R6
+lbl_0000003E:
+	rts
+	nop
+lbl_00000042:
+	fmov @R4,FR4
+	mov #16,R0
+	fmov @R5+,FR0
+	fmov @(R0,R4),FR5
+	fmov @R5+,FR1
+	add #16,R0
+	fmov @R5+,FR2
+	fmov @(R0,R4),FR6
+	add #16,R0
+	fldi1 FR3
+	fmov @(R0,R4),FR7
+lbl_00000058:
+	mov #4,R0
+	fipr FV0,FV4
+	fmov @(R0,R4),FR8
+	add #16,R0
+	fmov @(R0,R4),FR9
+	add #16,R0
+	fmov @(R0,R4),FR10
+	add #16,R0
+	fmov @(R0,R4),FR11
+	fmov FR7,@R6
+	fipr FV0,FV8
+	mov #8,R0
+	add #4,R6
+	fmov @(R0,R4),FR4
+	add #16,R0
+	fmov @(R0,R4),FR5
+	add #16,R0
+	fmov @(R0,R4),FR6
+	add #16,R0
+	fmov @(R0,R4),FR7
+	fmov FR11,@R6
+	dt R7
+	fipr FV0,FV4
+	add #4,R6
+	bt/s lbl_000000A6
+	fmov FR7,@R6
+	mov #16,R0
+	fmov @R4,FR4
+	fmov @R5+,FR0
+	fmov @(R0,R4),FR5
+	fmov @R5+,FR1
+	add #16,R0
+	fmov @R5+,FR2
+	fmov @(R0,R4),FR6
+	add #16,R0
+	add #4,R6
+	fldi1 FR3
+	bra lbl_00000058
+	fmov @(R0,R4),FR7
+lbl_000000A6:
+	rts
+	nop
+	nop
+	rts
+	nop

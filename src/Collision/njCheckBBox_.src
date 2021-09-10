@@ -1,0 +1,87 @@
+	.EXPORT _njCheckBBox
+	.SECTION PSG,CODE,ALIGN=4
+_njCheckBBox:
+	add #-8,R15
+	fmov @R6,FR5
+	fmov @R4,FR4
+	fcmp/gt FR4,FR5
+	bf/s lbl_00000010
+	fmov @R5,FR6
+	bra lbl_00000012
+	fmov FR4,FR9
+lbl_00000010:
+	fmov FR5,FR9
+lbl_00000012:
+	fmov @R7,FR7
+	fcmp/gt FR7,FR6
+	bf lbl_0000001C
+	bra lbl_0000001E
+	fmov FR6,FR8
+lbl_0000001C:
+	fmov FR7,FR8
+lbl_0000001E:
+	fsub FR4,FR6
+	mov #4,R0
+	fsub FR9,FR8
+	fadd FR7,FR6
+	fsub FR5,FR6
+	fcmp/gt FR8,FR6
+	movt R3
+	mov.l R3,@(4,R15)
+	fmov @(R0,R4),FR4
+	fmov @(R0,R6),FR5
+	fcmp/gt FR4,FR5
+	bf/s lbl_0000003C
+	fmov @(R0,R5),FR6
+	bra lbl_0000003E
+	fmov FR4,FR8
+lbl_0000003C:
+	fmov FR5,FR8
+lbl_0000003E:
+	fmov @(R0,R7),FR7
+	fcmp/gt FR7,FR6
+	bf lbl_00000048
+	bra lbl_0000004A
+	fmov FR6,FR9
+lbl_00000048:
+	fmov FR7,FR9
+lbl_0000004A:
+	fsub FR4,FR6
+	mov #8,R0
+	fsub FR8,FR9
+	fadd FR7,FR6
+	fsub FR5,FR6
+	fcmp/gt FR9,FR6
+	movt R3
+	mov.l R3,@R15
+	fmov @(R0,R4),FR4
+	fmov @(R0,R6),FR7
+	fcmp/gt FR4,FR7
+	bf/s lbl_00000068
+	fmov @(R0,R5),FR6
+	bra lbl_0000006A
+	fmov FR4,FR9
+lbl_00000068:
+	fmov FR7,FR9
+lbl_0000006A:
+	fmov @(R0,R7),FR5
+	fcmp/gt FR5,FR6
+	bf lbl_00000074
+	bra lbl_00000076
+	fmov FR6,FR8
+lbl_00000074:
+	fmov FR5,FR8
+lbl_00000076:
+	fsub FR4,FR6
+	mov.l @(4,R15),R0
+	fsub FR9,FR8
+	mov.l @R15,R3
+	and R3,R0
+	fmov FR6,FR3
+	fadd FR5,FR3
+	fsub FR7,FR3
+	fcmp/gt FR8,FR3
+	movt R4
+	and R4,R0
+	rts
+	add #8,R15

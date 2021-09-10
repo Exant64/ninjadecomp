@@ -1,0 +1,56 @@
+	.IMPORT _njTexMemCopy
+	.IMPORT __nj_current_texlist
+	.EXPORT _njReadTexturePartLN
+	.EXPORT _njReadTexturePartNum
+	.SECTION PSG,CODE,ALIGN=4
+_njReadTexturePartLN:
+	sts.l PR,@-R15
+	add #-8,R15
+	tst R4,R4
+	mov.l R5,@R15
+	bf/s lbl_00000014
+	mov.l R7,@(4,R15)
+	add #8,R15
+	lds.l @R15+,PR
+	rts
+	mov #-1,R0
+lbl_00000014:
+	mov.l @(52,R4),R5
+	mov.l lbl_00000054,R3
+	mov.l lbl_00000058,R2
+	or R3,R5
+	add R6,R5
+	mov.l @(4,R15),R6
+	jsr @R2
+	mov.l @R15,R4
+	mov #1,R0
+	add #8,R15
+	lds.l @R15+,PR
+	rts
+	nop
+_njReadTexturePartNum:
+	sts.l PR,@-R15
+	add #-4,R15
+	mov.l lbl_0000005C,R2
+	mov R4,R1
+	shll R4
+	mov.l @R2,R3
+	add R1,R4
+	shll2 R4
+	mov.l @R3,R3
+	add R3,R4
+	mov.l @(8,R4),R1
+	mov.l R1,@R15
+	bsr _njReadTexturePartLN
+	mov R1,R4
+	add #4,R15
+	lds.l @R15+,PR
+	rts
+	nop
+	.data.w h'0000
+lbl_00000054:
+	.data.l h'A4000000
+lbl_00000058:
+	.data.l _njTexMemCopy
+lbl_0000005C:
+	.data.l __nj_current_texlist

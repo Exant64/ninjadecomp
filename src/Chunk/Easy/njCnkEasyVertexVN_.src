@@ -1,0 +1,104 @@
+	.EXPORT _njCnkEasyVertexVN
+	.SECTION PSG,CODE,ALIGN=4
+_njCnkEasyVertexVN:
+	fmov FR15,@-R15
+	fmov FR14,@-R15
+	fmov FR13,@-R15
+	fmov FR12,@-R15
+	fmov @R4+,FR12
+	fmov @R4+,FR13
+	fmov @R4+,FR14
+	fldi0 FR15
+	fschg
+	fmov FR1,FR0
+	fmov FR3,FR2
+	fipr FV12,FV0
+	fmov FR5,FR4
+	fmov FR7,FR6
+	fipr FV12,FV4
+	fmov FR9,FR8
+	fmov FR11,FR10
+	fipr FV12,FV8
+	fschg
+	fmov FR3,FR12
+	fmov FR7,FR13
+	fmov FR11,FR14
+	fmov @R4+,FR0
+	fmov @R4+,FR15
+	mov.l @R4+,R1
+	fmul FR0,FR12
+	mov.l @R4+,R3
+	fmul FR0,FR13
+	mov.l @R4+,R7
+	pref @R3
+	mov.l @R4+,R2
+	mov R3,R5
+	fmul FR0,FR14
+	add #24,R5
+	fmov @R4+,FR8
+	fmov @R4+,FR9
+	fmov @R4+,FR10
+	fmov @R4+,FR11
+	pref @R5
+	mov #0,R0
+	mov #0,R6
+lbl_00000052:
+	fmov @R3+,FR4
+	fmov @R3+,FR5
+	fmov @R3+,FR6
+	fldi1 FR7
+	ftrv XMTRX,FV4
+	fmov @R3+,FR0
+	fmov @R3+,FR1
+	fmov @R3+,FR2
+	fldi1 FR3
+	fipr FV12,FV0
+	fldi1 FR0
+	add #24,R5
+	fdiv FR6,FR0
+	pref @R5
+	fldi1 FR1
+	fcmp/gt FR15,FR3
+	add #16,R2
+	bt lbl_00000078
+	fmov FR15,FR3
+lbl_00000078:
+	fcmp/gt FR1,FR6
+	fmov FR3,FR1
+	bt lbl_00000080
+	add #1,R6
+lbl_00000080:
+	fmov FR10,FR2
+	fmul FR8,FR4
+	fmov FR11,FR3
+	fmul FR9,FR5
+	fschg
+	fmac FR0,FR4,FR2
+	add #1,R0
+	fmac FR0,FR5,FR3
+	tst #1,R0
+	fmov FR0,@-R2
+	bf/s lbl_0000009E
+	fmov FR2,@-R2
+	ocbi @R7
+	add #32,R7
+	pref @R2
+lbl_0000009E:
+	dt R1
+	fschg
+	bf/s lbl_00000052
+	add #16,R2
+	tst #1,R0
+	bt lbl_000000AE
+	ocbi @R7
+	pref @R2
+lbl_000000AE:
+	fmov @R15+,FR12
+	fmov @R15+,FR13
+	fmov @R15+,FR14
+	fmov @R15+,FR15
+	rts
+	mov R6,R0
+	nop
+	rts
+	nop

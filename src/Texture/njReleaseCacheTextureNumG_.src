@@ -1,0 +1,67 @@
+	.IMPORT __nj_texmemsize
+	.IMPORT __nj_texmemlist
+	.IMPORT _njInitTextureErrStat
+	.IMPORT _njReleaseCacheTextureLN
+	.IMPORT _njSearchTexList
+	.IMPORT __nj_texerr_
+	.EXPORT _njReleaseCacheTextureNumG
+	.SECTION PSG,CODE,ALIGN=4
+_njReleaseCacheTextureNumG:
+	mov.l R14,@-R15
+	mov R4,R14
+	mov.l R13,@-R15
+	mov R4,R6
+	mov.l lbl_00000058,R3
+	mov.l R12,@-R15
+	sts.l PR,@-R15
+	mov.l @R3,R5
+	mov.l lbl_00000060,R1
+	mov.l lbl_0000005C,R2
+	jsr @R1
+	mov.l @R2,R4
+	mov.l lbl_00000064,R3
+	jsr @R3
+	mov R0,R13
+	mov.l lbl_00000068,R12
+	cmp/pz R13
+	bt lbl_0000002E
+	mov #1,R3
+	mov.l R14,@(4,R12)
+	mov.l R3,@(8,R12)
+	bra lbl_0000004E
+	mov #-1,R0
+lbl_0000002E:
+	mov R13,R4
+	shll2 R4
+	mov.l lbl_0000005C,R1
+	shll2 R4
+	mov R13,R3
+	add R3,R4
+	mov.l lbl_0000006C,R3
+	shll2 R4
+	mov.l @R1,R2
+	jsr @R3
+	add R2,R4
+	mov R0,R4
+	cmp/pz R4
+	bt/s lbl_0000004E
+	mov R4,R0
+	mov.l R14,@(4,R12)
+lbl_0000004E:
+	lds.l @R15+,PR
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+lbl_00000058:
+	.data.l __nj_texmemsize
+lbl_0000005C:
+	.data.l __nj_texmemlist
+lbl_00000060:
+	.data.l _njSearchTexList
+lbl_00000064:
+	.data.l _njInitTextureErrStat
+lbl_00000068:
+	.data.l __nj_texerr_
+lbl_0000006C:
+	.data.l _njReleaseCacheTextureLN

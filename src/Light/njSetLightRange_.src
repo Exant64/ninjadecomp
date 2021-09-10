@@ -1,0 +1,35 @@
+	.EXPORT _njSetLightRange
+	.SECTION PSG,CODE,ALIGN=4
+_njSetLightRange:
+	mov.w lbl_0000002C,R3
+	mov.w lbl_0000002E,R2
+	fmov FR5,FR3
+	fmul FR3,FR3
+	add R4,R3
+	fmov FR4,FR2
+	fmul FR2,FR2
+	add R4,R2
+	fmov FR5,@R3
+	fmov FR4,@-R3
+	fmov FR3,@R2
+	fmov FR2,@-R2
+	fmov FR5,FR6
+	fldi1 FR1
+	fsub FR4,FR5
+	mov.w lbl_00000030,R0
+	fdiv FR5,FR1
+	fmov FR1,@(R0,R4)
+	mov.w lbl_00000032,R0
+	fmul FR1,FR6
+	rts
+	fmov FR6,@(R0,R4)
+lbl_0000002C:
+	.data.w h'0138
+lbl_0000002E:
+	.data.w h'006c
+lbl_00000030:
+	.data.w h'0078
+lbl_00000032:
+	.data.w h'007c
+	rts
+	nop

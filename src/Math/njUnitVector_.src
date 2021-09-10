@@ -1,0 +1,21 @@
+	.EXPORT _njUnitVector
+	.SECTION PSG,CODE,ALIGN=4
+_njUnitVector:
+	fmov @R4+,FR0
+	fmov @R4+,FR1
+	fmov @R4+,FR2
+	fldi0 FR3
+	fipr FV0,FV0
+	fmov FR0,FR4
+	fmov FR3,FR0
+	fsrra FR3
+	fmul FR3,FR2
+	fmul FR3,FR1
+	fmul FR3,FR4
+	fmov FR2,@-R4
+	fmov FR1,@-R4
+	fmov FR4,@-R4
+	rts
+	fmul FR3,FR0
+	rts
+	nop

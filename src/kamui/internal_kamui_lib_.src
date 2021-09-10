@@ -1,0 +1,1607 @@
+	.IMPORT _kmiWriteRegister
+	.IMPORT _kmiModuleInitialize
+	.IMPORT _kmiInitializeDevice
+	.IMPORT _kmiInitializeFog
+	.IMPORT _kmiUnloadDevice
+	.IMPORT _kmiGetProfileInt
+	.IMPORT _kmiInitRenderer
+	.IMPORT _kmiInitializeBackGroundPlane
+	.IMPORT _kmiFBinit
+	.IMPORT _kmiInitializeTA
+	.IMPORT _kmiSetTAEnvironment
+	.IMPORT _kmiInitCallback
+	.IMPORT _kmiInitInterrupt
+	.IMPORT _memset
+	.EXPORT _kmiBtBuild
+	.EXPORT _kmiHardwareResource
+	.EXPORT _kmiDeviceExtension
+	.EXPORT _kmiVersionInfo
+	.EXPORT _kmiInitTimer
+	.EXPORT _kmiInitializeDriver
+	.EXPORT _kmiInitializeHardware
+	.EXPORT _kmiReleaseHardware
+	.EXPORT _kmiVerifyWriteRegister
+	.EXPORT _kmiWaitAccurate
+	.EXPORT _kmiFatalErrorEntry
+	.SECTION PSG,CODE,ALIGN=32
+_kmiInitTimer:
+	rts
+	mov #0,R0
+_kmiInitializeDriver:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R11,@-R15
+	mov.l R10,@-R15
+	mov.l R9,@-R15
+	mov.l R8,@-R15
+	sts.l PR,@-R15
+	add #-12,R15
+	mov.l lbl_00000148,R2
+	mov.l @R2,R3
+	tst R3,R3
+	bf lbl_0000002E
+	mov.l lbl_00000148,R1
+	mov.l lbl_0000014C,R3
+	mov.l R3,@R1
+	mov.l lbl_00000150,R3
+	mov #0,R5
+	mov.w lbl_00000140,R6
+	jsr @R3
+	mov.l @R1,R4
+lbl_0000002E:
+	mov.l lbl_00000154,R4
+	mov #2,R2
+	mov #3,R3
+	mov.l lbl_0000014C,R1
+	mov.l R3,@R4
+	mov #6,R3
+	mov.l R2,@(4,R4)
+	mov #0,R14
+	mov.l lbl_00000158,R2
+	mov.l R3,@(8,R4)
+	mov R4,R3
+	mov.l R14,@(12,R4)
+	mov.l R2,@(16,R4)
+	mov.l R4,@R1
+	mov.l lbl_0000015C,R2
+	mov.l R14,@R2
+	mov.l lbl_00000160,R3
+	mov.l R14,@R3
+	mov.l lbl_00000164,R1
+	mov.l R14,@R1
+	add #28,R2
+	mov.l R14,@R2
+	add #28,R3
+	mov.l R14,@R3
+	mov.w lbl_00000142,R2
+	mov.l lbl_00000168,R1
+	mov.l R2,@R1
+	mov.w lbl_00000144,R3
+	mov.l lbl_0000016C,R0
+	mov.l R3,@R0
+	mov.l lbl_00000170,R2
+	add #16,R3
+	mov.l R3,@R2
+	add #16,R3
+	add #12,R1
+	mov.l R3,@R1
+	mov.l lbl_00000178,R2
+	add #16,R3
+	mov.l lbl_00000174,R0
+	jsr @R2
+	mov.l R3,@R0
+	mov.l lbl_0000017C,R1
+	mov.l R14,@R1
+	mov.l lbl_00000180,R3
+	mov.l R14,@R3
+	mov.l lbl_0000018C,R5
+	mov #1,R6
+	mov.l lbl_00000188,R13
+	mov.l lbl_00000184,R12
+	jsr @R13
+	mov R12,R4
+	mov.l lbl_00000190,R2
+	add #-1,R0
+	mov.l R0,@R2
+	mov R2,R1
+	mov.l @R1,R3
+	mov.l lbl_00000194,R0
+	mov.l R3,@R0
+	mov.l lbl_0000019C,R3
+	mov.l lbl_00000198,R2
+	mov.l R2,@R3
+	mov.l lbl_000001A4,R2
+	mov.l lbl_000001A0,R4
+	mov.l R4,@R2
+	mov.l lbl_000001A8,R1
+	mov.l R4,@R1
+	mov.l lbl_000001AC,R3
+	mov.l R14,@R3
+	mov.l lbl_000001B0,R2
+	mov.l R14,@R2
+	mov.l lbl_000001B4,R1
+	mov.l R14,@R1
+	add #-4,R0
+	mov #3,R3
+	mov.l R3,@R0
+	mov.l lbl_000001BC,R1
+	mov #1,R2
+	mov.l lbl_000001B8,R3
+	jsr @R1
+	mov.l R2,@R3
+	mov.l lbl_000001C0,R5
+	mov.w lbl_00000146,R6
+	jsr @R13
+	mov R12,R4
+	mov.l lbl_000001C8,R5
+	mov.l lbl_000001C4,R6
+	mov.l R0,@(8,R15)
+	jsr @R13
+	mov R12,R4
+	mov.l lbl_000001D0,R5
+	mov.l lbl_000001CC,R6
+	mov.l R0,@(4,R15)
+	jsr @R13
+	mov R12,R4
+	mov.l lbl_000001D4,R5
+	mov.l lbl_000001CC,R6
+	mov.l R0,@R15
+	jsr @R13
+	mov R12,R4
+	mov.l @(4,R15),R6
+	mov R0,R5
+	mov.l @R15,R4
+	shlr8 R5
+	mov.l @(8,R15),R11
+	shlr8 R6
+	shlr8 R4
+	shlr8 R11
+	shlr2 R4
+	shlr2 R5
+	shlr2 R6
+	shlr2 R11
+	shlr R11
+	shll8 R11
+	shll2 R11
+	shll R11
+	shlr R6
+	shll8 R6
+	shll2 R6
+	shll R6
+	shlr R4
+	shll8 R4
+	shll2 R4
+	shll R4
+	shlr R5
+	shll8 R5
+	shll2 R5
+	shll R5
+	bra lbl_000001E0
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_00000140:
+	.data.w h'04f4
+lbl_00000142:
+	.data.w h'01f0
+lbl_00000144:
+	.data.w h'0200
+lbl_00000146:
+	.data.w h'6000
+lbl_00000148:
+	.data.l _kmiHardwareResource
+lbl_0000014C:
+	.data.l _kmiDeviceExtension
+lbl_00000150:
+	.data.l _memset
+lbl_00000154:
+	.data.l _kmiVersionInfo
+lbl_00000158:
+	.data.l DSG_0
+lbl_0000015C:
+	.data.l BSG_56
+lbl_00000160:
+	.data.l BSG_60
+lbl_00000164:
+	.data.l BSG_64
+lbl_00000168:
+	.data.l BSG_1244
+lbl_0000016C:
+	.data.l BSG_1248
+lbl_00000170:
+	.data.l BSG_1252
+lbl_00000174:
+	.data.l BSG_1260
+lbl_00000178:
+	.data.l _kmiInitCallback
+lbl_0000017C:
+	.data.l BSG_524
+lbl_00000180:
+	.data.l BSG_528
+lbl_00000184:
+	.data.l CSG_4
+lbl_00000188:
+	.data.l _kmiGetProfileInt
+lbl_0000018C:
+	.data.l CSG_12
+lbl_00000190:
+	.data.l BSG_488
+lbl_00000194:
+	.data.l BSG_484
+lbl_00000198:
+	.data.l h'00010000
+lbl_0000019C:
+	.data.l BSG_20
+lbl_000001A0:
+	.data.l h'00800000
+lbl_000001A4:
+	.data.l BSG_24
+lbl_000001A8:
+	.data.l BSG_28
+lbl_000001AC:
+	.data.l BSG_460
+lbl_000001B0:
+	.data.l BSG_456
+lbl_000001B4:
+	.data.l BSG_452
+lbl_000001B8:
+	.data.l BSG_684
+lbl_000001BC:
+	.data.l _kmiInitializeBackGroundPlane
+lbl_000001C0:
+	.data.l CSG_24
+lbl_000001C4:
+	.data.l h'0007A000
+lbl_000001C8:
+	.data.l CSG_36
+lbl_000001CC:
+	.data.l h'00180000
+lbl_000001D0:
+	.data.l CSG_48
+lbl_000001D4:
+	.data.l CSG_64
+	nop
+	nop
+	nop
+	nop
+lbl_000001E0:
+	mov.l lbl_00000380,R2
+	mov.l R4,@R2
+	mov.l lbl_00000384,R3
+	mov.l R5,@R3
+	mov R11,R7
+	add R6,R7
+	add R7,R4
+	mov.l lbl_00000388,R9
+	mov.l lbl_0000038C,R10
+	mov R14,R6
+	mov.l R4,@R15
+	mov R14,R4
+	mov R14,R5
+	bra lbl_0000022E
+	mov #32,R8
+lbl_000001FE:
+	mov.l lbl_00000390,R0
+	mov.l R5,@(R0,R4)
+	mov R5,R2
+	mov R0,R3
+	add R11,R2
+	add R4,R3
+	mov.l R2,@(4,R3)
+	mov R5,R2
+	mov R0,R3
+	add R7,R2
+	add R4,R3
+	mov.l R2,@(8,R3)
+	mov.l @R15,R2
+	mov R0,R3
+	add R4,R3
+	add R5,R2
+	mov.l R2,@(12,R3)
+	mov R9,R3
+	mov.l lbl_00000394,R0
+	sub R5,R3
+	mov.l R3,@(R0,R6)
+	add #16,R4
+	add R10,R5
+	add #4,R6
+lbl_0000022E:
+	cmp/hs R8,R4
+	bf lbl_000001FE
+	mov.l lbl_00000398,R3
+	mov.l R14,@R3
+	mov.l lbl_0000039C,R2
+	mov.l R14,@R2
+	mov.l lbl_000003A0,R1
+	mov.l R14,@R1
+	add #12,R3
+	mov #-1,R4
+	mov.l R4,@R3
+	mov.l lbl_000003A4,R2
+	mov.l R4,@R2
+	add #12,R1
+	mov.l R4,@R1
+	add #12,R3
+	mov.l R14,@R3
+	add #12,R2
+	mov.l R14,@R2
+	add #12,R1
+	mov.l R14,@R1
+	mov.l lbl_000003A8,R3
+	mov.l R14,@R3
+	mov.l lbl_000003AC,R2
+	mov.l R14,@R2
+	mov.l lbl_000003B8,R5
+	mov #1,R1
+	mov.l lbl_000003BC,R4
+	mov.l lbl_000003B4,R6
+	mov.l lbl_000003B0,R0
+	jsr @R13
+	mov.l R1,@R0
+	mov.l lbl_000003C0,R3
+	mov.l R0,@R3
+	mov.l lbl_000003BC,R4
+	mov.l lbl_000003C4,R5
+	jsr @R13
+	mov R10,R6
+	mov.l lbl_000003C8,R2
+	mov.l R0,@R2
+	mov.l lbl_000003CC,R5
+	mov #0,R6
+	jsr @R13
+	mov R12,R4
+	mov.l lbl_000003D0,R3
+	mov.l R0,@R3
+	mov.l lbl_000003D4,R5
+	mov #10,R6
+	jsr @R13
+	mov R12,R4
+	mov.l lbl_000003D8,R2
+	mov.l R0,@R2
+	mov.l lbl_000003DC,R5
+	mov #10,R6
+	jsr @R13
+	mov R12,R4
+	mov.l lbl_000003E0,R3
+	mov.l R0,@R3
+	mov.l lbl_000003E4,R5
+	mov #10,R6
+	jsr @R13
+	mov R12,R4
+	mov.l lbl_000003E8,R2
+	mov.l R0,@R2
+	mov.l lbl_000003EC,R3
+	mov.l R14,@R3
+	mov.l lbl_000003F0,R0
+	mov #1,R1
+	mov.l R1,@R0
+	mov.l lbl_000003F4,R1
+	mov #15,R2
+	mov.l R2,@R1
+	mov.l @R1,R3
+	or R14,R3
+	mov.l R3,@R1
+	mov.l lbl_000003F8,R2
+	mov.l R14,@R2
+	mov.l lbl_000003FC,R3
+	mov.l R14,@R3
+	mov.l lbl_00000400,R3
+	jsr @R3
+	nop
+	add #12,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R8
+	mov.l @R15+,R9
+	mov.l @R15+,R10
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+_kmiReleaseHardware:
+	sts.l PR,@-R15
+	mov.l lbl_00000404,R2
+	mov.l @R2,R3
+	tst R3,R3
+	bt lbl_000002FC
+	mov.l lbl_00000408,R3
+	jsr @R3
+	nop
+	mov.l lbl_00000404,R3
+	mov #0,R2
+	mov.l R2,@R3
+lbl_000002FC:
+	lds.l @R15+,PR
+	rts
+	nop
+_kmiInitializeHardware:
+	mov.l R14,@-R15
+	sts.l PR,@-R15
+	mov.l lbl_0000040C,R1
+	jsr @R1
+	nop
+	mov.l lbl_00000410,R3
+	jsr @R3
+	nop
+	mov.l lbl_00000414,R1
+	jsr @R1
+	nop
+	mov.l lbl_00000418,R3
+	jsr @R3
+	nop
+	mov.l lbl_0000041C,R1
+	jsr @R1
+	nop
+	mov.l lbl_00000420,R3
+	jsr @R3
+	nop
+	mov.l lbl_00000428,R0
+	mov.l lbl_00000424,R1
+	mov.l R1,@R0
+	mov.l lbl_0000042C,R3
+	mov #0,R14
+	mov.l R14,@R3
+	mov.l lbl_00000430,R2
+	mov.l R14,@R2
+	mov.l lbl_00000434,R1
+	mov.l R14,@R1
+	mov.l lbl_000003F4,R0
+	mov.l R14,@-R15
+	mov.l @R0,R3
+	mov.l lbl_00000390,R7
+	mov.l R3,@-R15
+	mov.l @(12,R7),R7
+	mov.l lbl_00000390,R6
+	mov #-7,R3
+	shld R3,R7
+	mov.l @(8,R6),R6
+	mov.l lbl_00000390,R5
+	shld R3,R6
+	mov.l @(4,R5),R5
+	mov.l lbl_00000390,R4
+	shld R3,R5
+	mov.l @R4,R4
+	mov.l lbl_00000438,R2
+	jsr @R2
+	shld R3,R4
+	add #8,R15
+	lds.l @R15+,PR
+	rts
+	mov.l @R15+,R14
+_kmiVerifyWriteRegister:
+	mov.l lbl_0000043C,R3
+	jmp @R3
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_00000380:
+	.data.l BSG_152
+lbl_00000384:
+	.data.l BSG_156
+lbl_00000388:
+	.data.l h'007D0000
+lbl_0000038C:
+	.data.l h'00400000
+lbl_00000390:
+	.data.l BSG_112
+lbl_00000394:
+	.data.l BSG_144
+lbl_00000398:
+	.data.l BSG_840
+lbl_0000039C:
+	.data.l BSG_1060
+lbl_000003A0:
+	.data.l BSG_848
+lbl_000003A4:
+	.data.l BSG_856
+lbl_000003A8:
+	.data.l BSG_1072
+lbl_000003AC:
+	.data.l BSG_1080
+lbl_000003B0:
+	.data.l BSG_1076
+lbl_000003B4:
+	.data.l h'ACC00000
+lbl_000003B8:
+	.data.l CSG_96
+lbl_000003BC:
+	.data.l CSG_80
+lbl_000003C0:
+	.data.l BSG_1092
+lbl_000003C4:
+	.data.l CSG_108
+lbl_000003C8:
+	.data.l BSG_1096
+lbl_000003CC:
+	.data.l CSG_120
+lbl_000003D0:
+	.data.l BSG_104
+lbl_000003D4:
+	.data.l CSG_136
+lbl_000003D8:
+	.data.l BSG_552
+lbl_000003DC:
+	.data.l CSG_152
+lbl_000003E0:
+	.data.l BSG_556
+lbl_000003E4:
+	.data.l CSG_168
+lbl_000003E8:
+	.data.l BSG_560
+lbl_000003EC:
+	.data.l BSG_472
+lbl_000003F0:
+	.data.l BSG_476
+lbl_000003F4:
+	.data.l BSG_108
+lbl_000003F8:
+	.data.l BSG_540
+lbl_000003FC:
+	.data.l BSG_544
+lbl_00000400:
+	.data.l _kmiInitRenderer
+lbl_00000404:
+	.data.l _kmiHardwareResource
+lbl_00000408:
+	.data.l _kmiUnloadDevice
+lbl_0000040C:
+	.data.l _kmiModuleInitialize
+lbl_00000410:
+	.data.l _kmiInitializeDevice
+lbl_00000414:
+	.data.l _kmiInitializeTA
+lbl_00000418:
+	.data.l _kmiFBinit
+lbl_0000041C:
+	.data.l _kmiInitInterrupt
+lbl_00000420:
+	.data.l _kmiInitializeFog
+lbl_00000424:
+	.data.l h'00100000
+lbl_00000428:
+	.data.l BSG_1116
+lbl_0000042C:
+	.data.l BSG_1120
+lbl_00000430:
+	.data.l BSG_1124
+lbl_00000434:
+	.data.l BSG_1128
+lbl_00000438:
+	.data.l _kmiSetTAEnvironment
+lbl_0000043C:
+	.data.l _kmiWriteRegister
+_kmiWaitAccurate:
+	add #-4,R15
+	mova lbl_00000480,R0
+	fmov FR4,FR2
+	mov #0,R3
+	mov.l R3,@R15
+	fmov @R0,FR3
+	mov.l @R15,R3
+	fmul FR3,FR2
+	ftrc FR2,FPUL
+	sts FPUL,R4
+	cmp/hs R4,R3
+	bt lbl_00000464
+lbl_00000458:
+	mov.l @R15,R1
+	add #1,R1
+	mov.l R1,@R15
+	mov.l @R15,R3
+	cmp/hs R4,R3
+	bf lbl_00000458
+lbl_00000464:
+	rts
+	add #4,R15
+_kmiFatalErrorEntry:
+	mov.l lbl_00000484,R3
+	mov.l R4,@-R15
+	mov.l @R3,R2
+	jmp @R2
+	add #4,R15
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_00000480:
+	.data.l h'44FA0000
+lbl_00000484:
+	.data.l BSG_628
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.SECTION CSG,DATA,ALIGN=4
+_kmiBtBuild:
+	.data.l CSG_184
+CSG_4:
+	.data.b h'0052
+	.data.b h'0045
+	.data.b h'004e
+	.data.b h'0044
+	.data.b h'0045
+	.data.b h'0052
+	.data.b h'0000
+	.data.b h'0000
+CSG_12:
+	.data.b h'0056
+	.data.b h'0053
+	.data.b h'0059
+	.data.b h'004e
+	.data.b h'0043
+	.data.b h'0043
+	.data.b h'006f
+	.data.b h'0075
+	.data.b h'006e
+	.data.b h'0074
+	.data.b h'0000
+	.data.b h'0000
+CSG_24:
+	.data.b h'0052
+	.data.b h'0065
+	.data.b h'0067
+	.data.b h'0069
+	.data.b h'006f
+	.data.b h'006e
+	.data.b h'0053
+	.data.b h'0069
+	.data.b h'007a
+	.data.b h'0065
+	.data.b h'0000
+	.data.b h'0000
+CSG_36:
+	.data.b h'004f
+	.data.b h'0062
+	.data.b h'006a
+	.data.b h'004c
+	.data.b h'0069
+	.data.b h'0073
+	.data.b h'0074
+	.data.b h'0053
+	.data.b h'0069
+	.data.b h'007a
+	.data.b h'0065
+	.data.b h'0000
+CSG_48:
+	.data.b h'0049
+	.data.b h'0053
+	.data.b h'0050
+	.data.b h'0050
+	.data.b h'0061
+	.data.b h'0072
+	.data.b h'0061
+	.data.b h'006d
+	.data.b h'0053
+	.data.b h'0069
+	.data.b h'007a
+	.data.b h'0065
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+CSG_64:
+	.data.b h'0054
+	.data.b h'0053
+	.data.b h'0050
+	.data.b h'0050
+	.data.b h'0061
+	.data.b h'0072
+	.data.b h'0061
+	.data.b h'006d
+	.data.b h'0053
+	.data.b h'0069
+	.data.b h'007a
+	.data.b h'0065
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+CSG_80:
+	.data.b h'0056
+	.data.b h'0065
+	.data.b h'0072
+	.data.b h'0074
+	.data.b h'0065
+	.data.b h'0078
+	.data.b h'0042
+	.data.b h'0075
+	.data.b h'0066
+	.data.b h'0066
+	.data.b h'0065
+	.data.b h'0072
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+CSG_96:
+	.data.b h'0042
+	.data.b h'0075
+	.data.b h'0066
+	.data.b h'0066
+	.data.b h'0065
+	.data.b h'0072
+	.data.b h'0042
+	.data.b h'0061
+	.data.b h'0073
+	.data.b h'0065
+	.data.b h'0000
+	.data.b h'0000
+CSG_108:
+	.data.b h'0042
+	.data.b h'0075
+	.data.b h'0066
+	.data.b h'0066
+	.data.b h'0065
+	.data.b h'0072
+	.data.b h'0053
+	.data.b h'0069
+	.data.b h'007a
+	.data.b h'0065
+	.data.b h'0000
+	.data.b h'0000
+CSG_120:
+	.data.b h'0050
+	.data.b h'006f
+	.data.b h'006f
+	.data.b h'006c
+	.data.b h'0069
+	.data.b h'006e
+	.data.b h'0067
+	.data.b h'0054
+	.data.b h'0041
+	.data.b h'0053
+	.data.b h'0074
+	.data.b h'0061
+	.data.b h'0074
+	.data.b h'0075
+	.data.b h'0073
+	.data.b h'0000
+CSG_136:
+	.data.b h'0052
+	.data.b h'0065
+	.data.b h'006e
+	.data.b h'0064
+	.data.b h'0065
+	.data.b h'0072
+	.data.b h'0054
+	.data.b h'0069
+	.data.b h'006d
+	.data.b h'0065
+	.data.b h'004f
+	.data.b h'0075
+	.data.b h'0074
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+CSG_152:
+	.data.b h'0056
+	.data.b h'0065
+	.data.b h'0072
+	.data.b h'0074
+	.data.b h'0065
+	.data.b h'0078
+	.data.b h'0054
+	.data.b h'0069
+	.data.b h'006d
+	.data.b h'0065
+	.data.b h'004f
+	.data.b h'0075
+	.data.b h'0074
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+CSG_168:
+	.data.b h'0056
+	.data.b h'0053
+	.data.b h'0059
+	.data.b h'004e
+	.data.b h'0043
+	.data.b h'0054
+	.data.b h'0069
+	.data.b h'006d
+	.data.b h'0065
+	.data.b h'004f
+	.data.b h'0075
+	.data.b h'0074
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+CSG_184:
+	.data.b h'000a
+	.data.b h'004b
+	.data.b h'0041
+	.data.b h'004d
+	.data.b h'0055
+	.data.b h'0049
+	.data.b h'0020
+	.data.b h'0056
+	.data.b h'0065
+	.data.b h'0072
+	.data.b h'0020
+	.data.b h'0031
+	.data.b h'002e
+	.data.b h'0031
+	.data.b h'0031
+	.data.b h'002e
+	.data.b h'0030
+	.data.b h'002e
+	.data.b h'0030
+	.data.b h'0020
+	.data.b h'0042
+	.data.b h'0075
+	.data.b h'0069
+	.data.b h'006c
+	.data.b h'0064
+	.data.b h'003a
+	.data.b h'004a
+	.data.b h'0075
+	.data.b h'006c
+	.data.b h'0020
+	.data.b h'0032
+	.data.b h'0036
+	.data.b h'0020
+	.data.b h'0031
+	.data.b h'0039
+	.data.b h'0039
+	.data.b h'0039
+	.data.b h'0020
+	.data.b h'0031
+	.data.b h'0039
+	.data.b h'003a
+	.data.b h'0032
+	.data.b h'0033
+	.data.b h'003a
+	.data.b h'0031
+	.data.b h'0030
+	.data.b h'000a
+	.data.b h'0000
+	.SECTION DSG,DATA,ALIGN=4
+DSG_0:
+	.data.b h'000d
+	.data.b h'000a
+	.data.b h'0043
+	.data.b h'004f
+	.data.b h'0050
+	.data.b h'0059
+	.data.b h'0052
+	.data.b h'0049
+	.data.b h'0047
+	.data.b h'0048
+	.data.b h'0054
+	.data.b h'0020
+	.data.b h'0020
+	.data.b h'0020
+	.data.b h'0020
+	.data.b h'0020
+	.data.b h'0020
+	.data.b h'0020
+	.data.b h'0020
+	.data.b h'0028
+	.data.b h'0043
+	.data.b h'0029
+	.data.b h'0020
+	.data.b h'004e
+	.data.b h'0045
+	.data.b h'0043
+	.data.b h'0020
+	.data.b h'0020
+	.data.b h'0020
+	.data.b h'0020
+	.data.b h'0020
+	.data.b h'0020
+	.data.b h'0020
+	.data.b h'0020
+	.data.b h'0043
+	.data.b h'006f
+	.data.b h'0072
+	.data.b h'0070
+	.data.b h'006f
+	.data.b h'0072
+	.data.b h'0061
+	.data.b h'0074
+	.data.b h'0069
+	.data.b h'006f
+	.data.b h'006e
+	.data.b h'0020
+	.data.b h'0031
+	.data.b h'0039
+	.data.b h'0039
+	.data.b h'0038
+	.data.b h'000d
+	.data.b h'000a
+	.data.b h'000d
+	.data.b h'000a
+	.data.b h'0041
+	.data.b h'006c
+	.data.b h'006c
+	.data.b h'0020
+	.data.b h'0072
+	.data.b h'0069
+	.data.b h'0067
+	.data.b h'0068
+	.data.b h'0074
+	.data.b h'0073
+	.data.b h'0020
+	.data.b h'0072
+	.data.b h'0065
+	.data.b h'0073
+	.data.b h'0065
+	.data.b h'0072
+	.data.b h'0076
+	.data.b h'0065
+	.data.b h'0064
+	.data.b h'0020
+	.data.b h'0062
+	.data.b h'0079
+	.data.b h'0020
+	.data.b h'004e
+	.data.b h'0045
+	.data.b h'0043
+	.data.b h'0020
+	.data.b h'0043
+	.data.b h'006f
+	.data.b h'0072
+	.data.b h'0070
+	.data.b h'006f
+	.data.b h'0072
+	.data.b h'0061
+	.data.b h'0074
+	.data.b h'0069
+	.data.b h'006f
+	.data.b h'006e
+	.data.b h'002e
+	.data.b h'0020
+	.data.b h'0054
+	.data.b h'0068
+	.data.b h'0069
+	.data.b h'0073
+	.data.b h'0020
+	.data.b h'0070
+	.data.b h'0072
+	.data.b h'006f
+	.data.b h'0067
+	.data.b h'0072
+	.data.b h'0061
+	.data.b h'006d
+	.data.b h'0020
+	.data.b h'006d
+	.data.b h'0075
+	.data.b h'0073
+	.data.b h'0074
+	.data.b h'0020
+	.data.b h'0062
+	.data.b h'0065
+	.data.b h'000d
+	.data.b h'000a
+	.data.b h'0075
+	.data.b h'0073
+	.data.b h'0065
+	.data.b h'0064
+	.data.b h'0020
+	.data.b h'0073
+	.data.b h'006f
+	.data.b h'006c
+	.data.b h'0065
+	.data.b h'006c
+	.data.b h'0079
+	.data.b h'0020
+	.data.b h'0066
+	.data.b h'006f
+	.data.b h'0072
+	.data.b h'0020
+	.data.b h'0074
+	.data.b h'0068
+	.data.b h'0065
+	.data.b h'0020
+	.data.b h'0070
+	.data.b h'0075
+	.data.b h'0072
+	.data.b h'0070
+	.data.b h'006f
+	.data.b h'0073
+	.data.b h'0065
+	.data.b h'0020
+	.data.b h'0066
+	.data.b h'006f
+	.data.b h'0072
+	.data.b h'0020
+	.data.b h'0077
+	.data.b h'0068
+	.data.b h'0069
+	.data.b h'0063
+	.data.b h'0068
+	.data.b h'0020
+	.data.b h'0069
+	.data.b h'0074
+	.data.b h'0020
+	.data.b h'0077
+	.data.b h'0061
+	.data.b h'0073
+	.data.b h'0020
+	.data.b h'0066
+	.data.b h'0075
+	.data.b h'0072
+	.data.b h'006e
+	.data.b h'0069
+	.data.b h'0073
+	.data.b h'0068
+	.data.b h'0065
+	.data.b h'0064
+	.data.b h'0020
+	.data.b h'0062
+	.data.b h'0079
+	.data.b h'0020
+	.data.b h'004e
+	.data.b h'0045
+	.data.b h'0043
+	.data.b h'000d
+	.data.b h'000a
+	.data.b h'0043
+	.data.b h'006f
+	.data.b h'0072
+	.data.b h'0070
+	.data.b h'006f
+	.data.b h'0072
+	.data.b h'0061
+	.data.b h'0074
+	.data.b h'0069
+	.data.b h'006f
+	.data.b h'006e
+	.data.b h'002e
+	.data.b h'0020
+	.data.b h'004e
+	.data.b h'006f
+	.data.b h'0020
+	.data.b h'0070
+	.data.b h'0061
+	.data.b h'0072
+	.data.b h'0074
+	.data.b h'0020
+	.data.b h'006f
+	.data.b h'0066
+	.data.b h'0020
+	.data.b h'0074
+	.data.b h'0068
+	.data.b h'0069
+	.data.b h'0073
+	.data.b h'0020
+	.data.b h'0070
+	.data.b h'0072
+	.data.b h'006f
+	.data.b h'0067
+	.data.b h'0072
+	.data.b h'0061
+	.data.b h'006d
+	.data.b h'0020
+	.data.b h'006d
+	.data.b h'0061
+	.data.b h'0079
+	.data.b h'0020
+	.data.b h'0062
+	.data.b h'0065
+	.data.b h'0020
+	.data.b h'0072
+	.data.b h'0065
+	.data.b h'0070
+	.data.b h'0072
+	.data.b h'006f
+	.data.b h'0064
+	.data.b h'0075
+	.data.b h'0063
+	.data.b h'0065
+	.data.b h'0064
+	.data.b h'0020
+	.data.b h'006f
+	.data.b h'0072
+	.data.b h'000d
+	.data.b h'000a
+	.data.b h'0064
+	.data.b h'0069
+	.data.b h'0073
+	.data.b h'0063
+	.data.b h'006c
+	.data.b h'006f
+	.data.b h'0073
+	.data.b h'0065
+	.data.b h'0064
+	.data.b h'0020
+	.data.b h'0074
+	.data.b h'006f
+	.data.b h'0020
+	.data.b h'006f
+	.data.b h'0074
+	.data.b h'0068
+	.data.b h'0065
+	.data.b h'0072
+	.data.b h'0073
+	.data.b h'002c
+	.data.b h'0020
+	.data.b h'0069
+	.data.b h'006e
+	.data.b h'0020
+	.data.b h'0061
+	.data.b h'006e
+	.data.b h'0079
+	.data.b h'0020
+	.data.b h'0066
+	.data.b h'006f
+	.data.b h'0072
+	.data.b h'006d
+	.data.b h'002c
+	.data.b h'0020
+	.data.b h'0077
+	.data.b h'0069
+	.data.b h'0074
+	.data.b h'0068
+	.data.b h'006f
+	.data.b h'0075
+	.data.b h'0074
+	.data.b h'0020
+	.data.b h'0074
+	.data.b h'0068
+	.data.b h'0065
+	.data.b h'0020
+	.data.b h'0070
+	.data.b h'0072
+	.data.b h'0069
+	.data.b h'006f
+	.data.b h'0072
+	.data.b h'0020
+	.data.b h'0077
+	.data.b h'0072
+	.data.b h'0069
+	.data.b h'0074
+	.data.b h'0074
+	.data.b h'0065
+	.data.b h'006e
+	.data.b h'000d
+	.data.b h'000a
+	.data.b h'0070
+	.data.b h'0065
+	.data.b h'0072
+	.data.b h'006d
+	.data.b h'0069
+	.data.b h'0073
+	.data.b h'0073
+	.data.b h'0069
+	.data.b h'006f
+	.data.b h'006e
+	.data.b h'0020
+	.data.b h'006f
+	.data.b h'0066
+	.data.b h'0020
+	.data.b h'004e
+	.data.b h'0045
+	.data.b h'0043
+	.data.b h'0020
+	.data.b h'0043
+	.data.b h'006f
+	.data.b h'0072
+	.data.b h'0070
+	.data.b h'006f
+	.data.b h'0072
+	.data.b h'0061
+	.data.b h'0074
+	.data.b h'0069
+	.data.b h'006f
+	.data.b h'006e
+	.data.b h'002e
+	.data.b h'000d
+	.data.b h'000a
+	.data.b h'0055
+	.data.b h'0073
+	.data.b h'0065
+	.data.b h'0020
+	.data.b h'006f
+	.data.b h'0066
+	.data.b h'0020
+	.data.b h'0063
+	.data.b h'006f
+	.data.b h'0070
+	.data.b h'0079
+	.data.b h'0072
+	.data.b h'0069
+	.data.b h'0067
+	.data.b h'0068
+	.data.b h'0074
+	.data.b h'0020
+	.data.b h'006e
+	.data.b h'006f
+	.data.b h'0074
+	.data.b h'0069
+	.data.b h'0063
+	.data.b h'0065
+	.data.b h'0020
+	.data.b h'0064
+	.data.b h'006f
+	.data.b h'0065
+	.data.b h'0073
+	.data.b h'0020
+	.data.b h'006e
+	.data.b h'006f
+	.data.b h'0074
+	.data.b h'0020
+	.data.b h'0065
+	.data.b h'0076
+	.data.b h'0069
+	.data.b h'0064
+	.data.b h'0065
+	.data.b h'006e
+	.data.b h'0063
+	.data.b h'0065
+	.data.b h'0020
+	.data.b h'0070
+	.data.b h'0075
+	.data.b h'0062
+	.data.b h'006c
+	.data.b h'0069
+	.data.b h'0063
+	.data.b h'0061
+	.data.b h'0074
+	.data.b h'0069
+	.data.b h'006f
+	.data.b h'006e
+	.data.b h'0020
+	.data.b h'006f
+	.data.b h'0066
+	.data.b h'0020
+	.data.b h'0074
+	.data.b h'0068
+	.data.b h'0069
+	.data.b h'0073
+	.data.b h'000d
+	.data.b h'000a
+	.data.b h'0070
+	.data.b h'0072
+	.data.b h'006f
+	.data.b h'0067
+	.data.b h'0072
+	.data.b h'0061
+	.data.b h'006d
+	.data.b h'002e
+	.data.b h'000d
+	.data.b h'000a
+	.data.b h'000d
+	.data.b h'000a
+	.data.b h'0044
+	.data.b h'0065
+	.data.b h'0076
+	.data.b h'0065
+	.data.b h'006c
+	.data.b h'006f
+	.data.b h'0070
+	.data.b h'0065
+	.data.b h'0064
+	.data.b h'0020
+	.data.b h'0062
+	.data.b h'0079
+	.data.b h'0020
+	.data.b h'000d
+	.data.b h'000a
+	.data.b h'0020
+	.data.b h'002a
+	.data.b h'0020
+	.data.b h'0053
+	.data.b h'0065
+	.data.b h'006d
+	.data.b h'0069
+	.data.b h'0063
+	.data.b h'006f
+	.data.b h'006e
+	.data.b h'0064
+	.data.b h'0075
+	.data.b h'0063
+	.data.b h'0074
+	.data.b h'006f
+	.data.b h'0072
+	.data.b h'0020
+	.data.b h'0053
+	.data.b h'006f
+	.data.b h'006c
+	.data.b h'0075
+	.data.b h'0074
+	.data.b h'0069
+	.data.b h'006f
+	.data.b h'006e
+	.data.b h'0020
+	.data.b h'0045
+	.data.b h'006e
+	.data.b h'0067
+	.data.b h'0069
+	.data.b h'006e
+	.data.b h'0065
+	.data.b h'0065
+	.data.b h'0072
+	.data.b h'0069
+	.data.b h'006e
+	.data.b h'0067
+	.data.b h'0020
+	.data.b h'0044
+	.data.b h'0069
+	.data.b h'0076
+	.data.b h'0069
+	.data.b h'0073
+	.data.b h'0069
+	.data.b h'006f
+	.data.b h'006e
+	.data.b h'000d
+	.data.b h'000a
+	.data.b h'0020
+	.data.b h'0020
+	.data.b h'0020
+	.data.b h'004e
+	.data.b h'0045
+	.data.b h'0043
+	.data.b h'0020
+	.data.b h'0043
+	.data.b h'006f
+	.data.b h'0072
+	.data.b h'0070
+	.data.b h'006f
+	.data.b h'006c
+	.data.b h'0061
+	.data.b h'0074
+	.data.b h'0069
+	.data.b h'006f
+	.data.b h'006e
+	.data.b h'002e
+	.data.b h'000d
+	.data.b h'000a
+	.data.b h'0020
+	.data.b h'002a
+	.data.b h'0020
+	.data.b h'0048
+	.data.b h'006f
+	.data.b h'006d
+	.data.b h'0065
+	.data.b h'0020
+	.data.b h'004d
+	.data.b h'0075
+	.data.b h'006c
+	.data.b h'0074
+	.data.b h'0069
+	.data.b h'006d
+	.data.b h'0065
+	.data.b h'0064
+	.data.b h'0069
+	.data.b h'0061
+	.data.b h'0020
+	.data.b h'0044
+	.data.b h'0065
+	.data.b h'0076
+	.data.b h'0065
+	.data.b h'006c
+	.data.b h'006f
+	.data.b h'0070
+	.data.b h'006d
+	.data.b h'0065
+	.data.b h'006e
+	.data.b h'0074
+	.data.b h'0020
+	.data.b h'0044
+	.data.b h'0069
+	.data.b h'0076
+	.data.b h'0069
+	.data.b h'0073
+	.data.b h'0069
+	.data.b h'006f
+	.data.b h'006e
+	.data.b h'000d
+	.data.b h'000a
+	.data.b h'0020
+	.data.b h'0020
+	.data.b h'0020
+	.data.b h'004e
+	.data.b h'0045
+	.data.b h'0043
+	.data.b h'0020
+	.data.b h'0043
+	.data.b h'006f
+	.data.b h'0072
+	.data.b h'0070
+	.data.b h'006f
+	.data.b h'006c
+	.data.b h'0061
+	.data.b h'0074
+	.data.b h'0069
+	.data.b h'006f
+	.data.b h'006e
+	.data.b h'000d
+	.data.b h'000a
+	.data.b h'0020
+	.data.b h'002a
+	.data.b h'0020
+	.data.b h'0043
+	.data.b h'006c
+	.data.b h'0069
+	.data.b h'0065
+	.data.b h'006e
+	.data.b h'0074
+	.data.b h'0020
+	.data.b h'0053
+	.data.b h'0065
+	.data.b h'0072
+	.data.b h'0076
+	.data.b h'0065
+	.data.b h'0072
+	.data.b h'0020
+	.data.b h'0053
+	.data.b h'006f
+	.data.b h'0066
+	.data.b h'0074
+	.data.b h'0077
+	.data.b h'0061
+	.data.b h'0072
+	.data.b h'0065
+	.data.b h'0020
+	.data.b h'0044
+	.data.b h'0065
+	.data.b h'0076
+	.data.b h'0065
+	.data.b h'006c
+	.data.b h'006f
+	.data.b h'0070
+	.data.b h'006d
+	.data.b h'0065
+	.data.b h'006e
+	.data.b h'0074
+	.data.b h'0020
+	.data.b h'0044
+	.data.b h'0069
+	.data.b h'0076
+	.data.b h'0069
+	.data.b h'0073
+	.data.b h'0069
+	.data.b h'006f
+	.data.b h'006e
+	.data.b h'000d
+	.data.b h'000a
+	.data.b h'0020
+	.data.b h'0020
+	.data.b h'0020
+	.data.b h'004e
+	.data.b h'0045
+	.data.b h'0043
+	.data.b h'0020
+	.data.b h'0053
+	.data.b h'006f
+	.data.b h'0066
+	.data.b h'0074
+	.data.b h'0077
+	.data.b h'0061
+	.data.b h'0072
+	.data.b h'0065
+	.data.b h'002c
+	.data.b h'004c
+	.data.b h'0074
+	.data.b h'0064
+	.data.b h'002e
+	.data.b h'000d
+	.data.b h'000a
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+_kmiHardwareResource:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.SECTION BSG,DATA,ALIGN=4
+_kmiDeviceExtension:
+	.res.b h'14
+BSG_20:
+	.res.b h'4
+BSG_24:
+	.res.b h'4
+BSG_28:
+	.res.b h'1C
+BSG_56:
+	.res.b h'4
+BSG_60:
+	.res.b h'4
+BSG_64:
+	.res.b h'28
+BSG_104:
+	.res.b h'4
+BSG_108:
+	.res.b h'4
+BSG_112:
+	.res.b h'20
+BSG_144:
+	.res.b h'8
+BSG_152:
+	.res.b h'4
+BSG_156:
+	.res.b h'128
+BSG_452:
+	.res.b h'4
+BSG_456:
+	.res.b h'4
+BSG_460:
+	.res.b h'C
+BSG_472:
+	.res.b h'4
+BSG_476:
+	.res.b h'8
+BSG_484:
+	.res.b h'4
+BSG_488:
+	.res.b h'24
+BSG_524:
+	.res.b h'4
+BSG_528:
+	.res.b h'C
+BSG_540:
+	.res.b h'4
+BSG_544:
+	.res.b h'8
+BSG_552:
+	.res.b h'4
+BSG_556:
+	.res.b h'4
+BSG_560:
+	.res.b h'44
+BSG_628:
+	.res.b h'38
+BSG_684:
+	.res.b h'9C
+BSG_840:
+	.res.b h'8
+BSG_848:
+	.res.b h'8
+BSG_856:
+	.res.b h'CC
+BSG_1060:
+	.res.b h'C
+BSG_1072:
+	.res.b h'4
+BSG_1076:
+	.res.b h'4
+BSG_1080:
+	.res.b h'C
+BSG_1092:
+	.res.b h'4
+BSG_1096:
+	.res.b h'14
+BSG_1116:
+	.res.b h'4
+BSG_1120:
+	.res.b h'4
+BSG_1124:
+	.res.b h'4
+BSG_1128:
+	.res.b h'74
+BSG_1244:
+	.res.b h'4
+BSG_1248:
+	.res.b h'4
+BSG_1252:
+	.res.b h'8
+BSG_1260:
+	.res.b h'8
+_kmiVersionInfo:
+	.res.b h'14

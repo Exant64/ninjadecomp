@@ -1,0 +1,75 @@
+	.IMPORT _njLoadTextureLN
+	.IMPORT __nj_user_globalIndex
+	.EXPORT _njLoadTextureSetG
+	.SECTION PSG,CODE,ALIGN=4
+_njLoadTextureSetG:
+	mov.l R14,@-R15
+	mov R4,R14
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R11,@-R15
+	mov.l R10,@-R15
+	mov.l R9,@-R15
+	mov.l R8,@-R15
+	sts.l PR,@-R15
+	mov.l lbl_0000007C,R10
+	mov.l lbl_00000080,R11
+	mov.l lbl_00000078,R9
+	mov.l lbl_00000074,R8
+	bra lbl_0000005C
+	mov #0,R13
+lbl_0000001E:
+	mov R13,R12
+	shll R12
+	mov R13,R3
+	add R3,R12
+	mov.l @R14,R3
+	shll2 R12
+	mov R13,R5
+	add R12,R3
+	mov.l @(4,R3),R2
+	or R10,R2
+	mov.l R2,@(4,R3)
+	mov.l @R11,R2
+	mov.l @R14,R3
+	add #-1,R2
+	mov.l R2,@R11
+	add #1,R2
+	add R12,R3
+	mov.l R2,@(8,R3)
+	jsr @R8
+	mov R14,R4
+	mov.l @R14,R3
+	mov R0,R4
+	cmp/pz R4
+	add R12,R3
+	mov.l @(4,R3),R2
+	and R9,R2
+	mov.l R2,@(4,R3)
+	bt lbl_0000005A
+	bra lbl_00000062
+	mov #-1,R0
+lbl_0000005A:
+	add #1,R13
+lbl_0000005C:
+	mov.l @(4,R14),R2
+	cmp/hs R2,R13
+	bf lbl_0000001E
+lbl_00000062:
+	lds.l @R15+,PR
+	mov.l @R15+,R8
+	mov.l @R15+,R9
+	mov.l @R15+,R10
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+lbl_00000074:
+	.data.l _njLoadTextureLN
+lbl_00000078:
+	.data.l h'FF7FFFFF
+lbl_0000007C:
+	.data.l h'00800000
+lbl_00000080:
+	.data.l __nj_user_globalIndex

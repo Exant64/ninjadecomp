@@ -1,0 +1,43 @@
+	.IMPORT __nj_view_
+	.EXPORT _njUnitViewVector
+	.SECTION PSG,CODE,ALIGN=4
+_njUnitViewVector:
+	tst R4,R4
+	fldi0 FR7
+	bf/s lbl_0000000C
+	fldi0 FR11
+	mov.l lbl_00000044,R2
+	mov.l @R2,R4
+lbl_0000000C:
+	add #76,R4
+	fmov @R4+,FR4
+	fmov @R4+,FR5
+	fmov @R4+,FR6
+	add #16,R4
+	fmov @R4+,FR8
+	fmov @R4+,FR9
+	fmov @R4+,FR10
+	fipr FV4,FV4
+	fipr FV8,FV8
+	add #-28,R4
+	fsrra FR7
+	fsrra FR11
+	fmul FR7,FR4
+	fmul FR7,FR5
+	fmul FR7,FR6
+	fmul FR11,FR8
+	fmov FR6,@-R4
+	fmul FR11,FR9
+	fmov FR5,@-R4
+	fmul FR11,FR10
+	fmov FR4,@-R4
+	add #40,R4
+	fmov FR10,@-R4
+	fmov FR9,@-R4
+	rts
+	fmov FR8,@-R4
+	.data.w h'0000
+lbl_00000044:
+	.data.l __nj_view_
+	rts
+	nop

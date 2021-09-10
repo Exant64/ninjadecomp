@@ -1,0 +1,25 @@
+	.IMPORT __nj_view_
+	.EXPORT _njTranslateViewRelative
+	.SECTION PSG,CODE,ALIGN=4
+_njTranslateViewRelative:
+	tst R4,R4
+	bf lbl_00000008
+	mov.l lbl_00000020,R2
+	mov.l @R2,R4
+lbl_00000008:
+	add #64,R4
+	fmov @R4+,FR0
+	fmov @R4+,FR1
+	fadd FR0,FR4
+	fmov @R4+,FR2
+	fadd FR1,FR5
+	fadd FR2,FR6
+	fmov FR6,@-R4
+	fmov FR5,@-R4
+	rts
+	fmov FR4,@-R4
+	.data.w h'0000
+lbl_00000020:
+	.data.l __nj_view_
+	rts
+	nop

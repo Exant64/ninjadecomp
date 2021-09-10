@@ -1,0 +1,62 @@
+	.EXPORT _njSetMatrix
+	.SECTION PSG,CODE,ALIGN=4
+_njSetMatrix:
+	tst R4,R4
+	bf lbl_0000002A
+	frchg
+	fmov @R5+,FR0
+	fmov @R5+,FR1
+	fmov @R5+,FR2
+	fmov @R5+,FR3
+	fmov @R5+,FR4
+	fmov @R5+,FR5
+	fmov @R5+,FR6
+	fmov @R5+,FR7
+	fmov @R5+,FR8
+	fmov @R5+,FR9
+	fmov @R5+,FR10
+	fmov @R5+,FR11
+	fmov @R5+,FR12
+	fmov @R5+,FR13
+	fmov @R5+,FR14
+	fmov @R5+,FR15
+	rts
+	frchg
+lbl_0000002A:
+	add #32,R4
+	fmov @R5+,FR0
+	fmov @R5+,FR1
+	fmov @R5+,FR2
+	fmov @R5+,FR3
+	fmov @R5+,FR4
+	fmov @R5+,FR5
+	fmov @R5+,FR6
+	fmov @R5+,FR7
+	fmov FR7,@-R4
+	fmov FR6,@-R4
+	fmov FR5,@-R4
+	fmov FR4,@-R4
+	fmov FR3,@-R4
+	fmov FR2,@-R4
+	fmov FR1,@-R4
+	fmov FR0,@-R4
+	fmov @R5+,FR0
+	fmov @R5+,FR1
+	add #64,R4
+	fmov @R5+,FR2
+	fmov @R5+,FR3
+	fmov @R5+,FR4
+	fmov @R5+,FR5
+	fmov @R5+,FR6
+	fmov @R5+,FR7
+	fmov FR7,@-R4
+	fmov FR6,@-R4
+	fmov FR5,@-R4
+	fmov FR4,@-R4
+	fmov FR3,@-R4
+	fmov FR2,@-R4
+	fmov FR1,@-R4
+	rts
+	fmov FR0,@-R4
+	rts
+	nop

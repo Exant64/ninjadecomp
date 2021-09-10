@@ -1,0 +1,994 @@
+	.IMPORT __nj_SVQIndexSize
+	.IMPORT __nj_ImageByteSize
+	.IMPORT __nj_SVQCodeBookSize
+	.IMPORT __nj_SVQIndexSizeMM
+	.IMPORT __nj_SVQCodeBookSizeMM
+	.EXPORT _njGetTextureLevel
+	.EXPORT _njTextureSize_VQ
+	.EXPORT _njTextureSize_Normal
+	.EXPORT _njTextureSizeAddDummy
+	.EXPORT _njTextureSize_SVQ
+	.EXPORT _njCheckTextureFormatLow
+	.EXPORT _njCalcTextureSize2
+	.EXPORT _njCalcTextureSize
+	.EXPORT _njTextureSize_Palettized
+	.SECTION PSG,CODE,ALIGN=4
+_njCheckTextureFormatLow:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R11,@-R15
+	sts.l PR,@-R15
+	add #-4,R15
+	extu.b R7,R3
+	mov R4,R14
+	mov.l lbl_000000A4,R4
+	mov #0,R12
+	mov.l R3,@R15
+	mov R12,R13
+	mov.w lbl_00000096,R3
+	and R7,R4
+	shll16 R7
+	cmp/eq R3,R4
+	bt/s lbl_0000002A
+	mov.l R7,@R14
+	mov.w lbl_00000098,R1
+	cmp/eq R1,R4
+	bf lbl_00000030
+lbl_0000002A:
+	mov.l @R14,R0
+	bra lbl_00000034
+	or #3,R0
+lbl_00000030:
+	mov.l @R14,R0
+	or #2,R0
+lbl_00000034:
+	mov.w lbl_0000009A,R2
+	mov #1,R11
+	mov.l R0,@R14
+	cmp/eq R2,R4
+	mov.l R11,@(4,R14)
+	bt/s lbl_00000048
+	mov #4,R7
+	mov.w lbl_0000009C,R1
+	cmp/eq R1,R4
+	bf lbl_0000004E
+lbl_00000048:
+	mov.l lbl_000000A8,R2
+	bra lbl_0000008C
+	nop
+lbl_0000004E:
+	mov.w lbl_0000009E,R1
+	cmp/eq R1,R4
+	bt lbl_0000005A
+	mov.w lbl_000000A0,R2
+	cmp/eq R2,R4
+	bf lbl_00000060
+lbl_0000005A:
+	mov.l lbl_000000AC,R1
+	bra lbl_00000092
+	nop
+lbl_00000060:
+	mov.l @R15,R0
+	cmp/eq #0,R0
+	bt lbl_0000007A
+	cmp/eq #1,R0
+	bt lbl_0000007E
+	cmp/eq #2,R0
+	bt lbl_00000084
+	cmp/eq #3,R0
+	bt lbl_0000008A
+	cmp/eq #4,R0
+	bt lbl_00000090
+	bra lbl_000000C0
+	nop
+lbl_0000007A:
+	bra lbl_000000C2
+	mov.l R12,@(8,R14)
+lbl_0000007E:
+	mov.l lbl_000000B0,R2
+	bra lbl_0000008C
+	nop
+lbl_00000084:
+	mov.l lbl_000000B4,R1
+	bra lbl_00000092
+	nop
+lbl_0000008A:
+	mov.l lbl_000000B8,R2
+lbl_0000008C:
+	bra lbl_000000C2
+	mov.l R2,@(8,R14)
+lbl_00000090:
+	mov.l lbl_000000BC,R1
+lbl_00000092:
+	bra lbl_000000C2
+	mov.l R1,@(8,R14)
+lbl_00000096:
+	.data.w h'1000
+lbl_00000098:
+	.data.w h'1100
+lbl_0000009A:
+	.data.w h'0500
+lbl_0000009C:
+	.data.w h'0600
+lbl_0000009E:
+	.data.w h'0700
+lbl_000000A0:
+	.data.w h'0800
+	.data.w h'0000
+lbl_000000A4:
+	.data.l h'0000FF00
+lbl_000000A8:
+	.data.l h'28000000
+lbl_000000AC:
+	.data.l h'30000000
+lbl_000000B0:
+	.data.l h'08000000
+lbl_000000B4:
+	.data.l h'10000000
+lbl_000000B8:
+	.data.l h'18000000
+lbl_000000BC:
+	.data.l h'20000000
+lbl_000000C0:
+	mov R7,R13
+lbl_000000C2:
+	mov R5,R0
+	cmp/eq #8,R0
+	mov.l R5,@(12,R14)
+	bt/s lbl_000000F2
+	mov.l R6,@(16,R14)
+	cmp/eq #16,R0
+	bt lbl_000000F2
+	cmp/eq #32,R0
+	bt lbl_000000F2
+	cmp/eq #64,R0
+	bt lbl_000000F2
+	mov.w lbl_0000017A,R1
+	cmp/eq R1,R0
+	bt lbl_000000F2
+	mov.w lbl_0000017C,R1
+	cmp/eq R1,R0
+	bt lbl_000000F2
+	mov.w lbl_0000017E,R1
+	cmp/eq R1,R0
+	bt lbl_000000F2
+	mov.w lbl_00000180,R1
+	cmp/eq R1,R0
+	bt lbl_000000F2
+	mov R7,R13
+lbl_000000F2:
+	mov R6,R0
+	cmp/eq #8,R0
+	bt lbl_0000011E
+	cmp/eq #16,R0
+	bt lbl_0000011E
+	cmp/eq #32,R0
+	bt lbl_0000011E
+	cmp/eq #64,R0
+	bt lbl_0000011E
+	mov.w lbl_0000017A,R1
+	cmp/eq R1,R0
+	bt lbl_0000011E
+	mov.w lbl_0000017C,R1
+	cmp/eq R1,R0
+	bt lbl_0000011E
+	mov.w lbl_0000017E,R1
+	cmp/eq R1,R0
+	bt lbl_0000011E
+	mov.w lbl_00000180,R1
+	cmp/eq R1,R0
+	bt lbl_0000011E
+	mov R7,R13
+lbl_0000011E:
+	mov.w lbl_00000182,R3
+	cmp/eq R3,R4
+	bt lbl_00000142
+	mov.w lbl_00000184,R1
+	cmp/eq R1,R4
+	bt lbl_00000142
+	mov.w lbl_00000186,R0
+	cmp/eq R0,R4
+	bt lbl_00000142
+	mov.w lbl_00000188,R2
+	cmp/eq R2,R4
+	bt lbl_00000142
+	mov.w lbl_0000018A,R1
+	cmp/eq R1,R4
+	bt lbl_00000142
+	cmp/eq R6,R5
+	bt lbl_00000142
+	mov R7,R13
+lbl_00000142:
+	mov.w lbl_0000018C,R3
+	cmp/eq R3,R4
+	bt/s lbl_00000168
+	mov.l R12,@(24,R14)
+	mov.w lbl_0000017E,R1
+	cmp/eq R1,R4
+	bt lbl_00000168
+	mov.w lbl_00000180,R0
+	cmp/eq R0,R4
+	bt lbl_00000168
+	mov.w lbl_0000018E,R2
+	cmp/eq R2,R4
+	bt lbl_00000168
+	mov.w lbl_00000190,R1
+	cmp/eq R1,R4
+	bt lbl_00000168
+	mov.w lbl_00000192,R2
+	cmp/eq R2,R4
+	bf lbl_0000016E
+lbl_00000168:
+	mov.l @(24,R14),R1
+	or R11,R1
+	mov.l R1,@(24,R14)
+lbl_0000016E:
+	mov.w lbl_00000194,R3
+	cmp/eq R3,R4
+	bt lbl_000001AC
+	mov.w lbl_0000018C,R1
+	bra lbl_00000196
+	nop
+lbl_0000017A:
+	.data.w h'0080
+lbl_0000017C:
+	.data.w h'0100
+lbl_0000017E:
+	.data.w h'0200
+lbl_00000180:
+	.data.w h'0400
+lbl_00000182:
+	.data.w h'0900
+lbl_00000184:
+	.data.w h'0b00
+lbl_00000186:
+	.data.w h'0d00
+lbl_00000188:
+	.data.w h'0500
+lbl_0000018A:
+	.data.w h'0700
+lbl_0000018C:
+	.data.w h'0f00
+lbl_0000018E:
+	.data.w h'1100
+lbl_00000190:
+	.data.w h'0600
+lbl_00000192:
+	.data.w h'0800
+lbl_00000194:
+	.data.w h'0e00
+lbl_00000196:
+	cmp/eq R1,R4
+	bt lbl_000001AC
+	mov.w lbl_0000022A,R0
+	cmp/eq R0,R4
+	bt lbl_000001AC
+	mov.w lbl_0000022C,R2
+	cmp/eq R2,R4
+	bt lbl_000001AC
+	mov.w lbl_0000022E,R1
+	cmp/eq R1,R4
+	bf lbl_000001B2
+lbl_000001AC:
+	mov.l @(24,R14),R2
+	or R7,R2
+	mov.l R2,@(24,R14)
+lbl_000001B2:
+	mov.w lbl_00000230,R3
+	cmp/eq R3,R4
+	bt lbl_000001CA
+	mov.w lbl_00000232,R1
+	cmp/eq R1,R4
+	bt lbl_000001CA
+	mov.w lbl_00000234,R0
+	cmp/eq R0,R4
+	bt lbl_000001CA
+	mov.w lbl_00000236,R2
+	cmp/eq R2,R4
+	bf lbl_000001D4
+lbl_000001CA:
+	mov.l @(24,R14),R0
+	or #8,R0
+	mov R0,R2
+	or R7,R2
+	mov.l R2,@(24,R14)
+lbl_000001D4:
+	mov.w lbl_00000238,R3
+	cmp/eq R3,R4
+	bf lbl_000001E0
+	mov.l @(24,R14),R0
+	or #16,R0
+	mov.l R0,@(24,R14)
+lbl_000001E0:
+	mov.w lbl_0000023A,R3
+	cmp/eq R3,R4
+	bt lbl_000001F8
+	mov.w lbl_0000023C,R1
+	cmp/eq R1,R4
+	bt lbl_000001F8
+	mov.w lbl_0000023E,R0
+	cmp/eq R0,R4
+	bt lbl_000001F8
+	mov.w lbl_00000240,R2
+	cmp/eq R2,R4
+	bf lbl_00000202
+lbl_000001F8:
+	mov.l @(24,R14),R0
+	or #32,R0
+	mov R0,R2
+	or R7,R2
+	mov.l R2,@(24,R14)
+lbl_00000202:
+	mov.w lbl_00000242,R3
+	cmp/eq R3,R4
+	bf/s lbl_00000214
+	mov R14,R4
+	mov.l @(24,R14),R1
+	or R11,R1
+	mov R1,R2
+	or R7,R2
+	mov.l R2,@(24,R14)
+lbl_00000214:
+	bsr _njTextureSizeAddDummy
+	nop
+	mov.l R0,@(20,R14)
+	mov R13,R0
+	add #4,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+lbl_0000022A:
+	.data.w h'0100
+lbl_0000022C:
+	.data.w h'0200
+lbl_0000022E:
+	.data.w h'0d00
+lbl_00000230:
+	.data.w h'0300
+lbl_00000232:
+	.data.w h'0400
+lbl_00000234:
+	.data.w h'1000
+lbl_00000236:
+	.data.w h'1100
+lbl_00000238:
+	.data.w h'0b00
+lbl_0000023A:
+	.data.w h'0500
+lbl_0000023C:
+	.data.w h'0600
+lbl_0000023E:
+	.data.w h'0700
+lbl_00000240:
+	.data.w h'0800
+lbl_00000242:
+	.data.w h'1200
+_njGetTextureLevel:
+	cmp/hs R5,R4
+	bf lbl_0000024A
+	mov R5,R4
+lbl_0000024A:
+	mov R4,R0
+	cmp/eq #1,R0
+	bt lbl_00000284
+	cmp/eq #2,R0
+	bt lbl_00000288
+	cmp/eq #4,R0
+	bt lbl_0000028C
+	cmp/eq #8,R0
+	bt lbl_00000290
+	cmp/eq #16,R0
+	bt lbl_00000294
+	cmp/eq #32,R0
+	bt lbl_00000298
+	cmp/eq #64,R0
+	bt lbl_0000029C
+	mov.w lbl_000002EE,R1
+	cmp/eq R1,R0
+	bt lbl_000002A0
+	mov.w lbl_000002F0,R1
+	cmp/eq R1,R0
+	bt lbl_000002A4
+	mov.w lbl_000002F2,R1
+	cmp/eq R1,R0
+	bt lbl_000002A8
+	mov.w lbl_000002F4,R1
+	cmp/eq R1,R0
+	bt lbl_000002AC
+	bra lbl_000002B0
+	nop
+lbl_00000284:
+	rts
+	mov #0,R0
+lbl_00000288:
+	rts
+	mov #1,R0
+lbl_0000028C:
+	rts
+	mov #2,R0
+lbl_00000290:
+	rts
+	mov #3,R0
+lbl_00000294:
+	rts
+	mov #4,R0
+lbl_00000298:
+	rts
+	mov #5,R0
+lbl_0000029C:
+	rts
+	mov #6,R0
+lbl_000002A0:
+	rts
+	mov #7,R0
+lbl_000002A4:
+	rts
+	mov #8,R0
+lbl_000002A8:
+	rts
+	mov #9,R0
+lbl_000002AC:
+	rts
+	mov #10,R0
+lbl_000002B0:
+	mov #-1,R0
+	rts
+	nop
+_njTextureSizeAddDummy:
+	sts.l PR,@-R15
+	mov.l @R4,R0
+	extu.w R0,R0
+	cmp/eq #3,R0
+	bf lbl_000002C8
+	bsr _njTextureSize_SVQ
+	nop
+	bra lbl_000002D2
+	nop
+lbl_000002C8:
+	mov.l @(24,R4),R0
+	tst #8,R0
+	bt lbl_000002D6
+	bsr _njTextureSize_VQ
+	nop
+lbl_000002D2:
+	bra lbl_000002E8
+	mov R0,R5
+lbl_000002D6:
+	tst #32,R0
+	bt lbl_000002E2
+	bsr _njTextureSize_Palettized
+	nop
+	bra lbl_000002E6
+	nop
+lbl_000002E2:
+	bsr _njTextureSize_Normal
+	nop
+lbl_000002E6:
+	mov R0,R5
+lbl_000002E8:
+	lds.l @R15+,PR
+	rts
+	mov R5,R0
+lbl_000002EE:
+	.data.w h'0080
+lbl_000002F0:
+	.data.w h'0100
+lbl_000002F2:
+	.data.w h'0200
+lbl_000002F4:
+	.data.w h'0400
+_njCalcTextureSize:
+	mov.l R14,@-R15
+	sts.l PR,@-R15
+	add #-12,R15
+	mov.l R4,@R15
+	mov.l R5,@(4,R15)
+	mov.l R6,@(8,R15)
+	mov.l @(4,R15),R5
+	bsr _njGetTextureLevel
+	mov.l @R15,R4
+	mov.l @(4,R15),R2
+	mov R0,R7
+	mov.l @R15,R1
+	mov R7,R14
+	mov.l lbl_000003EC,R3
+	mul.l R2,R1
+	mov.l @(8,R15),R6
+	mov.w lbl_000003D2,R1
+	and R3,R6
+	mov.l lbl_000003F0,R5
+	sts MACL,R4
+	mov R6,R0
+	cmp/eq R1,R0
+	bt/s lbl_00000372
+	shll2 R14
+	mov.w lbl_000003D4,R1
+	cmp/eq R1,R0
+	bt lbl_00000372
+	mov.w lbl_000003D6,R1
+	cmp/eq R1,R0
+	bt lbl_00000372
+	mov.w lbl_000003D8,R1
+	cmp/eq R1,R0
+	bt lbl_00000372
+	mov.w lbl_000003DA,R1
+	cmp/eq R1,R0
+	bt lbl_0000037E
+	mov.w lbl_000003DC,R1
+	cmp/eq R1,R0
+	bt lbl_0000038A
+	mov.w lbl_000003DE,R1
+	cmp/eq R1,R0
+	bt lbl_00000398
+	mov.w lbl_000003E0,R1
+	cmp/eq R1,R0
+	bt lbl_000003A6
+	mov.w lbl_000003E2,R1
+	cmp/eq R1,R0
+	bt lbl_000003B8
+	mov.w lbl_000003E4,R1
+	cmp/eq R1,R0
+	bt lbl_000003C6
+	mov.w lbl_000003E6,R1
+	cmp/eq R1,R0
+	bt lbl_00000404
+	mov.w lbl_000003E8,R1
+	cmp/eq R1,R0
+	bt lbl_0000040E
+	mov.w lbl_000003EA,R1
+	cmp/eq R1,R0
+	bt lbl_00000418
+	bra lbl_0000042A
+	nop
+lbl_00000372:
+	mov R4,R0
+	shll R0
+	add #12,R15
+	lds.l @R15+,PR
+	rts
+	mov.l @R15+,R14
+lbl_0000037E:
+	mov R14,R0
+	mov.l @(R0,R5),R0
+	add #12,R15
+	lds.l @R15+,PR
+	rts
+	mov.l @R15+,R14
+lbl_0000038A:
+	mov.w lbl_000003EA,R0
+	shlr2 R4
+	add R4,R0
+	add #12,R15
+	lds.l @R15+,PR
+	rts
+	mov.l @R15+,R14
+lbl_00000398:
+	mov.l lbl_000003F4,R0
+	mov.l @(R0,R14),R3
+	mov.l lbl_000003F8,R0
+	mov.l @(R0,R14),R1
+	add R1,R3
+	bra lbl_00000420
+	nop
+lbl_000003A6:
+	mov R14,R0
+	mov.l @(R0,R5),R3
+	mov.w lbl_000003EA,R1
+	add #4,R3
+	shlr2 R3
+	shlr R3
+	add R1,R3
+	bra lbl_00000420
+	nop
+lbl_000003B8:
+	mov.l lbl_000003FC,R0
+	mov.l @(R0,R14),R3
+	mov.l lbl_00000400,R0
+	mov.l @(R0,R14),R1
+	add R1,R3
+	bra lbl_00000420
+	nop
+lbl_000003C6:
+	mov R4,R0
+	shlr R0
+	add #12,R15
+	lds.l @R15+,PR
+	rts
+	mov.l @R15+,R14
+lbl_000003D2:
+	.data.w h'0100
+lbl_000003D4:
+	.data.w h'0d00
+lbl_000003D6:
+	.data.w h'0900
+lbl_000003D8:
+	.data.w h'0b00
+lbl_000003DA:
+	.data.w h'0200
+lbl_000003DC:
+	.data.w h'0300
+lbl_000003DE:
+	.data.w h'1000
+lbl_000003E0:
+	.data.w h'0400
+lbl_000003E2:
+	.data.w h'1100
+lbl_000003E4:
+	.data.w h'0500
+lbl_000003E6:
+	.data.w h'0600
+lbl_000003E8:
+	.data.w h'0700
+lbl_000003EA:
+	.data.w h'0800
+lbl_000003EC:
+	.data.l h'0000FF00
+lbl_000003F0:
+	.data.l __nj_ImageByteSize
+lbl_000003F4:
+	.data.l __nj_SVQCodeBookSize
+lbl_000003F8:
+	.data.l __nj_SVQIndexSize
+lbl_000003FC:
+	.data.l __nj_SVQCodeBookSizeMM
+lbl_00000400:
+	.data.l __nj_SVQIndexSizeMM
+lbl_00000404:
+	mov R14,R0
+	mov.l @(R0,R5),R3
+	add #4,R3
+	bra lbl_00000420
+	shlr2 R3
+lbl_0000040E:
+	mov R4,R0
+	add #12,R15
+	lds.l @R15+,PR
+	rts
+	mov.l @R15+,R14
+lbl_00000418:
+	mov R14,R0
+	mov.l @(R0,R5),R3
+	add #4,R3
+	shlr R3
+lbl_00000420:
+	mov R3,R0
+	add #12,R15
+	lds.l @R15+,PR
+	rts
+	mov.l @R15+,R14
+lbl_0000042A:
+	mov #0,R0
+	add #12,R15
+	lds.l @R15+,PR
+	rts
+	mov.l @R15+,R14
+_njCalcTextureSize2:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	sts.l PR,@-R15
+	add #-8,R15
+	mov.w @(4,R4),R0
+	mov.l @R4,R3
+	extu.w R0,R13
+	mov.w @(6,R4),R0
+	mov.l R3,@(4,R15)
+	extu.w R0,R12
+	mov R12,R5
+	bsr _njGetTextureLevel
+	mov R13,R4
+	mul.l R12,R13
+	mov.l lbl_000004F4,R3
+	mov.w lbl_000004DC,R1
+	mov.l R0,@R15
+	mov.l @(4,R15),R6
+	sts MACL,R4
+	and R3,R6
+	mov.l @R15,R14
+	mov R6,R0
+	mov.w lbl_000004DA,R7
+	mov.l lbl_000004F8,R5
+	cmp/eq R1,R0
+	bt/s lbl_000004B8
+	shll2 R14
+	mov.w lbl_000004DE,R1
+	cmp/eq R1,R0
+	bt lbl_000004B8
+	mov.w lbl_000004E0,R1
+	cmp/eq R1,R0
+	bt lbl_000004B8
+	mov.w lbl_000004E2,R1
+	cmp/eq R1,R0
+	bt lbl_000004B8
+	mov.w lbl_000004E4,R1
+	cmp/eq R1,R0
+	bt lbl_000004BE
+	mov.w lbl_000004E6,R1
+	cmp/eq R1,R0
+	bt lbl_000004C4
+	mov.w lbl_000004E8,R1
+	cmp/eq R1,R0
+	bt lbl_000004CC
+	mov.w lbl_000004EA,R1
+	cmp/eq R1,R0
+	bt lbl_00000504
+	mov.w lbl_000004EC,R1
+	cmp/eq R1,R0
+	bt lbl_00000512
+	mov.w lbl_000004EE,R1
+	cmp/eq R1,R0
+	bt lbl_00000520
+	mov.w lbl_000004F0,R1
+	cmp/eq R1,R0
+	bt lbl_00000526
+	mov.w lbl_000004F2,R1
+	cmp/eq R1,R0
+	bt lbl_00000530
+	mov.w lbl_000004DA,R1
+	cmp/eq R1,R0
+	bt lbl_00000534
+	bra lbl_00000540
+	nop
+lbl_000004B8:
+	mov R4,R0
+	bra lbl_00000542
+	shll R0
+lbl_000004BE:
+	mov R14,R0
+	bra lbl_00000542
+	mov.l @(R0,R5),R0
+lbl_000004C4:
+	shlr2 R4
+	mov R4,R0
+	bra lbl_00000542
+	add R7,R0
+lbl_000004CC:
+	mov.l lbl_000004FC,R0
+	mov.l @(R0,R14),R2
+	mov.l lbl_00000500,R0
+	mov.l @(R0,R14),R1
+	add R1,R2
+	bra lbl_0000053C
+	nop
+lbl_000004DA:
+	.data.w h'0800
+lbl_000004DC:
+	.data.w h'0100
+lbl_000004DE:
+	.data.w h'0d00
+lbl_000004E0:
+	.data.w h'0900
+lbl_000004E2:
+	.data.w h'0b00
+lbl_000004E4:
+	.data.w h'0200
+lbl_000004E6:
+	.data.w h'0300
+lbl_000004E8:
+	.data.w h'1000
+lbl_000004EA:
+	.data.w h'0400
+lbl_000004EC:
+	.data.w h'1100
+lbl_000004EE:
+	.data.w h'0500
+lbl_000004F0:
+	.data.w h'0600
+lbl_000004F2:
+	.data.w h'0700
+lbl_000004F4:
+	.data.l h'0000FF00
+lbl_000004F8:
+	.data.l __nj_ImageByteSize
+lbl_000004FC:
+	.data.l __nj_SVQCodeBookSize
+lbl_00000500:
+	.data.l __nj_SVQIndexSize
+lbl_00000504:
+	mov R14,R0
+	mov.l @(R0,R5),R2
+	add #4,R2
+	shlr2 R2
+	shlr R2
+	bra lbl_0000053C
+	add R7,R2
+lbl_00000512:
+	mov.l lbl_00000614,R0
+	mov.l @(R0,R14),R2
+	mov.l lbl_00000618,R0
+	mov.l @(R0,R14),R1
+	add R1,R2
+	bra lbl_0000053C
+	nop
+lbl_00000520:
+	mov R4,R0
+	bra lbl_00000542
+	shlr R0
+lbl_00000526:
+	mov R14,R0
+	mov.l @(R0,R5),R2
+	add #4,R2
+	bra lbl_0000053C
+	shlr2 R2
+lbl_00000530:
+	bra lbl_00000542
+	mov R4,R0
+lbl_00000534:
+	mov R14,R0
+	mov.l @(R0,R5),R2
+	add #4,R2
+	shlr R2
+lbl_0000053C:
+	bra lbl_00000542
+	mov R2,R0
+lbl_00000540:
+	mov #0,R0
+lbl_00000542:
+	add #8,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+_njTextureSize_Normal:
+	mov.l R14,@-R15
+	mov R4,R14
+	sts.l PR,@-R15
+	mov.l @(24,R14),R0
+	mov.l @(12,R14),R4
+	tst #1,R0
+	bt/s lbl_00000570
+	mov.l @(16,R14),R5
+	bsr _njGetTextureLevel
+	nop
+	mov R0,R6
+	mov R0,R4
+	mov.l lbl_0000061C,R0
+	shll2 R6
+	mov.l @(R0,R6),R6
+	bra lbl_00000576
+	add #4,R6
+lbl_00000570:
+	mul.l R5,R4
+	sts MACL,R6
+	shll R6
+lbl_00000576:
+	lds.l @R15+,PR
+	mov R6,R0
+	rts
+	mov.l @R15+,R14
+_njTextureSize_VQ:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	sts.l PR,@-R15
+	mov.l @(24,R4),R0
+	mov.l @(12,R4),R13
+	tst #1,R0
+	bt/s lbl_000005A8
+	mov.l @(16,R4),R14
+	mov R14,R5
+	bsr _njGetTextureLevel
+	mov R13,R4
+	mov R0,R5
+	mov R0,R4
+	mov.l lbl_0000061C,R0
+	shll2 R5
+	mov.l @(R0,R5),R5
+	add #4,R5
+	shlr2 R5
+	shlr R5
+	bra lbl_000005BC
+	add #10,R5
+lbl_000005A8:
+	mul.l R14,R13
+	mov.l @(12,R4),R0
+	cmp/eq #8,R0
+	sts MACL,R5
+	bf/s lbl_000005BC
+	shlr2 R5
+	mov.l @(16,R4),R0
+	cmp/eq #8,R0
+	bf lbl_000005BC
+	add #16,R5
+lbl_000005BC:
+	lds.l @R15+,PR
+	mov.w lbl_00000612,R2
+	mov.l @R15+,R13
+	add R2,R5
+	mov R5,R0
+	rts
+	mov.l @R15+,R14
+_njTextureSize_Palettized:
+	mov.l R14,@-R15
+	mov R4,R14
+	sts.l PR,@-R15
+	mov.l @(24,R14),R0
+	mov.l @(12,R14),R4
+	tst #1,R0
+	bt/s lbl_000005FC
+	mov.l @(16,R14),R5
+	bsr _njGetTextureLevel
+	nop
+	mov R0,R6
+	mov R0,R4
+	mov.l lbl_0000061C,R0
+	shll2 R6
+	mov.l lbl_00000620,R2
+	mov.l @(R0,R6),R6
+	mov.l @(8,R14),R1
+	add #4,R6
+	shlr R6
+	cmp/eq R2,R1
+	bf lbl_000005F8
+	bra lbl_00000600
+	add #40,R6
+lbl_000005F8:
+	bra lbl_00000600
+	add #8,R6
+lbl_000005FC:
+	mul.l R5,R4
+	sts MACL,R6
+lbl_00000600:
+	mov.l @(8,R14),R3
+	mov.l lbl_00000620,R2
+	cmp/eq R2,R3
+	bf lbl_0000060A
+	shlr R6
+lbl_0000060A:
+	lds.l @R15+,PR
+	mov R6,R0
+	rts
+	mov.l @R15+,R14
+lbl_00000612:
+	.data.w h'0800
+lbl_00000614:
+	.data.l __nj_SVQCodeBookSizeMM
+lbl_00000618:
+	.data.l __nj_SVQIndexSizeMM
+lbl_0000061C:
+	.data.l __nj_ImageByteSize
+lbl_00000620:
+	.data.l h'28000000
+_njTextureSize_SVQ:
+	mov.l R14,@-R15
+	mov R4,R14
+	sts.l PR,@-R15
+	mov.l @(16,R14),R5
+	bsr _njGetTextureLevel
+	mov.l @(12,R14),R4
+	mov R0,R1
+	mov R0,R4
+	mov.l @(24,R14),R0
+	tst #1,R0
+	bt/s lbl_0000064A
+	shll2 R1
+	mov.l lbl_0000065C,R0
+	mov.l @(R0,R1),R4
+	mov.l lbl_00000660,R0
+	mov.l @(R0,R1),R3
+	add R3,R4
+	bra lbl_00000654
+	add #10,R4
+lbl_0000064A:
+	mov.l lbl_00000664,R0
+	mov.l @(R0,R1),R4
+	mov.l lbl_00000668,R0
+	mov.l @(R0,R1),R3
+	add R3,R4
+lbl_00000654:
+	lds.l @R15+,PR
+	mov R4,R0
+	rts
+	mov.l @R15+,R14
+lbl_0000065C:
+	.data.l __nj_SVQCodeBookSizeMM
+lbl_00000660:
+	.data.l __nj_SVQIndexSizeMM
+lbl_00000664:
+	.data.l __nj_SVQCodeBookSize
+lbl_00000668:
+	.data.l __nj_SVQIndexSize

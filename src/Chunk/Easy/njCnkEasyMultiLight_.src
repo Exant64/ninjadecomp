@@ -1,0 +1,294 @@
+	.IMPORT __nj_cnk_easy_multilight_buffer_dst_
+	.IMPORT __nj_cnk_easy_multilight_buffer_
+	.IMPORT _njCalcVector
+	.IMPORT __quick_odd_mvn
+	.IMPORT _njCalcPoint
+	.EXPORT _njCnkSetEasyMultiLightRange
+	.EXPORT _njCnkSetEasyMultiLightVectorEx
+	.EXPORT _njCnkSetEasyMultiLightSwitch
+	.EXPORT _njCnkSetEasyMultiLightVector
+	.EXPORT _njCnkSetEasyMultiLightMatrices
+	.EXPORT _njCnkSetEasyMultiLightColor
+	.EXPORT _njCnkSetEasyMultiLight
+	.EXPORT _njCnkSetEasyMultiAmbient
+	.EXPORT _njCnkSetEasyMultiLightPoint
+	.SECTION PSG,CODE,ALIGN=4
+_njCnkSetEasyMultiLight:
+	sts.l PR,@-R15
+	add #-28,R15
+	mov.l lbl_0000016C,R2
+	mov R15,R6
+	mov.l lbl_00000170,R3
+	mov R15,R1
+	jsr @R3
+	mov #28,R0
+	mov R4,R0
+	shll2 R0
+	mov.l @(R0,R6),R3
+	mov.l lbl_00000174,R5
+	mov.l R3,@R5
+	add #28,R15
+	lds.l @R15+,PR
+	rts
+	nop
+_njCnkSetEasyMultiLightSwitch:
+	sts.l PR,@-R15
+	add #-28,R15
+	mov.l lbl_00000170,R3
+	mov R15,R1
+	mov.l lbl_00000178,R2
+	jsr @R3
+	mov #28,R0
+	mov R4,R6
+	mov.l lbl_00000174,R7
+	tst R5,R5
+	mov R15,R3
+	shll2 R6
+	bt/s lbl_00000048
+	add R3,R6
+	mov.l @R7,R0
+	mov.l @R6,R1
+	or R1,R0
+	bra lbl_00000050
+	nop
+lbl_00000048:
+	mov.l @R6,R1
+	mov.l @R7,R0
+	not R1,R1
+	and R1,R0
+lbl_00000050:
+	mov.l R0,@R7
+	add #28,R15
+	lds.l @R15+,PR
+	rts
+	nop
+_njCnkSetEasyMultiAmbient:
+	mov.l lbl_0000017C,R4
+	fmov FR4,@R4
+	add #4,R4
+	fmov FR5,@R4
+	add #4,R4
+	rts
+	fmov FR6,@R4
+_njCnkSetEasyMultiLightColor:
+	add #-1,R4
+	mov.l lbl_00000180,R5
+	shll2 R4
+	shll R4
+	shll2 R4
+	add R4,R5
+	fmov FR4,@R5
+	add #4,R5
+	fmov FR5,@R5
+	add #4,R5
+	rts
+	fmov FR6,@R5
+_njCnkSetEasyMultiLightVectorEx:
+	add #-1,R4
+	mov.l lbl_00000184,R6
+	mov R4,R3
+	shll R3
+	mov R4,R2
+	add R2,R3
+	shll2 R3
+	mov R6,R5
+	add R3,R5
+	mov R4,R3
+	fmov FR4,@R5
+	add #4,R5
+	fmov FR5,@R5
+	add #4,R5
+	shll R4
+	fmov FR6,@R5
+	add R3,R4
+	mov #2,R5
+	shld R4,R5
+	not R5,R4
+	mov R6,R5
+	add #80,R5
+	mov.l @R5,R2
+	and R2,R4
+	rts
+	mov.l R4,@R5
+_njCnkSetEasyMultiLightVector:
+	bra _njCnkSetEasyMultiLightVectorEx
+	mov #1,R4
+_njCnkSetEasyMultiLightPoint:
+	add #-1,R4
+	mov.l lbl_00000184,R6
+	mov R4,R3
+	shll R3
+	mov R4,R2
+	add R2,R3
+	shll2 R3
+	mov R6,R5
+	add R3,R5
+	mov R4,R3
+	fmov FR4,@R5
+	add #4,R5
+	fmov FR5,@R5
+	add #4,R5
+	shll R4
+	fmov FR6,@R5
+	add R3,R4
+	mov #2,R5
+	shld R4,R5
+	mov R6,R4
+	add #80,R4
+	mov.l @R4,R2
+	or R2,R5
+	rts
+	mov.l R5,@R4
+_njCnkSetEasyMultiLightRange:
+	add #-1,R4
+	fmul FR5,FR5
+	shll2 R4
+	mov.l lbl_00000188,R5
+	shll R4
+	fmul FR4,FR4
+	shll2 R4
+	add R4,R5
+	fmov FR5,@R5
+	add #4,R5
+	rts
+	fmov FR4,@R5
+_njCnkSetEasyMultiLightMatrices:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l lbl_00000184,R4
+	mov.l R11,@-R15
+	mov #1,R11
+	mov.l R10,@-R15
+	mov R4,R14
+	mov.l R9,@-R15
+	add #80,R14
+	sts.l PR,@-R15
+	mov.l lbl_00000194,R10
+	mov R4,R13
+	mov.l lbl_00000190,R9
+	mov.l @R14,R14
+	mov.l lbl_0000018C,R12
+lbl_00000122:
+	mov R14,R2
+	tst R11,R2
+	bt lbl_00000148
+	mov #1,R3
+	shlr R14
+	tst R14,R3
+	bt lbl_0000013C
+	mov R13,R5
+	mov R12,R6
+	jsr @R9
+	mov #0,R4
+	bra lbl_0000014A
+	nop
+lbl_0000013C:
+	mov R13,R5
+	mov R12,R6
+	jsr @R10
+	mov #0,R4
+	bra lbl_0000014A
+	nop
+lbl_00000148:
+	shlr R14
+lbl_0000014A:
+	mov #1,R3
+	shlr R14
+	tst R14,R3
+	bf lbl_0000015A
+	add #12,R13
+	shlr R14
+	bra lbl_00000122
+	add #32,R12
+lbl_0000015A:
+	lds.l @R15+,PR
+	mov.l @R15+,R9
+	mov.l @R15+,R10
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+	.data.w h'0000
+lbl_0000016C:
+	.data.l CSG_0
+lbl_00000170:
+	.data.l __quick_odd_mvn
+lbl_00000174:
+	.data.l __nj_cnk_easy_multilight_buffer_+80
+lbl_00000178:
+	.data.l CSG_28
+lbl_0000017C:
+	.data.l __nj_cnk_easy_multilight_buffer_+84
+lbl_00000180:
+	.data.l __nj_cnk_easy_multilight_buffer_dst_+20
+lbl_00000184:
+	.data.l __nj_cnk_easy_multilight_buffer_
+lbl_00000188:
+	.data.l __nj_cnk_easy_multilight_buffer_dst_+12
+lbl_0000018C:
+	.data.l __nj_cnk_easy_multilight_buffer_dst_
+lbl_00000190:
+	.data.l _njCalcPoint
+lbl_00000194:
+	.data.l _njCalcVector
+	.SECTION CSG,DATA,ALIGN=4
+CSG_0:
+	.data.b h'0004
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0005
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0039
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'00d9
+	.data.b h'0001
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'00d9
+	.data.b h'000e
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'00d9
+	.data.b h'0076
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'00d9
+	.data.b h'00b6
+	.data.b h'0003
+	.data.b h'0000
+CSG_28:
+	.data.b h'0049
+	.data.b h'0092
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0001
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0008
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0040
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0002
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0010
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0080
+	.data.b h'0000
+	.data.b h'0000

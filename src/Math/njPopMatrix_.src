@@ -1,0 +1,40 @@
+	.IMPORT __nj_current_matrix_ptr_
+	.IMPORT __nj_stack_size_
+	.EXPORT _njPopMatrix
+	.SECTION PSG,CODE,ALIGN=4
+_njPopMatrix:
+	mov.l lbl_00000010,R5
+	mov #1,R2
+	mov.l @R5,R3
+	sub R4,R3
+	cmp/hs R2,R3
+	bt lbl_00000014
+	rts
+	mov #0,R0
+lbl_00000010:
+	.data.l __nj_stack_size_
+lbl_00000014:
+	shll2 R4
+	mov.l R3,@R5
+	shll2 R4
+	mov.l lbl_0000003C,R5
+	shll2 R4
+	mov.l @R5,R1
+	sub R4,R1
+	mov.l R1,@R5
+	fschg
+	fmov @R1+,FR1
+	fmov @R1+,FR3
+	fmov @R1+,FR5
+	fmov @R1+,FR7
+	fmov @R1+,FR9
+	fmov @R1+,FR11
+	fmov @R1+,FR13
+	fmov @R1+,FR15
+	fschg
+	rts
+	mov #1,R0
+lbl_0000003C:
+	.data.l __nj_current_matrix_ptr_
+	rts
+	nop

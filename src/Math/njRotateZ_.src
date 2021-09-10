@@ -1,0 +1,82 @@
+	.EXPORT _njRotateZ
+	.SECTION PSG,CODE,ALIGN=4
+_njRotateZ:
+	tst R4,R4
+	bf/s lbl_0000002E
+	lds R5,FPUL
+	fldi0 FR3
+	fsca FPUL,DR0
+	fldi0 FR6
+	fldi0 FR7
+	fmov FR0,FR2
+	fmov FR1,FR0
+	fmov FR2,FR1
+	fldi0 FR2
+	fmov FR0,FR5
+	fmov FR1,FR4
+	fneg FR4
+	ftrv XMTRX,FV0
+	ftrv XMTRX,FV4
+	fschg
+	fmov FR0,FR1
+	fmov FR2,FR3
+	fmov FR4,FR5
+	fmov FR6,FR7
+	rts
+	fschg
+lbl_0000002E:
+	fldi0 FR3
+	fsca FPUL,DR0
+	fldi0 FR6
+	fldi0 FR7
+	fmov FR0,FR2
+	fmov FR1,FR0
+	fmov FR2,FR1
+	fldi0 FR2
+	fmov FR0,FR5
+	fmov FR1,FR4
+	fneg FR4
+	fmov FR12,@-R15
+	fmov FR13,@-R15
+	fmov FR14,@-R15
+	fmov FR15,@-R15
+	fschg
+	fmov FR1,FR8
+	fmov FR3,FR10
+	fmov FR5,FR12
+	fmov FR7,FR14
+	fschg
+	frchg
+	fmov @R4+,FR0
+	fmov @R4+,FR1
+	fmov @R4+,FR2
+	fmov @R4+,FR3
+	fmov @R4+,FR4
+	fmov @R4+,FR5
+	fmov @R4+,FR6
+	fmov @R4+,FR7
+	frchg
+	ftrv XMTRX,FV0
+	ftrv XMTRX,FV4
+	fmov FR7,@-R4
+	fmov FR6,@-R4
+	fmov FR5,@-R4
+	fmov FR4,@-R4
+	fmov FR3,@-R4
+	fmov FR2,@-R4
+	fmov FR1,@-R4
+	fmov FR0,@-R4
+	fschg
+	fmov FR8,FR1
+	fmov FR10,FR3
+	fmov FR12,FR5
+	fmov FR14,FR7
+	fschg
+	fmov @R15+,FR15
+	fmov @R15+,FR14
+	fmov @R15+,FR13
+	rts
+	fmov @R15+,FR12
+	nop
+	rts
+	nop

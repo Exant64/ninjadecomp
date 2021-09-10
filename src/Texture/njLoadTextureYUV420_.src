@@ -1,0 +1,214 @@
+	.IMPORT __nj_texmemsize
+	.IMPORT __nj_texmemlist
+	.IMPORT _njInitTextureErrStat
+	.IMPORT _kmSetStrideWidth
+	.IMPORT _njSearchTexList
+	.IMPORT __nj_current_texlist
+	.IMPORT _kmLoadYUVTexture
+	.IMPORT __nj_texerr_
+	.EXPORT _njSetSizeYUV420
+	.EXPORT __nj_yuv_size_h_
+	.EXPORT _njLoadTextureYUV420LN
+	.EXPORT __nj_yuv_size_w_
+	.EXPORT _njLoadTextureYUV420Num
+	.EXPORT _njLoadTextureYUV420NumG
+	.SECTION PSG,CODE,ALIGN=4
+_njSetSizeYUV420:
+	sts.l PR,@-R15
+	add #-8,R15
+	mov.l lbl_00000138,R3
+	mov.l R4,@R15
+	mov.l R5,@(4,R15)
+	jsr @R3
+	mov.l @R15,R4
+	mov.l lbl_0000013C,R3
+	mov.l @R15,R2
+	mov.l R2,@R3
+	mov.l lbl_00000140,R2
+	mov.l @(4,R15),R1
+	mov.l R1,@R2
+	add #8,R15
+	lds.l @R15+,PR
+	rts
+	nop
+_njLoadTextureYUV420LN:
+	mov.l R14,@-R15
+	sts.l PR,@-R15
+	add #-8,R15
+	mov R4,R14
+	mov.l @(48,R14),R0
+	tst #16,R0
+	bt lbl_00000068
+	mov.l @(36,R14),R2
+	mov R14,R4
+	mov.l lbl_0000013C,R1
+	mov.l R2,@(4,R15)
+	mov.l @(40,R14),R3
+	mov.l lbl_00000140,R0
+	mov.l R3,@R15
+	mov.l @R1,R2
+	mov.l lbl_00000144,R1
+	mov.l R2,@(36,R14)
+	mov #1,R2
+	mov.l @R0,R3
+	mov R2,R6
+	mov R2,R7
+	mov.l R3,@(40,R14)
+	mov #6,R3
+	mov.l R2,@-R15
+	mov.l R3,@-R15
+	jsr @R1
+	add #24,R4
+	tst R0,R0
+	bf/s lbl_00000082
+	add #8,R15
+	mov.l @(4,R15),R3
+	mov.l R3,@(36,R14)
+	mov.l @R15,R2
+	bra lbl_00000092
+	mov.l R2,@(40,R14)
+lbl_00000068:
+	mov #1,R1
+	mov.l lbl_00000144,R2
+	mov #6,R3
+	mov.l R1,@-R15
+	mov R14,R4
+	mov R1,R6
+	mov.l R3,@-R15
+	mov R1,R7
+	jsr @R2
+	add #24,R4
+	tst R0,R0
+	bt/s lbl_00000092
+	add #8,R15
+lbl_00000082:
+	mov.l lbl_00000148,R3
+	mov #8,R2
+	mov #-1,R0
+	mov.l R2,@R3
+	add #8,R15
+	lds.l @R15+,PR
+	rts
+	mov.l @R15+,R14
+lbl_00000092:
+	mov #1,R0
+	add #8,R15
+	lds.l @R15+,PR
+	rts
+	mov.l @R15+,R14
+_njLoadTextureYUV420Num:
+	sts.l PR,@-R15
+	add #-12,R15
+	mov.l lbl_0000014C,R2
+	mov.l R4,@R15
+	mov.l R5,@(4,R15)
+	mov.l @R15,R1
+	mov.l @R2,R3
+	mov R1,R0
+	shll R1
+	add R0,R1
+	mov.l @R3,R3
+	shll2 R1
+	add R3,R1
+	mov.l lbl_00000150,R3
+	mov.l @(8,R1),R0
+	jsr @R3
+	mov.l R0,@(8,R15)
+	mov.l @(4,R15),R5
+	bsr _njLoadTextureYUV420LN
+	mov.l @(8,R15),R4
+	mov R0,R4
+	cmp/pz R4
+	bt lbl_000000D0
+	mov.l lbl_00000154,R2
+	mov.l @R15,R3
+	mov.l R3,@R2
+lbl_000000D0:
+	add #12,R15
+	lds.l @R15+,PR
+	rts
+	mov R4,R0
+_njLoadTextureYUV420NumG:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	sts.l PR,@-R15
+	add #-4,R15
+	mov.l lbl_00000158,R3
+	mov R4,R14
+	mov.l R5,@R15
+	mov R14,R6
+	mov.l lbl_0000015C,R2
+	mov.l lbl_00000160,R1
+	mov.l @R3,R5
+	jsr @R1
+	mov.l @R2,R4
+	mov.l lbl_00000150,R3
+	jsr @R3
+	mov R0,R13
+	mov.l lbl_00000154,R12
+	cmp/pz R13
+	bt lbl_0000010A
+	mov #1,R3
+	mov.l R14,@(4,R12)
+	mov.l R3,@(8,R12)
+	bra lbl_0000012A
+	mov #-1,R0
+lbl_0000010A:
+	mov R13,R4
+	shll2 R4
+	mov.l lbl_0000015C,R1
+	shll2 R4
+	mov R13,R3
+	mov.l @R15,R5
+	mov.l @R1,R2
+	add R3,R4
+	shll2 R4
+	bsr _njLoadTextureYUV420LN
+	add R2,R4
+	mov R0,R4
+	cmp/pz R4
+	bt/s lbl_0000012A
+	mov R4,R0
+	mov.l R14,@(4,R12)
+lbl_0000012A:
+	add #4,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+	.data.w h'0000
+lbl_00000138:
+	.data.l _kmSetStrideWidth
+lbl_0000013C:
+	.data.l __nj_yuv_size_w_
+lbl_00000140:
+	.data.l __nj_yuv_size_h_
+lbl_00000144:
+	.data.l _kmLoadYUVTexture
+lbl_00000148:
+	.data.l __nj_texerr_+8
+lbl_0000014C:
+	.data.l __nj_current_texlist
+lbl_00000150:
+	.data.l _njInitTextureErrStat
+lbl_00000154:
+	.data.l __nj_texerr_
+lbl_00000158:
+	.data.l __nj_texmemsize
+lbl_0000015C:
+	.data.l __nj_texmemlist
+lbl_00000160:
+	.data.l _njSearchTexList
+	.SECTION DSG,DATA,ALIGN=4
+__nj_yuv_size_w_:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+__nj_yuv_size_h_:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000

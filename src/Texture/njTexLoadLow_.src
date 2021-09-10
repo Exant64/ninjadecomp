@@ -1,0 +1,315 @@
+	.IMPORT _njGetTextureLevel
+	.IMPORT __nj_SVQIndexSize
+	.IMPORT _kmiCopyToFrameBuffer
+	.IMPORT __nj_ImageByteSize
+	.IMPORT __nj_SVQCodeBookSize
+	.IMPORT __nj_SVQIndexSizeMM
+	.IMPORT __nj_SVQCodeBookSizeMM
+	.EXPORT _njLoadTextureLow
+	.EXPORT _njConvertSmallVQToMem
+	.EXPORT _njConvertSmallVQToMemAll
+	.EXPORT _njLoadTexturePart
+	.SECTION PSG,CODE,ALIGN=4
+_njConvertSmallVQToMem:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R11,@-R15
+	mov.l R10,@-R15
+	mov.l R9,@-R15
+	sts.l PR,@-R15
+	add #-4,R15
+	mov.l R5,@R15
+	mov R4,R12
+	mov.l @(16,R12),R5
+	mov R6,R11
+	mov.l lbl_000000E8,R3
+	mov R7,R10
+	jsr @R3
+	mov.l @(12,R12),R4
+	mov R0,R14
+	mov R0,R4
+	mov.l @(24,R12),R0
+	tst #1,R0
+	bt/s lbl_00000038
+	shll2 R14
+	mov.l lbl_000000EC,R0
+	mov.l @(R0,R14),R4
+	mov.l lbl_000000F0,R0
+	mov.l @(R0,R14),R5
+	bra lbl_00000040
+	add #10,R5
+lbl_00000038:
+	mov.l lbl_000000F4,R0
+	mov.l @(R0,R14),R4
+	mov.l lbl_000000F8,R0
+	mov.l @(R0,R14),R5
+lbl_00000040:
+	mov #0,R6
+	cmp/hs R11,R4
+	mov R6,R13
+	bf/s lbl_00000062
+	mov R6,R14
+	mov R4,R13
+	sub R11,R13
+	cmp/hi R13,R10
+	bt lbl_00000056
+	bra lbl_0000006A
+	mov R10,R13
+lbl_00000056:
+	mov R10,R14
+	sub R13,R14
+	cmp/hi R5,R14
+	bt lbl_00000068
+	bra lbl_0000006A
+	nop
+lbl_00000062:
+	mov R10,R14
+	cmp/hi R5,R14
+	bf lbl_0000006A
+lbl_00000068:
+	mov R5,R14
+lbl_0000006A:
+	tst R13,R13
+	bt lbl_00000086
+	mov.l @(28,R12),R9
+	mov R13,R6
+	mov.l @R15,R10
+	mov.l lbl_000000FC,R3
+	add R11,R9
+	mov R10,R5
+	jsr @R3
+	mov R9,R4
+	tst R14,R14
+	bt lbl_000000A0
+	bra lbl_00000092
+	add R13,R10
+lbl_00000086:
+	tst R14,R14
+	bt lbl_000000A0
+	mov.l @(28,R12),R9
+	mov.l @R15,R10
+	add R11,R9
+	sub R4,R9
+lbl_00000092:
+	mov.w lbl_000000E4,R3
+	mov R10,R5
+	mov.l lbl_000000FC,R2
+	mov R14,R6
+	add R3,R9
+	jsr @R2
+	mov R9,R4
+lbl_000000A0:
+	mov #0,R0
+	add #4,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R9
+	mov.l @R15+,R10
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+_njConvertSmallVQToMemAll:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R11,@-R15
+	sts.l PR,@-R15
+	add #-4,R15
+	mov.l R5,@R15
+	mov R4,R14
+	mov.l lbl_000000E8,R3
+	mov.l @(16,R14),R5
+	jsr @R3
+	mov.l @(12,R14),R4
+	mov R0,R13
+	mov R0,R4
+	mov.l @(24,R14),R0
+	tst #1,R0
+	bt/s lbl_00000100
+	shll2 R13
+	mov.l lbl_000000EC,R0
+	mov.l @(R0,R13),R12
+	mov.l lbl_000000F0,R0
+	mov.l @(R0,R13),R11
+	bra lbl_00000108
+	add #10,R11
+lbl_000000E4:
+	.data.w h'0800
+	.data.w h'0000
+lbl_000000E8:
+	.data.l _njGetTextureLevel
+lbl_000000EC:
+	.data.l __nj_SVQCodeBookSizeMM
+lbl_000000F0:
+	.data.l __nj_SVQIndexSizeMM
+lbl_000000F4:
+	.data.l __nj_SVQCodeBookSize
+lbl_000000F8:
+	.data.l __nj_SVQIndexSize
+lbl_000000FC:
+	.data.l _kmiCopyToFrameBuffer
+lbl_00000100:
+	mov.l lbl_0000020C,R0
+	mov.l @(R0,R13),R12
+	mov.l lbl_00000210,R0
+	mov.l @(R0,R13),R11
+lbl_00000108:
+	mov.l @R15,R13
+	mov R12,R6
+	mov.l lbl_00000214,R3
+	mov.l @(28,R14),R14
+	mov R13,R5
+	jsr @R3
+	mov R14,R4
+	mov.w lbl_00000208,R2
+	add R12,R13
+	mov.l lbl_00000214,R3
+	mov R13,R5
+	add R2,R14
+	mov R11,R6
+	jsr @R3
+	mov R14,R4
+	mov #0,R0
+	add #4,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+_njLoadTexturePart:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	sts.l PR,@-R15
+	add #-12,R15
+	mov #-4,R13
+	and R7,R13
+	mov #-4,R3
+	tst R13,R13
+	and R6,R3
+	bt/s lbl_0000019A
+	mov.l R3,@(4,R15)
+	mov.l @R4,R2
+	mov.l lbl_00000218,R1
+	mov.l R2,@R15
+	shlr16 R2
+	and R1,R2
+	mov.l R2,@(8,R15)
+	mov.l @R15,R0
+	extu.w R0,R0
+	cmp/eq #3,R0
+	bf lbl_0000016A
+	bsr _njConvertSmallVQToMem
+	nop
+	bra lbl_0000019A
+	nop
+lbl_0000016A:
+	mov.w lbl_0000020A,R3
+	cmp/eq R3,R2
+	bf lbl_00000174
+	bra lbl_00000176
+	mov #4,R6
+lbl_00000174:
+	mov #0,R6
+lbl_00000176:
+	mov.l @(4,R15),R14
+	add R6,R14
+	mov.l @(20,R4),R6
+	cmp/hs R6,R14
+	mov R6,R12
+	bf/s lbl_00000188
+	sub R14,R12
+	bra lbl_0000019C
+	mov #7,R0
+lbl_00000188:
+	cmp/hi R13,R12
+	bf/s lbl_00000190
+	mov.l @(28,R4),R3
+	mov R13,R12
+lbl_00000190:
+	mov.l lbl_00000214,R2
+	mov R12,R6
+	add R3,R14
+	jsr @R2
+	mov R14,R4
+lbl_0000019A:
+	mov #0,R0
+lbl_0000019C:
+	add #12,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+_njLoadTextureLow:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	sts.l PR,@-R15
+	add #-4,R15
+	mov R5,R13
+	mov R4,R14
+	mov.l @R14,R5
+	mov.l lbl_00000218,R2
+	extu.w R5,R0
+	mov R5,R4
+	cmp/eq #3,R0
+	shlr16 R4
+	bf/s lbl_000001CE
+	and R2,R4
+	mov R13,R5
+	bsr _njConvertSmallVQToMemAll
+	mov R14,R4
+	bra lbl_000001FC
+	nop
+lbl_000001CE:
+	mov.w lbl_0000020A,R1
+	cmp/eq R1,R4
+	bf lbl_000001F0
+	mov.l lbl_0000021C,R3
+	mov.l @(16,R14),R5
+	jsr @R3
+	mov.l @(12,R14),R4
+	mov R0,R6
+	mov.l R0,@R15
+	mov.l lbl_00000220,R0
+	shll2 R6
+	mov.l @(28,R14),R4
+	mov R13,R5
+	mov.l @(R0,R6),R6
+	add #4,R6
+	bra lbl_000001F6
+	add #4,R4
+lbl_000001F0:
+	mov.l @(28,R14),R4
+	mov R13,R5
+	mov.l @(20,R14),R6
+lbl_000001F6:
+	mov.l lbl_00000214,R3
+	jsr @R3
+	nop
+lbl_000001FC:
+	mov #0,R0
+	add #4,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+lbl_00000208:
+	.data.w h'0800
+lbl_0000020A:
+	.data.w h'0200
+lbl_0000020C:
+	.data.l __nj_SVQCodeBookSize
+lbl_00000210:
+	.data.l __nj_SVQIndexSize
+lbl_00000214:
+	.data.l _kmiCopyToFrameBuffer
+lbl_00000218:
+	.data.l h'0000FF00
+lbl_0000021C:
+	.data.l _njGetTextureLevel
+lbl_00000220:
+	.data.l __nj_ImageByteSize

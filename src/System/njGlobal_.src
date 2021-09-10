@@ -1,0 +1,798 @@
+	.EXPORT __nj_texmemsize
+	.EXPORT __nj_current_matrix_ptr_
+	.EXPORT __nj_uv_scroll_u_
+	.EXPORT __nj_texmemlist
+	.EXPORT __nj_near_clip_
+	.EXPORT __nj_depth_far_
+	.EXPORT __nj_mot_data_cnt_
+	.EXPORT __nj_shape_buf_
+	.EXPORT __nj_uv_scroll_v_
+	.EXPORT __nj_motion_light
+	.EXPORT __nj_cmotion_int_a_func_
+	.EXPORT __nj_view_matrix_
+	.EXPORT __nj_control_3d_flag_
+	.EXPORT __nj_stack_size_
+	.EXPORT __nj_current_ctx_
+	.EXPORT __nj_vertex_buffer_om_
+	.EXPORT __nj_tex_max_free_size
+	.EXPORT __nj_cnk_easy_multilight_buffer_dst_
+	.EXPORT __nj_cnk_clip_num_
+	.EXPORT __nj_cmotion_int_f_func_
+	.EXPORT __nj_palette_mode_
+	.EXPORT __nj_unit_matrix_
+	.EXPORT __nj_vertex_buffer_op_
+	.EXPORT __nj_cnk_simple_bump_lt_color_
+	.EXPORT __nj_pos_int_flag_
+	.EXPORT __nj_pnt_int_flag_
+	.EXPORT __nj_cmot_pos_buf_ptr_
+	.EXPORT __nj_motion_scale_data_
+	.EXPORT __nj_mot_ang_buf_ptr_
+	.EXPORT __nj_vertex_buffer_tm_
+	.EXPORT __nj_vertex_buffer_
+	.EXPORT __nj_cnk_simple_multilight_buffer_mdst_
+	.EXPORT __nj_motion_link_ang_
+	.EXPORT __nj_light_control_
+	.EXPORT __nj_render_flag_
+	.EXPORT __nj_cmotion_int_l_func_
+	.EXPORT __nj_vertex_buffer_tp_
+	.EXPORT __nj_vertex_buffer_pt_
+	.EXPORT __nj_display_mode_
+	.EXPORT __nj_vertex_buf_
+	.EXPORT __nj_calc_polygon_
+	.EXPORT __nj_tex_count
+	.EXPORT __nj_vsync_count_
+	.EXPORT __nj_view_
+	.EXPORT __nj_fatal_err_callback_
+	.EXPORT __nj_motion_translate_data_
+	.EXPORT __nj_lmotion_int_f_func_
+	.EXPORT __nj_eor_function2_
+	.EXPORT __nj_loadtexreq_mode_
+	.EXPORT __nj_framebuffer_surface0_
+	.EXPORT __nj_wait_vsync_in_
+	.EXPORT __nj_motion_scale_
+	.EXPORT __nj_cmotion_data_info_
+	.EXPORT __nj_motion_rotate_data_
+	.EXPORT __nj_lcolor_easy
+	.EXPORT __nj_scr_aspect_x_
+	.EXPORT __nj_framebuffer_surface1_
+	.EXPORT __nj_wait_vsync_out_
+	.EXPORT __nj_lmot_pos_buf_ptr_
+	.EXPORT __nj_scr_aspect_y_
+	.EXPORT __nj_eor_flag_
+	.EXPORT __nj_motion_shape_data_
+	.EXPORT __nj_d3p_sq_ptr_
+	.EXPORT __nj_texglobal_color_
+	.EXPORT __nj_screen_
+	.EXPORT __nj_far_clip_
+	.EXPORT __nj_loadtexreq_i_
+	.EXPORT __nj_depth_range_
+	.EXPORT __nj_tex_ext_
+	.EXPORT __nj_motlink_data_func_
+	.EXPORT __nj_motlink_data_info_
+	.EXPORT __nj_mot_scl_buf_ptr_
+	.EXPORT __nj_cnk_easy_bump_tex_vector_
+	.EXPORT __nj_eov_flag_
+	.EXPORT __nj_motion_translate_
+	.EXPORT __nj_shapelink_data_func_
+	.EXPORT __nj_shapelink_data_info_
+	.EXPORT __nj_d3t_sq_ptr_
+	.EXPORT __nj_texture_memory_size
+	.EXPORT __nj_base_matrix_ptr_
+	.EXPORT __nj_constant_attr_or_
+	.EXPORT __nj_vertex_offset_
+	.EXPORT __nj_motion_rotate_
+	.EXPORT __nj_motion_link_scl_
+	.EXPORT __nj_cnk_clip_vtx_
+	.EXPORT __nj_texload_wait_
+	.EXPORT __nj_context_
+	.EXPORT __nj_motion_shape_
+	.EXPORT __nj_lmotion_data_info_
+	.EXPORT __nj_shape_link_normal_
+	.EXPORT __nj_light_material_
+	.EXPORT __nj_start_vertex_om
+	.EXPORT __nj_draw_model_sub_
+	.EXPORT __nj_motlink_shape_data_type_
+	.EXPORT __nj_cnk_easy_multilight_buffer_
+	.EXPORT __nj_ppSurfaceArray
+	.EXPORT __nj_motion_link_qua_
+	.EXPORT __nj_diff0_
+	.EXPORT __nj_ambi0_
+	.EXPORT __nj_usr_vertex_buffer_size_
+	.EXPORT __nj_start_vertex_op
+	.EXPORT __nj_texture_buffer_max_size
+	.EXPORT __nj_lmot_inten_buf_ptr_
+	.EXPORT __nj_cnk_simple_multilight_buffer_dst_
+	.EXPORT __nj_diff1_
+	.EXPORT __nj_ambi1_
+	.EXPORT __nj_eor_function_
+	.EXPORT __nj_motlink_shape_data_cnt_
+	.EXPORT __nj_motion_int_a_func_
+	.EXPORT __nj_start_vertex_tm
+	.EXPORT __nj_frame_size_h
+	.EXPORT __nj_vertex_num_
+	.EXPORT __nj_background_ctx_
+	.EXPORT __nj_motion_rotate_zxy_
+	.EXPORT __nj_mot_shape_spline_cnt_
+	.EXPORT __nj_matrix_flag_
+	.EXPORT __nj_current_texture_bank
+	.EXPORT __nj_frame_mode_
+	.EXPORT __nj_start_vertex_tp
+	.EXPORT __nj_start_vertex_pt
+	.EXPORT __nj_flat_model_flag_
+	.EXPORT __nj_current_texlist
+	.EXPORT __nj_calc_vertex_
+	.EXPORT __nj_motion_int_f_func_
+	.EXPORT __nj_palette_bpp_
+	.EXPORT __nj_vertex_easy
+	.EXPORT __nj_vertex_buffer_size_
+	.EXPORT __nj_waitvsync_count
+	.EXPORT __nj_texture_buffer_st
+	.EXPORT __nj_ctx_color_mode_
+	.EXPORT __nj_mot_pos_buf_ptr_
+	.EXPORT __nj_rotate_func_flag_
+	.EXPORT __nj_current_texture
+	.EXPORT __nj_frame_addr_0_
+	.EXPORT __nj_motion_link_pos_
+	.EXPORT __nj_lmot_rang_buf_ptr_
+	.EXPORT __nj_draw_polygon_
+	.EXPORT __nj_max_stack_size_
+	.EXPORT __nj_frame_addr_1_
+	.EXPORT __nj_shape_data_func_
+	.EXPORT __nj_shape_data_info_
+	.EXPORT __nj_cmot_vect_buf_ptr_
+	.EXPORT __nj_lcolor_simple
+	.EXPORT __nj_constant_attr_and_
+	.EXPORT __nj_int_a_func_
+	.EXPORT __nj_cnk_polygon_cache_tbl_
+	.EXPORT __nj_constant_material_
+	.EXPORT __nj_motlink_data_type_
+	.EXPORT __nj_ang_int_flag_
+	.EXPORT __nj_cmot_ang_buf_ptr_
+	.EXPORT __nj_depth_near_
+	.EXPORT __nj_texerr_
+	.EXPORT __nj_motion_data_func_
+	.EXPORT __nj_motion_data_info_
+	.EXPORT __nj_mot_shape_data_type_
+	.EXPORT __nj_cnk_simple_bump_tex_vector_
+	.EXPORT __nj_depth_enable_
+	.EXPORT __nj_int_f_func_
+	.EXPORT __nj_motlink_data_cnt_
+	.EXPORT __nj_frame_size_w
+	.EXPORT __nj_mot_current_frame_
+	.EXPORT __nj_cmot_roll_buf_ptr_
+	.EXPORT __nj_light_queue_
+	.EXPORT __nj_cnk_easy_bump_lt_color_
+	.EXPORT __nj_2d_clip_
+	.EXPORT __nj_mot_shape_data_cnt_
+	.EXPORT __nj_camera_matrix_
+	.EXPORT __nj_motion_camera_
+	.EXPORT __nj_mot_spline_cnt_
+	.EXPORT __nj_lmot_vect_buf_ptr_
+	.EXPORT __nj_current_texture_bank_back_
+	.EXPORT __nj_cnk_easy_multilight_buffer_mdst_
+	.EXPORT __nj_current_texture_path
+	.EXPORT __nj_SystemConfigStruct_
+	.EXPORT __nj_cnk_simple_multilight_buffer_
+	.EXPORT __nj_cnk_plist_stack_cnt_
+	.EXPORT __nj_lmot_ang_buf_ptr_
+	.EXPORT __nj_tex_err_surface
+	.EXPORT __nj_motion_callback_
+	.EXPORT __nj_color_mode_
+	.EXPORT __nj_current_texture_back_
+	.EXPORT __nj_cnk_blend_mode_
+	.EXPORT __nj_palext_height_ratio_
+	.EXPORT __nj_cnk_easy_vtype_
+	.EXPORT __nj_usr_vertex_buffer_ptr_
+	.EXPORT __nj_scl_int_flag_
+	.EXPORT __nj_tmp_local_mtrx_
+	.EXPORT __nj_flip_on_
+	.EXPORT __nj_shape_link_point_
+	.EXPORT __nj_lmot_rgb_buf_ptr_
+	.EXPORT __nj_user_globalIndex
+	.EXPORT __nj_vertex_simple
+	.EXPORT __nj_mot_data_type_
+	.EXPORT __nj_nml_int_flag_
+	.EXPORT __nj_mot_current_data_
+	.SECTION BSG32,DATA,ALIGN=32
+__nj_view_:
+	.res.b h'20
+__nj_view_matrix_:
+	.res.b h'40
+__nj_tmp_local_mtrx_:
+	.res.b h'40
+__nj_cnk_easy_multilight_buffer_:
+	.res.b h'50
+__nj_cnk_easy_multilight_buffer_mdst_:
+	.res.b h'10
+__nj_cnk_easy_multilight_buffer_dst_:
+	.res.b h'C0
+__nj_cnk_simple_multilight_buffer_:
+	.res.b h'50
+__nj_cnk_simple_multilight_buffer_mdst_:
+	.res.b h'10
+__nj_cnk_simple_multilight_buffer_dst_:
+	.res.b h'C0
+__nj_cnk_clip_num_:
+	.res.b h'4
+__nj_cnk_clip_vtx_:
+	.res.b h'4
+__nj_cnk_plist_stack_cnt_:
+	.res.b h'4
+__nj_cnk_polygon_cache_tbl_:
+	.res.b h'1F4
+__nj_light_material_:
+	.res.b h'40
+__nj_light_control_:
+	.res.b h'A0
+__nj_light_queue_:
+	.res.b h'A0
+__nj_camera_matrix_:
+	.res.b h'40
+__nj_diff0_:
+	.res.b h'10
+__nj_ambi0_:
+	.res.b h'10
+__nj_diff1_:
+	.res.b h'10
+__nj_ambi1_:
+	.res.b h'10
+	.SECTION DSG32,DATA,ALIGN=32
+__nj_lcolor_easy:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0080
+	.data.b h'003f
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0080
+	.data.b h'003f
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0080
+	.data.b h'003f
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0080
+	.data.b h'003f
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+__nj_lcolor_simple:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0080
+	.data.b h'003f
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0080
+	.data.b h'003f
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0080
+	.data.b h'003f
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0080
+	.data.b h'003f
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+__nj_unit_matrix_:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0080
+	.data.b h'003f
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0080
+	.data.b h'003f
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0080
+	.data.b h'003f
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0080
+	.data.b h'003f
+	.SECTION DSG,DATA,ALIGN=4
+__nj_texture_memory_size:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0010
+	.data.b h'0000
+__nj_flat_model_flag_:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+__nj_vertex_buffer_op_:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+__nj_vertex_buffer_om_:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+__nj_vertex_buffer_tp_:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+__nj_vertex_buffer_tm_:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+__nj_vertex_buffer_pt_:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+__nj_flip_on_:
+	.data.b h'0001
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+__nj_eor_function_:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+__nj_eor_function2_:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+__nj_cnk_easy_bump_lt_color_:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'00ff
+__nj_cnk_simple_bump_lt_color_:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'00ff
+__nj_uv_scroll_u_:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+__nj_uv_scroll_v_:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+__nj_rotate_func_flag_:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+__nj_current_texlist:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+__nj_texmemlist:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+__nj_texmemsize:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+__nj_current_texture:
+	.data.b h'00ff
+	.data.b h'00ff
+	.data.b h'00ff
+	.data.b h'00ff
+__nj_current_texture_bank:
+	.data.b h'00ff
+	.data.b h'00ff
+	.data.b h'00ff
+	.data.b h'00ff
+__nj_user_globalIndex:
+	.data.b h'00ef
+	.data.b h'00ff
+	.data.b h'00ff
+	.data.b h'00ff
+__nj_texglobal_color_:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+__nj_texload_wait_:
+	.data.b h'0001
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+__nj_loadtexreq_mode_:
+	.data.b h'0002
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+__nj_loadtexreq_i_:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+__nj_vertex_buffer_size_:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+__nj_usr_vertex_buffer_ptr_:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+__nj_usr_vertex_buffer_size_:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.SECTION BSG,DATA,ALIGN=4
+__nj_screen_:
+	.res.b h'14
+__nj_current_matrix_ptr_:
+	.res.b h'4
+__nj_base_matrix_ptr_:
+	.res.b h'4
+__nj_2d_clip_:
+	.res.b h'10
+__nj_near_clip_:
+	.res.b h'4
+__nj_far_clip_:
+	.res.b h'4
+__nj_scr_aspect_x_:
+	.res.b h'4
+__nj_scr_aspect_y_:
+	.res.b h'4
+__nj_display_mode_:
+	.res.b h'4
+__nj_frame_mode_:
+	.res.b h'4
+__nj_waitvsync_count:
+	.res.b h'4
+__nj_control_3d_flag_:
+	.res.b h'4
+__nj_start_vertex_op:
+	.res.b h'4
+__nj_start_vertex_om:
+	.res.b h'4
+__nj_start_vertex_tp:
+	.res.b h'4
+__nj_start_vertex_tm:
+	.res.b h'4
+__nj_start_vertex_pt:
+	.res.b h'4
+__nj_frame_size_w:
+	.res.b h'4
+__nj_frame_size_h:
+	.res.b h'4
+__nj_vertex_buf_:
+	.res.b h'4
+__nj_vertex_num_:
+	.res.b h'4
+__nj_calc_vertex_:
+	.res.b h'4
+__nj_calc_polygon_:
+	.res.b h'4
+__nj_draw_polygon_:
+	.res.b h'4
+__nj_constant_attr_and_:
+	.res.b h'4
+__nj_constant_attr_or_:
+	.res.b h'4
+__nj_constant_material_:
+	.res.b h'10
+__nj_cnk_blend_mode_:
+	.res.b h'4
+__nj_vsync_count_:
+	.res.b h'4
+__nj_depth_near_:
+	.res.b h'4
+__nj_depth_far_:
+	.res.b h'4
+__nj_depth_range_:
+	.res.b h'4
+__nj_vertex_offset_:
+	.res.b h'4
+__nj_depth_enable_:
+	.res.b h'4
+__nj_fatal_err_callback_:
+	.res.b h'4
+__nj_motion_camera_:
+	.res.b h'40
+__nj_max_stack_size_:
+	.res.b h'4
+__nj_stack_size_:
+	.res.b h'4
+__nj_tex_count:
+	.res.b h'4
+__nj_current_texture_path:
+	.res.b h'100
+__nj_tex_max_free_size:
+	.res.b h'4
+__nj_texerr_:
+	.res.b h'20
+__nj_texture_buffer_st:
+	.res.b h'4
+__nj_texture_buffer_max_size:
+	.res.b h'4
+__nj_eor_flag_:
+	.res.b h'4
+__nj_eov_flag_:
+	.res.b h'4
+__nj_render_flag_:
+	.res.b h'4
+__nj_palext_height_ratio_:
+	.res.b h'4
+__nj_framebuffer_surface0_:
+	.res.b h'28
+__nj_framebuffer_surface1_:
+	.res.b h'28
+__nj_frame_addr_0_:
+	.res.b h'4
+__nj_frame_addr_1_:
+	.res.b h'4
+__nj_context_:
+	.res.b h'480
+__nj_current_ctx_:
+	.res.b h'4
+__nj_ctx_color_mode_:
+	.res.b h'18
+__nj_color_mode_:
+	.res.b h'4
+__nj_vertex_buffer_:
+	.res.b h'20
+__nj_background_ctx_:
+	.res.b h'C0
+__nj_SystemConfigStruct_:
+	.res.b h'60
+__nj_ppSurfaceArray:
+	.res.b h'8
+__nj_wait_vsync_in_:
+	.res.b h'4
+__nj_wait_vsync_out_:
+	.res.b h'4
+__nj_motion_data_func_:
+	.res.b h'4
+__nj_shape_data_func_:
+	.res.b h'4
+__nj_motion_translate_:
+	.res.b h'4
+__nj_motion_rotate_:
+	.res.b h'4
+__nj_motion_scale_:
+	.res.b h'4
+__nj_motion_rotate_zxy_:
+	.res.b h'4
+__nj_motion_shape_:
+	.res.b h'4
+__nj_motion_data_info_:
+	.res.b h'1C
+__nj_shape_data_info_:
+	.res.b h'1C
+__nj_mot_data_cnt_:
+	.res.b h'2
+__nj_mot_data_type_:
+	.res.b h'2
+__nj_mot_shape_data_cnt_:
+	.res.b h'2
+__nj_mot_shape_data_type_:
+	.res.b h'2
+__nj_cmotion_data_info_:
+	.res.b h'1C
+__nj_lmotion_data_info_:
+	.res.b h'1C
+__nj_motion_light:
+	.res.b h'158
+__nj_motlink_data_func_:
+	.res.b h'8
+__nj_shapelink_data_func_:
+	.res.b h'8
+__nj_int_f_func_:
+	.res.b h'4
+__nj_int_a_func_:
+	.res.b h'4
+__nj_motion_translate_data_:
+	.res.b h'8
+__nj_motion_rotate_data_:
+	.res.b h'8
+__nj_motion_scale_data_:
+	.res.b h'8
+__nj_motion_shape_data_:
+	.res.b h'8
+__nj_motlink_data_info_:
+	.res.b h'38
+__nj_shapelink_data_info_:
+	.res.b h'38
+__nj_motlink_data_cnt_:
+	.res.b h'4
+__nj_motlink_data_type_:
+	.res.b h'4
+__nj_motlink_shape_data_cnt_:
+	.res.b h'4
+__nj_motlink_shape_data_type_:
+	.res.b h'4
+__nj_mot_current_data_:
+	.res.b h'4
+__nj_mot_current_frame_:
+	.res.b h'4
+__nj_pos_int_flag_:
+	.res.b h'2
+__nj_ang_int_flag_:
+	.res.b h'2
+__nj_scl_int_flag_:
+	.res.b h'2
+__nj_pnt_int_flag_:
+	.res.b h'2
+__nj_nml_int_flag_:
+	.res.b h'4
+__nj_motion_link_pos_:
+	.res.b h'30
+__nj_motion_link_scl_:
+	.res.b h'30
+__nj_motion_link_ang_:
+	.res.b h'30
+__nj_motion_link_qua_:
+	.res.b h'20
+__nj_shape_link_point_:
+	.res.b h'10
+__nj_shape_link_normal_:
+	.res.b h'10
+__nj_motion_int_f_func_:
+	.res.b h'4
+__nj_motion_int_a_func_:
+	.res.b h'4
+__nj_draw_model_sub_:
+	.res.b h'4
+__nj_mot_spline_cnt_:
+	.res.b h'2
+__nj_mot_shape_spline_cnt_:
+	.res.b h'2
+__nj_shape_buf_:
+	.res.b h'4
+__nj_cmotion_int_f_func_:
+	.res.b h'4
+__nj_cmotion_int_l_func_:
+	.res.b h'4
+__nj_cmotion_int_a_func_:
+	.res.b h'4
+__nj_lmotion_int_f_func_:
+	.res.b h'4
+__nj_mot_pos_buf_ptr_:
+	.res.b h'4
+__nj_mot_scl_buf_ptr_:
+	.res.b h'4
+__nj_mot_ang_buf_ptr_:
+	.res.b h'4
+__nj_cmot_pos_buf_ptr_:
+	.res.b h'4
+__nj_cmot_vect_buf_ptr_:
+	.res.b h'4
+__nj_cmot_roll_buf_ptr_:
+	.res.b h'4
+__nj_cmot_ang_buf_ptr_:
+	.res.b h'4
+__nj_lmot_pos_buf_ptr_:
+	.res.b h'4
+__nj_lmot_vect_buf_ptr_:
+	.res.b h'4
+__nj_lmot_rgb_buf_ptr_:
+	.res.b h'4
+__nj_lmot_inten_buf_ptr_:
+	.res.b h'4
+__nj_lmot_rang_buf_ptr_:
+	.res.b h'4
+__nj_lmot_ang_buf_ptr_:
+	.res.b h'4
+__nj_tex_err_surface:
+	.res.b h'28
+__nj_tex_ext_:
+	.res.b h'4
+__nj_palette_bpp_:
+	.res.b h'4
+__nj_palette_mode_:
+	.res.b h'4
+__nj_current_texture_back_:
+	.res.b h'4
+__nj_current_texture_bank_back_:
+	.res.b h'4
+__nj_matrix_flag_:
+	.res.b h'4
+__nj_motion_callback_:
+	.res.b h'4
+__nj_d3p_sq_ptr_:
+	.res.b h'4
+__nj_d3t_sq_ptr_:
+	.res.b h'4
+__nj_vertex_easy:
+	.res.b h'40
+__nj_vertex_simple:
+	.res.b h'40
+__nj_cnk_easy_vtype_:
+	.res.b h'4
+__nj_cnk_easy_bump_tex_vector_:
+	.res.b h'18
+__nj_cnk_simple_bump_tex_vector_:
+	.res.b h'18

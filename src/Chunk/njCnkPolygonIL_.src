@@ -1,0 +1,275 @@
+	.IMPORT __nj_calc_polygon_
+	.IMPORT _njRgbPack
+	.IMPORT __nj_light_material_
+	.IMPORT __nj_draw_polygon_
+	.EXPORT _njCnkPolygonIL
+	.SECTION PSG,CODE,ALIGN=4
+_njCnkPolygonIL:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R10,@-R15
+	mov.l R9,@-R15
+	mov.l R8,@-R15
+	sts.l PR,@-R15
+	add #-44,R15
+	mov R4,R8
+	mov.l lbl_0000013C,R4
+	mov.l lbl_00000140,R3
+	mov.l R5,@R15
+	mov.l R6,@(4,R15)
+	jsr @R3
+	mov R7,R9
+	mov R8,R2
+	add #6,R2
+	mov R0,R10
+	pref @R2
+	mov.l @(4,R15),R0
+	mov #-14,R3
+	mov.l @(4,R15),R2
+	mov #3,R4
+	shld R3,R0
+	mov.w lbl_00000138,R3
+	and R0,R4
+	fldi1 FR8
+	shll R4
+	fneg FR8
+	mov #0,R13
+	fldi1 FR9
+	and R3,R2
+	mov R13,R14
+	mov.l R2,@(4,R15)
+	mov.l R4,@(8,R15)
+lbl_00000046:
+	mov.w @R8+,R7
+	mov.l @R15,R3
+	mov.w @R8+,R5
+	shll2 R5
+	shll2 R5
+	shll2 R5
+	add R3,R5
+	pref @R5
+	cmp/pz R7
+	bt/s lbl_00000060
+	fmov FR9,FR7
+	fmov FR8,FR7
+	neg R7,R7
+lbl_00000060:
+	mov.w @R8+,R6
+	add R7,R14
+	mov.l @R15,R3
+	mov #0,R12
+	shll2 R6
+	shll2 R6
+	shll2 R6
+	add R3,R6
+	add #-2,R7
+	pref @R6
+lbl_00000074:
+	mov.w @R8+,R1
+	mov.l @R15,R3
+	shll2 R1
+	shll2 R1
+	shll2 R1
+	add R3,R1
+	pref @R1
+	mov #4,R0
+	fmov @(R0,R6),FR4
+	fmov @(R0,R5),FR3
+	mov #8,R0
+	fmov FR4,FR2
+	fsub FR3,FR2
+	fmov @(R0,R1),FR3
+	fmov @(R0,R6),FR5
+	fsub FR5,FR3
+	fmov FR5,FR1
+	fmul FR3,FR2
+	fmov @(R0,R5),FR3
+	mov #4,R0
+	fsub FR3,FR1
+	fmov @(R0,R1),FR3
+	fsub FR4,FR3
+	fmul FR3,FR1
+	fldi0 FR3
+	fsub FR1,FR2
+	fmov FR2,FR4
+	fmul FR7,FR4
+	fcmp/gt FR4,FR3
+	bf lbl_0000011A
+	tst R12,R12
+	bf lbl_000000E6
+	mov R5,R3
+	add #32,R3
+	mov R5,R4
+	pref @R3
+	add #4,R4
+	mov.l @(32,R5),R3
+	fmov @R4+,FR6
+	tst R3,R3
+	fmov @R4+,FR5
+	bt/s lbl_000000CE
+	fmov @R4,FR4
+	bra lbl_000000D0
+	mov.l @(48,R5),R4
+lbl_000000CE:
+	mov R10,R4
+lbl_000000D0:
+	add #28,R9
+	mov.l lbl_00000144,R3
+	mov.l R4,@-R9
+	add #-8,R9
+	fmov FR4,@-R9
+	fmov FR5,@-R9
+	fmov FR6,@-R9
+	mov.l R3,@-R9
+	pref @R9
+	add #1,R12
+	add #32,R9
+lbl_000000E6:
+	mov R6,R2
+	add #32,R2
+	mov R6,R4
+	pref @R2
+	add #4,R4
+	mov.l @(32,R6),R3
+	fmov @R4+,FR6
+	tst R3,R3
+	fmov @R4+,FR5
+	bt/s lbl_00000100
+	fmov @R4,FR4
+	bra lbl_00000102
+	mov.l @(48,R6),R4
+lbl_00000100:
+	mov R10,R4
+lbl_00000102:
+	add #28,R9
+	mov.l lbl_00000144,R3
+	mov.l R4,@-R9
+	add #-8,R9
+	fmov FR4,@-R9
+	fmov FR5,@-R9
+	fmov FR6,@-R9
+	mov.l R3,@-R9
+	pref @R9
+	add #32,R9
+	bra lbl_00000164
+	add #1,R12
+lbl_0000011A:
+	tst R12,R12
+	bt lbl_00000164
+	mov R6,R2
+	add #32,R2
+	mov R6,R4
+	pref @R2
+	add #4,R4
+	mov.l @(32,R6),R3
+	fmov @R4+,FR6
+	tst R3,R3
+	fmov @R4+,FR5
+	bt/s lbl_00000148
+	fmov @R4,FR4
+	bra lbl_0000014A
+	mov.l @(48,R6),R4
+lbl_00000138:
+	.data.w h'3fff
+	.data.w h'0000
+lbl_0000013C:
+	.data.l __nj_light_material_+16
+lbl_00000140:
+	.data.l _njRgbPack
+lbl_00000144:
+	.data.l h'E0000000
+lbl_00000148:
+	mov R10,R4
+lbl_0000014A:
+	add #28,R9
+	mov.l lbl_000001E8,R3
+	mov.l R4,@-R9
+	add #-8,R9
+	fmov FR4,@-R9
+	fmov FR5,@-R9
+	fmov FR6,@-R9
+	mov.l R3,@-R9
+	pref @R9
+	add #1,R12
+	add R12,R13
+	mov #0,R12
+	add #32,R9
+lbl_00000164:
+	mov.l @(8,R15),R2
+	add R2,R8
+	mov R8,R3
+	add #6,R3
+	pref @R3
+	dt R7
+	mov R6,R5
+	fneg FR7
+	bt/s lbl_0000017C
+	mov R1,R6
+	bra lbl_00000074
+	nop
+lbl_0000017C:
+	tst R12,R12
+	bt lbl_000001B4
+	mov R1,R2
+	add #32,R2
+	mov R1,R4
+	pref @R2
+	add #4,R4
+	mov.l @(32,R1),R3
+	fmov @R4+,FR6
+	tst R3,R3
+	fmov @R4+,FR5
+	bt/s lbl_0000019A
+	fmov @R4,FR4
+	bra lbl_0000019C
+	mov.l @(48,R1),R4
+lbl_0000019A:
+	mov R10,R4
+lbl_0000019C:
+	add #28,R9
+	mov.l lbl_000001E8,R3
+	mov.l R4,@-R9
+	add #-8,R9
+	fmov FR4,@-R9
+	fmov FR5,@-R9
+	fmov FR6,@-R9
+	mov.l R3,@-R9
+	pref @R9
+	add #1,R12
+	add R12,R13
+	add #32,R9
+lbl_000001B4:
+	mov.l @(4,R15),R2
+	add #-1,R2
+	tst R2,R2
+	bt/s lbl_000001C2
+	mov.l R2,@(4,R15)
+	bra lbl_00000046
+	nop
+lbl_000001C2:
+	mov.l lbl_000001EC,R4
+	mov R9,R0
+	mov.l @R4,R2
+	add R13,R2
+	mov.l R2,@R4
+	mov.l lbl_000001F0,R4
+	mov.l @R4,R3
+	add R14,R3
+	mov.l R3,@R4
+	add #44,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R8
+	mov.l @R15+,R9
+	mov.l @R15+,R10
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+	.data.w h'0000
+lbl_000001E8:
+	.data.l h'F0000000
+lbl_000001EC:
+	.data.l __nj_draw_polygon_
+lbl_000001F0:
+	.data.l __nj_calc_polygon_

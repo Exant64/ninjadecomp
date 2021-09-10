@@ -1,0 +1,59 @@
+	.EXPORT _njCnkSimpleVertexV
+	.SECTION PSG,CODE,ALIGN=4
+_njCnkSimpleVertexV:
+	add #20,R4
+	mov.l @R4+,R1
+	mov.l @R4+,R3
+	mov.l @R4+,R7
+	pref @R3
+	mov.l @R4+,R2
+	mov R3,R5
+	add #12,R5
+	fmov @R4+,FR0
+	fmov @R4+,FR1
+	fmov @R4+,FR2
+	fmov @R4+,FR3
+	fldi0 FR9
+	fldi1 FR10
+	pref @R5
+	mov #0,R6
+lbl_00000020:
+	fmov @R3+,FR4
+	fmov @R3+,FR5
+	fmov @R3+,FR6
+	fldi1 FR7
+	ftrv XMTRX,FV4
+	add #32,R2
+	fldi1 FR8
+	add #12,R5
+	pref @R5
+	fdiv FR6,FR8
+	fmov FR5,@-R2
+	fmul FR1,FR5
+	fmov FR4,@-R2
+	fmul FR0,FR4
+	fmov FR9,@-R2
+	fcmp/gt FR10,FR6
+	fmov FR10,@-R2
+	bt lbl_00000046
+	add #1,R6
+lbl_00000046:
+	fmul FR8,FR5
+	fmov FR8,@-R2
+	fmul FR8,FR4
+	ocbi @R7
+	fadd FR3,FR5
+	fmov FR5,@-R2
+	fadd FR2,FR4
+	fmov FR4,@-R2
+	add #32,R7
+	dt R1
+	fmov FR6,@-R2
+	pref @R2
+	bf/s lbl_00000020
+	add #32,R2
+	rts
+	mov R6,R0
+	nop
+	rts
+	nop

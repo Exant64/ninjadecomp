@@ -1,0 +1,18 @@
+	.IMPORT _modff
+	.EXPORT _FracInt
+	.EXPORT _njFraction
+	.SECTION PSG,CODE,ALIGN=4
+_njFraction:
+	mov.l lbl_00000008,R0
+	mov.l lbl_0000000C,R4
+	jmp @R0
+	nop
+lbl_00000008:
+	.data.l _modff
+lbl_0000000C:
+	.data.l _FracInt
+	rts
+	nop
+	.SECTION BSG,DATA,ALIGN=4
+_FracInt:
+	.res.b h'4

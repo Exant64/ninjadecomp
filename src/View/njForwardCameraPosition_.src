@@ -1,0 +1,23 @@
+	.EXPORT _njForwardCameraPosition
+	.SECTION PSG,CODE,ALIGN=4
+_njForwardCameraPosition:
+	mov R4,R3
+	fmov FR4,FR0
+	mov #12,R0
+	add #8,R3
+	fmov @R4,FR1
+	fmov @R3,FR3
+	fmov @(R0,R4),FR2
+	fmov @(R0,R3),FR4
+	fmac FR0,FR2,FR1
+	fmac FR0,FR4,FR3
+	fmov FR1,@R4
+	fmov FR3,@R3
+	add #4,R4
+	fmov @R4,FR5
+	fmov @(R0,R4),FR6
+	fmac FR0,FR6,FR5
+	rts
+	fmov FR5,@R4
+	rts
+	nop

@@ -1,0 +1,58 @@
+	.IMPORT __nj_unit_matrix_
+	.EXPORT _njInitView
+	.SECTION PSG,CODE,ALIGN=4
+_njInitView:
+	mov.l lbl_00000064,R5
+	add #120,R4
+	fldi1 FR1
+	fldi0 FR0
+	fneg FR1
+	fmov FR0,@-R4
+	fmov FR1,@-R4
+	fmov FR0,@-R4
+	fmov FR0,@-R4
+	fmov FR0,@-R4
+	fmov FR0,@-R4
+	fmov FR0,@-R4
+	fmov FR0,@-R4
+	fmov FR1,@-R4
+	fmov FR0,@-R4
+	fmov FR0,@-R4
+	fmov FR0,@-R4
+	mov R5,R6
+	fmov FR0,@-R4
+	add #32,R6
+	fmov FR0,@-R4
+	fschg
+	fmov @R6+,FR0
+	fmov @R6+,FR2
+	fmov @R6+,FR4
+	fmov @R6+,FR6
+	fmov @R5+,FR8
+	fmov @R5+,FR10
+	fschg
+	fmov FR7,@-R4
+	fmov FR6,@-R4
+	fmov FR5,@-R4
+	fmov FR4,@-R4
+	fmov FR3,@-R4
+	fmov FR2,@-R4
+	fmov FR1,@-R4
+	fmov FR0,@-R4
+	fschg
+	fmov @R5+,FR6
+	fmov @R5+,FR4
+	fschg
+	fmov FR5,@-R4
+	fmov FR4,@-R4
+	fmov FR7,@-R4
+	fmov FR6,@-R4
+	fmov FR11,@-R4
+	fmov FR10,@-R4
+	fmov FR9,@-R4
+	rts
+	fmov FR8,@-R4
+lbl_00000064:
+	.data.l __nj_unit_matrix_
+	rts
+	nop

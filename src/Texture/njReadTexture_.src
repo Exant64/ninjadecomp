@@ -1,0 +1,139 @@
+	.IMPORT __nj_texmemsize
+	.IMPORT __nj_texmemlist
+	.IMPORT _njInitTextureErrStat
+	.IMPORT _kmGetTexture
+	.IMPORT _njSearchTexList
+	.IMPORT __nj_current_texlist
+	.IMPORT __nj_texerr_
+	.IMPORT __quick_evn_mvn
+	.EXPORT _njReadTextureNum
+	.EXPORT _njReadTextureNumG
+	.EXPORT _njReadTextureLN
+	.SECTION PSG,CODE,ALIGN=4
+_njReadTextureLN:
+	sts.l PR,@-R15
+	add #-48,R15
+	mov R4,R2
+	mov R15,R1
+	mov.l lbl_000000D0,R3
+	add #24,R2
+	mov.l R5,@R15
+	add #8,R1
+	jsr @R3
+	mov #40,R0
+	mov.l lbl_000000D4,R3
+	mov R15,R5
+	add #8,R5
+	jsr @R3
+	mov.l @R15,R4
+	mov R0,R4
+	tst R4,R4
+	bt lbl_0000002C
+	add #48,R15
+	lds.l @R15+,PR
+	rts
+	mov #-1,R0
+lbl_0000002C:
+	mov #1,R0
+	add #48,R15
+	lds.l @R15+,PR
+	rts
+	nop
+_njReadTextureNum:
+	sts.l PR,@-R15
+	add #-12,R15
+	mov.l lbl_000000D8,R2
+	mov.l R4,@R15
+	mov.l R5,@(4,R15)
+	mov.l @R15,R1
+	mov.l @R2,R3
+	mov R1,R0
+	shll R1
+	add R0,R1
+	mov.l @R3,R3
+	shll2 R1
+	add R3,R1
+	mov.l lbl_000000DC,R3
+	mov.l @(8,R1),R0
+	jsr @R3
+	mov.l R0,@(8,R15)
+	mov.l @(4,R15),R5
+	bsr _njReadTextureLN
+	mov.l @(8,R15),R4
+	mov R0,R4
+	cmp/pz R4
+	bt lbl_0000006A
+	mov.l lbl_000000E0,R2
+	mov.l @R15,R3
+	mov.l R3,@R2
+lbl_0000006A:
+	add #12,R15
+	lds.l @R15+,PR
+	rts
+	mov R4,R0
+_njReadTextureNumG:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	sts.l PR,@-R15
+	add #-4,R15
+	mov.l lbl_000000E4,R3
+	mov R4,R14
+	mov.l R5,@R15
+	mov R14,R6
+	mov.l lbl_000000E8,R2
+	mov.l lbl_000000EC,R1
+	mov.l @R3,R5
+	jsr @R1
+	mov.l @R2,R4
+	mov.l lbl_000000DC,R3
+	jsr @R3
+	mov R0,R13
+	mov.l lbl_000000E0,R12
+	cmp/pz R13
+	bt lbl_000000A4
+	mov #1,R3
+	mov.l R14,@(4,R12)
+	mov.l R3,@(8,R12)
+	bra lbl_000000C4
+	mov #-1,R0
+lbl_000000A4:
+	mov R13,R4
+	shll2 R4
+	mov.l lbl_000000E8,R1
+	shll2 R4
+	mov R13,R3
+	mov.l @R15,R5
+	mov.l @R1,R2
+	add R3,R4
+	shll2 R4
+	bsr _njReadTextureLN
+	add R2,R4
+	mov R0,R4
+	cmp/pz R4
+	bt/s lbl_000000C4
+	mov R4,R0
+	mov.l R14,@(4,R12)
+lbl_000000C4:
+	add #4,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+lbl_000000D0:
+	.data.l __quick_evn_mvn
+lbl_000000D4:
+	.data.l _kmGetTexture
+lbl_000000D8:
+	.data.l __nj_current_texlist
+lbl_000000DC:
+	.data.l _njInitTextureErrStat
+lbl_000000E0:
+	.data.l __nj_texerr_
+lbl_000000E4:
+	.data.l __nj_texmemsize
+lbl_000000E8:
+	.data.l __nj_texmemlist
+lbl_000000EC:
+	.data.l _njSearchTexList

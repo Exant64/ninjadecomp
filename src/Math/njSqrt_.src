@@ -1,0 +1,31 @@
+	.EXPORT _njInvertSqrt
+	.EXPORT _njSqrt
+	.SECTION PSG,CODE,ALIGN=4
+_njSqrt:
+	fldi0 FR0
+	fcmp/gt FR4,FR0
+	bf/s lbl_00000010
+	fmov FR4,FR0
+	fabs FR0
+	fsqrt FR0
+	rts
+	fneg FR0
+lbl_00000010:
+	rts
+	fsqrt FR0
+	rts
+	nop
+_njInvertSqrt:
+	fldi0 FR0
+	fcmp/gt FR4,FR0
+	bf/s lbl_00000028
+	fmov FR4,FR0
+	fabs FR0
+	fsrra FR0
+	rts
+	fneg FR0
+lbl_00000028:
+	rts
+	fsrra FR0
+	rts
+	nop

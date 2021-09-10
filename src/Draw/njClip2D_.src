@@ -1,0 +1,66 @@
+	.IMPORT __nj_eor_flag_
+	.IMPORT __nj_eov_flag_
+	.IMPORT _kmRender
+	.IMPORT _kmSetPixelClipping
+	.IMPORT __nj_2d_clip_
+	.EXPORT _njRender
+	.EXPORT _njClip2D
+	.SECTION PSG,CODE,ALIGN=4
+_njRender:
+	mov #1,R0
+	mov.l lbl_00000028,R2
+	mov.l lbl_0000002C,R1
+	sts.l PR,@-R15
+	jsr @R2
+	mov.l R0,@R1
+lbl_0000000C:
+	mov.l lbl_0000002C,R0
+	mov.l @R0,R1
+	tst R1,R1
+	bf lbl_0000000C
+lbl_00000014:
+	mov.l lbl_00000030,R1
+	mov.l @R1,R0
+	tst R0,R0
+	bf lbl_00000014
+	mov.l lbl_00000030,R1
+	mov #1,R0
+	lds.l @R15+,PR
+	rts
+	mov.l R0,@R1
+	.data.w h'0000
+lbl_00000028:
+	.data.l _kmRender
+lbl_0000002C:
+	.data.l __nj_eor_flag_
+lbl_00000030:
+	.data.l __nj_eov_flag_
+	rts
+	nop
+_njClip2D:
+	fmov @R4+,FR0
+	fmov @R4+,FR1
+	ftrc FR0,FPUL
+	fmov @R4+,FR2
+	fmov @R4+,FR3
+	sts FPUL,R4
+	mov.l lbl_00000060,R3
+	ftrc FR1,FPUL
+	mov.l lbl_00000064,R2
+	sts FPUL,R5
+	add #16,R2
+	ftrc FR2,FPUL
+	fmov FR3,@-R2
+	sts FPUL,R6
+	ftrc FR3,FPUL
+	fmov FR2,@-R2
+	fmov FR1,@-R2
+	sts FPUL,R7
+	jmp @R3
+	fmov FR0,@-R2
+lbl_00000060:
+	.data.l _kmSetPixelClipping
+lbl_00000064:
+	.data.l __nj_2d_clip_
+	rts
+	nop

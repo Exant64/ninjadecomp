@@ -1,0 +1,19 @@
+	.EXPORT _njInnerProduct
+	.SECTION PSG,CODE,ALIGN=4
+_njInnerProduct:
+	mov #4,R0
+	fmov @R4,FR0
+	fmov @R5,FR4
+	fmov @(R0,R4),FR1
+	fmov @(R0,R5),FR5
+	mov #8,R0
+	fldi0 FR7
+	fmov @(R0,R4),FR2
+	fmov @(R0,R5),FR6
+	fldi0 FR3
+	fipr FV4,FV0
+	rts
+	fmov FR3,FR0
+	nop
+	rts
+	nop

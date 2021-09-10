@@ -1,0 +1,9 @@
+	.EXPORT _njSin
+	.SECTION PSG,CODE,ALIGN=4
+_njSin:
+	extu.w R4,R4
+	lds R4,FPUL
+	rts
+	fsca FPUL,DR0
+	rts
+	nop

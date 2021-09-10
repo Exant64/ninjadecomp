@@ -1,0 +1,30 @@
+	.IMPORT __divls
+	.EXPORT _njCombination
+	.SECTION PSG,CODE,ALIGN=4
+_njCombination:
+	sts.l PR,@-R15
+	mov #1,R6
+	bra lbl_00000018
+	mov R6,R7
+lbl_00000008:
+	mul.l R5,R6
+	mov R4,R2
+	sub R5,R2
+	add #1,R2
+	add #-1,R5
+	sts MACL,R6
+	mul.l R2,R7
+	sts MACL,R7
+lbl_00000018:
+	tst R5,R5
+	bf lbl_00000008
+	mov.l lbl_0000002C,R2
+	mov R7,R1
+	jsr @R2
+	mov R6,R0
+	lds.l @R15+,PR
+	rts
+	nop
+	.data.w h'0000
+lbl_0000002C:
+	.data.l __divls

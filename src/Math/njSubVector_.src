@@ -1,0 +1,19 @@
+	.EXPORT _njSubVector
+	.SECTION PSG,CODE,ALIGN=4
+_njSubVector:
+	fmov @R5+,FR1
+	fmov @R4+,FR4
+	fmov @R5+,FR2
+	fsub FR1,FR4
+	fmov @R4+,FR5
+	fmov @R5,FR3
+	fsub FR2,FR5
+	fmov @R4,FR6
+	fsub FR3,FR6
+	fmov FR6,@R4
+	fmov FR5,@-R4
+	rts
+	fmov FR4,@-R4
+	nop
+	rts
+	nop

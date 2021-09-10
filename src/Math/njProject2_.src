@@ -1,0 +1,136 @@
+	.IMPORT _njDistanceP2PL
+	.IMPORT _njScale
+	.IMPORT _njTranslate
+	.IMPORT _asinf
+	.IMPORT _njCalcPoint
+	.IMPORT _njRotateX
+	.IMPORT _njRotateY
+	.EXPORT _njProject2
+	.SECTION PSG,CODE,ALIGN=4
+_njProject2:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov R4,R14
+	mov R5,R13
+	mov.l R11,@-R15
+	add #12,R5
+	mov.l R10,@-R15
+	mov.l R9,@-R15
+	mov R6,R10
+	mov.l R8,@-R15
+	mov R7,R9
+	fmov FR15,@-R15
+	fmov FR14,@-R15
+	fmov FR13,@-R15
+	fmov FR12,@-R15
+	sts.l PR,@-R15
+	fmov @R5+,FR12
+	add #-16,R15
+	fmov @R5+,FR13
+	mov.l lbl_000000D8,R8
+	fmov @R5+,FR14
+	fmov FR13,FR15
+	fmov FR14,FR0
+	fmul FR13,FR15
+	mova lbl_000000F4,R0
+	fmac FR0,FR14,FR15
+	fmov @R0,FR14
+	fsrra FR15
+	fmov FR13,FR4
+	jsr @R8
+	fmul FR15,FR4
+	fmul FR14,FR0
+	ftrc FR0,FPUL
+	sts FPUL,R11
+	extu.w R11,R11
+	jsr @R8
+	fmov FR12,FR4
+	fmul FR14,FR0
+	ftrc FR0,FPUL
+	sts FPUL,R12
+	extu.w R12,R12
+	mov.l lbl_000000DC,R2
+	mov R10,R1
+	fmov @R1+,FR4
+	fmov @R1+,FR5
+	fmov @R1+,FR6
+	jsr @R2
+	mov R14,R4
+	mov.l lbl_000000E0,R2
+	neg R11,R5
+	jsr @R2
+	mov R14,R4
+	mov.l lbl_000000E4,R2
+	mov R12,R5
+	jsr @R2
+	mov R14,R4
+	mov.l lbl_000000E8,R2
+	mov R9,R5
+	mov R15,R6
+	jsr @R2
+	mov R14,R4
+	mov.l lbl_000000EC,R2
+	mov R10,R4
+	mov R13,R5
+	jsr @R2
+	mov #0,R6
+	mov #8,R0
+	fmov @(R0,R15),FR2
+	fdiv FR2,FR0
+	mov.l lbl_000000F0,R2
+	fmov FR0,FR4
+	fmov FR0,FR5
+	fmov FR0,FR6
+	jsr @R2
+	mov R14,R4
+	mov.l lbl_000000E4,R2
+	neg R12,R5
+	jsr @R2
+	mov R14,R4
+	mov.l lbl_000000E0,R2
+	mov R11,R5
+	jsr @R2
+	mov R14,R4
+	mov.l lbl_000000DC,R2
+	mov R10,R1
+	fmov @R1+,FR4
+	fmov @R1+,FR5
+	fneg FR4
+	fneg FR5
+	fmov @R1+,FR6
+	mov R14,R4
+	jsr @R2
+	fneg FR6
+	add #16,R15
+	lds.l @R15+,PR
+	fmov @R15+,FR12
+	fmov @R15+,FR13
+	fmov @R15+,FR14
+	fmov @R15+,FR15
+	mov.l @R15+,R8
+	mov.l @R15+,R9
+	mov.l @R15+,R10
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+lbl_000000D8:
+	.data.l _asinf
+lbl_000000DC:
+	.data.l _njTranslate
+lbl_000000E0:
+	.data.l _njRotateX
+lbl_000000E4:
+	.data.l _njRotateY
+lbl_000000E8:
+	.data.l _njCalcPoint
+lbl_000000EC:
+	.data.l _njDistanceP2PL
+lbl_000000F0:
+	.data.l _njScale
+lbl_000000F4:
+	.data.l h'4622F986
+	rts
+	nop

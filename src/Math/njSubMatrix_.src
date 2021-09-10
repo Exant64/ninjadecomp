@@ -1,0 +1,146 @@
+	.EXPORT _njSubMatrix
+	.SECTION PSG,CODE,ALIGN=4
+_njSubMatrix:
+	tst R4,R4
+	bt/s lbl_000000A6
+	mov R4,R6
+	fmov @R5+,FR3
+	mov #4,R0
+	fmov @R6,FR2
+	fsub FR3,FR2
+	fmov FR2,@R6
+	fmov @R5+,FR5
+	fmov @(R0,R6),FR4
+	fsub FR5,FR4
+	fmov FR4,@(R0,R6)
+	mov #8,R0
+	fmov @R5+,FR3
+	fmov @(R0,R6),FR2
+	fsub FR3,FR2
+	fmov FR2,@(R0,R6)
+	mov #12,R0
+	fmov @R5+,FR5
+	fmov @(R0,R6),FR4
+	fsub FR5,FR4
+	fmov FR4,@(R0,R6)
+	mov #16,R0
+	fmov @R5+,FR3
+	fmov @(R0,R6),FR2
+	fsub FR3,FR2
+	fmov FR2,@(R0,R6)
+	mov #20,R0
+	fmov @R5+,FR5
+	fmov @(R0,R6),FR4
+	fsub FR5,FR4
+	fmov FR4,@(R0,R6)
+	mov #24,R0
+	fmov @R5+,FR3
+	fmov @(R0,R6),FR2
+	fsub FR3,FR2
+	fmov FR2,@(R0,R6)
+	mov #28,R0
+	fmov @R5+,FR5
+	fmov @(R0,R6),FR4
+	fsub FR5,FR4
+	fmov FR4,@(R0,R6)
+	mov #32,R0
+	fmov @R5+,FR3
+	fmov @(R0,R6),FR2
+	fsub FR3,FR2
+	fmov FR2,@(R0,R6)
+	mov #36,R0
+	fmov @R5+,FR5
+	fmov @(R0,R6),FR4
+	fsub FR5,FR4
+	fmov FR4,@(R0,R6)
+	mov #40,R0
+	fmov @R5+,FR3
+	fmov @(R0,R6),FR2
+	fsub FR3,FR2
+	fmov FR2,@(R0,R6)
+	mov #44,R0
+	fmov @R5+,FR5
+	fmov @(R0,R6),FR4
+	fsub FR5,FR4
+	fmov FR4,@(R0,R6)
+	mov #48,R0
+	fmov @R5+,FR3
+	fmov @(R0,R6),FR2
+	fsub FR3,FR2
+	fmov FR2,@(R0,R6)
+	mov #52,R0
+	tst R4,R4
+	fmov @R5+,FR5
+	fmov @(R0,R6),FR4
+	fsub FR5,FR4
+	fmov FR4,@(R0,R6)
+	mov #56,R0
+	fmov @R5+,FR3
+	fmov @(R0,R6),FR2
+	fsub FR3,FR2
+	fmov FR2,@(R0,R6)
+	mov #60,R0
+	fmov @R5+,FR5
+	fmov @(R0,R6),FR4
+	rts
+	fsub FR5,FR4
+lbl_000000A6:
+	fschg
+	fmov FR1,FR0
+	fmov FR3,FR2
+	fmov FR5,FR4
+	fmov FR7,FR6
+	fschg
+	fmov @R5+,FR8
+	fsub FR8,FR0
+	fmov @R5+,FR8
+	fsub FR8,FR1
+	fmov @R5+,FR8
+	fsub FR8,FR2
+	fmov @R5+,FR8
+	fsub FR8,FR3
+	fmov @R5+,FR8
+	fsub FR8,FR4
+	fmov @R5+,FR8
+	fsub FR8,FR5
+	fmov @R5+,FR8
+	fsub FR8,FR6
+	fmov @R5+,FR8
+	fsub FR8,FR7
+	fschg
+	fmov FR0,FR1
+	fmov FR2,FR3
+	fmov FR4,FR5
+	fmov FR6,FR7
+	fschg
+	fschg
+	fmov FR9,FR0
+	fmov FR11,FR2
+	fmov FR13,FR4
+	fmov FR15,FR6
+	fschg
+	fmov @R5+,FR8
+	fsub FR8,FR0
+	fmov @R5+,FR8
+	fsub FR8,FR1
+	fmov @R5+,FR8
+	fsub FR8,FR2
+	fmov @R5+,FR8
+	fsub FR8,FR3
+	fmov @R5+,FR8
+	fsub FR8,FR4
+	fmov @R5+,FR8
+	fsub FR8,FR5
+	fmov @R5+,FR8
+	fsub FR8,FR6
+	fmov @R5+,FR8
+	fsub FR8,FR7
+	fschg
+	fmov FR0,FR9
+	fmov FR2,FR11
+	fmov FR4,FR13
+	fmov FR6,FR15
+	rts
+	fschg
+	rts
+	nop

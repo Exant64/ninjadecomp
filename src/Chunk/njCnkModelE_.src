@@ -1,0 +1,1402 @@
+	.IMPORT _njSetkmCnkBlendMode
+	.IMPORT _njCnkEasyVertexVI
+	.IMPORT _njCnkEasyVertexVND8
+	.IMPORT __nj_control_3d_flag_
+	.IMPORT __nj_cnk_clip_num_
+	.IMPORT _njCnkEasyVertexVN
+	.IMPORT _njPushMatrixEx
+	.IMPORT _njStartVertexNonTexOpaque
+	.IMPORT _njCnkModelClip
+	.IMPORT _njEndVertex
+	.IMPORT _njCnkEasyPolygon
+	.IMPORT __nj_vertex_buf_
+	.IMPORT _njCnkEasyVertexVNX1
+	.IMPORT _njGetkmPointer
+	.IMPORT _njStartVertexTexOpaqueIntens
+	.IMPORT __nj_lcolor_easy
+	.IMPORT __nj_scr_aspect_x_
+	.IMPORT __nj_scr_aspect_y_
+	.IMPORT __nj_screen_
+	.IMPORT _njCnkEasyVertexSHV
+	.IMPORT _njCnkEasyPolygonClip
+	.IMPORT _njCnkEasyTexture
+	.IMPORT __nj_cnk_easy_bump_tex_vector_
+	.IMPORT __nj_constant_attr_or_
+	.IMPORT _njPopMatrixEx
+	.IMPORT __nj_cnk_clip_vtx_
+	.IMPORT _njStartVertexNonTexTransIntens
+	.IMPORT _njStartVertexTexOpaqueIntensH
+	.IMPORT _njCnkEasyVertexVNNF
+	.IMPORT _njScaleEx
+	.IMPORT _njSetkmPointer
+	.IMPORT _njCnkEasyTextureClip
+	.IMPORT _njCnkEasyVertexVNX
+	.IMPORT _njStartVertexTexOpaque
+	.IMPORT _njTranslateEx
+	.IMPORT _njCnkEasyVertexSHVN
+	.IMPORT _njRotateEx
+	.IMPORT __nj_calc_vertex_
+	.IMPORT __nj_flat_model_flag_
+	.IMPORT __nj_vertex_easy
+	.IMPORT _njStartVertexNonTexTrans
+	.IMPORT __nj_constant_attr_and_
+	.IMPORT _njCnkEasyVertexV1
+	.IMPORT _njCnkEasyTextureBump
+	.IMPORT __nj_cnk_polygon_cache_tbl_
+	.IMPORT _njStartVertexTexTransIntens
+	.IMPORT _njCnkSetMaterial
+	.IMPORT _njCnkEasyTextureBumpClip
+	.IMPORT __nj_cnk_plist_stack_cnt_
+	.IMPORT _njCnkEasyVertexVD8
+	.IMPORT _njStartVertexTexTransIntensH
+	.IMPORT _njCnkEasyVertexVN1
+	.IMPORT _njSetkmCnkTextureNum
+	.IMPORT __nj_cnk_easy_vtype_
+	.IMPORT _njCnkEasyVertexV
+	.IMPORT _njStartVertexNonTexOpaqueIntens
+	.IMPORT _njStartVertexTexTrans
+	.IMPORT _njSetkmColorMode
+	.EXPORT __njCnkEasyDrawModel
+	.EXPORT _njCnkSetEasyLightColor
+	.EXPORT _njCnkSetEasyLight
+	.EXPORT _njCnkEasyDrawObject
+	.EXPORT _njCnkSetEasyLightIntensity
+	.EXPORT _njCnkEasyDrawModel
+	.EXPORT __njCnkEasyDrawObject
+	.EXPORT _njCnkEasyPlist
+	.EXPORT _njCnkEasyVlist
+	.SECTION PSG,CODE,ALIGN=4
+_njCnkSetEasyLight:
+	mov.l lbl_00000200,R5
+	mov #4,R0
+	mov.l lbl_00000204,R3
+	mov.l lbl_000001FC,R4
+	mov.l lbl_00000208,R2
+	fmov FR4,@R4
+	fmov FR5,@(R0,R4)
+	mov #8,R0
+	fmov FR6,@(R0,R4)
+	mov #36,R0
+	fmov @R3,FR3
+	fmov @R5,FR2
+	fmul FR3,FR2
+	fmov FR2,@(R0,R4)
+	mov #40,R0
+	fmov @R5,FR2
+	fmov @R2,FR3
+	fmul FR3,FR2
+	fmov FR2,@(R0,R4)
+	mov #12,R0
+	fmov @(R0,R5),FR3
+	mov #44,R0
+	fmov FR3,@(R0,R4)
+	mov #16,R0
+	fmov @(R0,R5),FR3
+	mov #48,R0
+	rts
+	fmov FR3,@(R0,R4)
+_njCnkSetEasyLightIntensity:
+	mov.l lbl_000001FC,R4
+	mov #12,R0
+	fneg FR4
+	fmov FR4,@(R0,R4)
+	mov #16,R0
+	rts
+	fmov FR5,@(R0,R4)
+_njCnkSetEasyLightColor:
+	mov.l lbl_0000020C,R4
+	mov #4,R0
+	fmov FR4,@(R0,R4)
+	mov #8,R0
+	fmov FR5,@(R0,R4)
+	mov #12,R0
+	rts
+	fmov FR6,@(R0,R4)
+_njCnkEasyPlist:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R11,@-R15
+	mov.l R10,@-R15
+	mov.l R9,@-R15
+	mov.l R8,@-R15
+	sts.l PR,@-R15
+	add #-72,R15
+	mov.l lbl_00000210,R2
+	mov #0,R3
+	mov.l lbl_00000214,R1
+	mov.l R4,@R15
+	mov R1,R4
+	mov.l R5,@(24,R15)
+	mov.l R6,@(20,R15)
+	mov.l R7,@(16,R15)
+	mov.l R3,@R2
+	mov R15,R3
+	add #56,R3
+	mov R15,R2
+	add #64,R2
+	mov.l R4,@(8,R15)
+	mov.l R3,@(52,R15)
+	mov R15,R3
+	add #60,R3
+	mov.l R4,@(8,R15)
+	mov.l R3,@(32,R15)
+	mov.l lbl_00000218,R3
+	mov.l R3,@(36,R15)
+	add #4,R3
+	mov.l R2,@(40,R15)
+	mov R15,R2
+	add #68,R2
+	mov.l R3,@(44,R15)
+	mov.l R2,@(48,R15)
+	add #4,R3
+	bra lbl_000005B6
+	mov.l R3,@(28,R15)
+lbl_000000A4:
+	extu.b R6,R5
+	exts.w R5,R5
+	mov #8,R3
+	mov R5,R2
+	cmp/ge R3,R2
+	mov.l R5,@(12,R15)
+	bt/s lbl_00000112
+	exts.w R6,R4
+	mov.l @(12,R15),R0
+	neg R3,R3
+	exts.w R6,R14
+	mov.l lbl_0000021C,R12
+	mov.l lbl_00000220,R13
+	cmp/eq #1,R0
+	shad R3,R14
+	bt/s lbl_000000E2
+	extu.b R14,R14
+	cmp/eq #2,R0
+	bf lbl_000000CE
+	bra lbl_000005B6
+	nop
+lbl_000000CE:
+	cmp/eq #3,R0
+	bf lbl_000000D6
+	bra lbl_000005B6
+	nop
+lbl_000000D6:
+	cmp/eq #4,R0
+	bt lbl_000000EC
+	cmp/eq #5,R0
+	bt lbl_000000FC
+	bra lbl_000005B6
+	nop
+lbl_000000E2:
+	mov.l lbl_00000224,R14
+	jsr @R14
+	nop
+	bra lbl_000005B6
+	nop
+lbl_000000EC:
+	mov.l @R15,R3
+	exts.w R14,R0
+	shll2 R0
+	mov.l R3,@(R0,R12)
+	mov.l @R13,R2
+	add #1,R2
+	bra lbl_000005CC
+	mov.l R2,@R13
+lbl_000000FC:
+	mov.l @(24,R15),R5
+	exts.w R14,R0
+	mov.l @(16,R15),R7
+	shll2 R0
+	mov.l @(20,R15),R6
+	bsr _njCnkEasyPlist
+	mov.l @(R0,R12),R4
+	mov.l @R13,R2
+	add #-1,R2
+	bra lbl_000005B6
+	mov.l R2,@R13
+lbl_00000112:
+	mov.l @(12,R15),R3
+	mov #16,R5
+	cmp/ge R5,R3
+	bt/s lbl_000001D2
+	mov #1,R11
+	mov.l @R15,R5
+	mov.l lbl_00000228,R14
+	add #2,R5
+	mov.l R5,@R15
+	add #-2,R5
+	jsr @R14
+	mov.w @R5,R5
+	mov.l lbl_00000210,R2
+	mov R0,R4
+	extu.b R4,R0
+	mov #0,R3
+	cmp/eq #4,R0
+	mov.l R3,@R2
+	bt lbl_0000013C
+	bra lbl_000005B6
+	nop
+lbl_0000013C:
+	mov.l @R15,R1
+	mov #24,R4
+	mov.w @R1,R3
+	tst R4,R3
+	bf lbl_0000014A
+	bra lbl_000005B6
+	nop
+lbl_0000014A:
+	mov.l @R15,R0
+	mov.l lbl_0000022C,R4
+	add #4,R0
+	mov.l R0,@R15
+	mova lbl_00000230,R0
+	mov.l @R15,R1
+	fmov @R0,FR4
+	add #2,R1
+	mov.l R1,@R15
+	add #-2,R1
+	mov.w @R1,R1
+	lds R1,FPUL
+	float FPUL,FR3
+	fdiv FR4,FR3
+	fmov FR3,@R4
+	add #4,R4
+	mov.l @R15,R1
+	add #2,R1
+	mov.l R1,@R15
+	add #-2,R1
+	mov.w @R1,R1
+	lds R1,FPUL
+	float FPUL,FR3
+	fdiv FR4,FR3
+	fmov FR3,@R4
+	add #4,R4
+	mov.l @R15,R1
+	add #2,R1
+	mov.l R1,@R15
+	add #-2,R1
+	mov.w @R1,R1
+	lds R1,FPUL
+	float FPUL,FR3
+	fdiv FR4,FR3
+	fmov FR3,@R4
+	add #4,R4
+	mov.l @R15,R1
+	add #2,R1
+	mov.l R1,@R15
+	add #-2,R1
+	mov.w @R1,R1
+	lds R1,FPUL
+	float FPUL,FR3
+	fdiv FR4,FR3
+	fmov FR3,@R4
+	add #4,R4
+	mov.l @R15,R1
+	add #2,R1
+	mov.l R1,@R15
+	add #-2,R1
+	mov.w @R1,R1
+	lds R1,FPUL
+	float FPUL,FR3
+	fdiv FR4,FR3
+	fmov FR3,@R4
+	add #4,R4
+	mov.l @R15,R3
+	add #2,R3
+	mov.l R3,@R15
+	add #-2,R3
+	mov.w @R3,R3
+	lds R3,FPUL
+	float FPUL,FR3
+	fdiv FR4,FR3
+	mov.l lbl_00000210,R3
+	fmov FR3,@R4
+	bra lbl_000005B6
+	mov.l R11,@R3
+lbl_000001D2:
+	mov.l @(12,R15),R3
+	mov #64,R5
+	cmp/ge R5,R3
+	bt lbl_0000023C
+	mov.l @R15,R14
+	mov #0,R7
+	mov.l lbl_00000238,R3
+	add #2,R14
+	mov.l lbl_00000214,R6
+	mov.l R14,@R15
+	add #-2,R14
+	mov.w @R14,R14
+	mov.l lbl_00000234,R13
+	mov.l R3,@-R15
+	jsr @R13
+	mov.l @(4,R15),R5
+	add #4,R15
+	mov.l @R15,R3
+	shll R14
+	bra lbl_000005B0
+	add R14,R3
+lbl_000001FC:
+	.data.l __nj_vertex_easy
+lbl_00000200:
+	.data.l __nj_screen_
+lbl_00000204:
+	.data.l __nj_scr_aspect_x_
+lbl_00000208:
+	.data.l __nj_scr_aspect_y_
+lbl_0000020C:
+	.data.l __nj_lcolor_easy
+lbl_00000210:
+	.data.l BSG_0
+lbl_00000214:
+	.data.l DSG_0
+lbl_00000218:
+	.data.l DSG_4
+lbl_0000021C:
+	.data.l __nj_cnk_polygon_cache_tbl_
+lbl_00000220:
+	.data.l __nj_cnk_plist_stack_cnt_
+lbl_00000224:
+	.data.l _njSetkmCnkBlendMode
+lbl_00000228:
+	.data.l _njSetkmCnkTextureNum
+lbl_0000022C:
+	.data.l __nj_cnk_easy_bump_tex_vector_
+lbl_00000230:
+	.data.l h'46FFFE00
+lbl_00000234:
+	.data.l _njCnkSetMaterial
+lbl_00000238:
+	.data.l DSG_16
+lbl_0000023C:
+	mov.l @R15,R13
+	mov.l lbl_00000318,R4
+	add #2,R13
+	mov.l R13,@R15
+	add #-2,R13
+	mov.l @R15,R12
+	mov.w @R13,R13
+	add #2,R12
+	mov.l R12,@R15
+	extu.w R13,R13
+	mov.l @R4,R3
+	add #-2,R12
+	mov.l @(20,R15),R2
+	cmp/ge R3,R2
+	bf/s lbl_00000260
+	mov.w @R12,R12
+	bra lbl_000005A8
+	nop
+lbl_00000260:
+	mov.l lbl_0000031C,R5
+	mov.w lbl_00000314,R4
+	mov.l @R5,R3
+	tst R4,R3
+	bt lbl_00000276
+	mov.l lbl_00000320,R4
+	mov.l @R4,R3
+	mov.l lbl_00000324,R4
+	and R3,R6
+	mov.l @R4,R2
+	or R2,R6
+lbl_00000276:
+	exts.w R6,R6
+	mov.l lbl_00000328,R5
+	mov #-8,R3
+	shad R3,R6
+	exts.w R6,R6
+	mov #32,R7
+	mov R6,R3
+	mov #0,R4
+	tst R7,R3
+	mov R4,R2
+	mov.l R4,@R5
+	bt/s lbl_00000292
+	mov.l R6,@(4,R15)
+	mov.l R11,@R5
+lbl_00000292:
+	mov.l @(12,R15),R0
+	mov.l lbl_00000330,R11
+	mov.l lbl_0000032C,R10
+	cmp/eq #65,R0
+	bt lbl_000002AC
+	cmp/eq #66,R0
+	bt lbl_000002AC
+	cmp/eq #64,R0
+	bf lbl_000002A8
+	bra lbl_00000456
+	nop
+lbl_000002A8:
+	bra lbl_0000059E
+	nop
+lbl_000002AC:
+	mov.l lbl_0000033C,R2
+	mov.l lbl_00000334,R8
+	mov.l @R2,R3
+	mov.l lbl_00000338,R9
+	tst R3,R3
+	bt lbl_00000358
+	mov.l @(4,R15),R0
+	tst #8,R0
+	bt lbl_000002D0
+	mov.l lbl_00000340,R14
+	jsr @R11
+	mov R14,R4
+	mov.l @(8,R15),R2
+	fmov @R2,FR3
+	jsr @R9
+	fmov FR3,@R10
+	bra lbl_000002DA
+	nop
+lbl_000002D0:
+	mov.l lbl_00000344,R14
+	jsr @R11
+	mov R14,R4
+	jsr @R8
+	nop
+lbl_000002DA:
+	mov.l @(20,R15),R2
+	mov R0,R7
+	tst R2,R2
+	bt lbl_000002F6
+	mov.l @(12,R15),R0
+	mov.l lbl_00000348,R14
+	cmp/eq #65,R0
+	bf lbl_000002F0
+	mova lbl_0000034C,R0
+	bra lbl_00000308
+	fmov @R0,FR4
+lbl_000002F0:
+	mova lbl_00000350,R0
+	bra lbl_00000308
+	fmov @R0,FR4
+lbl_000002F6:
+	mov.l @(12,R15),R0
+	mov.l lbl_00000354,R14
+	cmp/eq #65,R0
+	bf lbl_00000304
+	mova lbl_0000034C,R0
+	bra lbl_00000308
+	fmov @R0,FR4
+lbl_00000304:
+	mova lbl_00000350,R0
+	fmov @R0,FR4
+lbl_00000308:
+	mov.l @(16,R15),R5
+	mov R12,R6
+	jsr @R14
+	mov.l @R15,R4
+	bra lbl_0000059E
+	mov R0,R4
+lbl_00000314:
+	.data.w h'0800
+	.data.w h'0000
+lbl_00000318:
+	.data.l __nj_cnk_clip_vtx_
+lbl_0000031C:
+	.data.l __nj_control_3d_flag_
+lbl_00000320:
+	.data.l __nj_constant_attr_and_
+lbl_00000324:
+	.data.l __nj_constant_attr_or_
+lbl_00000328:
+	.data.l __nj_flat_model_flag_
+lbl_0000032C:
+	.data.l __nj_lcolor_easy
+lbl_00000330:
+	.data.l _njSetkmColorMode
+lbl_00000334:
+	.data.l _njStartVertexTexOpaque
+lbl_00000338:
+	.data.l _njStartVertexTexTrans
+lbl_0000033C:
+	.data.l BSG_0
+lbl_00000340:
+	.data.l h'0210000C
+lbl_00000344:
+	.data.l h'0008000C
+lbl_00000348:
+	.data.l _njCnkEasyTextureBumpClip
+lbl_0000034C:
+	.data.l h'3B800000
+lbl_00000350:
+	.data.l h'3A800000
+lbl_00000354:
+	.data.l _njCnkEasyTextureBump
+lbl_00000358:
+	mov.l @(24,R15),R0
+	cmp/eq #35,R0
+	bt lbl_000003E2
+	mov.l @(4,R15),R0
+	mov.l lbl_000004F8,R14
+	tst #8,R0
+	bt/s lbl_000003AA
+	mov #2,R4
+	mov.l @(4,R15),R3
+	tst R3,R4
+	bt lbl_00000388
+	tst R7,R3
+	bt lbl_00000378
+	mov.l lbl_000004FC,R10
+	bra lbl_0000037A
+	nop
+lbl_00000378:
+	mov.l lbl_00000500,R10
+lbl_0000037A:
+	jsr @R11
+	mov R10,R4
+	mov.l @(8,R15),R2
+	mov.l lbl_00000504,R11
+	fmov @R2,FR3
+	bra lbl_000003A2
+	fmov FR3,@R14
+lbl_00000388:
+	tst R7,R3
+	bt lbl_00000392
+	mov.l lbl_00000508,R10
+	bra lbl_00000394
+	nop
+lbl_00000392:
+	mov.l lbl_0000050C,R10
+lbl_00000394:
+	jsr @R11
+	mov R10,R4
+	mov.l @(8,R15),R2
+	mov.l lbl_00000510,R11
+	fmov @R2,FR3
+	mov.l lbl_00000514,R5
+	fmov FR3,@R14
+lbl_000003A2:
+	jsr @R11
+	mov R14,R4
+	bra lbl_0000041E
+	mov R0,R7
+lbl_000003AA:
+	mov.l @(4,R15),R1
+	tst R1,R4
+	bt lbl_000003C6
+	tst R7,R1
+	bt lbl_000003BA
+	mov.l lbl_00000518,R10
+	bra lbl_000003BC
+	nop
+lbl_000003BA:
+	mov.l lbl_0000051C,R10
+lbl_000003BC:
+	jsr @R11
+	mov R10,R4
+	mov.l lbl_00000520,R11
+	bra lbl_000003DA
+	nop
+lbl_000003C6:
+	tst R7,R1
+	bt lbl_000003D0
+	mov.l lbl_00000524,R10
+	bra lbl_000003D2
+	nop
+lbl_000003D0:
+	mov.l lbl_00000528,R10
+lbl_000003D2:
+	jsr @R11
+	mov R10,R4
+	mov.l lbl_00000514,R5
+	mov.l lbl_0000052C,R11
+lbl_000003DA:
+	jsr @R11
+	mov R14,R4
+	bra lbl_0000041E
+	mov R0,R7
+lbl_000003E2:
+	mov.l @(4,R15),R0
+	tst #8,R0
+	bt lbl_00000406
+	mov.l @(4,R15),R3
+	tst R3,R7
+	bt lbl_000003F4
+	mov.l lbl_00000530,R14
+	bra lbl_000003F6
+	nop
+lbl_000003F4:
+	mov.l lbl_00000534,R14
+lbl_000003F6:
+	jsr @R11
+	mov R14,R4
+	mov.l @(8,R15),R2
+	fmov @R2,FR3
+	jsr @R9
+	fmov FR3,@R10
+	bra lbl_0000041C
+	nop
+lbl_00000406:
+	mov.l @(4,R15),R1
+	tst R1,R7
+	bt lbl_00000412
+	mov.l lbl_00000538,R14
+	bra lbl_00000414
+	nop
+lbl_00000412:
+	mov.l lbl_0000053C,R14
+lbl_00000414:
+	jsr @R11
+	mov R14,R4
+	jsr @R8
+	nop
+lbl_0000041C:
+	mov R0,R7
+lbl_0000041E:
+	mov.l @(20,R15),R3
+	tst R3,R3
+	bt lbl_00000438
+	mov.l @(12,R15),R0
+	mov.l lbl_00000540,R14
+	cmp/eq #65,R0
+	bf lbl_00000432
+	mova lbl_00000544,R0
+	bra lbl_0000044A
+	fmov @R0,FR4
+lbl_00000432:
+	mova lbl_00000548,R0
+	bra lbl_0000044A
+	fmov @R0,FR4
+lbl_00000438:
+	mov.l @(12,R15),R0
+	mov.l lbl_0000054C,R14
+	cmp/eq #65,R0
+	bf lbl_00000446
+	mova lbl_00000544,R0
+	bra lbl_0000044A
+	fmov @R0,FR4
+lbl_00000446:
+	mova lbl_00000548,R0
+	fmov @R0,FR4
+lbl_0000044A:
+	mov.l @(16,R15),R5
+	mov R12,R6
+	jsr @R14
+	mov.l @R15,R4
+	bra lbl_0000059E
+	mov R0,R4
+lbl_00000456:
+	mov.l @(24,R15),R0
+	cmp/eq #35,R0
+	bt lbl_000004CC
+	mov.l @(8,R15),R3
+	mov #4,R0
+	mov.l @(52,R15),R2
+	mov R15,R14
+	fmov @R3,FR3
+	fmov FR3,@R2
+	mov.l @(36,R15),R2
+	fmov @(R0,R10),FR3
+	mov #8,R0
+	fmov @R2,FR2
+	mov.l @(32,R15),R3
+	fmul FR3,FR2
+	fmov FR2,@R3
+	mov.l @(44,R15),R2
+	fmov @(R0,R10),FR3
+	mov #12,R0
+	fmov @R2,FR2
+	mov.l @(40,R15),R3
+	fmul FR3,FR2
+	fmov FR2,@R3
+	mov.l @(28,R15),R2
+	fmov @(R0,R10),FR3
+	fmov @R2,FR2
+	mov.l @(48,R15),R3
+	fmul FR3,FR2
+	fmov FR2,@R3
+	mov.l @(4,R15),R0
+	tst #8,R0
+	bt/s lbl_000004B0
+	add #56,R14
+	mov.l @(4,R15),R2
+	tst R2,R7
+	bt lbl_000004A4
+	mov.l lbl_00000550,R10
+	bra lbl_000004A6
+	nop
+lbl_000004A4:
+	mov.l lbl_00000554,R10
+lbl_000004A6:
+	jsr @R11
+	mov R10,R4
+	mov.l lbl_00000558,R11
+	bra lbl_000004C4
+	nop
+lbl_000004B0:
+	mov.l @(4,R15),R2
+	tst R2,R7
+	bt lbl_000004BC
+	mov.l lbl_0000055C,R10
+	bra lbl_000004BE
+	nop
+lbl_000004BC:
+	mov.l lbl_00000560,R10
+lbl_000004BE:
+	jsr @R11
+	mov R10,R4
+	mov.l lbl_00000564,R11
+lbl_000004C4:
+	jsr @R11
+	mov R14,R4
+	bra lbl_00000586
+	mov R0,R7
+lbl_000004CC:
+	mov.l @(4,R15),R0
+	tst #8,R0
+	bt lbl_000004EA
+	mov.l @(4,R15),R2
+	tst R2,R7
+	bt lbl_000004DE
+	mov.l lbl_00000568,R14
+	bra lbl_000004E0
+	nop
+lbl_000004DE:
+	mov.l lbl_0000056C,R14
+lbl_000004E0:
+	jsr @R11
+	mov R14,R4
+	mov.l lbl_00000570,R14
+	bra lbl_00000580
+	nop
+lbl_000004EA:
+	mov.l @(4,R15),R2
+	tst R2,R7
+	bt lbl_00000578
+	mov.l lbl_00000574,R14
+	bra lbl_0000057A
+	nop
+	.data.w h'0000
+lbl_000004F8:
+	.data.l __nj_lcolor_easy
+lbl_000004FC:
+	.data.l h'02100028
+lbl_00000500:
+	.data.l h'0210002A
+lbl_00000504:
+	.data.l _njStartVertexTexTransIntens
+lbl_00000508:
+	.data.l h'0210002C
+lbl_0000050C:
+	.data.l h'0210002E
+lbl_00000510:
+	.data.l _njStartVertexTexTransIntensH
+lbl_00000514:
+	.data.l DSG_16
+lbl_00000518:
+	.data.l h'00080028
+lbl_0000051C:
+	.data.l h'0008002A
+lbl_00000520:
+	.data.l _njStartVertexTexOpaqueIntens
+lbl_00000524:
+	.data.l h'0008002C
+lbl_00000528:
+	.data.l h'0008002E
+lbl_0000052C:
+	.data.l _njStartVertexTexOpaqueIntensH
+lbl_00000530:
+	.data.l h'02100008
+lbl_00000534:
+	.data.l h'0210000A
+lbl_00000538:
+	.data.l h'00080008
+lbl_0000053C:
+	.data.l h'0008000A
+lbl_00000540:
+	.data.l _njCnkEasyTextureClip
+lbl_00000544:
+	.data.l h'3B800000
+lbl_00000548:
+	.data.l h'3A800000
+lbl_0000054C:
+	.data.l _njCnkEasyTexture
+lbl_00000550:
+	.data.l h'02100020
+lbl_00000554:
+	.data.l h'02100022
+lbl_00000558:
+	.data.l _njStartVertexNonTexTransIntens
+lbl_0000055C:
+	.data.l h'00080020
+lbl_00000560:
+	.data.l h'00080022
+lbl_00000564:
+	.data.l _njStartVertexNonTexOpaqueIntens
+lbl_00000568:
+	.data.l h'02100000
+lbl_0000056C:
+	.data.l h'02100002
+lbl_00000570:
+	.data.l _njStartVertexNonTexTrans
+lbl_00000574:
+	.data.l h'00080000
+lbl_00000578:
+	mov.l lbl_00000600,R14
+lbl_0000057A:
+	jsr @R11
+	mov R14,R4
+	mov.l lbl_00000604,R14
+lbl_00000580:
+	jsr @R14
+	nop
+	mov R0,R7
+lbl_00000586:
+	mov.l @(20,R15),R3
+	tst R3,R3
+	bt/s lbl_00000594
+	mov R12,R6
+	mov.l lbl_00000608,R14
+	bra lbl_00000596
+	nop
+lbl_00000594:
+	mov.l lbl_0000060C,R14
+lbl_00000596:
+	mov.l @(16,R15),R5
+	jsr @R14
+	mov.l @R15,R4
+	mov R0,R4
+lbl_0000059E:
+	tst R4,R4
+	bt lbl_000005A8
+	mov.l lbl_00000610,R14
+	jsr @R14
+	nop
+lbl_000005A8:
+	mov.l @R15,R3
+	add #-1,R13
+	shll R13
+	add R13,R3
+lbl_000005B0:
+	mov R3,R2
+	mov.l R3,@R15
+	pref @R2
+lbl_000005B6:
+	mov.l @R15,R6
+	mov.w lbl_000005FE,R4
+	add #2,R6
+	mov.l R6,@R15
+	add #-2,R6
+	mov.w @R6,R6
+	exts.w R6,R3
+	cmp/eq R4,R3
+	bt lbl_000005CC
+	bra lbl_000000A4
+	nop
+lbl_000005CC:
+	add #72,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R8
+	mov.l @R15+,R9
+	mov.l @R15+,R10
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+_njCnkEasyVlist:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R11,@-R15
+	mov.l R10,@-R15
+	mov.l R9,@-R15
+	mov.l R8,@-R15
+	sts.l PR,@-R15
+	add #-4,R15
+	mov.l lbl_00000614,R8
+	mov R4,R11
+	mov.l lbl_00000618,R9
+	mov.l R5,@R15
+	bra lbl_0000077C
+	mov #0,R10
+lbl_000005FE:
+	.data.w h'00ff
+lbl_00000600:
+	.data.l h'00080002
+lbl_00000604:
+	.data.l _njStartVertexNonTexOpaque
+lbl_00000608:
+	.data.l _njCnkEasyPolygonClip
+lbl_0000060C:
+	.data.l _njCnkEasyPolygon
+lbl_00000610:
+	.data.l _njEndVertex
+lbl_00000614:
+	.data.l __nj_cnk_clip_num_
+lbl_00000618:
+	.data.l __nj_vertex_easy
+lbl_0000061C:
+	mov.w @R11+,R13
+	mov R4,R12
+	mov.l lbl_0000067C,R3
+	mov.w @R11+,R4
+	extu.w R13,R13
+	tst R12,R3
+	bf/s lbl_00000632
+	mov.w @R11+,R14
+	mov.l lbl_00000680,R3
+	mov.l R10,@R8
+	mov.l R10,@R3
+lbl_00000632:
+	shll2 R4
+	mov.l lbl_0000068C,R1
+	shll2 R4
+	mov.l lbl_00000684,R2
+	mov.l R14,@(20,R9)
+	and R2,R12
+	mov.l lbl_00000690,R2
+	mov.l R11,@(24,R9)
+	mov.l @R15,R3
+	add R3,R4
+	mov.l lbl_00000688,R3
+	mov.l R4,@(28,R9)
+	and R4,R3
+	or R1,R3
+	mov.l lbl_00000694,R1
+	mov.l R3,@(32,R9)
+	shlr16 R4
+	shlr8 R4
+	mov #28,R3
+	and R3,R4
+	mov.l lbl_00000698,R3
+	mov.l R4,@R2
+	mov.l R4,@R1
+	mov.l @R3,R0
+	add R14,R0
+	mov.l R0,@R3
+	extu.b R12,R0
+	add #-32,R0
+	mov #19,R1
+	cmp/hs R1,R0
+	bt lbl_00000754
+	shll R0
+	mov R0,R1
+	mova lbl_0000069C,R0
+	mov.w @(R0,R1),R0
+	braf R0
+	nop
+lbl_0000067C:
+	.data.l h'00008000
+lbl_00000680:
+	.data.l __nj_cnk_clip_vtx_
+lbl_00000684:
+	.data.l h'FFFF7FFF
+lbl_00000688:
+	.data.l h'03FFFFFF
+lbl_0000068C:
+	.data.l h'E0000000
+lbl_00000690:
+	.data.l h'FF00003C
+lbl_00000694:
+	.data.l h'FF000038
+lbl_00000698:
+	.data.l __nj_calc_vertex_
+lbl_0000069C:
+	.data.l h'00B400A8
+	.data.w h'0078
+	mov.b @(R0,R12),R0
+	mov.b R8,@(R0,R0)
+	mov.b R8,@(R0,R0)
+	mov.b R8,@(R0,R0)
+	mov.b R8,@(R0,R0)
+	.data.w h'00C0
+	mov.l R4,@(R0,R0)
+	.data.w h'0052
+	mov.b @(R0,R6),R0
+	.data.w h'0060
+	mov.b @(R0,R6),R0
+	mov.b @(R0,R6),R0
+	mov.b @(R0,R6),R0
+	.data.w h'0090
+	mov.b @(R0,R9),R0
+	mov.b @(R0,R9),R0
+	mov.l lbl_000007A8,R3
+	mov.l lbl_000007A4,R4
+	jsr @R3
+	nop
+	bra lbl_00000750
+	nop
+	mov.l lbl_000007AC,R3
+	mov.l lbl_000007A4,R4
+	jsr @R3
+	nop
+	mov R0,R4
+	bra lbl_00000756
+	mov #35,R12
+	mov.l lbl_000007B0,R3
+	mov.l lbl_000007A4,R4
+	jsr @R3
+	mov R12,R5
+	bra lbl_00000750
+	nop
+	mov.l lbl_000007B4,R3
+	mov.l lbl_000007A4,R4
+	jsr @R3
+	nop
+	bra lbl_00000750
+	nop
+	mov.l lbl_000007B8,R3
+	mov.l lbl_000007A4,R4
+	jsr @R3
+	nop
+	bra lbl_00000750
+	nop
+	mov.l lbl_000007BC,R3
+	mov.l lbl_000007A4,R4
+	jsr @R3
+	nop
+	bra lbl_00000750
+	nop
+	mov.l lbl_000007C0,R3
+	mov.l lbl_000007A4,R4
+	jsr @R3
+	nop
+	bra lbl_00000750
+	nop
+	mov.l lbl_000007C4,R3
+	mov.l lbl_000007A4,R4
+	jsr @R3
+	nop
+	bra lbl_00000750
+	nop
+	mov.l lbl_000007C8,R3
+	mov.l lbl_000007A4,R4
+	jsr @R3
+	nop
+	bra lbl_00000750
+	nop
+	mov.l lbl_000007CC,R3
+	mov.l lbl_000007A4,R4
+	jsr @R3
+	nop
+	bra lbl_00000750
+	nop
+	mov.l lbl_000007D0,R3
+	mov.l lbl_000007A4,R4
+	jsr @R3
+	nop
+	bra lbl_00000750
+	nop
+	mov.l lbl_000007D4,R3
+	mov.l lbl_000007A4,R4
+	jsr @R3
+	nop
+lbl_00000750:
+	bra lbl_00000756
+	mov R0,R4
+lbl_00000754:
+	mov R10,R4
+lbl_00000756:
+	mov.l @R8,R2
+	mov.l lbl_000007D8,R3
+	add R4,R2
+	mov.l R2,@R8
+	and R12,R3
+	mov.w lbl_0000079E,R2
+	cmp/eq R2,R3
+	bt lbl_0000076C
+	extu.b R12,R0
+	cmp/eq #44,R0
+	bt lbl_00000774
+lbl_0000076C:
+	mov.l lbl_000007DC,R2
+	mov.l @R2,R3
+	add R14,R3
+	mov.l R3,@R2
+lbl_00000774:
+	shll R13
+	add #-2,R13
+	shll R13
+	add R13,R11
+lbl_0000077C:
+	mov.w lbl_000007A0,R3
+	mov.w @R11+,R4
+	cmp/eq R3,R4
+	bt lbl_00000788
+	bra lbl_0000061C
+	nop
+lbl_00000788:
+	mov R12,R0
+	add #4,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R8
+	mov.l @R15+,R9
+	mov.l @R15+,R10
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+lbl_0000079E:
+	.data.w h'0200
+lbl_000007A0:
+	.data.w h'00ff
+	.data.w h'0000
+lbl_000007A4:
+	.data.l __nj_vertex_easy
+lbl_000007A8:
+	.data.l _njCnkEasyVertexVN
+lbl_000007AC:
+	.data.l _njCnkEasyVertexVND8
+lbl_000007B0:
+	.data.l _njCnkEasyVertexVNNF
+lbl_000007B4:
+	.data.l _njCnkEasyVertexVN1
+lbl_000007B8:
+	.data.l _njCnkEasyVertexV
+lbl_000007BC:
+	.data.l _njCnkEasyVertexV1
+lbl_000007C0:
+	.data.l _njCnkEasyVertexVNX
+lbl_000007C4:
+	.data.l _njCnkEasyVertexVNX1
+lbl_000007C8:
+	.data.l _njCnkEasyVertexSHV
+lbl_000007CC:
+	.data.l _njCnkEasyVertexSHVN
+lbl_000007D0:
+	.data.l _njCnkEasyVertexVI
+lbl_000007D4:
+	.data.l _njCnkEasyVertexVD8
+lbl_000007D8:
+	.data.l h'0000FF00
+lbl_000007DC:
+	.data.l __nj_cnk_clip_vtx_
+__njCnkEasyDrawModel:
+	mov.l R14,@-R15
+	mov.l lbl_00000878,R1
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	sts.l PR,@-R15
+	mov.l @R1,R2
+	mov.w lbl_00000876,R3
+	tst R3,R2
+	bt/s lbl_0000080C
+	mov R4,R12
+	mov #20,R0
+	fldi0 FR3
+	fmov @(R0,R12),FR2
+	fcmp/gt FR3,FR2
+	bf lbl_0000080C
+	mov.l lbl_0000087C,R1
+	jsr @R1
+	mov R12,R4
+	tst R0,R0
+	bt lbl_0000080C
+	bra lbl_00000832
+	mov #-1,R0
+lbl_0000080C:
+	mov.l @R12,R4
+	mov.l lbl_00000880,R2
+	tst R4,R4
+	bt/s lbl_0000081C
+	mov.l @R2,R13
+	bsr _njCnkEasyVlist
+	mov R13,R5
+	mov R0,R5
+lbl_0000081C:
+	mov.l @(4,R12),R4
+	mov.l lbl_00000884,R3
+	tst R4,R4
+	bt/s lbl_00000830
+	mov.l @R3,R14
+	mov.l lbl_00000888,R1
+	mov R13,R7
+	mov.l R5,@R1
+	bsr _njCnkEasyPlist
+	mov R14,R6
+lbl_00000830:
+	mov #0,R0
+lbl_00000832:
+	lds.l @R15+,PR
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+__njCnkEasyDrawObject:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov R4,R12
+	mov.l R11,@-R15
+	mov #8,R11
+	mov.l R10,@-R15
+	mov #16,R10
+	mov.l R9,@-R15
+	mov.l R8,@-R15
+	mov #4,R8
+	sts.l PR,@-R15
+	mov.w lbl_00000876,R9
+lbl_00000856:
+	mov.l @R12,R14
+	mov #7,R0
+	and R14,R0
+	cmp/eq #7,R0
+	bf lbl_0000088C
+	mov R14,R2
+	tst R11,R2
+	bf lbl_0000086A
+	bsr __njCnkEasyDrawModel
+	mov.l @(4,R12),R4
+lbl_0000086A:
+	tst R10,R14
+	bf lbl_000008E6
+	bsr __njCnkEasyDrawObject
+	mov.l @(44,R12),R4
+	bra lbl_000008E6
+	nop
+lbl_00000876:
+	.data.w h'0100
+lbl_00000878:
+	.data.l __nj_control_3d_flag_
+lbl_0000087C:
+	.data.l _njCnkModelClip
+lbl_00000880:
+	.data.l __nj_vertex_buf_
+lbl_00000884:
+	.data.l __nj_cnk_clip_num_
+lbl_00000888:
+	.data.l __nj_cnk_easy_vtype_
+lbl_0000088C:
+	mov.l lbl_0000092C,R2
+	jsr @R2
+	nop
+	mov #1,R3
+	tst R14,R3
+	bf lbl_000008A0
+	mov.l lbl_00000930,R3
+	mov R12,R4
+	jsr @R3
+	add #8,R4
+lbl_000008A0:
+	mov #2,R2
+	tst R14,R2
+	bf lbl_000008B4
+	mov #32,R13
+	mov.l lbl_00000934,R2
+	and R14,R13
+	mov R12,R4
+	mov R13,R5
+	jsr @R2
+	add #20,R4
+lbl_000008B4:
+	mov R14,R3
+	tst R8,R3
+	bf lbl_000008C2
+	mov.l lbl_00000938,R3
+	mov R12,R4
+	jsr @R3
+	add #32,R4
+lbl_000008C2:
+	mov R14,R2
+	tst R11,R2
+	bf lbl_000008CE
+	bsr __njCnkEasyDrawModel
+	mov.l @(4,R12),R4
+	mov R0,R13
+lbl_000008CE:
+	mov R14,R3
+	tst R10,R3
+	bf lbl_000008E0
+	tst R9,R14
+	bt lbl_000008DC
+	tst R13,R13
+	bf lbl_000008E0
+lbl_000008DC:
+	bsr __njCnkEasyDrawObject
+	mov.l @(44,R12),R4
+lbl_000008E0:
+	mov.l lbl_0000093C,R2
+	jsr @R2
+	nop
+lbl_000008E6:
+	mov.l @(48,R12),R12
+	tst R12,R12
+	bf lbl_00000856
+	lds.l @R15+,PR
+	mov.l @R15+,R8
+	mov.l @R15+,R9
+	mov.l @R15+,R10
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+_njCnkEasyDrawModel:
+	sts.l PR,@-R15
+	mov.l lbl_00000940,R3
+	jsr @R3
+	mov.l R4,@-R15
+	bsr __njCnkEasyDrawModel
+	mov.l @R15,R4
+	add #4,R15
+	mov.l lbl_00000944,R2
+	jmp @R2
+	lds.l @R15+,PR
+_njCnkEasyDrawObject:
+	sts.l PR,@-R15
+	mov.l lbl_00000940,R3
+	jsr @R3
+	mov.l R4,@-R15
+	mov.l @R15,R2
+	pref @R2
+	bsr __njCnkEasyDrawObject
+	mov R2,R4
+	add #4,R15
+	mov.l lbl_00000944,R2
+	jmp @R2
+	lds.l @R15+,PR
+	.data.w h'0000
+lbl_0000092C:
+	.data.l _njPushMatrixEx
+lbl_00000930:
+	.data.l _njTranslateEx
+lbl_00000934:
+	.data.l _njRotateEx
+lbl_00000938:
+	.data.l _njScaleEx
+lbl_0000093C:
+	.data.l _njPopMatrixEx
+lbl_00000940:
+	.data.l _njGetkmPointer
+lbl_00000944:
+	.data.l _njSetkmPointer
+	.SECTION DSG,DATA,ALIGN=4
+DSG_0:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0080
+	.data.b h'003f
+DSG_4:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0080
+	.data.b h'003f
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0080
+	.data.b h'003f
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0080
+	.data.b h'003f
+DSG_16:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.SECTION BSG,DATA,ALIGN=4
+BSG_0:
+	.res.b h'4

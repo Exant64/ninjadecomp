@@ -1,0 +1,247 @@
+	.IMPORT __nj_cnk_simple_bump_lt_color_
+	.EXPORT _njCnkSimpleBumpLight
+	.EXPORT _njCnkSetSimpleBumpLightColor
+	.SECTION PSG,CODE,ALIGN=4
+_njCnkSimpleBumpLight:
+	mov.l R14,@-R15
+	mov R4,R14
+	fmov @R4,FR5
+	add #8,R14
+	fmov @R14,FR4
+	mov #0,R5
+	fmov FR5,FR3
+	fmul FR5,FR3
+	mov.l @R14,R2
+	mov R5,R7
+	mov.l @R4,R3
+	fmov FR4,FR0
+	or R3,R2
+	mov.l lbl_00000110,R6
+	fmac FR0,FR4,FR3
+	mov.l lbl_00000114,R3
+	and R6,R2
+	cmp/ge R3,R2
+	bt/s lbl_0000002E
+	fmov FR3,FR6
+	fldi1 FR7
+	bra lbl_00000046
+	fldi0 FR5
+lbl_0000002E:
+	mov.l @R14,R1
+	mov.l @R4,R2
+	and R6,R1
+	and R6,R2
+	cmp/ge R1,R2
+	bf lbl_00000040
+	fmov @R4,FR7
+	bra lbl_00000046
+	fmov @R14,FR5
+lbl_00000040:
+	fmov @R14,FR7
+	mov #1,R5
+	fmov @R4,FR5
+lbl_00000046:
+	mov R4,R6
+	add #4,R6
+	mov.l @R6,R2
+	mov.l lbl_00000118,R3
+	tst R3,R2
+	bt/s lbl_0000005A
+	fmov FR6,FR8
+	mova lbl_0000011C,R0
+	bra lbl_0000005C
+	fmov @R0,FR4
+lbl_0000005A:
+	fmov @R6,FR4
+lbl_0000005C:
+	fdiv FR7,FR5
+	mov.l @R14,R0
+	mov #-29,R3
+	fmov FR4,FR0
+	shad R3,R0
+	fmac FR0,FR4,FR8
+	and #4,R0
+	mov R0,R2
+	mov.l @R4,R0
+	mov #-30,R3
+	shad R3,R0
+	and #2,R0
+	or R0,R2
+	mova lbl_00000120,R0
+	fmov @R0,FR3
+	mova lbl_00000124,R0
+	fmov @R0,FR1
+	or R2,R5
+	mov.l lbl_00000128,R0
+	shll2 R5
+	fabs FR5
+	fmov FR5,FR2
+	fmul FR3,FR2
+	fmov FR5,FR4
+	fsub FR2,FR1
+	fmov FR5,FR2
+	fmov FR1,FR4
+	fmul FR2,FR4
+	fmov @(R0,R5),FR1
+	fsub FR1,FR4
+	fabs FR4
+	fmov FR4,FR5
+	fdiv FR8,FR6
+	mova lbl_0000012C,R0
+	fmov @R0,FR7
+	mova lbl_00000130,R0
+	fmov @R0,FR2
+	fldi0 FR1
+	fsub FR2,FR5
+	fcmp/gt FR5,FR1
+	fsqrt FR6
+	fmov FR6,FR4
+	bf/s lbl_000000B6
+	fmul FR7,FR4
+	fadd FR7,FR5
+lbl_000000B6:
+	fcmp/gt FR7,FR5
+	mov.w lbl_0000010E,R4
+	bf lbl_000000C0
+	bra lbl_000000CA
+	mov R4,R7
+lbl_000000C0:
+	ftrc FR5,FPUL
+	sts FPUL,R2
+	extu.b R2,R2
+	and R4,R2
+	or R2,R7
+lbl_000000CA:
+	fcmp/gt FR7,FR4
+	bf lbl_000000D4
+	mov.l lbl_00000134,R2
+	bra lbl_000000E0
+	or R2,R7
+lbl_000000D4:
+	ftrc FR4,FPUL
+	sts FPUL,R1
+	extu.b R1,R1
+	and R4,R1
+	shll8 R1
+	or R1,R7
+lbl_000000E0:
+	mov.l lbl_00000118,R3
+	or R3,R7
+	mov R7,R0
+	rts
+	mov.l @R15+,R14
+_njCnkSetSimpleBumpLightColor:
+	mova lbl_0000012C,R0
+	fmov @R0,FR7
+	fmul FR7,FR4
+	fmul FR7,FR6
+	fmul FR7,FR5
+	fcmp/gt FR7,FR4
+	bf/s lbl_000000FE
+	fldi0 FR8
+	bra lbl_00000106
+	fmov FR7,FR4
+lbl_000000FE:
+	fldi0 FR3
+	fcmp/gt FR4,FR3
+	bf lbl_00000106
+	fmov FR8,FR4
+lbl_00000106:
+	fcmp/gt FR7,FR5
+	bf lbl_00000138
+	bra lbl_00000140
+	fmov FR7,FR5
+lbl_0000010E:
+	.data.w h'00ff
+lbl_00000110:
+	.data.l h'7FFFFFFF
+lbl_00000114:
+	.data.l h'10000000
+lbl_00000118:
+	.data.l h'80000000
+lbl_0000011C:
+	.data.l h'3727C5AC
+lbl_00000120:
+	.data.l h'41390147
+lbl_00000124:
+	.data.l h'422E4052
+lbl_00000128:
+	.data.l CSG_0
+lbl_0000012C:
+	.data.l h'437F0000
+lbl_00000130:
+	.data.l h'42800000
+lbl_00000134:
+	.data.l h'0000FF00
+lbl_00000138:
+	fldi0 FR3
+	fcmp/gt FR5,FR3
+	bf lbl_00000140
+	fmov FR8,FR5
+lbl_00000140:
+	fcmp/gt FR7,FR6
+	bf lbl_00000148
+	bra lbl_00000150
+	fmov FR7,FR6
+lbl_00000148:
+	fldi0 FR3
+	fcmp/gt FR6,FR3
+	bf lbl_00000150
+	fmov FR8,FR6
+lbl_00000150:
+	ftrc FR4,FPUL
+	sts FPUL,R2
+	ftrc FR5,FPUL
+	extu.b R2,R2
+	sts FPUL,R3
+	ftrc FR6,FPUL
+	shll16 R2
+	extu.b R3,R3
+	sts FPUL,R1
+	shll8 R3
+	or R3,R2
+	mov.l lbl_00000174,R3
+	extu.b R1,R1
+	or R1,R2
+	mov.l lbl_00000178,R1
+	or R3,R2
+	rts
+	mov.l R2,@R1
+lbl_00000174:
+	.data.l h'FF000000
+lbl_00000178:
+	.data.l __nj_cnk_simple_bump_lt_color_
+	.SECTION CSG,DATA,ALIGN=4
+CSG_0:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0080
+	.data.b h'0042
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0043
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0080
+	.data.b h'00c2
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0080
+	.data.b h'0043
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0040
+	.data.b h'00c3
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'00c3
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0040
+	.data.b h'0043

@@ -1,0 +1,247 @@
+	.IMPORT _njPtclDrawPolygon
+	.IMPORT __nj_control_3d_flag_
+	.IMPORT _njPushMatrixEx
+	.IMPORT _njCnkModelClip
+	.IMPORT _njPopMatrixEx
+	.IMPORT _njScaleEx
+	.IMPORT _njTranslateEx
+	.IMPORT _njRotateEx
+	.IMPORT __nj_calc_vertex_
+	.IMPORT _njPtclDrawPolygon2
+	.EXPORT _njPtclDrawModel
+	.EXPORT _njPtclVlist
+	.EXPORT _njPtclDrawObject
+	.SECTION PSG,CODE,ALIGN=4
+_njPtclVlist:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov R4,R12
+	mov.l R11,@-R15
+	mov.l R10,@-R15
+	mov.l R9,@-R15
+	mov.l R8,@-R15
+	fmov FR15,@-R15
+	sts.l PR,@-R15
+	mov.w lbl_000000FE,R10
+	mov.l lbl_0000010C,R11
+	mov.l lbl_00000108,R9
+	mov.l lbl_00000104,R8
+	bra lbl_0000005A
+	fmov FR4,FR15
+lbl_00000020:
+	mov.w @R12+,R13
+	extu.b R4,R0
+	mov.l @R11,R3
+	cmp/eq #34,R0
+	add #2,R12
+	mov.w @R12+,R14
+	extu.w R13,R13
+	extu.w R14,R14
+	add R14,R3
+	bt/s lbl_0000003E
+	mov.l R3,@R11
+	cmp/eq #41,R0
+	bt lbl_0000004A
+	bra lbl_00000062
+	nop
+lbl_0000003E:
+	mov R14,R5
+	fmov FR15,FR4
+	jsr @R9
+	mov R12,R4
+	bra lbl_00000052
+	nop
+lbl_0000004A:
+	mov R14,R5
+	fmov FR15,FR4
+	jsr @R8
+	mov R12,R4
+lbl_00000052:
+	shll R13
+	add #-2,R13
+	shll R13
+	add R13,R12
+lbl_0000005A:
+	mov.w @R12+,R4
+	extu.w R4,R4
+	cmp/eq R10,R4
+	bf lbl_00000020
+lbl_00000062:
+	lds.l @R15+,PR
+	fmov @R15+,FR15
+	mov.l @R15+,R8
+	mov.l @R15+,R9
+	mov.l @R15+,R10
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+_njPtclDrawModel:
+	mov.l R14,@-R15
+	sts.l PR,@-R15
+	add #-4,R15
+	mov.l lbl_00000110,R1
+	mov.w lbl_00000100,R3
+	fmov FR4,@R15
+	mov.l @R1,R2
+	tst R3,R2
+	bt/s lbl_000000A8
+	mov R4,R14
+	mov #20,R0
+	fldi0 FR3
+	fmov @(R0,R14),FR2
+	fcmp/gt FR3,FR2
+	bf lbl_000000A8
+	mov.l lbl_00000114,R1
+	jsr @R1
+	mov R14,R4
+	tst R0,R0
+	bt lbl_000000A8
+	mov #-1,R0
+	add #4,R15
+	lds.l @R15+,PR
+	rts
+	mov.l @R15+,R14
+lbl_000000A8:
+	mov.l @R14,R4
+	tst R4,R4
+	bt lbl_000000B2
+	bsr _njPtclVlist
+	fmov @R15,FR4
+lbl_000000B2:
+	mov #0,R0
+	add #4,R15
+	lds.l @R15+,PR
+	rts
+	mov.l @R15+,R14
+_njPtclDrawObject:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov R4,R12
+	mov.l R11,@-R15
+	mov #8,R11
+	mov.l R10,@-R15
+	mov #16,R10
+	mov.l R9,@-R15
+	mov.l R8,@-R15
+	mov #4,R8
+	fmov FR15,@-R15
+	sts.l PR,@-R15
+	mov.w lbl_00000100,R9
+	fmov FR4,FR15
+lbl_000000DA:
+	mov.l @R12,R14
+	mov #7,R0
+	and R14,R0
+	cmp/eq #7,R0
+	bf lbl_00000118
+	mov R14,R2
+	tst R11,R2
+	bf lbl_000000F0
+	fmov FR15,FR4
+	bsr _njPtclDrawModel
+	mov.l @(4,R12),R4
+lbl_000000F0:
+	tst R10,R14
+	bf lbl_00000176
+	fmov FR15,FR4
+	bsr _njPtclDrawObject
+	mov.l @(44,R12),R4
+	bra lbl_00000176
+	nop
+lbl_000000FE:
+	.data.w h'00ff
+lbl_00000100:
+	.data.w h'0100
+	.data.w h'0000
+lbl_00000104:
+	.data.l _njPtclDrawPolygon2
+lbl_00000108:
+	.data.l _njPtclDrawPolygon
+lbl_0000010C:
+	.data.l __nj_calc_vertex_
+lbl_00000110:
+	.data.l __nj_control_3d_flag_
+lbl_00000114:
+	.data.l _njCnkModelClip
+lbl_00000118:
+	mov.l lbl_00000190,R2
+	jsr @R2
+	nop
+	mov #1,R3
+	tst R14,R3
+	bf lbl_0000012C
+	mov.l lbl_00000194,R3
+	mov R12,R4
+	jsr @R3
+	add #8,R4
+lbl_0000012C:
+	mov #2,R2
+	tst R14,R2
+	bf lbl_00000140
+	mov #32,R13
+	mov.l lbl_00000198,R2
+	and R14,R13
+	mov R12,R4
+	mov R13,R5
+	jsr @R2
+	add #20,R4
+lbl_00000140:
+	mov R14,R3
+	tst R8,R3
+	bf lbl_0000014E
+	mov.l lbl_0000019C,R3
+	mov R12,R4
+	jsr @R3
+	add #32,R4
+lbl_0000014E:
+	mov R14,R2
+	tst R11,R2
+	bf lbl_0000015C
+	fmov FR15,FR4
+	bsr _njPtclDrawModel
+	mov.l @(4,R12),R4
+	mov R0,R13
+lbl_0000015C:
+	mov R14,R3
+	tst R10,R3
+	bf lbl_00000170
+	tst R9,R14
+	bt lbl_0000016A
+	tst R13,R13
+	bf lbl_00000170
+lbl_0000016A:
+	fmov FR15,FR4
+	bsr _njPtclDrawObject
+	mov.l @(44,R12),R4
+lbl_00000170:
+	mov.l lbl_000001A0,R2
+	jsr @R2
+	nop
+lbl_00000176:
+	mov.l @(48,R12),R12
+	tst R12,R12
+	bf lbl_000000DA
+	lds.l @R15+,PR
+	fmov @R15+,FR15
+	mov.l @R15+,R8
+	mov.l @R15+,R9
+	mov.l @R15+,R10
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+lbl_00000190:
+	.data.l _njPushMatrixEx
+lbl_00000194:
+	.data.l _njTranslateEx
+lbl_00000198:
+	.data.l _njRotateEx
+lbl_0000019C:
+	.data.l _njScaleEx
+lbl_000001A0:
+	.data.l _njPopMatrixEx

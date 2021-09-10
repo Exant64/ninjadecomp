@@ -1,0 +1,122 @@
+	.IMPORT __nj_texmemsize
+	.IMPORT __nj_texmemlist
+	.IMPORT _kmSetVertexRenderState
+	.IMPORT __nj_current_ctx_
+	.IMPORT __nj_texglobal_color_
+	.IMPORT _njSearchTexList
+	.IMPORT __nj_current_texture_bank
+	.IMPORT __nj_current_texture
+	.EXPORT _njSetTextureNumG
+	.SECTION PSG,CODE,ALIGN=4
+_njSetTextureNumG:
+	mov.l R14,@-R15
+	mov R4,R14
+	mov.l lbl_000000B8,R1
+	mov.l R13,@-R15
+	mov #0,R13
+	mov.l lbl_000000B4,R3
+	mov.l R12,@-R15
+	sts.l PR,@-R15
+	mov.l @R1,R2
+	mov.l @R3,R5
+	mov.l lbl_000000B0,R12
+	cmp/eq R2,R14
+	bt/s lbl_0000003C
+	mov.l @R12,R4
+	mov.l lbl_000000BC,R2
+	mov #1,R13
+	jsr @R2
+	mov R14,R6
+	mov R0,R5
+	cmp/pz R5
+	bf lbl_00000048
+	mov R5,R4
+	shll2 R4
+	shll2 R4
+	mov R5,R3
+	mov.l @R12,R2
+	add R3,R4
+	shll2 R4
+	bra lbl_00000066
+	add R2,R4
+lbl_0000003C:
+	mov.l lbl_000000BC,R2
+	jsr @R2
+	mov R14,R6
+	mov R0,R4
+	cmp/pz R4
+	bt lbl_0000004C
+lbl_00000048:
+	bra lbl_000000A4
+	mov #-1,R0
+lbl_0000004C:
+	mov R4,R3
+	shll2 R4
+	shll2 R4
+	mov.l @R12,R2
+	add R3,R4
+	mov.l lbl_000000C0,R0
+	shll2 R4
+	add R2,R4
+	mov.l @R0,R1
+	mov.l @(4,R4),R3
+	cmp/eq R3,R1
+	bt lbl_00000066
+	mov #1,R13
+lbl_00000066:
+	tst R13,R13
+	bt lbl_000000A2
+	mov.l lbl_000000B8,R2
+	mov.w lbl_000000AE,R0
+	mov.l R14,@R2
+	mov.l lbl_000000C4,R14
+	mov.l lbl_000000C0,R1
+	mov.l @(4,R4),R3
+	mov.l R3,@R1
+	mov #-64,R3
+	mov.l @R14,R5
+	mov.l @R14,R2
+	mov.l @(R0,R5),R5
+	mov.l @(8,R4),R0
+	and R3,R5
+	mov.l lbl_000000C8,R1
+	and #63,R0
+	or R0,R5
+	mov.w lbl_000000AE,R0
+	mov.l R5,@(R0,R2)
+	add #4,R0
+	mov.l @(12,R4),R5
+	mov.l @(24,R4),R2
+	shlr16 R2
+	mov.l R2,@R1
+	mov.l @R14,R3
+	mov.l R5,@(R0,R3)
+	mov.l lbl_000000CC,R3
+	jsr @R3
+	mov.l @R14,R4
+lbl_000000A2:
+	mov #1,R0
+lbl_000000A4:
+	lds.l @R15+,PR
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+lbl_000000AE:
+	.data.w h'0098
+lbl_000000B0:
+	.data.l __nj_texmemlist
+lbl_000000B4:
+	.data.l __nj_texmemsize
+lbl_000000B8:
+	.data.l __nj_current_texture
+lbl_000000BC:
+	.data.l _njSearchTexList
+lbl_000000C0:
+	.data.l __nj_current_texture_bank
+lbl_000000C4:
+	.data.l __nj_current_ctx_
+lbl_000000C8:
+	.data.l __nj_texglobal_color_
+lbl_000000CC:
+	.data.l _kmSetVertexRenderState

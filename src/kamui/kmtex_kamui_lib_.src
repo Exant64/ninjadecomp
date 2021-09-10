@@ -1,0 +1,3472 @@
+	.IMPORT _kmiWriteRegister
+	.IMPORT _kmiReadRegister
+	.IMPORT _kmiCopyFromPVRMemory
+	.IMPORT _kmiCopyToFrameBuffer
+	.IMPORT _kmiCopyFromFrameBuffer
+	.IMPORT _kmiPurgeCache
+	.IMPORT _kmiHardwareResource
+	.IMPORT _kmiDefaultInterruptHandler
+	.IMPORT _kmiTXalloc
+	.IMPORT _kmiABSalloc
+	.IMPORT _kmiVQalloc
+	.IMPORT _kmiFBfree
+	.IMPORT _kmiVQFBfree
+	.IMPORT _kmiFBgetfreemem
+	.IMPORT _kmiFBSortQueue
+	.IMPORT _kmiFBGarbageCollect
+	.IMPORT _kmiDMAtoTARequest
+	.IMPORT _kmiWaitForFinishDMA
+	.EXPORT _kmCreateTextureSurface
+	.EXPORT _kmCreateCombinedTextureSurface
+	.EXPORT _kmSetStrideWidth
+	.EXPORT _kmLoadTexture
+	.EXPORT _kmLoadTextureBlock
+	.EXPORT _kmLoadTexturePart
+	.EXPORT _kmLoadRectangleTexturePart
+	.EXPORT _kmFreeTexture
+	.EXPORT _kmGetFreeTextureMem
+	.EXPORT _kmReLoadMipmap
+	.EXPORT _kmGetTexture
+	.EXPORT _kmGarbageCollectTexture
+	.EXPORT _kmLoadVQCodebook
+	.EXPORT _kmCreateContiguousTextureSurface
+	.EXPORT _kmLoadYUVTexture
+	.SECTION PSG,CODE,ALIGN=32
+_kmSetStrideWidth:
+	sts.l PR,@-R15
+	add #-4,R15
+	mov.w lbl_00000080,R3
+	mov #-5,R2
+	and R3,R4
+	shad R2,R4
+	mov.l lbl_00000084,R2
+	mov.l R4,@R15
+	mov.w lbl_00000082,R4
+	jsr @R2
+	nop
+	mov.w lbl_00000082,R4
+	mov #-32,R3
+	mov.l lbl_00000088,R2
+	and R3,R0
+	mov.l @R15,R5
+	jsr @R2
+	or R0,R5
+	add #4,R15
+	lds.l @R15+,PR
+	rts
+	mov #0,R0
+_kmCreateTextureSurface:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	sts.l PR,@-R15
+	bsr func_00000848
+	mov R4,R14
+	mov R0,R4
+	tst R4,R4
+	bt lbl_00000040
+	bra lbl_00000068
+	mov R4,R0
+lbl_00000040:
+	mov.l @R14,R0
+	extu.w R0,R0
+	cmp/eq #3,R0
+	bf lbl_00000052
+	mov.l lbl_0000008C,R2
+	jsr @R2
+	mov R14,R4
+	bra lbl_0000005A
+	nop
+lbl_00000052:
+	mov.l lbl_00000090,R2
+	mov R14,R5
+	jsr @R2
+	mov.l @(20,R14),R4
+lbl_0000005A:
+	cmp/eq #3,R0
+	bf/s lbl_00000066
+	mov R0,R13
+	mov.l lbl_00000094,R2
+	jsr @R2
+	mov #3,R4
+lbl_00000066:
+	mov R13,R0
+lbl_00000068:
+	lds.l @R15+,PR
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_00000080:
+	.data.w h'03e0
+lbl_00000082:
+	.data.w h'00e4
+lbl_00000084:
+	.data.l _kmiReadRegister
+lbl_00000088:
+	.data.l _kmiWriteRegister
+lbl_0000008C:
+	.data.l _kmiVQalloc
+lbl_00000090:
+	.data.l _kmiTXalloc
+lbl_00000094:
+	.data.l _kmiDefaultInterruptHandler
+	nop
+	nop
+	nop
+	nop
+_kmCreateCombinedTextureSurface:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R11,@-R15
+	sts.l PR,@-R15
+	add #-8,R15
+	mov.l R6,@R15
+	mov R5,R13
+	mov.l R7,@(4,R15)
+	mov R4,R14
+	mov.l @(4,R15),R6
+	mov.l @R15,R5
+	mov.l @(28,R15),R7
+	bsr func_00000848
+	mov R14,R4
+	mov R0,R4
+	tst R4,R4
+	bt lbl_000000C8
+	bra lbl_00000144
+	mov R4,R0
+lbl_000000C8:
+	mov.l @R14,R3
+	mov.l lbl_000001E0,R11
+	mov.l R3,@R13
+	mov.l @(4,R14),R2
+	mov.l R2,@(4,R13)
+	mov.l @(8,R14),R3
+	mov.l R3,@(8,R13)
+	mov.l @(12,R14),R2
+	mov.l R2,@(12,R13)
+	mov.l @(16,R14),R3
+	mov.l R3,@(16,R13)
+	mov.l @(20,R14),R2
+	mov.l R2,@(20,R13)
+	mov.l @(24,R14),R3
+	mov.l R3,@(24,R13)
+	mov.l @R14,R0
+	extu.w R0,R0
+	cmp/eq #3,R0
+	bf lbl_00000114
+	mov.l lbl_000001E4,R2
+	jsr @R2
+	mov R14,R4
+	cmp/eq #3,R0
+	bt/s lbl_00000122
+	mov R0,R12
+	mov.l lbl_000001E4,R3
+	jsr @R3
+	mov R13,R4
+	cmp/eq #3,R0
+	bf/s lbl_00000142
+	mov R0,R12
+	mov.l lbl_000001E8,R3
+	jsr @R3
+	mov R14,R4
+	jsr @R11
+	mov #3,R4
+	bra lbl_00000142
+	nop
+lbl_00000114:
+	mov.l lbl_000001EC,R3
+	mov R14,R5
+	jsr @R3
+	mov.l @(20,R14),R4
+	cmp/eq #3,R0
+	bf/s lbl_0000012A
+	mov R0,R12
+lbl_00000122:
+	jsr @R11
+	mov #3,R4
+	bra lbl_00000142
+	nop
+lbl_0000012A:
+	mov.l lbl_000001EC,R2
+	mov R13,R5
+	jsr @R2
+	mov.l @(20,R13),R4
+	cmp/eq #3,R0
+	bf/s lbl_00000142
+	mov R0,R12
+	mov.l lbl_000001F0,R2
+	jsr @R2
+	mov.l @(28,R14),R4
+	jsr @R11
+	mov #3,R4
+lbl_00000142:
+	mov R12,R0
+lbl_00000144:
+	add #8,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+_kmCreateContiguousTextureSurface:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R11,@-R15
+	mov.l R10,@-R15
+	mov.l R9,@-R15
+	mov.l R8,@-R15
+	sts.l PR,@-R15
+	add #-8,R15
+	mov.l R6,@(4,R15)
+	mov R5,R12
+	mov.l R7,@R15
+	mov R4,R14
+	mov.l @R15,R6
+	mov.l @(4,R15),R5
+	mov.l @(40,R15),R7
+	bsr func_00000848
+	mov R14,R4
+	mov R0,R4
+	tst R4,R4
+	bt lbl_00000180
+	bra lbl_00000266
+	mov R4,R0
+lbl_00000180:
+	mov.l @R14,R0
+	extu.w R0,R0
+	cmp/eq #3,R0
+	bf lbl_0000018C
+	bra lbl_00000266
+	mov #4,R0
+lbl_0000018C:
+	mov #1,R4
+	cmp/gt R4,R12
+	bf lbl_000001C0
+	mov R4,R5
+	cmp/ge R12,R5
+	mov R14,R4
+	bt/s lbl_000001C0
+	add #40,R4
+lbl_0000019C:
+	mov.l @R14,R2
+	add #1,R5
+	cmp/ge R12,R5
+	mov.l R2,@R4
+	mov.l @(4,R14),R3
+	mov.l R3,@(4,R4)
+	mov.l @(8,R14),R2
+	mov.l R2,@(8,R4)
+	mov.l @(12,R14),R3
+	mov.l R3,@(12,R4)
+	mov.l @(16,R14),R2
+	mov.l R2,@(16,R4)
+	mov.l @(20,R14),R3
+	mov.l R3,@(20,R4)
+	mov.l @(24,R14),R2
+	mov.l R2,@(24,R4)
+	bf/s lbl_0000019C
+	add #40,R4
+lbl_000001C0:
+	mov.l @(20,R14),R2
+	mov R14,R5
+	mov.l lbl_000001EC,R3
+	mul.l R12,R2
+	sts MACL,R2
+	mov.l R2,@R15
+	jsr @R3
+	mov R2,R4
+	cmp/eq #3,R0
+	bf/s lbl_00000200
+	mov R0,R11
+	mov.l lbl_000001E0,R3
+	jsr @R3
+	mov #3,R4
+	bra lbl_00000264
+	nop
+lbl_000001E0:
+	.data.l _kmiDefaultInterruptHandler
+lbl_000001E4:
+	.data.l _kmiVQalloc
+lbl_000001E8:
+	.data.l _kmiVQFBfree
+lbl_000001EC:
+	.data.l _kmiTXalloc
+lbl_000001F0:
+	.data.l _kmiFBfree
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_00000200:
+	mov.l @(28,R14),R8
+	mov.l lbl_00000300,R9
+	mov.l R8,@R15
+	jsr @R9
+	mov R8,R4
+	cmp/pl R12
+	bf/s lbl_00000264
+	mov #0,R13
+lbl_00000210:
+	mov R13,R10
+	shll2 R10
+	mov R13,R3
+	add R3,R10
+	shll2 R10
+	mov.l lbl_00000304,R2
+	shll R10
+	add R14,R10
+	mov R10,R5
+	mov.l R8,@(28,R10)
+	jsr @R2
+	mov.l @(20,R10),R4
+	mov.l @(20,R10),R3
+	cmp/eq #3,R0
+	shlr2 R3
+	shll2 R3
+	add R3,R8
+	bf/s lbl_0000025E
+	mov R0,R11
+	mov R13,R2
+	shll2 R2
+	mov R13,R3
+	add R3,R2
+	shll2 R2
+	shll R2
+	cmp/pl R13
+	add R2,R14
+	bf/s lbl_00000254
+	mov #0,R12
+lbl_0000024A:
+	jsr @R9
+	mov.l @(28,R14),R4
+	add #1,R12
+	cmp/ge R13,R12
+	bf lbl_0000024A
+lbl_00000254:
+	mov.l lbl_00000308,R2
+	jsr @R2
+	mov #3,R4
+	bra lbl_00000264
+	nop
+lbl_0000025E:
+	add #1,R13
+	cmp/ge R12,R13
+	bf lbl_00000210
+lbl_00000264:
+	mov R11,R0
+lbl_00000266:
+	add #8,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R8
+	mov.l @R15+,R9
+	mov.l @R15+,R10
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+_kmLoadTexture:
+	mov.l R14,@-R15
+	mov R6,R0
+	sts.l PR,@-R15
+	cmp/eq #1,R0
+	bt/s lbl_0000028C
+	mov R4,R14
+	mov R7,R0
+	cmp/eq #1,R0
+	bf lbl_00000294
+lbl_0000028C:
+	lds.l @R15+,PR
+	mov #4,R0
+	rts
+	mov.l @R15+,R14
+lbl_00000294:
+	mov.l @R14,R0
+	extu.w R0,R0
+	cmp/eq #3,R0
+	bf lbl_000002A8
+	mov.l @(12,R14),R6
+	mov.l @(24,R14),R7
+	bsr func_00000E60
+	mov.l @(28,R14),R4
+	bra lbl_000002D4
+	nop
+lbl_000002A8:
+	mov.l @(24,R14),R4
+	mov #4,R2
+	tst R4,R2
+	bt lbl_000002CC
+	mov #1,R1
+	tst R4,R1
+	bt lbl_000002CC
+	mov #8,R2
+	tst R4,R2
+	bf lbl_000002CC
+	mov #32,R1
+	tst R4,R1
+	bf lbl_000002CC
+	mov.l @(12,R14),R6
+	bsr func_00000DE0
+	mov.l @(28,R14),R4
+	bra lbl_000002D4
+	nop
+lbl_000002CC:
+	mov.l lbl_0000030C,R2
+	mov.l @(20,R14),R6
+	jsr @R2
+	mov.l @(28,R14),R4
+lbl_000002D4:
+	mov #0,R0
+	lds.l @R15+,PR
+	rts
+	mov.l @R15+,R14
+_kmLoadTextureBlock:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	sts.l PR,@-R15
+	mov.l @R4,R0
+	extu.w R0,R0
+	cmp/eq #3,R0
+	bf lbl_00000320
+	bra lbl_0000036E
+	mov #4,R0
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_00000300:
+	.data.l _kmiFBfree
+lbl_00000304:
+	.data.l _kmiABSalloc
+lbl_00000308:
+	.data.l _kmiDefaultInterruptHandler
+lbl_0000030C:
+	.data.l _kmiCopyToFrameBuffer
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_00000320:
+	mov.l @(24,R4),R14
+	mov #4,R3
+	tst R14,R3
+	bt lbl_0000033E
+	mov #1,R1
+	tst R14,R1
+	bt lbl_0000033E
+	mov #8,R2
+	tst R14,R2
+	bf lbl_0000033E
+	mov #32,R1
+	tst R14,R1
+	bf lbl_0000033E
+	bra lbl_00000340
+	mov #4,R14
+lbl_0000033E:
+	mov #0,R14
+lbl_00000340:
+	shll2 R7
+	shll2 R7
+	shll R7
+	mul.l R7,R6
+	sts MACL,R6
+	add R6,R14
+	mov.l @(20,R4),R6
+	cmp/hs R6,R14
+	mov R6,R13
+	bf/s lbl_0000035A
+	sub R14,R13
+	bra lbl_0000036E
+	mov #12,R0
+lbl_0000035A:
+	cmp/hi R7,R13
+	bf/s lbl_00000362
+	mov.l @(28,R4),R3
+	mov R7,R13
+lbl_00000362:
+	mov.l lbl_00000420,R2
+	mov R13,R6
+	add R3,R14
+	jsr @R2
+	mov R14,R4
+	mov #0,R0
+lbl_0000036E:
+	lds.l @R15+,PR
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+_kmLoadTexturePart:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	sts.l PR,@-R15
+	add #-4,R15
+	mov #-4,R3
+	and R3,R7
+	tst R7,R7
+	and R3,R6
+	bt/s lbl_000003DA
+	mov.l R6,@R15
+	mov.l @R4,R0
+	extu.w R0,R0
+	cmp/eq #3,R0
+	bf lbl_00000396
+	bra lbl_000003DC
+	mov #4,R0
+lbl_00000396:
+	mov.l @(24,R4),R6
+	mov #4,R3
+	tst R6,R3
+	bt lbl_000003B4
+	mov #1,R1
+	tst R6,R1
+	bt lbl_000003B4
+	mov #8,R2
+	tst R6,R2
+	bf lbl_000003B4
+	mov #32,R1
+	tst R6,R1
+	bf lbl_000003B4
+	bra lbl_000003B6
+	mov #4,R6
+lbl_000003B4:
+	mov #0,R6
+lbl_000003B6:
+	mov.l @R15,R14
+	add R6,R14
+	mov.l @(20,R4),R6
+	cmp/hs R6,R14
+	mov R6,R13
+	bf/s lbl_000003C8
+	sub R14,R13
+	bra lbl_000003DC
+	mov #7,R0
+lbl_000003C8:
+	cmp/hi R7,R13
+	bf/s lbl_000003D0
+	mov.l @(28,R4),R3
+	mov R7,R13
+lbl_000003D0:
+	mov.l lbl_00000420,R2
+	mov R13,R6
+	add R3,R14
+	jsr @R2
+	mov R14,R4
+lbl_000003DA:
+	mov #0,R0
+lbl_000003DC:
+	add #4,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+_kmLoadRectangleTexturePart:
+	mov.l R14,@-R15
+	mov #4,R3
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R11,@-R15
+	mov.l R10,@-R15
+	mov.l R9,@-R15
+	mov R7,R9
+	mov.l R8,@-R15
+	sts.l PR,@-R15
+	mov.l @(24,R4),R7
+	tst R7,R3
+	bf lbl_00000412
+	mov #1,R1
+	tst R7,R1
+	bf lbl_00000412
+	mov #8,R2
+	tst R7,R2
+	bf lbl_00000412
+	mov #32,R1
+	tst R7,R1
+	bt lbl_00000440
+lbl_00000412:
+	bra lbl_000004A0
+	mov #4,R0
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_00000420:
+	.data.l _kmiCopyToFrameBuffer
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_00000440:
+	mov.l @(12,R4),R7
+	mov R6,R10
+	mov.l @(36,R15),R14
+	mov R7,R12
+	shll R12
+	mul.l R12,R14
+	mov.l @(32,R15),R3
+	shll R10
+	mov.l @(48,R15),R2
+	shll R3
+	sts MACL,R14
+	tst R2,R2
+	add R3,R14
+	mov.l @(28,R4),R3
+	bf/s lbl_00000466
+	add R3,R14
+	mov R5,R13
+	bra lbl_0000047C
+	mov R10,R4
+lbl_00000466:
+	mov.l @(48,R15),R4
+	mov.l @(44,R15),R13
+	shll R4
+	mov.l @(40,R15),R3
+	mul.l R4,R13
+	shll R3
+	sts MACL,R13
+	add R3,R13
+	shlr2 R13
+	shll2 R13
+	add R5,R13
+lbl_0000047C:
+	mov #0,R11
+	mov R11,R3
+	shlr2 R4
+	cmp/hs R9,R3
+	mov R4,R8
+	bt/s lbl_0000049E
+	shll2 R8
+lbl_0000048A:
+	mov.l lbl_00000540,R3
+	mov R13,R5
+	mov R10,R6
+	jsr @R3
+	mov R14,R4
+	add #1,R11
+	cmp/hs R9,R11
+	add R12,R14
+	bf/s lbl_0000048A
+	add R8,R13
+lbl_0000049E:
+	mov #0,R0
+lbl_000004A0:
+	lds.l @R15+,PR
+	mov.l @R15+,R8
+	mov.l @R15+,R9
+	mov.l @R15+,R10
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+_kmLoadYUVTexture:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R11,@-R15
+	mov.l R10,@-R15
+	sts.l PR,@-R15
+	add #-4,R15
+	mov #31,R3
+	mov R5,R12
+	tst R12,R3
+	bt/s lbl_000004CE
+	mov R4,R13
+	bra lbl_0000060E
+	mov #7,R0
+lbl_000004CE:
+	mov.l @(24,R13),R5
+	mov #1,R4
+	mov R5,R3
+	tst R4,R3
+	bf lbl_0000051C
+	mov #4,R1
+	tst R5,R1
+	bf lbl_0000051C
+	mov #8,R2
+	tst R5,R2
+	bf lbl_0000051C
+	mov #32,R1
+	tst R5,R1
+	bf lbl_0000051C
+	mov.l @(8,R13),R2
+	mov.l lbl_00000544,R3
+	tst R3,R2
+	bt lbl_0000051C
+	mov.l @(28,R15),R0
+	cmp/eq #6,R0
+	bt/s lbl_00000502
+	mov #0,R5
+	cmp/eq #3,R0
+	bt lbl_00000506
+	bra lbl_0000051C
+	nop
+lbl_00000502:
+	bra lbl_00000508
+	mov R5,R10
+lbl_00000506:
+	mov R4,R10
+lbl_00000508:
+	cmp/ge R4,R6
+	bf lbl_0000051C
+	mov #64,R2
+	cmp/gt R2,R6
+	bt lbl_0000051C
+	cmp/ge R4,R7
+	bf lbl_0000051C
+	mov #64,R3
+	cmp/gt R3,R7
+	bf lbl_00000520
+lbl_0000051C:
+	bra lbl_0000060E
+	mov #4,R0
+lbl_00000520:
+	mul.l R7,R6
+	mov #2,R3
+	sts MACL,R0
+	cmp/ge R3,R0
+	bf lbl_00000560
+	add #-1,R6
+	mov R4,R5
+	bra lbl_0000056E
+	mov R7,R11
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_00000540:
+	.data.l _kmiCopyToFrameBuffer
+lbl_00000544:
+	.data.l h'18000000
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_00000560:
+	mov.l @(12,R13),R6
+	mov.l @(16,R13),R11
+	shlr2 R6
+	shlr2 R11
+	shlr2 R6
+	shlr2 R11
+	add #-1,R6
+lbl_0000056E:
+	add #-1,R11
+	mov R6,R7
+	mov R11,R3
+	add #1,R3
+	add #1,R7
+	mul.l R3,R7
+	tst R10,R10
+	bf/s lbl_0000059C
+	sts MACL,R7
+	tst R5,R5
+	bf lbl_0000058A
+	mov R7,R14
+	bra lbl_0000058E
+	mov R7,R3
+lbl_0000058A:
+	mov R0,R3
+	mov R0,R14
+lbl_0000058E:
+	shll R14
+	add R3,R14
+	shll2 R14
+	shll2 R14
+	shll2 R14
+	bra lbl_000005AA
+	shll R14
+lbl_0000059C:
+	tst R5,R5
+	bf lbl_000005A4
+	bra lbl_000005A6
+	mov R7,R14
+lbl_000005A4:
+	mov R0,R14
+lbl_000005A6:
+	shll8 R14
+	shll R14
+lbl_000005AA:
+	and R4,R10
+	mov.l lbl_00000668,R2
+	and R4,R5
+	mov.w lbl_00000660,R4
+	shll16 R10
+	mov #63,R7
+	and R7,R11
+	shll16 R5
+	shll8 R10
+	shll8 R11
+	or R5,R10
+	or R11,R10
+	and R7,R6
+	mov R10,R5
+	jsr @R2
+	or R6,R5
+	mov.w lbl_00000662,R4
+	mov.l lbl_00000668,R2
+	mov.l lbl_0000066C,R3
+	mov.l @(28,R13),R5
+	jsr @R2
+	and R3,R5
+	mov.w lbl_00000664,R13
+	mov.l lbl_00000670,R10
+	mov.l lbl_00000674,R11
+	mov R13,R5
+lbl_000005DE:
+	mov R15,R3
+	mov R14,R6
+	mov R12,R5
+	mov.l R3,@-R15
+	mov #24,R7
+	jsr @R10
+	mov R11,R4
+	add #4,R15
+	mov.l @R15,R4
+	mov R0,R5
+	cmp/eq R13,R5
+	bt/s lbl_000005DE
+	mov.l @R4,R4
+	tst R5,R5
+	bt lbl_00000600
+	bra lbl_0000060E
+	mov #8,R0
+lbl_00000600:
+	mov.l @(32,R15),R0
+	cmp/eq #1,R0
+	bf lbl_0000060C
+	mov.l lbl_00000678,R2
+	jsr @R2
+	nop
+lbl_0000060C:
+	mov #0,R0
+lbl_0000060E:
+	add #4,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R10
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+_kmLoadVQCodebook:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	sts.l PR,@-R15
+	add #-4,R15
+	mov R4,R14
+	mov.l R5,@R15
+	mov.l @R14,R0
+	extu.w R0,R0
+	cmp/eq #3,R0
+	bf/s lbl_00000686
+	mov #0,R13
+	mov.l @(12,R14),R5
+	bsr func_00000B20
+	mov R5,R4
+	mov R0,R4
+	mov R0,R5
+	mov.l @(24,R14),R0
+	tst #1,R0
+	bt/s lbl_00000680
+	shll2 R4
+	mov.l lbl_0000067C,R0
+	bra lbl_00000682
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_00000660:
+	.data.w h'014c
+lbl_00000662:
+	.data.w h'0148
+lbl_00000664:
+	.data.w h'0100
+	.data.w h'0000
+lbl_00000668:
+	.data.l _kmiWriteRegister
+lbl_0000066C:
+	.data.l h'00FFFFF8
+lbl_00000670:
+	.data.l _kmiDMAtoTARequest
+lbl_00000674:
+	.data.l h'10800000
+lbl_00000678:
+	.data.l _kmiWaitForFinishDMA
+lbl_0000067C:
+	.data.l CSG_28
+lbl_00000680:
+	mov.l lbl_000006E4,R0
+lbl_00000682:
+	bra lbl_0000068E
+	mov.l @(R0,R4),R6
+lbl_00000686:
+	mov.l @(24,R14),R0
+	tst #8,R0
+	bt lbl_0000069A
+	mov.w lbl_000006E0,R6
+lbl_0000068E:
+	mov.l lbl_000006E8,R3
+	mov.l @R15,R5
+	jsr @R3
+	mov.l @(28,R14),R4
+	bra lbl_0000069C
+	nop
+lbl_0000069A:
+	mov #4,R13
+lbl_0000069C:
+	mov R13,R0
+	add #4,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+_kmFreeTexture:
+	mov.l R14,@-R15
+	mov R4,R14
+	sts.l PR,@-R15
+	mov.l @R14,R0
+	extu.w R0,R0
+	cmp/eq #3,R0
+	bf lbl_000006C0
+	mov.l lbl_000006EC,R2
+	jsr @R2
+	mov R14,R4
+	bra lbl_000006C6
+	nop
+lbl_000006C0:
+	mov.l lbl_000006F0,R2
+	jsr @R2
+	mov.l @(28,R14),R4
+lbl_000006C6:
+	lds.l @R15+,PR
+	rts
+	mov.l @R15+,R14
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_000006E0:
+	.data.w h'0800
+	.data.w h'0000
+lbl_000006E4:
+	.data.l CSG_0
+lbl_000006E8:
+	.data.l _kmiCopyToFrameBuffer
+lbl_000006EC:
+	.data.l _kmiVQFBfree
+lbl_000006F0:
+	.data.l _kmiFBfree
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+_kmGetFreeTextureMem:
+	sts.l PR,@-R15
+	add #-24,R15
+	mov R15,R6
+	mov.l lbl_000007E0,R3
+	mov R15,R7
+	mov.l R4,@(20,R15)
+	mov.l R5,@(16,R15)
+	mov R15,R5
+	add #4,R5
+	add #8,R6
+	add #12,R7
+	jsr @R3
+	mov R15,R4
+	mov.l @(4,R15),R3
+	mov R0,R4
+	mov.l @R15,R1
+	mov.l @(8,R15),R0
+	mov.l @(20,R15),R2
+	add R3,R1
+	add R0,R1
+	mov.l R1,@R2
+	mov.l @(12,R15),R2
+	mov.l @(16,R15),R3
+	mov.l R2,@R3
+	add #24,R15
+	lds.l @R15+,PR
+	rts
+	mov R4,R0
+_kmReLoadMipmap:
+	mov.l lbl_000007E4,R3
+	sts.l PR,@-R15
+	mov.l @(8,R4),R2
+	cmp/eq R3,R2
+	bf lbl_00000750
+	mov.l @(24,R4),R0
+	tst #1,R0
+	bt lbl_00000750
+	bsr func_00000F4E
+	nop
+	bra lbl_00000796
+	nop
+lbl_00000750:
+	mov.l @(8,R4),R2
+	mov.l lbl_000007E8,R3
+	cmp/eq R3,R2
+	bf lbl_00000766
+	mov.l @(24,R4),R0
+	tst #1,R0
+	bt lbl_00000766
+	bsr func_000010EE
+	nop
+	bra lbl_00000796
+	nop
+lbl_00000766:
+	mov.l @R4,R0
+	extu.w R0,R0
+	cmp/eq #3,R0
+	bf lbl_00000776
+	bsr func_000012A0
+	nop
+	bra lbl_00000796
+	nop
+lbl_00000776:
+	mov.l @(24,R4),R0
+	tst #8,R0
+	bt lbl_00000784
+	bsr func_000012A0
+	nop
+	bra lbl_00000796
+	nop
+lbl_00000784:
+	mov.l @(24,R4),R7
+	mov #4,R3
+	tst R7,R3
+	bt lbl_0000079A
+	mov #1,R1
+	tst R7,R1
+	bt lbl_0000079A
+	bsr func_000011C0
+	nop
+lbl_00000796:
+	bra lbl_0000079C
+	mov R0,R7
+lbl_0000079A:
+	mov #4,R7
+lbl_0000079C:
+	lds.l @R15+,PR
+	rts
+	mov R7,R0
+_kmGetTexture:
+	mov.l R14,@-R15
+	mov R5,R14
+	sts.l PR,@-R15
+	mov.l @R14,R0
+	and #3,R0
+	cmp/eq #1,R0
+	bf lbl_000007BC
+	mov.l lbl_000007EC,R2
+	mov.l @(20,R14),R6
+	jsr @R2
+	mov.l @(28,R14),R5
+	bra lbl_0000082C
+	nop
+lbl_000007BC:
+	mov.l @R14,R0
+	extu.w R0,R0
+	cmp/eq #3,R0
+	bf lbl_00000800
+	mov.l @(12,R14),R6
+	mov.l @(24,R14),R7
+	bsr func_00000EC0
+	mov.l @(28,R14),R5
+	bra lbl_0000082C
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_000007E0:
+	.data.l _kmiFBgetfreemem
+lbl_000007E4:
+	.data.l h'28000000
+lbl_000007E8:
+	.data.l h'30000000
+lbl_000007EC:
+	.data.l _kmiCopyFromPVRMemory
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_00000800:
+	mov.l @(24,R14),R5
+	mov #4,R2
+	tst R5,R2
+	bt lbl_00000824
+	mov #1,R1
+	tst R5,R1
+	bt lbl_00000824
+	mov #8,R2
+	tst R5,R2
+	bf lbl_00000824
+	mov #32,R1
+	tst R5,R1
+	bf lbl_00000824
+	mov.l @(12,R14),R6
+	bsr func_00000E0A
+	mov.l @(28,R14),R5
+	bra lbl_0000082C
+	nop
+lbl_00000824:
+	mov.l lbl_00000884,R2
+	mov.l @(20,R14),R6
+	jsr @R2
+	mov.l @(28,R14),R5
+lbl_0000082C:
+	lds.l @R15+,PR
+	mov #0,R0
+	rts
+	mov.l @R15+,R14
+_kmGarbageCollectTexture:
+	sts.l PR,@-R15
+	mov.l lbl_00000888,R3
+	jsr @R3
+	nop
+	mov.l lbl_0000088C,R2
+	jsr @R2
+	nop
+	lds.l @R15+,PR
+	rts
+	nop
+func_00000848:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R11,@-R15
+	mov.l R10,@-R15
+	sts.l PR,@-R15
+	add #-4,R15
+	mov.l lbl_00000890,R14
+	mov #0,R11
+	mov.w lbl_00000880,R3
+	mov R11,R13
+	and R7,R14
+	extu.b R7,R7
+	cmp/eq R3,R14
+	mov.l R7,@R15
+	bt/s lbl_00000870
+	mov #3,R10
+	mov.w lbl_00000882,R1
+	cmp/eq R1,R14
+	bf lbl_000008A0
+lbl_00000870:
+	bra lbl_000008A4
+	mov.l R10,@R4
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_00000880:
+	.data.w h'1000
+lbl_00000882:
+	.data.w h'1100
+lbl_00000884:
+	.data.l _kmiCopyFromFrameBuffer
+lbl_00000888:
+	.data.l _kmiFBSortQueue
+lbl_0000088C:
+	.data.l _kmiFBGarbageCollect
+lbl_00000890:
+	.data.l h'0000FF00
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_000008A0:
+	mov #2,R2
+	mov.l R2,@R4
+lbl_000008A4:
+	mov.w lbl_00000900,R3
+	mov #1,R12
+	cmp/eq R3,R14
+	bt/s lbl_000008B4
+	mov #4,R7
+	mov.w lbl_00000902,R1
+	cmp/eq R1,R14
+	bf lbl_000008CC
+lbl_000008B4:
+	mov.l lbl_0000090C,R3
+	mov.l @R3,R0
+	mov.w lbl_00000904,R1
+	mov.l @(R0,R1),R0
+	cmp/eq #3,R0
+	bf lbl_000008C4
+	bra lbl_000008C6
+	mov.l R10,@(4,R4)
+lbl_000008C4:
+	mov.l R12,@(4,R4)
+lbl_000008C6:
+	mov.l lbl_00000910,R3
+	bra lbl_000008EC
+	nop
+lbl_000008CC:
+	mov.w lbl_00000906,R1
+	cmp/eq R1,R14
+	bt lbl_000008D8
+	mov.w lbl_00000908,R2
+	cmp/eq R2,R14
+	bf lbl_00000920
+lbl_000008D8:
+	mov.l lbl_0000090C,R3
+	mov.l @R3,R0
+	mov.w lbl_00000904,R1
+	mov.l @(R0,R1),R0
+	cmp/eq #3,R0
+	bf lbl_000008E8
+	bra lbl_000008EA
+	mov.l R10,@(4,R4)
+lbl_000008E8:
+	mov.l R12,@(4,R4)
+lbl_000008EA:
+	mov.l lbl_00000914,R3
+lbl_000008EC:
+	bra lbl_00000982
+	mov.l R3,@(8,R4)
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_00000900:
+	.data.w h'0500
+lbl_00000902:
+	.data.w h'0600
+lbl_00000904:
+	.data.w h'00a0
+lbl_00000906:
+	.data.w h'0700
+lbl_00000908:
+	.data.w h'0800
+	.data.w h'0000
+lbl_0000090C:
+	.data.l _kmiHardwareResource
+lbl_00000910:
+	.data.l h'28000000
+lbl_00000914:
+	.data.l h'30000000
+	nop
+	nop
+	nop
+	nop
+lbl_00000920:
+	mov.l R12,@(4,R4)
+	mov.l @R15,R0
+	cmp/eq #0,R0
+	bt lbl_0000093C
+	cmp/eq #1,R0
+	bt lbl_00000940
+	cmp/eq #2,R0
+	bt lbl_00000946
+	cmp/eq #3,R0
+	bt lbl_0000094C
+	cmp/eq #4,R0
+	bt lbl_00000952
+	bra lbl_00000980
+	nop
+lbl_0000093C:
+	bra lbl_00000982
+	mov.l R11,@(8,R4)
+lbl_00000940:
+	mov.l lbl_00000960,R2
+	bra lbl_0000094E
+	nop
+lbl_00000946:
+	mov.l lbl_00000964,R1
+	bra lbl_00000954
+	nop
+lbl_0000094C:
+	mov.l lbl_00000968,R2
+lbl_0000094E:
+	bra lbl_00000982
+	mov.l R2,@(8,R4)
+lbl_00000952:
+	mov.l lbl_0000096C,R1
+lbl_00000954:
+	bra lbl_00000982
+	mov.l R1,@(8,R4)
+	nop
+	nop
+	nop
+	nop
+lbl_00000960:
+	.data.l h'08000000
+lbl_00000964:
+	.data.l h'10000000
+lbl_00000968:
+	.data.l h'18000000
+lbl_0000096C:
+	.data.l h'20000000
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_00000980:
+	mov R7,R13
+lbl_00000982:
+	mov R5,R0
+	cmp/eq #8,R0
+	mov.l R5,@(12,R4)
+	bt/s lbl_000009B2
+	mov.l R6,@(16,R4)
+	cmp/eq #16,R0
+	bt lbl_000009B2
+	cmp/eq #32,R0
+	bt lbl_000009B2
+	cmp/eq #64,R0
+	bt lbl_000009B2
+	mov.w lbl_00000A40,R1
+	cmp/eq R1,R0
+	bt lbl_000009B2
+	mov.w lbl_00000A42,R1
+	cmp/eq R1,R0
+	bt lbl_000009B2
+	mov.w lbl_00000A44,R1
+	cmp/eq R1,R0
+	bt lbl_000009B2
+	mov.w lbl_00000A46,R1
+	cmp/eq R1,R0
+	bt lbl_000009B2
+	mov R7,R13
+lbl_000009B2:
+	mov R6,R0
+	cmp/eq #8,R0
+	bt lbl_000009DE
+	cmp/eq #16,R0
+	bt lbl_000009DE
+	cmp/eq #32,R0
+	bt lbl_000009DE
+	cmp/eq #64,R0
+	bt lbl_000009DE
+	mov.w lbl_00000A40,R1
+	cmp/eq R1,R0
+	bt lbl_000009DE
+	mov.w lbl_00000A42,R1
+	cmp/eq R1,R0
+	bt lbl_000009DE
+	mov.w lbl_00000A44,R1
+	cmp/eq R1,R0
+	bt lbl_000009DE
+	mov.w lbl_00000A46,R1
+	cmp/eq R1,R0
+	bt lbl_000009DE
+	mov R7,R13
+lbl_000009DE:
+	mov.w lbl_00000A48,R3
+	cmp/eq R3,R14
+	bt lbl_00000A02
+	mov.w lbl_00000A4A,R1
+	cmp/eq R1,R14
+	bt lbl_00000A02
+	mov.w lbl_00000A4C,R0
+	cmp/eq R0,R14
+	bt lbl_00000A02
+	mov.w lbl_00000A4E,R2
+	cmp/eq R2,R14
+	bt lbl_00000A02
+	mov.w lbl_00000A50,R1
+	cmp/eq R1,R14
+	bt lbl_00000A02
+	cmp/eq R6,R5
+	bt lbl_00000A02
+	mov R7,R13
+lbl_00000A02:
+	mov.w lbl_00000A52,R3
+	cmp/eq R3,R14
+	bt/s lbl_00000A28
+	mov.l R11,@(24,R4)
+	mov.w lbl_00000A44,R1
+	cmp/eq R1,R14
+	bt lbl_00000A28
+	mov.w lbl_00000A46,R0
+	cmp/eq R0,R14
+	bt lbl_00000A28
+	mov.w lbl_00000A54,R2
+	cmp/eq R2,R14
+	bt lbl_00000A28
+	mov.w lbl_00000A56,R1
+	cmp/eq R1,R14
+	bt lbl_00000A28
+	mov.w lbl_00000A58,R2
+	cmp/eq R2,R14
+	bf lbl_00000A2E
+lbl_00000A28:
+	mov.l @(24,R4),R1
+	or R12,R1
+	mov.l R1,@(24,R4)
+lbl_00000A2E:
+	mov.w lbl_00000A5A,R3
+	cmp/eq R3,R14
+	bt lbl_00000A76
+	mov.w lbl_00000A52,R1
+	bra lbl_00000A60
+	nop
+	nop
+	nop
+	nop
+lbl_00000A40:
+	.data.w h'0080
+lbl_00000A42:
+	.data.w h'0100
+lbl_00000A44:
+	.data.w h'0200
+lbl_00000A46:
+	.data.w h'0400
+lbl_00000A48:
+	.data.w h'0900
+lbl_00000A4A:
+	.data.w h'0b00
+lbl_00000A4C:
+	.data.w h'0d00
+lbl_00000A4E:
+	.data.w h'0500
+lbl_00000A50:
+	.data.w h'0700
+lbl_00000A52:
+	.data.w h'0f00
+lbl_00000A54:
+	.data.w h'1100
+lbl_00000A56:
+	.data.w h'0600
+lbl_00000A58:
+	.data.w h'0800
+lbl_00000A5A:
+	.data.w h'0e00
+	nop
+	nop
+lbl_00000A60:
+	cmp/eq R1,R14
+	bt lbl_00000A76
+	mov.w lbl_00000B00,R0
+	cmp/eq R0,R14
+	bt lbl_00000A76
+	mov.w lbl_00000B02,R2
+	cmp/eq R2,R14
+	bt lbl_00000A76
+	mov.w lbl_00000B04,R1
+	cmp/eq R1,R14
+	bf lbl_00000A7C
+lbl_00000A76:
+	mov.l @(24,R4),R2
+	or R7,R2
+	mov.l R2,@(24,R4)
+lbl_00000A7C:
+	mov.w lbl_00000B06,R3
+	cmp/eq R3,R14
+	bt lbl_00000A94
+	mov.w lbl_00000B08,R1
+	cmp/eq R1,R14
+	bt lbl_00000A94
+	mov.w lbl_00000B0A,R0
+	cmp/eq R0,R14
+	bt lbl_00000A94
+	mov.w lbl_00000B0C,R2
+	cmp/eq R2,R14
+	bf lbl_00000A9E
+lbl_00000A94:
+	mov.l @(24,R4),R0
+	or #8,R0
+	mov R0,R2
+	or R7,R2
+	mov.l R2,@(24,R4)
+lbl_00000A9E:
+	mov.w lbl_00000B0E,R3
+	cmp/eq R3,R14
+	bf lbl_00000AAA
+	mov.l @(24,R4),R0
+	or #16,R0
+	mov.l R0,@(24,R4)
+lbl_00000AAA:
+	mov.w lbl_00000B10,R3
+	cmp/eq R3,R14
+	bt lbl_00000AC2
+	mov.w lbl_00000B12,R1
+	cmp/eq R1,R14
+	bt lbl_00000AC2
+	mov.w lbl_00000B14,R0
+	cmp/eq R0,R14
+	bt lbl_00000AC2
+	mov.w lbl_00000B16,R2
+	cmp/eq R2,R14
+	bf lbl_00000ACC
+lbl_00000AC2:
+	mov.l @(24,R4),R0
+	or #32,R0
+	mov R0,R2
+	or R7,R2
+	mov.l R2,@(24,R4)
+lbl_00000ACC:
+	bsr func_00000BC6
+	nop
+	mov R13,R0
+	add #4,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R10
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_00000B00:
+	.data.w h'0100
+lbl_00000B02:
+	.data.w h'0200
+lbl_00000B04:
+	.data.w h'0d00
+lbl_00000B06:
+	.data.w h'0300
+lbl_00000B08:
+	.data.w h'0400
+lbl_00000B0A:
+	.data.w h'1000
+lbl_00000B0C:
+	.data.w h'1100
+lbl_00000B0E:
+	.data.w h'0b00
+lbl_00000B10:
+	.data.w h'0500
+lbl_00000B12:
+	.data.w h'0600
+lbl_00000B14:
+	.data.w h'0700
+lbl_00000B16:
+	.data.w h'0800
+	nop
+	nop
+	nop
+	nop
+func_00000B20:
+	cmp/ge R5,R4
+	bf lbl_00000B26
+	mov R5,R4
+lbl_00000B26:
+	mov R4,R0
+	cmp/eq #1,R0
+	bt lbl_00000B60
+	cmp/eq #2,R0
+	bt lbl_00000B64
+	cmp/eq #4,R0
+	bt lbl_00000BA0
+	cmp/eq #8,R0
+	bt lbl_00000BC0
+	cmp/eq #16,R0
+	bt lbl_00000BA4
+	cmp/eq #32,R0
+	bt lbl_00000BA8
+	cmp/eq #64,R0
+	bt lbl_00000BAC
+	mov.w lbl_00000B80,R1
+	cmp/eq R1,R0
+	bt lbl_00000BB0
+	mov.w lbl_00000B82,R1
+	cmp/eq R1,R0
+	bt lbl_00000BB4
+	mov.w lbl_00000B84,R1
+	cmp/eq R1,R0
+	bt lbl_00000BB8
+	mov.w lbl_00000B86,R1
+	cmp/eq R1,R0
+	bt lbl_00000BBC
+	bra lbl_00000BC0
+	nop
+lbl_00000B60:
+	rts
+	mov #0,R0
+lbl_00000B64:
+	rts
+	mov #1,R0
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_00000B80:
+	.data.w h'0080
+lbl_00000B82:
+	.data.w h'0100
+lbl_00000B84:
+	.data.w h'0200
+lbl_00000B86:
+	.data.w h'0400
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_00000BA0:
+	rts
+	mov #2,R0
+lbl_00000BA4:
+	rts
+	mov #4,R0
+lbl_00000BA8:
+	rts
+	mov #5,R0
+lbl_00000BAC:
+	rts
+	mov #6,R0
+lbl_00000BB0:
+	rts
+	mov #7,R0
+lbl_00000BB4:
+	rts
+	mov #8,R0
+lbl_00000BB8:
+	rts
+	mov #9,R0
+lbl_00000BBC:
+	rts
+	mov #10,R0
+lbl_00000BC0:
+	mov #3,R0
+	rts
+	nop
+func_00000BC6:
+	mov.l R14,@-R15
+	mov R4,R14
+	sts.l PR,@-R15
+	mov.l @R14,R0
+	extu.w R0,R0
+	cmp/eq #3,R0
+	bf lbl_00000BDC
+	bsr func_00000D5C
+	mov R14,R4
+	bra lbl_00000BE6
+	nop
+lbl_00000BDC:
+	mov.l @(24,R14),R0
+	tst #8,R0
+	bt lbl_00000BEA
+	bsr func_00000C74
+	mov R14,R4
+lbl_00000BE6:
+	bra lbl_00000BFC
+	mov R0,R4
+lbl_00000BEA:
+	tst #32,R0
+	bt lbl_00000BF6
+	bsr func_00000CD2
+	mov R14,R4
+	bra lbl_00000BFA
+	nop
+lbl_00000BF6:
+	bsr func_00000C20
+	mov R14,R4
+lbl_00000BFA:
+	mov R0,R4
+lbl_00000BFC:
+	mov.l R4,@(20,R14)
+	lds.l @R15+,PR
+	rts
+	mov.l @R15+,R14
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+func_00000C20:
+	mov.l R14,@-R15
+	mov #1,R14
+	mov.l @(16,R4),R5
+	mov.l @(12,R4),R6
+	mov.l @(24,R4),R3
+	mul.l R5,R6
+	tst R14,R3
+	bt/s lbl_00000C62
+	sts MACL,R7
+	shlr R6
+	shlr R5
+	cmp/hs R5,R6
+	bt lbl_00000C3E
+	bra lbl_00000C40
+	mov R6,R0
+lbl_00000C3E:
+	mov R5,R0
+lbl_00000C40:
+	cmp/hi R14,R0
+	bf lbl_00000C54
+lbl_00000C44:
+	mul.l R5,R6
+	shlr R6
+	shlr R5
+	shlr R0
+	sts MACL,R3
+	cmp/hi R14,R0
+	add R3,R7
+	bt lbl_00000C44
+lbl_00000C54:
+	cmp/eq R5,R6
+	bf lbl_00000C5C
+	bra lbl_00000C62
+	add #4,R7
+lbl_00000C5C:
+	mul.l R5,R6
+	sts MACL,R6
+	add R6,R7
+lbl_00000C62:
+	mov.l @(4,R4),R0
+	cmp/eq #1,R0
+	bf lbl_00000C6C
+	bra lbl_00000C6E
+	shll R7
+lbl_00000C6C:
+	shll2 R7
+lbl_00000C6E:
+	mov R7,R0
+	rts
+	mov.l @R15+,R14
+func_00000C74:
+	mov.l @(16,R4),R5
+	mov #1,R0
+	mov.l @(12,R4),R6
+	mov.l @(24,R4),R2
+	shlr R6
+	shlr R5
+	mul.l R5,R6
+	tst R0,R2
+	bt/s lbl_00000CBC
+	sts MACL,R7
+	shlr R6
+	shlr R5
+	cmp/hs R5,R6
+	bt lbl_00000C94
+	bra lbl_00000C96
+	mov R6,R4
+lbl_00000C94:
+	mov R5,R4
+lbl_00000C96:
+	cmp/hi R0,R4
+	bf lbl_00000CAA
+lbl_00000C9A:
+	mul.l R5,R6
+	shlr R6
+	shlr R5
+	shlr R4
+	sts MACL,R3
+	cmp/hi R0,R4
+	add R3,R7
+	bt lbl_00000C9A
+lbl_00000CAA:
+	cmp/eq R5,R6
+	bf lbl_00000CB2
+	bra lbl_00000CB8
+	add #2,R7
+lbl_00000CB2:
+	mul.l R5,R6
+	sts MACL,R6
+	add R6,R7
+lbl_00000CB8:
+	bra lbl_00000CCA
+	add #10,R7
+lbl_00000CBC:
+	mov.l @(12,R4),R0
+	cmp/eq #8,R0
+	bf lbl_00000CCA
+	mov.l @(16,R4),R0
+	cmp/eq #8,R0
+	bf lbl_00000CCA
+	add #16,R7
+lbl_00000CCA:
+	mov.w lbl_00000D20,R3
+	add R3,R7
+	rts
+	mov R7,R0
+func_00000CD2:
+	mov.l R14,@-R15
+	mov #1,R14
+	mov.l @(16,R4),R7
+	mov.l @(12,R4),R6
+	mov.l @(24,R4),R3
+	mul.l R7,R6
+	tst R14,R3
+	bt/s lbl_00000D42
+	sts MACL,R5
+	shlr R6
+	shlr R7
+	cmp/hs R7,R6
+	bt lbl_00000CF0
+	bra lbl_00000CF2
+	mov R6,R0
+lbl_00000CF0:
+	mov R7,R0
+lbl_00000CF2:
+	cmp/hi R14,R0
+	bf lbl_00000D06
+lbl_00000CF6:
+	mul.l R7,R6
+	shlr R6
+	shlr R7
+	shlr R0
+	sts MACL,R3
+	cmp/hi R14,R0
+	add R3,R5
+	bt lbl_00000CF6
+lbl_00000D06:
+	cmp/eq R7,R6
+	bf lbl_00000D0E
+	bra lbl_00000D14
+	add #1,R5
+lbl_00000D0E:
+	mul.l R7,R6
+	sts MACL,R6
+	add R6,R5
+lbl_00000D14:
+	mov.l @(8,R4),R3
+	mov.l lbl_00000D24,R2
+	cmp/eq R2,R3
+	bf lbl_00000D40
+	bra lbl_00000D42
+	add #43,R5
+lbl_00000D20:
+	.data.w h'0800
+	.data.w h'0000
+lbl_00000D24:
+	.data.l h'28000000
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_00000D40:
+	add #11,R5
+lbl_00000D42:
+	mov.l @(8,R4),R3
+	mov.l lbl_00000E40,R2
+	cmp/eq R2,R3
+	bf lbl_00000D56
+	mov R5,R0
+	cmp/eq #1,R0
+	bf lbl_00000D54
+	bra lbl_00000D56
+	mov R14,R5
+lbl_00000D54:
+	shlr R5
+lbl_00000D56:
+	mov R5,R0
+	rts
+	mov.l @R15+,R14
+func_00000D5C:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R11,@-R15
+	sts.l PR,@-R15
+	add #-8,R15
+	mov R4,R11
+	mov.l @(12,R11),R13
+	mov.l R13,@(4,R15)
+	shlr R13
+	mov.l @(16,R11),R14
+	mov.l R14,@R15
+	shlr R14
+	mul.l R14,R13
+	mov.l @R15,R5
+	sts MACL,R12
+	bsr func_00000B20
+	mov.l @(4,R15),R4
+	mov.l @(24,R11),R2
+	mov #1,R4
+	mov R0,R5
+	mov R0,R6
+	tst R4,R2
+	bt/s lbl_00000DCA
+	shll2 R6
+	shlr R13
+	shlr R14
+	cmp/hs R14,R13
+	bt lbl_00000D9A
+	bra lbl_00000D9C
+	mov R13,R5
+lbl_00000D9A:
+	mov R14,R5
+lbl_00000D9C:
+	cmp/hi R4,R5
+	bf lbl_00000DB0
+lbl_00000DA0:
+	mul.l R14,R13
+	shlr R13
+	shlr R14
+	shlr R5
+	sts MACL,R3
+	cmp/hi R4,R5
+	add R3,R12
+	bt lbl_00000DA0
+lbl_00000DB0:
+	cmp/eq R14,R13
+	bf lbl_00000DB8
+	bra lbl_00000DBE
+	add #2,R12
+lbl_00000DB8:
+	mul.l R14,R13
+	sts MACL,R13
+	add R13,R12
+lbl_00000DBE:
+	mov.l lbl_00000E44,R0
+	add #10,R12
+	mov.l @(R0,R6),R3
+	add R3,R12
+	bra lbl_00000DD0
+	nop
+lbl_00000DCA:
+	mov.l lbl_00000E48,R0
+	mov.l @(R0,R6),R3
+	add R3,R12
+lbl_00000DD0:
+	mov R12,R0
+	add #8,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+func_00000DE0:
+	sts.l PR,@-R15
+	add #-12,R15
+	add #4,R4
+	mov.l R6,@R15
+	mov.l R5,@(8,R15)
+	mov.l R4,@(4,R15)
+	mov.l @R15,R5
+	bsr func_00000B20
+	mov R5,R4
+	mov R0,R6
+	mov.l R0,@R15
+	mov.l lbl_00000E4C,R0
+	shll2 R6
+	mov.l @(8,R15),R5
+	mov.l @(R0,R6),R6
+	mov.l @(4,R15),R4
+	add #4,R6
+	add #12,R15
+	mov.l lbl_00000E50,R3
+	jmp @R3
+	lds.l @R15+,PR
+func_00000E0A:
+	sts.l PR,@-R15
+	add #-12,R15
+	add #4,R5
+	mov.l R6,@R15
+	mov.l R5,@(8,R15)
+	mov.l R4,@(4,R15)
+	mov.l @R15,R5
+	bsr func_00000B20
+	mov R5,R4
+	mov R0,R6
+	mov.l R0,@R15
+	mov.l lbl_00000E4C,R0
+	shll2 R6
+	mov.l @(4,R15),R4
+	mov.l @(8,R15),R5
+	mov.l @(R0,R6),R6
+	add #12,R15
+	mov.l lbl_00000E54,R3
+	jmp @R3
+	lds.l @R15+,PR
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_00000E40:
+	.data.l h'28000000
+lbl_00000E44:
+	.data.l CSG_28
+lbl_00000E48:
+	.data.l CSG_0
+lbl_00000E4C:
+	.data.l CSG_144
+lbl_00000E50:
+	.data.l _kmiCopyToFrameBuffer
+lbl_00000E54:
+	.data.l _kmiCopyFromFrameBuffer
+	nop
+	nop
+	nop
+	nop
+func_00000E60:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R10,@-R15
+	sts.l PR,@-R15
+	add #-8,R15
+	mov R5,R13
+	mov R4,R14
+	mov.l R6,@R15
+	mov.l R7,@(4,R15)
+	mov.l @R15,R5
+	bsr func_00000B20
+	mov R5,R4
+	mov R0,R2
+	mov R0,R4
+	mov.l @(4,R15),R0
+	tst #1,R0
+	bt/s lbl_00000E92
+	shll2 R2
+	mov.l lbl_00000F04,R0
+	mov.l @(R0,R2),R12
+	mov.l lbl_00000F08,R0
+	mov.l @(R0,R2),R10
+	bra lbl_00000E9A
+	add #10,R10
+lbl_00000E92:
+	mov.l lbl_00000F0C,R0
+	mov.l @(R0,R2),R12
+	mov.l lbl_00000F10,R0
+	mov.l @(R0,R2),R10
+lbl_00000E9A:
+	mov.l lbl_00000F14,R2
+	mov R13,R5
+	mov R12,R6
+	jsr @R2
+	mov R14,R4
+	mov.w lbl_00000F00,R3
+	add R12,R13
+	mov R13,R5
+	mov R10,R6
+	add R3,R14
+	mov R14,R4
+	add #8,R15
+	lds.l @R15+,PR
+	mov.l lbl_00000F14,R2
+	mov.l @R15+,R10
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	jmp @R2
+	mov.l @R15+,R14
+func_00000EC0:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R10,@-R15
+	sts.l PR,@-R15
+	add #-8,R15
+	mov R5,R13
+	mov R4,R14
+	mov.l R6,@R15
+	mov.l R7,@(4,R15)
+	mov.l @R15,R5
+	bsr func_00000B20
+	mov R5,R4
+	mov R0,R2
+	mov R0,R4
+	mov.l @(4,R15),R0
+	tst #1,R0
+	bt/s lbl_00000F20
+	shll2 R2
+	mov.l lbl_00000F04,R0
+	mov.l @(R0,R2),R12
+	mov.l lbl_00000F08,R0
+	mov.l @(R0,R2),R10
+	bra lbl_00000F28
+	add #10,R10
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_00000F00:
+	.data.w h'0800
+	.data.w h'0000
+lbl_00000F04:
+	.data.l CSG_28
+lbl_00000F08:
+	.data.l CSG_276
+lbl_00000F0C:
+	.data.l CSG_0
+lbl_00000F10:
+	.data.l CSG_232
+lbl_00000F14:
+	.data.l _kmiCopyToFrameBuffer
+	nop
+	nop
+	nop
+	nop
+lbl_00000F20:
+	mov.l lbl_00000FC4,R0
+	mov.l @(R0,R2),R12
+	mov.l lbl_00000FC8,R0
+	mov.l @(R0,R2),R10
+lbl_00000F28:
+	mov.l lbl_00000FCC,R2
+	mov R13,R5
+	mov R12,R6
+	jsr @R2
+	mov R14,R4
+	mov.w lbl_00000FC0,R3
+	add R12,R14
+	mov R14,R4
+	mov R10,R6
+	add R3,R13
+	mov R13,R5
+	add #8,R15
+	lds.l @R15+,PR
+	mov.l lbl_00000FCC,R2
+	mov.l @R15+,R10
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	jmp @R2
+	mov.l @R15+,R14
+func_00000F4E:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R11,@-R15
+	mov.l R10,@-R15
+	mov.l R9,@-R15
+	mov.l R8,@-R15
+	sts.l PR,@-R15
+	add #-28,R15
+	mov.l R5,@(4,R15)
+	mov R6,R5
+	mov R6,R11
+	mov R4,R13
+	bsr func_00000B20
+	mov R6,R4
+	mov R15,R14
+	add #12,R14
+	mov #4,R3
+	mov.l lbl_00000FD0,R8
+	mov.l lbl_00000FD4,R12
+	cmp/gt R3,R11
+	mov R0,R9
+	mov R14,R2
+	bt/s lbl_00001006
+	mov.l R2,@R15
+	mov R2,R4
+	mov.l R2,@R15
+	mov.l lbl_00000FCC,R2
+	mov.l @(28,R13),R5
+	jsr @R2
+	mov #16,R6
+	mov R11,R0
+	mov.l @(4,R15),R5
+	cmp/eq #1,R0
+	bf lbl_00000F9A
+	mov.b @R5,R0
+	bra lbl_00000FF0
+	mov.b R0,@(1,R14)
+lbl_00000F9A:
+	mov R11,R0
+	cmp/eq #2,R0
+	mov R14,R10
+	bf/s lbl_00000FE0
+	add #4,R10
+	mov R14,R4
+	add #2,R4
+lbl_00000FA8:
+	mov.b @R5+,R3
+	mov.b R3,@R4
+	add #1,R4
+	cmp/hs R10,R4
+	bf lbl_00000FA8
+	bra lbl_00000FF0
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_00000FC0:
+	.data.w h'0800
+	.data.w h'0000
+lbl_00000FC4:
+	.data.l CSG_0
+lbl_00000FC8:
+	.data.l CSG_232
+lbl_00000FCC:
+	.data.l _kmiCopyFromFrameBuffer
+lbl_00000FD0:
+	.data.l _kmiCopyToFrameBuffer
+lbl_00000FD4:
+	.data.l _kmiPurgeCache
+	nop
+	nop
+	nop
+	nop
+lbl_00000FE0:
+	mov R14,R6
+	add #12,R6
+	mov R10,R4
+lbl_00000FE6:
+	mov.b @R5+,R3
+	mov.b R3,@R4
+	add #1,R4
+	cmp/hs R6,R4
+	bf lbl_00000FE6
+lbl_00000FF0:
+	mov.l @(28,R13),R3
+	mov.l R3,@(4,R15)
+	jsr @R12
+	mov R14,R4
+	mov R14,R4
+	jsr @R12
+	add #32,R4
+	mov R14,R5
+	mov #16,R6
+	bra lbl_000010D4
+	mov.l @(4,R15),R4
+lbl_00001006:
+	mov R9,R10
+	mov.l lbl_000011A0,R11
+	shll2 R10
+	mov.l R2,@R15
+	mov R10,R0
+	mov.l @(R0,R11),R2
+	mov.l @(28,R13),R5
+	mov #16,R6
+	add #-12,R2
+	add R2,R5
+	mov.l lbl_000011A4,R2
+	jsr @R2
+	mov.l @R15,R4
+	mov R14,R5
+	mov R14,R4
+	mov.l @(4,R15),R6
+	add #16,R5
+	add #12,R4
+lbl_0000102A:
+	mov.b @R6+,R3
+	mov.b R3,@R4
+	add #1,R4
+	cmp/hs R5,R4
+	bf lbl_0000102A
+	mov R14,R3
+	mov R10,R0
+	mov.l R3,@R15
+	mov.l @(28,R13),R2
+	mov.l R2,@(8,R15)
+	mov.l @(R0,R11),R3
+	add #-12,R3
+	add R3,R2
+	mov.l R2,@(8,R15)
+	jsr @R12
+	mov.l @R15,R4
+	mov.l @R15,R4
+	jsr @R12
+	add #32,R4
+	mov.l @R15,R5
+	mov #16,R6
+	jsr @R8
+	mov.l @(8,R15),R4
+	mov.l lbl_000011A8,R3
+	mov #0,R2
+	mov R3,R0
+	mov.l R3,@R15
+	mov.l @(R0,R10),R3
+	add #-16,R3
+	cmp/hi R2,R3
+	bf lbl_00001082
+	mov R10,R0
+	mov.l @(R0,R11),R3
+	mov.l @(4,R15),R1
+	mov.l @(28,R13),R4
+	add #4,R3
+	add #4,R1
+	add R3,R4
+	mov.l R1,@(8,R15)
+	mov.l @R15,R0
+	mov.l @(R0,R10),R6
+	add #-16,R6
+	jsr @R8
+	mov R1,R5
+lbl_00001082:
+	mov R9,R0
+	add #1,R0
+	mov R14,R3
+	shll2 R0
+	mov.l R3,@R15
+	mov #16,R6
+	mov.l @(R0,R11),R3
+	mov.l @(28,R13),R5
+	add #-12,R3
+	add R3,R5
+	mov.l lbl_000011A4,R3
+	jsr @R3
+	mov.l @R15,R4
+	mov.l lbl_000011A8,R0
+	mov R14,R6
+	mov.l @(4,R15),R3
+	add #12,R6
+	mov.l @(R0,R10),R5
+	mov R14,R4
+	add R3,R5
+	add #-12,R5
+lbl_000010AC:
+	mov.b @R5+,R3
+	mov.b R3,@R4
+	add #1,R4
+	cmp/hs R6,R4
+	bf lbl_000010AC
+	mov R9,R0
+	add #1,R0
+	shll2 R0
+	mov.l @(28,R13),R13
+	mov.l @(R0,R11),R3
+	add #-12,R3
+	add R3,R13
+	jsr @R12
+	mov R14,R4
+	mov R14,R4
+	jsr @R12
+	add #32,R4
+	mov R13,R4
+	mov R14,R5
+	mov #16,R6
+lbl_000010D4:
+	jsr @R8
+	nop
+	mov #0,R0
+	add #28,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R8
+	mov.l @R15+,R9
+	mov.l @R15+,R10
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+func_000010EE:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R11,@-R15
+	sts.l PR,@-R15
+	add #-12,R15
+	mov R5,R12
+	mov R6,R5
+	mov R6,R14
+	mov R4,R11
+	bsr func_00000B20
+	mov R6,R4
+	mov #2,R2
+	cmp/gt R2,R14
+	bt/s lbl_0000115E
+	mov R0,R4
+	mov R15,R13
+	add #4,R13
+	mov.l lbl_000011A4,R3
+	mov R13,R1
+	mov #8,R6
+	mov.l R1,@R15
+	mov.l @(28,R11),R5
+	jsr @R3
+	mov R1,R4
+	mov R14,R0
+	cmp/eq #1,R0
+	bf lbl_0000112E
+	mov R12,R4
+	mov.b @R4,R0
+	bra lbl_00001142
+	mov.b R0,@(3,R13)
+lbl_0000112E:
+	mov R13,R6
+	mov R13,R4
+	add #8,R6
+	mov R12,R5
+	add #4,R4
+lbl_00001138:
+	mov.b @R5+,R3
+	mov.b R3,@R4
+	add #1,R4
+	cmp/hs R6,R4
+	bf lbl_00001138
+lbl_00001142:
+	mov.l @(28,R11),R3
+	mov R13,R14
+	mov.l R3,@R15
+	mov.l lbl_000011AC,R3
+	jsr @R3
+	mov R14,R4
+	mov.l lbl_000011AC,R2
+	mov R14,R4
+	jsr @R2
+	add #32,R4
+	mov R14,R5
+	mov #8,R6
+	bra lbl_00001172
+	mov.l @R15,R4
+lbl_0000115E:
+	mov.l lbl_000011B0,R0
+	shll2 R4
+	mov R4,R5
+	mov.l @(R0,R4),R6
+	mov.l lbl_000011B4,R0
+	mov.l R12,@R15
+	mov.l @(28,R11),R3
+	mov.l @(R0,R5),R4
+	mov R12,R5
+	add R3,R4
+lbl_00001172:
+	mov.l lbl_000011B8,R3
+	jsr @R3
+	nop
+	mov #0,R0
+	add #12,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_000011A0:
+	.data.l CSG_408
+lbl_000011A4:
+	.data.l _kmiCopyFromFrameBuffer
+lbl_000011A8:
+	.data.l CSG_452
+lbl_000011AC:
+	.data.l _kmiPurgeCache
+lbl_000011B0:
+	.data.l CSG_364
+lbl_000011B4:
+	.data.l CSG_320
+lbl_000011B8:
+	.data.l _kmiCopyToFrameBuffer
+	nop
+	nop
+func_000011C0:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R11,@-R15
+	sts.l PR,@-R15
+	add #-20,R15
+	mov R5,R12
+	mov R6,R5
+	mov R6,R14
+	mov R4,R11
+	bsr func_00000B20
+	mov R6,R4
+	mov #2,R2
+	cmp/gt R2,R14
+	bt/s lbl_0000123E
+	mov R0,R4
+	mov R15,R13
+	add #4,R13
+	mov.l lbl_00001280,R3
+	mov R13,R1
+	mov #16,R6
+	mov.l R1,@R15
+	mov.l @(28,R11),R5
+	jsr @R3
+	mov R1,R4
+	mov R14,R0
+	cmp/eq #1,R0
+	mov R13,R1
+	bf/s lbl_00001210
+	add #8,R1
+	mov R13,R4
+	add #6,R4
+	mov R12,R5
+lbl_00001202:
+	mov.b @R5+,R3
+	mov.b R3,@R4
+	add #1,R4
+	cmp/hs R1,R4
+	bf lbl_00001202
+	bra lbl_00001222
+	nop
+lbl_00001210:
+	mov R13,R6
+	add #16,R6
+	mov R12,R5
+	mov R1,R4
+lbl_00001218:
+	mov.b @R5+,R3
+	mov.b R3,@R4
+	add #1,R4
+	cmp/hs R6,R4
+	bf lbl_00001218
+lbl_00001222:
+	mov.l @(28,R11),R3
+	mov R13,R14
+	mov.l R3,@R15
+	mov.l lbl_00001284,R3
+	jsr @R3
+	mov R14,R4
+	mov.l lbl_00001284,R2
+	mov R14,R4
+	jsr @R2
+	add #32,R4
+	mov R14,R5
+	mov #16,R6
+	bra lbl_00001252
+	mov.l @R15,R4
+lbl_0000123E:
+	mov.l lbl_00001288,R0
+	shll2 R4
+	mov R4,R5
+	mov.l @(R0,R4),R6
+	mov.l lbl_0000128C,R0
+	mov.l R12,@R15
+	mov.l @(28,R11),R3
+	mov.l @(R0,R5),R4
+	mov R12,R5
+	add R3,R4
+lbl_00001252:
+	mov.l lbl_00001290,R3
+	jsr @R3
+	nop
+	mov #0,R0
+	add #20,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_00001280:
+	.data.l _kmiCopyFromFrameBuffer
+lbl_00001284:
+	.data.l _kmiPurgeCache
+lbl_00001288:
+	.data.l CSG_100
+lbl_0000128C:
+	.data.l CSG_56
+lbl_00001290:
+	.data.l _kmiCopyToFrameBuffer
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+func_000012A0:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R11,@-R15
+	mov.l R10,@-R15
+	mov.l R9,@-R15
+	mov.l R8,@-R15
+	sts.l PR,@-R15
+	add #-24,R15
+	mov.l R5,@(4,R15)
+	mov R6,R5
+	mov R6,R11
+	mov R4,R13
+	bsr func_00000B20
+	mov R6,R4
+	mov R0,R9
+	mov R11,R0
+	cmp/eq #1,R0
+	bf lbl_000012CA
+	bra lbl_0000141A
+	nop
+lbl_000012CA:
+	mov R15,R14
+	mov #4,R2
+	add #8,R14
+	mov.l lbl_00001324,R12
+	cmp/gt R2,R11
+	mov R14,R3
+	bt/s lbl_00001340
+	mov.l R3,@R15
+	mov.l R3,@R15
+	mov #16,R6
+	mov.w lbl_00001320,R3
+	mov.l @(28,R13),R5
+	mov.l lbl_00001328,R1
+	add R3,R5
+	jsr @R1
+	mov.l @R15,R4
+	mov R11,R0
+	mov.l @(4,R15),R5
+	cmp/eq #2,R0
+	bf lbl_000012F8
+	mov.b @R5,R0
+	bra lbl_0000130A
+	mov.b R0,@(1,R14)
+lbl_000012F8:
+	mov R14,R6
+	mov R14,R4
+	add #6,R6
+	add #2,R4
+lbl_00001300:
+	mov.b @R5+,R3
+	mov.b R3,@R4
+	add #1,R4
+	cmp/hs R6,R4
+	bf lbl_00001300
+lbl_0000130A:
+	mov.w lbl_00001320,R3
+	mov.l @(28,R13),R13
+	add R3,R13
+	bra lbl_00001406
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_00001320:
+	.data.w h'0800
+	.data.w h'0000
+lbl_00001324:
+	.data.l _kmiPurgeCache
+lbl_00001328:
+	.data.l _kmiCopyFromFrameBuffer
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+lbl_00001340:
+	mov R9,R0
+	mov.l lbl_00001448,R10
+	add #-1,R0
+	mov.l R3,@R15
+	shll2 R0
+	mov.w lbl_00001440,R8
+	mov.l @(R0,R10),R3
+	mov #16,R6
+	mov.l @(28,R13),R5
+	add R8,R3
+	add R3,R5
+	mov.l lbl_0000144C,R3
+	jsr @R3
+	mov.l @R15,R4
+	mov R14,R6
+	mov R14,R4
+	mov.l @(4,R15),R5
+	add #16,R6
+	add #6,R4
+lbl_00001366:
+	mov.b @R5+,R3
+	mov.b R3,@R4
+	add #1,R4
+	cmp/hs R6,R4
+	bf lbl_00001366
+	mov R9,R0
+	mov.l @(28,R13),R3
+	add #-1,R0
+	mov R14,R11
+	shll2 R0
+	mov.l R3,@R15
+	mov.l @(R0,R10),R3
+	mov.l @R15,R2
+	add R8,R3
+	add R3,R2
+	mov.l R2,@R15
+	jsr @R12
+	mov R11,R4
+	mov R11,R4
+	jsr @R12
+	add #32,R4
+	mov.l lbl_00001450,R3
+	mov R11,R5
+	mov #16,R6
+	jsr @R3
+	mov.l @R15,R4
+	mov.l lbl_00001454,R0
+	mov R9,R11
+	shll2 R11
+	mov.l @(R0,R11),R3
+	mov #0,R2
+	add #-16,R3
+	cmp/hi R2,R3
+	bf lbl_000013CC
+	mov R9,R0
+	add #-1,R0
+	shll2 R0
+	mov.w lbl_00001442,R1
+	mov.l @(R0,R10),R3
+	mov.l @(28,R13),R4
+	add R1,R3
+	mov.l lbl_00001454,R0
+	add R3,R4
+	mov.l @(4,R15),R3
+	mov.l lbl_00001450,R2
+	add #10,R3
+	mov.l R3,@R15
+	mov.l @(R0,R11),R6
+	add #-16,R6
+	jsr @R2
+	mov R3,R5
+lbl_000013CC:
+	mov R14,R3
+	mov R11,R0
+	mov.l R3,@R15
+	mov #16,R6
+	mov.l @(R0,R10),R3
+	mov.l @(28,R13),R5
+	add R8,R3
+	add R3,R5
+	mov.l lbl_0000144C,R3
+	jsr @R3
+	mov.l @R15,R4
+	mov.l lbl_00001454,R0
+	mov R14,R6
+	mov.l @(4,R15),R3
+	add #6,R6
+	mov.l @(R0,R11),R5
+	mov R14,R4
+	add R3,R5
+	add #-6,R5
+lbl_000013F2:
+	mov.b @R5+,R3
+	mov.b R3,@R4
+	add #1,R4
+	cmp/hs R6,R4
+	bf lbl_000013F2
+	mov R11,R0
+	mov.l @(R0,R10),R3
+	mov.l @(28,R13),R13
+	add R8,R3
+	add R3,R13
+lbl_00001406:
+	jsr @R12
+	mov R14,R4
+	mov R14,R4
+	jsr @R12
+	add #32,R4
+	mov.l lbl_00001450,R2
+	mov R14,R5
+	mov #16,R6
+	jsr @R2
+	mov R13,R4
+lbl_0000141A:
+	mov #0,R0
+	add #24,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R8
+	mov.l @R15+,R9
+	mov.l @R15+,R10
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+	mov.w lbl_00001444,R3
+	extu.b R4,R5
+	cmp/ge R3,R5
+	bt/s lbl_00001460
+	mov #112,R3
+	bra lbl_00001462
+	mov #3,R4
+	nop
+lbl_00001440:
+	.data.w h'07fa
+lbl_00001442:
+	.data.w h'080a
+lbl_00001444:
+	.data.w h'0080
+	.data.w h'0000
+lbl_00001448:
+	.data.l CSG_276
+lbl_0000144C:
+	.data.l _kmiCopyFromFrameBuffer
+lbl_00001450:
+	.data.l _kmiCopyToFrameBuffer
+lbl_00001454:
+	.data.l CSG_232
+	nop
+	nop
+	nop
+	nop
+lbl_00001460:
+	mov #4,R4
+lbl_00001462:
+	cmp/ge R3,R5
+	bt lbl_0000146E
+	mov R5,R4
+	mov #-5,R2
+	add #16,R4
+	shad R2,R4
+lbl_0000146E:
+	mov.w lbl_00001480,R3
+	cmp/gt R3,R5
+	bf lbl_0000147C
+	mov R5,R4
+	mov #-5,R2
+	add #-15,R4
+	shad R2,R4
+lbl_0000147C:
+	rts
+	mov R4,R0
+lbl_00001480:
+	.data.w h'008f
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.data.w h'0000
+	.SECTION CSG,DATA,ALIGN=4
+CSG_0:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0080
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0080
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0001
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0004
+	.data.b h'0000
+	.data.b h'0000
+CSG_28:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0080
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0080
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0002
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0008
+	.data.b h'0000
+	.data.b h'0000
+CSG_56:
+	.data.b h'0006
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0008
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0010
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0030
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'00b0
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'00b0
+	.data.b h'0002
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'00b0
+	.data.b h'000a
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'00b0
+	.data.b h'002a
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'00b0
+	.data.b h'00aa
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'00b0
+	.data.b h'00aa
+	.data.b h'0002
+	.data.b h'0000
+	.data.b h'00b0
+	.data.b h'00aa
+	.data.b h'000a
+	.data.b h'0000
+CSG_100:
+	.data.b h'0002
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0008
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0020
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0080
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0002
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0008
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0020
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0080
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0002
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0008
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0020
+	.data.b h'0000
+CSG_144:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'00ac
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'00ac
+	.data.b h'0002
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'00ac
+	.data.b h'000a
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'00ac
+	.data.b h'002a
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'00ac
+	.data.b h'00aa
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'00ac
+	.data.b h'00aa
+	.data.b h'0002
+	.data.b h'0000
+	.data.b h'00ac
+	.data.b h'00aa
+	.data.b h'000a
+	.data.b h'0000
+	.data.b h'00ac
+	.data.b h'00aa
+	.data.b h'002a
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0001
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0001
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0001
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0001
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0001
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+CSG_232:
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0001
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0004
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0010
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0040
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0001
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0004
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0010
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0040
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0001
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0004
+	.data.b h'0000
+CSG_276:
+	.data.b h'0001
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0002
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0006
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0016
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0056
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0056
+	.data.b h'0001
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0056
+	.data.b h'0005
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0056
+	.data.b h'0015
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0056
+	.data.b h'0055
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0056
+	.data.b h'0055
+	.data.b h'0001
+	.data.b h'0000
+	.data.b h'0056
+	.data.b h'0055
+	.data.b h'0005
+	.data.b h'0000
+CSG_320:
+	.data.b h'0003
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0004
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0008
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0018
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0058
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0058
+	.data.b h'0001
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0058
+	.data.b h'0005
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0058
+	.data.b h'0015
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0058
+	.data.b h'0055
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0058
+	.data.b h'0055
+	.data.b h'0001
+	.data.b h'0000
+	.data.b h'0058
+	.data.b h'0055
+	.data.b h'0005
+	.data.b h'0000
+CSG_364:
+	.data.b h'0001
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0004
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0010
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0040
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0001
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0004
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0010
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0040
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0001
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0004
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0010
+	.data.b h'0000
+CSG_408:
+	.data.b h'0001
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0002
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0004
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'000c
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'002c
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'00ac
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'00ac
+	.data.b h'0002
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'00ac
+	.data.b h'000a
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'00ac
+	.data.b h'002a
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'00ac
+	.data.b h'00aa
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'00ac
+	.data.b h'00aa
+	.data.b h'0002
+	.data.b h'0000
+CSG_452:
+	.data.b h'0001
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0002
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0008
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0020
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0080
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0002
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0008
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0020
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0080
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0002
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0000
+	.data.b h'0008
+	.data.b h'0000

@@ -1,0 +1,392 @@
+	.IMPORT _njTri_Wired
+	.IMPORT _njStartVertexNonTexOpaque
+	.IMPORT _njTri_Wired_With_Tex
+	.IMPORT _njEndVertex
+	.IMPORT _njGetkmPointer
+	.IMPORT __nj_scr_aspect_x_
+	.IMPORT __nj_scr_aspect_y_
+	.IMPORT __nj_screen_
+	.IMPORT _njTri_Filled
+	.IMPORT _njSetkmPointer
+	.IMPORT _njStartVertexTexOpaque
+	.IMPORT _njTri_Filled_With_Tex
+	.IMPORT _njStartVertexNonTexTrans
+	.IMPORT _njDCalcPoint3DP2
+	.IMPORT _njDCalcPoint3DT2
+	.IMPORT _njStartVertexTexTrans
+	.IMPORT _njSetkmColorMode
+	.EXPORT _njDrawTriangle3D
+	.SECTION PSG,CODE,ALIGN=4
+_njDrawTriangle3D:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R11,@-R15
+	mov.l R10,@-R15
+	mov.l R9,@-R15
+	mov.l R8,@-R15
+	fmov FR15,@-R15
+	fmov FR14,@-R15
+	fmov FR13,@-R15
+	fmov FR12,@-R15
+	sts.l PR,@-R15
+	add #-112,R15
+	mov R4,R9
+	mov.l lbl_00000268,R4
+	mov.l lbl_0000026C,R3
+	mov #12,R0
+	mov.l lbl_00000270,R2
+	mov R5,R8
+	fmov @R4,FR4
+	mov R6,R10
+	fmov @R3,FR3
+	fmov @R2,FR2
+	fmov FR4,FR14
+	fmul FR3,FR14
+	fmov FR4,FR13
+	fmul FR2,FR13
+	fmov @(R0,R4),FR15
+	mov #16,R0
+	mov.l lbl_00000274,R1
+	jsr @R1
+	fmov @(R0,R4),FR12
+	mov.l lbl_0000027C,R3
+	mov R15,R13
+	mov #64,R4
+	mov.l lbl_00000278,R14
+	add #40,R13
+	tst R10,R3
+	mov.l R13,@(4,R15)
+	mov #32,R12
+	and R10,R4
+	bt/s lbl_0000008A
+	and R10,R12
+	tst R4,R4
+	bt lbl_0000006A
+	mov.l lbl_00000280,R4
+	jsr @R14
+	nop
+	mov.l lbl_00000284,R3
+	jsr @R3
+	nop
+	bra lbl_00000076
+	nop
+lbl_0000006A:
+	mov.l lbl_00000288,R4
+	jsr @R14
+	nop
+	mov.l lbl_0000028C,R3
+	jsr @R3
+	nop
+lbl_00000076:
+	tst R12,R12
+	bt/s lbl_00000082
+	mov R0,R14
+	mov.l lbl_00000290,R11
+	bra lbl_00000084
+	nop
+lbl_00000082:
+	mov.l lbl_00000294,R11
+lbl_00000084:
+	mov.l lbl_00000298,R12
+	bra lbl_000000BC
+	mov #24,R2
+lbl_0000008A:
+	tst R4,R4
+	bt lbl_0000009E
+	mov.l lbl_0000029C,R4
+	jsr @R14
+	nop
+	mov.l lbl_000002A0,R3
+	jsr @R3
+	nop
+	bra lbl_000000AA
+	nop
+lbl_0000009E:
+	mov.l lbl_000002A4,R4
+	jsr @R14
+	nop
+	mov.l lbl_000002A8,R3
+	jsr @R3
+	nop
+lbl_000000AA:
+	tst R12,R12
+	bt/s lbl_000000B6
+	mov R0,R14
+	mov.l lbl_000002AC,R11
+	bra lbl_000000B8
+	nop
+lbl_000000B6:
+	mov.l lbl_000002B0,R11
+lbl_000000B8:
+	mov.l lbl_000002B4,R12
+	mov #16,R2
+lbl_000000BC:
+	mov R15,R3
+	mov.l R2,@(24,R15)
+	mov #2,R2
+	add #28,R3
+	tst R10,R2
+	mov.l R3,@R15
+	bt lbl_0000019C
+	mov.l @R15,R1
+	mov #1,R6
+	mov #0,R5
+	fmov FR14,FR4
+	mov.l R1,@-R15
+	mov.l @(8,R15),R7
+	fmov FR12,FR7
+	fmov FR15,FR6
+	fmov FR13,FR5
+	jsr @R12
+	mov R9,R4
+	mov.l @R15+,R3
+	mov #1,R6
+	mov R6,R5
+	fmov FR15,FR6
+	mov.l R0,@R3
+	mov.l @(4,R15),R7
+	mov.l @(24,R15),R3
+	fmov FR12,FR7
+	add R3,R7
+	fmov FR14,FR4
+	fmov FR13,FR5
+	jsr @R12
+	mov R9,R4
+	mov #2,R10
+	mov R15,R1
+	mov R10,R2
+	mov #0,R3
+	add #36,R1
+	cmp/pl R8
+	mov.l R0,@(32,R15)
+	mov.l R3,@(20,R15)
+	mov R15,R3
+	mov.l R2,@R15
+	mov R15,R2
+	add #32,R2
+	add #28,R3
+	mov.l R3,@(8,R15)
+	mov.l R2,@(16,R15)
+	bt/s lbl_00000120
+	mov.l R1,@(12,R15)
+	bra lbl_00000240
+	nop
+lbl_00000120:
+	mov R15,R3
+	mov R10,R2
+	add #28,R3
+	fmov FR15,FR6
+	shll2 R2
+	fmov FR12,FR7
+	add R3,R2
+	fmov FR14,FR4
+	mov.l R2,@-R15
+	mov #1,R6
+	mov.l @(28,R15),R7
+	mov.l @(8,R15),R2
+	mul.l R7,R10
+	mov.l @(4,R15),R5
+	fmov FR13,FR5
+	sts MACL,R7
+	add R2,R7
+	jsr @R12
+	mov R9,R4
+	mov.l @R15+,R3
+	mov.l R0,@R3
+	mov.l @(8,R15),R0
+	mov.l @R0,R0
+	cmp/eq #-1,R0
+	bt lbl_0000017E
+	mov.l @(16,R15),R0
+	mov.l @R0,R0
+	cmp/eq #-1,R0
+	bt lbl_0000017E
+	mov.l @(12,R15),R0
+	mov.l @R0,R0
+	cmp/eq #-1,R0
+	bt lbl_0000017E
+	mov.l @(16,R15),R3
+	mov #3,R5
+	mov.l @(8,R15),R6
+	mov.l @R3,R3
+	mov.l @R6,R6
+	mov.l @(12,R15),R2
+	add R3,R6
+	mov.l @R2,R3
+	add R3,R6
+	mov R6,R7
+	mov R14,R6
+	jsr @R11
+	mov R13,R4
+	mov R0,R14
+lbl_0000017E:
+	mov #2,R2
+	add #1,R10
+	cmp/gt R2,R10
+	bf lbl_00000188
+	mov #0,R10
+lbl_00000188:
+	mov.l @(20,R15),R2
+	add #1,R2
+	cmp/ge R8,R2
+	mov.l R2,@(20,R15)
+	mov.l @R15,R3
+	add #1,R3
+	bf/s lbl_00000120
+	mov.l R3,@R15
+	bra lbl_00000240
+	nop
+lbl_0000019C:
+	mov #1,R2
+	tst R2,R10
+	bt lbl_00000206
+	mov.l @R15,R0
+	mov R2,R6
+	mov #0,R5
+	fmov FR14,FR4
+	mov.l R0,@-R15
+	mov.l @(8,R15),R7
+	fmov FR12,FR7
+	fmov FR15,FR6
+	fmov FR13,FR5
+	jsr @R12
+	mov R9,R4
+	mov.l @R15+,R3
+	cmp/eq #-1,R0
+	bt/s lbl_00000240
+	mov.l R0,@R3
+	mov #0,R3
+	cmp/pl R8
+	mov.l R3,@R15
+	mov #1,R10
+	mov.l @(4,R15),R2
+	mov.l @(24,R15),R3
+	add R3,R2
+	bf/s lbl_00000240
+	mov.l R2,@(4,R15)
+lbl_000001D2:
+	mov.l @(4,R15),R7
+	mov #2,R6
+	fmov FR14,FR4
+	mov R10,R5
+	fmov FR13,FR5
+	fmov FR12,FR7
+	fmov FR15,FR6
+	jsr @R12
+	mov R9,R4
+	cmp/eq #-1,R0
+	bt/s lbl_000001F6
+	mov R0,R6
+	mov R6,R7
+	mov #3,R5
+	mov R14,R6
+	jsr @R11
+	mov R13,R4
+	mov R0,R14
+lbl_000001F6:
+	mov.l @R15,R2
+	add #1,R2
+	cmp/ge R8,R2
+	mov.l R2,@R15
+	bf/s lbl_000001D2
+	add #2,R10
+	bra lbl_00000240
+	nop
+lbl_00000206:
+	mov #0,R3
+	cmp/pl R8
+	mov R3,R10
+	mov.l R3,@R15
+	bf lbl_00000240
+lbl_00000210:
+	mov.l @(4,R15),R7
+	mov #3,R6
+	mov R10,R5
+	fmov FR14,FR4
+	fmov FR12,FR7
+	fmov FR15,FR6
+	fmov FR13,FR5
+	jsr @R12
+	mov R9,R4
+	cmp/eq #-1,R0
+	bt/s lbl_00000234
+	mov R0,R6
+	mov R6,R7
+	mov #3,R5
+	mov R14,R6
+	jsr @R11
+	mov R13,R4
+	mov R0,R14
+lbl_00000234:
+	mov.l @R15,R2
+	add #1,R2
+	cmp/ge R8,R2
+	mov.l R2,@R15
+	bf/s lbl_00000210
+	add #3,R10
+lbl_00000240:
+	mov.l lbl_000002B8,R2
+	jsr @R2
+	mov R14,R4
+	mov.l lbl_000002BC,R3
+	jsr @R3
+	nop
+	add #112,R15
+	lds.l @R15+,PR
+	fmov @R15+,FR12
+	fmov @R15+,FR13
+	fmov @R15+,FR14
+	fmov @R15+,FR15
+	mov.l @R15+,R8
+	mov.l @R15+,R9
+	mov.l @R15+,R10
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+lbl_00000268:
+	.data.l __nj_screen_
+lbl_0000026C:
+	.data.l __nj_scr_aspect_x_
+lbl_00000270:
+	.data.l __nj_scr_aspect_y_
+lbl_00000274:
+	.data.l _njGetkmPointer
+lbl_00000278:
+	.data.l _njSetkmColorMode
+lbl_0000027C:
+	.data.l h'80000000
+lbl_00000280:
+	.data.l h'0210000A
+lbl_00000284:
+	.data.l _njStartVertexTexTrans
+lbl_00000288:
+	.data.l h'0008000A
+lbl_0000028C:
+	.data.l _njStartVertexTexOpaque
+lbl_00000290:
+	.data.l _njTri_Filled_With_Tex
+lbl_00000294:
+	.data.l _njTri_Wired_With_Tex
+lbl_00000298:
+	.data.l _njDCalcPoint3DT2
+lbl_0000029C:
+	.data.l h'02100002
+lbl_000002A0:
+	.data.l _njStartVertexNonTexTrans
+lbl_000002A4:
+	.data.l h'00080002
+lbl_000002A8:
+	.data.l _njStartVertexNonTexOpaque
+lbl_000002AC:
+	.data.l _njTri_Filled
+lbl_000002B0:
+	.data.l _njTri_Wired
+lbl_000002B4:
+	.data.l _njDCalcPoint3DP2
+lbl_000002B8:
+	.data.l _njEndVertex
+lbl_000002BC:
+	.data.l _njSetkmPointer

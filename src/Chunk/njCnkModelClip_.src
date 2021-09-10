@@ -1,0 +1,92 @@
+	.IMPORT __nj_near_clip_
+	.IMPORT __nj_scr_aspect_x_
+	.IMPORT __nj_scr_aspect_y_
+	.IMPORT __nj_screen_
+	.IMPORT __nj_far_clip_
+	.IMPORT __nj_2d_clip_
+	.EXPORT _njCnkModelClip
+	.SECTION PSG,CODE,ALIGN=4
+_njCnkModelClip:
+	add #8,R4
+	fmov @R4+,FR4
+	fmov @R4+,FR5
+	fmov @R4+,FR6
+	fldi1 FR7
+	ftrv XMTRX,FV4
+	fmov @R4+,FR8
+	mov.l lbl_00000088,R1
+	fmov @R1,FR1
+	fadd FR8,FR1
+	mov.l lbl_0000008C,R1
+	fcmp/gt FR1,FR6
+	fadd FR8,FR6
+	bt lbl_00000082
+	fmov @R1,FR1
+	fldi1 FR0
+	fcmp/gt FR1,FR6
+	fdiv FR6,FR0
+	bf lbl_00000082
+	mov.l lbl_00000090,R1
+	mov.l lbl_00000094,R2
+	mov.l lbl_00000098,R3
+	mov.l lbl_0000009C,R4
+	fmov @R1,FR1
+	fmov @R2,FR2
+	fmov @R3,FR3
+	fmul FR1,FR2
+	add #12,R1
+	fmul FR1,FR3
+	fmov @R1+,FR9
+	fmul FR0,FR2
+	fmov @R1+,FR10
+	fmul FR0,FR3
+	fmov FR4,FR0
+	fsub FR8,FR0
+	mov #8,R0
+	fmul FR2,FR0
+	fmov @(R0,R4),FR1
+	fadd FR9,FR0
+	mov #0,R0
+	fcmp/gt FR1,FR0
+	fmov FR4,FR0
+	bt/s lbl_00000082
+	fadd FR8,FR0
+	fmov @(R0,R4),FR1
+	fmac FR0,FR2,FR9
+	fmov FR5,FR0
+	fcmp/gt FR9,FR1
+	fsub FR8,FR0
+	bt/s lbl_00000082
+	mov #12,R0
+	fmul FR3,FR0
+	fmov @(R0,R4),FR1
+	fadd FR10,FR0
+	mov #4,R0
+	fcmp/gt FR1,FR0
+	fmov FR5,FR0
+	bt/s lbl_00000082
+	fadd FR8,FR0
+	fmov @(R0,R4),FR1
+	fmac FR0,FR3,FR10
+	fcmp/gt FR10,FR1
+	bt lbl_00000082
+	rts
+	mov #0,R0
+lbl_00000082:
+	rts
+	mov #1,R0
+	nop
+lbl_00000088:
+	.data.l __nj_far_clip_
+lbl_0000008C:
+	.data.l __nj_near_clip_
+lbl_00000090:
+	.data.l __nj_screen_
+lbl_00000094:
+	.data.l __nj_scr_aspect_x_
+lbl_00000098:
+	.data.l __nj_scr_aspect_y_
+lbl_0000009C:
+	.data.l __nj_2d_clip_
+	rts
+	nop

@@ -1,0 +1,25 @@
+	.EXPORT _njGetMatrix
+	.SECTION PSG,CODE,ALIGN=4
+_njGetMatrix:
+	add #64,R4
+	frchg
+	fmov FR15,@-R4
+	fmov FR14,@-R4
+	fmov FR13,@-R4
+	fmov FR12,@-R4
+	fmov FR11,@-R4
+	fmov FR10,@-R4
+	fmov FR9,@-R4
+	fmov FR8,@-R4
+	fmov FR7,@-R4
+	fmov FR6,@-R4
+	fmov FR5,@-R4
+	fmov FR4,@-R4
+	fmov FR3,@-R4
+	fmov FR2,@-R4
+	fmov FR1,@-R4
+	fmov FR0,@-R4
+	frchg
+	nop
+	rts
+	nop

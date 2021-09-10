@@ -1,0 +1,357 @@
+	.IMPORT _kmQueryFinishLastTextureDMA
+	.IMPORT _njCreateTextureSurface
+	.IMPORT _njTexFread
+	.IMPORT _syCacheOCWB
+	.IMPORT _njCacheTextureMalloc
+	.IMPORT _njTexFseek
+	.IMPORT _njGetSurfacePvr
+	.IMPORT _njLoadTextureLow
+	.IMPORT _njGetInfoPvr
+	.IMPORT __nj_texture_buffer_max_size
+	.IMPORT __nj_texture_buffer_st
+	.IMPORT _kmFreeTexture
+	.IMPORT __nj_texerr_
+	.IMPORT _njMemCopy
+	.IMPORT _njLoadTexturePart
+	.EXPORT _njLoadTexMemFromMemory
+	.EXPORT _njLoadCacheFromMemory
+	.EXPORT _njLoadTexMemFromFile
+	.EXPORT _njGetInfoMemory
+	.EXPORT _njLoadCacheFromFile
+	.EXPORT __nj_file_buffer
+	.SECTION PSG,CODE,ALIGN=4
+_njLoadTexMemFromFile:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	mov.l R11,@-R15
+	mov.l R10,@-R15
+	mov.l R9,@-R15
+	mov.l R8,@-R15
+	sts.l PR,@-R15
+	add #-24,R15
+	mov R5,R10
+	mov R4,R5
+	mov.l lbl_00000220,R3
+	mov R15,R6
+	mov.l R4,@(4,R15)
+	mov.l @(4,R5),R5
+	jsr @R3
+	mov R10,R4
+	cmp/pz R0
+	bt/s lbl_0000002C
+	mov R0,R4
+	bra lbl_000000B4
+	mov R4,R0
+lbl_0000002C:
+	mov.l @R15,R3
+	mov.l @(24,R10),R13
+	add #-8,R3
+	cmp/gt R13,R3
+	mov.l R3,@R15
+	bf/s lbl_00000040
+	mov #0,R5
+	sub R13,R3
+	bra lbl_00000044
+	mov.l R3,@R15
+lbl_00000040:
+	mov.l R5,@R15
+	mov R3,R13
+lbl_00000044:
+	mov.l lbl_00000224,R9
+	mov.l @R9,R4
+	cmp/hi R4,R13
+	bt/s lbl_00000052
+	mov R5,R12
+	bra lbl_00000054
+	mov R13,R14
+lbl_00000052:
+	mov R4,R14
+lbl_00000054:
+	cmp/pl R13
+	bf lbl_000000A4
+	mov.l lbl_0000022C,R11
+	mov.l lbl_00000228,R8
+lbl_0000005C:
+	mov.l lbl_00000230,R2
+	mov R14,R5
+	jsr @R2
+	mov.l @R11,R4
+	cmp/pz R0
+	bt lbl_00000074
+	mov.l lbl_00000234,R2
+	mov R10,R4
+	jsr @R2
+	add #4,R4
+	bra lbl_000000B4
+	mov #-1,R0
+lbl_00000074:
+	mov.l lbl_00000238,R3
+	mov R14,R5
+	jsr @R3
+	mov.l @R11,R4
+	mov.l @R11,R5
+	mov R14,R7
+	mov.l lbl_0000023C,R2
+	mov R10,R4
+	mov R12,R6
+	jsr @R2
+	add #4,R4
+	mov.l @R9,R3
+	mov R13,R4
+	add R14,R12
+	sub R12,R4
+	cmp/hs R3,R4
+	bt lbl_00000098
+	mov R4,R14
+lbl_00000098:
+	jsr @R8
+	nop
+	tst R0,R0
+	bf lbl_00000098
+	cmp/eq R13,R12
+	bf lbl_0000005C
+lbl_000000A4:
+	mov.l @R15,R2
+	cmp/pl R2
+	bf lbl_000000B2
+	mov.l lbl_00000240,R3
+	mov #1,R5
+	jsr @R3
+	mov.l @R15,R4
+lbl_000000B2:
+	mov #1,R0
+lbl_000000B4:
+	add #24,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R8
+	mov.l @R15+,R9
+	mov.l @R15+,R10
+	mov.l @R15+,R11
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+_njLoadCacheFromFile:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	sts.l PR,@-R15
+	add #-24,R15
+	mov R5,R12
+	mov R4,R5
+	mov.l lbl_00000244,R3
+	mov R15,R6
+	mov.l R4,@(4,R15)
+	mov.l @(4,R5),R5
+	jsr @R3
+	mov R12,R4
+	cmp/pz R0
+	bt/s lbl_000000EC
+	mov R0,R4
+	bra lbl_00000144
+	mov R4,R0
+lbl_000000EC:
+	mov.l @R15,R3
+	mov.l @(24,R12),R14
+	add #-8,R3
+	cmp/gt R14,R3
+	bf/s lbl_000000FE
+	mov.l R3,@R15
+	sub R14,R3
+	bra lbl_00000104
+	mov.l R3,@R15
+lbl_000000FE:
+	mov #0,R1
+	mov R3,R14
+	mov.l R1,@R15
+lbl_00000104:
+	mov.l lbl_00000248,R3
+	jsr @R3
+	mov R14,R4
+	mov R0,R13
+	tst R13,R13
+	bf lbl_0000011A
+	mov.l lbl_0000024C,R2
+	mov #7,R3
+	mov.l R3,@R2
+	bra lbl_00000144
+	mov #-7,R0
+lbl_0000011A:
+	mov.l lbl_00000230,R3
+	mov R14,R5
+	jsr @R3
+	mov R13,R4
+	cmp/pz R0
+	bt lbl_0000012A
+	bra lbl_00000144
+	mov #-5,R0
+lbl_0000012A:
+	mov.l lbl_00000238,R3
+	mov R14,R5
+	jsr @R3
+	mov R13,R4
+	mov.l @R15,R2
+	cmp/pl R2
+	bf lbl_00000140
+	mov.l lbl_00000240,R3
+	mov #1,R5
+	jsr @R3
+	mov.l @R15,R4
+lbl_00000140:
+	mov #1,R0
+	mov.l R13,@R12
+lbl_00000144:
+	add #24,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+_njLoadCacheFromMemory:
+	mov.l R14,@-R15
+	mov.l R13,@-R15
+	mov.l R12,@-R15
+	sts.l PR,@-R15
+	add #-16,R15
+	mov R5,R14
+	bsr _njGetInfoMemory
+	mov R5,R4
+	cmp/pz R0
+	bt/s lbl_0000016A
+	mov R0,R4
+	bra lbl_00000198
+	mov R4,R0
+lbl_0000016A:
+	mov.l lbl_00000248,R3
+	mov.l @(24,R14),R12
+	jsr @R3
+	mov R12,R4
+	mov R0,R13
+	tst R13,R13
+	bf lbl_00000182
+	mov.l lbl_0000024C,R2
+	mov #7,R3
+	mov.l R3,@R2
+	bra lbl_00000198
+	mov #-7,R0
+lbl_00000182:
+	mov.l lbl_00000250,R3
+	mov R12,R6
+	mov.l @R14,R5
+	jsr @R3
+	mov R13,R4
+	mov.l lbl_00000238,R2
+	mov R12,R5
+	jsr @R2
+	mov R13,R4
+	mov #1,R0
+	mov.l R13,@R14
+lbl_00000198:
+	add #16,R15
+	lds.l @R15+,PR
+	mov.l @R15+,R12
+	mov.l @R15+,R13
+	rts
+	mov.l @R15+,R14
+_njLoadTexMemFromMemory:
+	mov.l R14,@-R15
+	mov R5,R14
+	sts.l PR,@-R15
+	bsr _njGetInfoMemory
+	mov R5,R4
+	cmp/pz R0
+	bt/s lbl_000001BC
+	mov R0,R4
+	lds.l @R15+,PR
+	mov R4,R0
+	rts
+	mov.l @R15+,R14
+lbl_000001BC:
+	mov.l lbl_00000254,R3
+	mov R14,R4
+	mov.l @R14,R5
+	jsr @R3
+	add #4,R4
+	tst R0,R0
+	bt lbl_000001E0
+	mov.l lbl_00000234,R3
+	mov R14,R4
+	jsr @R3
+	add #4,R4
+	mov.l lbl_0000024C,R3
+	mov #8,R2
+	mov #-8,R0
+	mov.l R2,@R3
+	lds.l @R15+,PR
+	rts
+	mov.l @R15+,R14
+lbl_000001E0:
+	mov.l lbl_00000228,R14
+lbl_000001E2:
+	jsr @R14
+	nop
+	tst R0,R0
+	bf lbl_000001E2
+	mov #1,R0
+	lds.l @R15+,PR
+	rts
+	mov.l @R15+,R14
+_njGetInfoMemory:
+	mov.l R14,@-R15
+	mov R4,R14
+	sts.l PR,@-R15
+	mov.l @(4,R14),R7
+	mov.l lbl_00000258,R2
+	mov.l @(16,R14),R5
+	shlr16 R7
+	mov.l @(20,R14),R6
+	jsr @R2
+	add #4,R4
+	tst R0,R0
+	bt lbl_00000218
+	mov.l lbl_0000024C,R3
+	mov #6,R2
+	mov #-6,R0
+	mov.l R2,@R3
+	lds.l @R15+,PR
+	rts
+	mov.l @R15+,R14
+lbl_00000218:
+	mov #1,R0
+	lds.l @R15+,PR
+	rts
+	mov.l @R15+,R14
+lbl_00000220:
+	.data.l _njGetSurfacePvr
+lbl_00000224:
+	.data.l __nj_texture_buffer_max_size
+lbl_00000228:
+	.data.l _kmQueryFinishLastTextureDMA
+lbl_0000022C:
+	.data.l __nj_texture_buffer_st
+lbl_00000230:
+	.data.l _njTexFread
+lbl_00000234:
+	.data.l _kmFreeTexture
+lbl_00000238:
+	.data.l _syCacheOCWB
+lbl_0000023C:
+	.data.l _njLoadTexturePart
+lbl_00000240:
+	.data.l _njTexFseek
+lbl_00000244:
+	.data.l _njGetInfoPvr
+lbl_00000248:
+	.data.l _njCacheTextureMalloc
+lbl_0000024C:
+	.data.l __nj_texerr_+8
+lbl_00000250:
+	.data.l _njMemCopy
+lbl_00000254:
+	.data.l _njLoadTextureLow
+lbl_00000258:
+	.data.l _njCreateTextureSurface
+	.SECTION BSG32,DATA,ALIGN=32
+__nj_file_buffer:
+	.res.b h'800

@@ -1,0 +1,163 @@
+	.IMPORT __nj_near_clip_
+	.IMPORT __nj_far_clip_
+	.EXPORT _njDCalcPoint3DP2
+	.EXPORT _njDCalcPoint3DT2
+	.SECTION PSG,CODE,ALIGN=4
+_njDCalcPoint3DT2:
+	mov.l R10,@-R15
+	mov.l R9,@-R15
+	mov.l R8,@-R15
+	mov.l @R4+,R2
+	mov.l @R4+,R8
+	mov.l @R4+,R9
+	add #24,R7
+	mov R5,R0
+	mov R5,R4
+	shll2 R0
+	shll2 R4
+	shll R0
+	add R4,R0
+	add R4,R8
+	add R4,R9
+	add R0,R2
+	mova lbl_000000A4,R0
+	mov R2,R4
+	mov.l lbl_0000009C,R2
+	mov.l lbl_000000A0,R3
+	fmov @R0,FR8
+	mov #0,R0
+lbl_0000002C:
+	mov #0,R1
+	fmov @R4+,FR0
+	cmp/eq R1,R8
+	fldi1 FR3
+	fmov @R4+,FR1
+	fmov @R4+,FR2
+	ftrv XMTRX,FV0
+	fmov @R3,FR11
+	bf/s lbl_00000042
+	mov.l @R8+,R10
+	mov.l lbl_00000088,R10
+lbl_00000042:
+	fcmp/gt FR11,FR2
+	fdiv FR2,FR3
+	mov.w @R9+,R1
+	fmov @R2,FR11
+	bt lbl_0000008C
+	fmul FR4,FR0
+	fcmp/gt FR11,FR2
+	fmul FR5,FR1
+	lds R1,FPUL
+	fmul FR3,FR0
+	float FPUL,FR9
+	mov.w @R9+,R1
+	fmul FR3,FR1
+	lds R1,FPUL
+	fadd FR6,FR0
+	float FPUL,FR2
+	fadd FR7,FR1
+	fmov FR0,@-R7
+	fmul FR8,FR9
+	fmov FR1,@-R7
+	fmov FR3,@-R7
+	fmul FR8,FR2
+	fmov FR9,@-R7
+	fmov FR2,@-R7
+	mov.l R10,@-R7
+	add #48,R7
+	bt lbl_0000007A
+	mov #1,R0
+lbl_0000007A:
+	dt R6
+	bf lbl_0000002C
+	mov.l @R15+,R8
+	mov.l @R15+,R9
+	rts
+	mov.l @R15+,R10
+	.data.w h'0000
+lbl_00000088:
+	.data.l h'FFFFFFFF
+lbl_0000008C:
+	mov #-1,R0
+	mov.l @R15+,R8
+	mov.l @R15+,R9
+	rts
+	mov.l @R15+,R10
+	nop
+	.data.w h'FFFF
+	.data.w h'FFFF
+lbl_0000009C:
+	.data.l __nj_near_clip_
+lbl_000000A0:
+	.data.l __nj_far_clip_
+lbl_000000A4:
+	.data.l h'3B800000
+	rts
+	nop
+_njDCalcPoint3DP2:
+	mov.l R8,@-R15
+	mov.l @R4+,R2
+	mov.l @R4+,R8
+	add #16,R7
+	mov R5,R0
+	mov R5,R4
+	shll2 R0
+	shll2 R4
+	shll R0
+	add R4,R0
+	add R4,R8
+	add R0,R2
+	mov #0,R1
+	mov R2,R4
+	mova lbl_00000118,R0
+	fmov @R0,FR10
+	mov.l lbl_0000011C,R2
+	mov #0,R0
+	mov.l lbl_00000120,R3
+lbl_000000D2:
+	cmp/eq R1,R8
+	fmov @R4+,FR0
+	fldi1 FR3
+	fmov @R4+,FR1
+	fmov @R4+,FR2
+	ftrv XMTRX,FV0
+	fmov @R3,FR11
+	bt/s lbl_000000E6
+	fmov FR10,FR9
+	fmov @R8+,FR9
+lbl_000000E6:
+	fcmp/gt FR11,FR2
+	fdiv FR2,FR3
+	fmov @R2,FR8
+	bt lbl_00000112
+	fmul FR4,FR0
+	fcmp/gt FR8,FR2
+	fmul FR5,FR1
+	fmul FR3,FR0
+	fmul FR3,FR1
+	fadd FR6,FR0
+	fadd FR7,FR1
+	fmov FR0,@-R7
+	fmov FR1,@-R7
+	fmov FR3,@-R7
+	fmov FR9,@-R7
+	add #32,R7
+	bt lbl_0000010A
+	mov #1,R0
+lbl_0000010A:
+	dt R6
+	bf lbl_000000D2
+	rts
+	mov.l @R15+,R8
+lbl_00000112:
+	mov #-1,R0
+	rts
+	mov.l @R15+,R8
+lbl_00000118:
+	.data.l h'FFFFFFFF
+lbl_0000011C:
+	.data.l __nj_near_clip_
+lbl_00000120:
+	.data.l __nj_far_clip_
+	rts
+	nop
