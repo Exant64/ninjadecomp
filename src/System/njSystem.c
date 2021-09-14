@@ -120,14 +120,14 @@ void njInitGlobal()
     do
     {
         njInitContext(&_nj_context_[i]);
-        _nj_ctx_color_mode_[i] = 0x80012;
+        _nj_ctx_color_mode_[i] = 0x80012; //NJD_ARC1_OPAQUE|NJD_ARC1_FLOAT|NJD_ARC1_NORMAL
     } 
     while (i < 6);
     
     njInitContext(&_nj_background_ctx_);
     _nj_background_ctx_.RenderState = 0xC0;
-    _nj_background_ctx_.SRCBlendingMode = 0xA;
-    _nj_background_ctx_.DSTBlendingMode = 0xB;
+    _nj_background_ctx_.SRCBlendingMode = 0xA; //NJD_COLOR_BLENDING_ONE
+    _nj_background_ctx_.DSTBlendingMode = 0xB; //NJD_COLOR_BLENDING_ZERO
     kmProcessVertexRenderState(&_nj_background_ctx_);
     kmSetBackGroundRenderState(&_nj_background_ctx_);
     njInitSprite();

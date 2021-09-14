@@ -1,6 +1,8 @@
 PROJECT = View
 
 PROJECT_SRC     = \
+                njClip2D_.src\
+                njClipZ_.src\
                 njForwardCameraPosition_.src\
                 njForwardViewAbsolute_.src\
                 njForwardViewRelative_.src\

@@ -3,9 +3,7 @@ PROJECT = Draw
 PROJECT_SRC     = \
                 debugvq_.src\
                 njCellSprite_.src\
-                njClip2D_.src\
-                njClipZ_.src\
-                njControl_.src\
+                njControl.c\
                 njDebug_.src\
                 njDirectDrawClip_.src\
                 njDirectDraw_.src\
@@ -28,7 +26,7 @@ PROJECT_SRC     = \
                 njModelGlobal_.src\
                 njModelS_.src\
                 njModel_.src\
-                njQuad_.src\
+                njQuad.c\
                 njScroll_.src\
                 njSprite_.src\
                 njTri_Filled_.src\

@@ -1,4 +1,5 @@
 tools/
-Include/
+Include/*
+!Include/NinjaDev.h
 dc.inc
 .vscode/

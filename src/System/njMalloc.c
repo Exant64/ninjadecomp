@@ -2,7 +2,7 @@
 
 void *njMalloc(unsigned int nbytes)
 {
-    return syMalloc(nbytes);
+    return (void*)syMalloc(nbytes);
 }
 
 void njFree(void *ap)

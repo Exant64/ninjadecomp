@@ -4,6 +4,19 @@
 #include "KAMUI.H"
 #include "sg_chain.h"
 #include "sg_tmr.h"
+
+//it gets created as a function which is pretty weird, so ill split it up, not sure what to do about it
+#define NJD_GET_MAPPING_ADDRESS_(addr)	\
+		((PKMDWORD)(((KMDWORD)(addr) & 0x03FFFFFF) | 0xE0000000)); \
+		_nj_sq_base_ = (KMDWORD)addr & 0xFC000000; \
+		*((volatile PKMDWORD)(0xFF000038)) = *((volatile PKMDWORD)(0xFF00003C)) = (KMDWORD)(addr) >> 24;
+
+#define NJD_GET_MAPPING_ADDRESS(addr) ((PKMDWORD)(((KMDWORD)(addr) & 0x03FFFFFF) | 0xE0000000)); 
+#define NJD_GET_SQ(addr)	\
+						 	_nj_sq_base_ = (PKMDWORD)((KMDWORD)addr & 0xFC000000); \
+							*((volatile PKMDWORD)(0xFF000038)) = *((volatile PKMDWORD)(0xFF00003C)) = ((KMDWORD)(addr) >> 24) & 0x1C;
+
+
 enum	{
 	NJD_SYSTEM_CTX,
 	NJD_MODIFIER0_CTX,
@@ -16,6 +29,41 @@ enum	{
 extern void	njSetCurrentContext( int ctx );
 
 extern void _NJ_GO_TO_LOOP();
+
+//njKm
+
+#define NJD_KM_ZBUFFER_MODE 0x4000000
+#define NJD_KM_MIPMAP_MASK 0xFFFFF0FF
+#define NJD_KM_TEXFILTER_MASK 0xFFFF9FFF
+#define NJD_KM_SUPERSAMPLE_MODE 0x1000
+#define NJD_KM_TEXCLAMP_MASK 0xFFFE7FFF
+#define NJD_KM_TEXFLIP_MASK 0xFFF9FFFF
+#define NJD_KM_POLYCULL_MASK 0xE7FFFFFF
+#define NJD_KM_SPECULAR_MODE 4
+#define NJD_KM_ALPHA_MODE 0x100000
+#define NJD_KM_IGNORETEXTUREALPHA_MODE 0x80000
+#define NJD_KM_TEXSHADE_MASK 0xFFFFFF3F
+
+typedef struct NJS_PARAMETERKM{
+	KMDWORD GLOBALPARAMBUFFER; //0
+	KMDWORD ISPPARAMBUFFER; //4
+	KMDWORD TSPPARAMBUFFER; //8
+	KMDWORD TexturePARAMBUFFER; //C
+
+	PKMDWORD OpaquePoly; //10
+	PKMDWORD PrimTransPoly; //14
+	PKMDWORD SecondTransPoly; //18
+	PKMDWORD OpaqueMod; //1C
+	PKMDWORD TransMod; //20
+} NJS_PARAMETERKM;
+
+Sint32 njSetkmTextureNumG(Sint32 gid);
+Sint32 njSetkmTextureNum(Sint32 texid);
+void njEndVertex(PKMDWORD ptr);
+extern PKMDWORD _nj_sq_base_;
+extern NJS_PARAMETERKM _nj_parameterkm_;
+
+//njkm end
 
 extern Int volatile  _nj_eor_flag_;
 extern Int volatile  _nj_eov_flag_;
