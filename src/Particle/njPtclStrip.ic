@@ -1,59 +1,21 @@
-	.IMPORT __nj_near_clip_
-	.IMPORT _njStartVertexNonTexOpaque
-	.IMPORT _njEndVertex
-	.IMPORT _njGetkmPointer
-	.IMPORT __nj_scr_aspect_x_
-	.IMPORT __nj_scr_aspect_y_
-	.IMPORT __nj_screen_
-	.IMPORT __nj_far_clip_
-	.IMPORT _njSetkmPointer
-	.IMPORT _njSetkmColorMode
-	.IMPORT __nj_ptcl_sq_ptr_
-	.EXPORT _njPtclStrip
-	.EXPORT _njPtclStripStart
-	.EXPORT _njPtclStripEnd
-	.SECTION PSG,CODE,ALIGN=4
-_njPtclStripStart:
-	sts.l PR,@-R15
-	mov.l lbl_00000030,R3
-	jsr @R3
-	nop
-	mov.l lbl_00000038,R2
-	mov.l lbl_00000034,R4
-	jsr @R2
-	nop
-	mov.l lbl_0000003C,R3
-	jsr @R3
-	nop
-	lds.l @R15+,PR
-	mov.l lbl_00000040,R2
-	rts
-	mov.l R0,@R2
-_njPtclStripEnd:
-	sts.l PR,@-R15
-	mov.l lbl_00000044,R2
-	mov.l lbl_00000040,R3
-	jsr @R2
-	mov.l @R3,R4
-	mov.l lbl_00000048,R1
-	jmp @R1
-	lds.l @R15+,PR
-	.data.w h'0000
-lbl_00000030:
-	.data.l _njGetkmPointer
-lbl_00000034:
-	.data.l h'00080002
-lbl_00000038:
-	.data.l _njSetkmColorMode
-lbl_0000003C:
-	.data.l _njStartVertexNonTexOpaque
-lbl_00000040:
-	.data.l __nj_ptcl_sq_ptr_
-lbl_00000044:
-	.data.l _njEndVertex
-lbl_00000048:
-	.data.l _njSetkmPointer
-_njPtclStrip:
+#include <NinjaDev.h>
+
+extern PKMDWORD _nj_ptcl_sq_ptr_;
+PKMDWORD njStartVertexNonTexOpaque();
+void njPtclStripStart()
+{
+    njGetkmPointer();
+    njSetkmColorMode(NJD_ARC1_OPAQUE | NJD_ARC1_NORMAL);
+    _nj_ptcl_sq_ptr_ = njStartVertexNonTexOpaque();
+}
+void njPtclStripEnd()
+{
+    njEndVertex(_nj_ptcl_sq_ptr_);
+    njSetkmPointer();
+}
+#pragma inline_asm(njPtclStrip)
+void	njPtclStrip( NJS_POINT3 *p, Uint32 col, Sint32 n )
+{
 	mov.l lbl_000000E8,R1
 	fmov @R1,FR5
 	mov.l lbl_000000EC,R1
@@ -134,6 +96,11 @@ lbl_000000E2:
 	rts
 	nop
 	nop
+	.IMPORT __nj_near_clip_
+	.IMPORT __nj_far_clip_
+	.IMPORT __nj_screen_
+	.IMPORT __nj_scr_aspect_x_
+	.IMPORT __nj_scr_aspect_y_
 lbl_000000E8:
 	.data.l __nj_near_clip_
 lbl_000000EC:
@@ -150,5 +117,4 @@ lbl_00000100:
 	.data.l h'E0000000
 lbl_00000104:
 	.data.l h'F0000000
-	rts
-	nop
+}

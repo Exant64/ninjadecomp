@@ -1,75 +1,28 @@
-	.IMPORT __nj_near_clip_
-	.IMPORT _njEndVertex
-	.IMPORT _njGetkmPointer
-	.IMPORT __nj_scr_aspect_x_
-	.IMPORT __nj_scr_aspect_y_
-	.IMPORT __nj_screen_
-	.IMPORT __nj_far_clip_
-	.IMPORT _njStartVertexTexSpriteOpaque
-	.IMPORT _njSetkmPointer
-	.IMPORT _njSetkmTextureNum
-	.IMPORT _njStartVertexTexSpriteTrans
-	.IMPORT __nj_ptcl_sq_ptr_
-	.EXPORT _njPtclSpriteStart
-	.EXPORT _njPtclDrawSprite
-	.EXPORT _njPtclSpriteEnd
-	.SECTION PSG,CODE,ALIGN=4
-_njPtclSpriteStart:
-	sts.l PR,@-R15
-	add #-12,R15
-	mov.l lbl_00000048,R3
-	mov.l R4,@(8,R15)
-	mov.l R5,@R15
-	jsr @R3
-	mov.l R6,@(4,R15)
-	mov.l lbl_0000004C,R3
-	jsr @R3
-	mov.l @(8,R15),R4
-	mov.l @(4,R15),R2
-	tst R2,R2
-	bt lbl_00000024
-	mov.l lbl_00000050,R3
-	jsr @R3
-	mov.l @R15,R4
-	bra lbl_0000002A
-	nop
-lbl_00000024:
-	mov.l lbl_00000054,R3
-	jsr @R3
-	mov.l @R15,R4
-lbl_0000002A:
-	mov.l lbl_00000058,R2
-	mov.l R0,@R2
-	add #12,R15
-	lds.l @R15+,PR
-	rts
-	nop
-_njPtclSpriteEnd:
-	sts.l PR,@-R15
-	mov.l lbl_0000005C,R2
-	mov.l lbl_00000058,R3
-	jsr @R2
-	mov.l @R3,R4
-	mov.l lbl_00000060,R1
-	jmp @R1
-	lds.l @R15+,PR
-	.data.w h'0000
-lbl_00000048:
-	.data.l _njGetkmPointer
-lbl_0000004C:
-	.data.l _njSetkmTextureNum
-lbl_00000050:
-	.data.l _njStartVertexTexSpriteTrans
-lbl_00000054:
-	.data.l _njStartVertexTexSpriteOpaque
-lbl_00000058:
-	.data.l __nj_ptcl_sq_ptr_
-lbl_0000005C:
-	.data.l _njEndVertex
-lbl_00000060:
-	.data.l _njSetkmPointer
-_njPtclDrawSprite:
-	fmov FR13,@-R15
+#include <NinjaDev.h>
+extern PKMDWORD _nj_ptcl_sq_ptr_;
+PKMDWORD njStartVertexTexSpriteOpaque(Uint32 col);
+PKMDWORD njStartVertexTexSpriteTrans(Uint32 col);
+
+void njPtclSpriteStart( Sint32 texid, Uint32 col, Sint32 flag )
+{
+    njGetkmPointer();
+    njSetkmTextureNum(texid);
+    if(flag)
+        _nj_ptcl_sq_ptr_= njStartVertexTexSpriteTrans(col);
+    else 
+        _nj_ptcl_sq_ptr_= njStartVertexTexSpriteOpaque(col);
+}
+
+void njPtclSpriteEnd()
+{
+    njEndVertex(_nj_ptcl_sq_ptr_);
+    njSetkmPointer();
+}
+
+#pragma inline_asm(njPtclDrawSprite)
+void njPtclDrawSprite(NJS_POINT3 *p, Sint32 n, Float w, Float h)
+{
+    fmov FR13,@-R15
 	fmov FR12,@-R15
 	mov.l R8,@-R15
 	mov.l lbl_00000128,R1
@@ -170,6 +123,12 @@ lbl_00000112:
 	rts
 	mov.l R1,@R3
 	nop
+	.IMPORT __nj_near_clip_
+	.IMPORT __nj_far_clip_
+	.IMPORT __nj_screen_
+	.IMPORT __nj_scr_aspect_x_
+	.IMPORT __nj_scr_aspect_y_
+	.IMPORT __nj_2d_clip_
 lbl_00000128:
 	.data.l __nj_near_clip_
 lbl_0000012C:
@@ -187,8 +146,7 @@ lbl_00000140:
 lbl_00000144:
 	.data.l h'00003F80
 lbl_00000148:
-	.data.l _njPtclSpriteStart
+	.data.l 0
 lbl_0000014C:
 	.data.l h'3F800000
-	rts
-	nop
+}

@@ -1,10 +1,10 @@
 PROJECT = Particle
 
 PROJECT_SRC     = \
-                njPtclModel_.src\
-                njPtclPolygon_.src\
-                njPtclSprite_.src\
-                njPtclStrip_.src\
+                njPtclModel.c\
+                njPtclPolygon.ic\
+                njPtclSprite.ic\
+                njPtclStrip.ic\
 
 OPTIMIZE =      1
 
