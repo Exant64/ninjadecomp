@@ -5,7 +5,7 @@ PROJECT_LIBS = \
 		Simple\exe\ChunkSimple
 
 PROJECT_SRC	= \
-		njCnkCompileSize_.src\
+		njCnkCompileSize.c\
 		njCnkCompile_.src\
 		njCnkDirectPolygon_.src\
 		njCnkDirectTexture_.src\
