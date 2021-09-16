@@ -6,10 +6,10 @@ PROJECT_LIBS = \
 
 PROJECT_SRC	= \
 		njCnkCompileSize.c\
-		njCnkCompile_.src\
+		njCnkCompile.c\
 		njCnkDirectPolygon_.src\
 		njCnkDirectTexture_.src\
-		njCnkDirectVertex_.src\
+		njCnkDirectVertex.c\
 		njCnkDirect_.src\
 		njCnkModelClip_.src\
 		njCnkModelE2p_.src\
