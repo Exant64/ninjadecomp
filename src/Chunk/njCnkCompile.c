@@ -143,6 +143,69 @@ void njCnkDirectVlist(Uint16* vlist, NJS_DIRECT_BUF* buf)
         (Uint8*)vl += ((size * 2) - 2) * 2;
     }
 }
+void njCnkSetMaterial( Uint32 data, Uint32 *plist, Float *diff, Float *ambi, Float *spec );
+Sint32 njSetkmCnkTextureNum(Uint32 a, Uint32 b);
+void njSetkmCnkBlendMode(Uint32 p);
+Uint32	njCnkDirectPlist( Uint16* vl, NJS_DIRECT_BUF* buf, NJS_DIRECT_GLOBAL* head )
+{
+    Sint16 type;
+    Uint16 size;
+    Uint16 val;
+    int i = 0;
+
+    while((type = *vl++) != 0x00FF)
+    {
+        Uint16 data = type;
+        if(type < 8)
+        {
+            if(type == 1)
+                njSetkmCnkBlendMode(data);
+            else if(type == 2)
+                ;
+            else if(type == 3)
+                ;
+        }
+        else
+        {
+            if(type < 16)
+                njSetkmCnkTextureNum(data,*vl++);
+            else
+            {
+                if(type < 64)
+                {
+                    njCnkSetMaterial(data,(Uint32*)vl, (Float*)&_nj_direct_col, 0, (Float*)&_nj_direct_spec);
+                    (Uint8*)vl += (*vl++ << 1);
+                }
+                else
+                {
+                    size = *vl++;
+                    val = *vl++;
+
+                    if(_nj_control_3d_flag_ & NJD_CONTROL_3D_CNK_CONSTANT_ATTR)
+                    {
+                        type &= _nj_constant_attr_and_;
+                        type |= _nj_constant_attr_or_;
+                    }
+
+                    if(!unk_A90)
+                    {
+
+                    }
+                    else
+                    {
+
+                    }
+
+                    _nj_direct_vertex_cnt_++;
+                    (Uint8*)vl += ((size-1) * 2);       
+                }
+                
+            } 
+                
+        }
+    }
+    return i;
+}
 
 void* _njCnkDirectModelCompile( NJS_CNK_MODEL* mdl, void* ptr)
 {
@@ -151,12 +214,17 @@ void* _njCnkDirectModelCompile( NJS_CNK_MODEL* mdl, void* ptr)
 
     njCalcPoint(0, &mdl->center, (NJS_POINT3*)&head->x);
     head->r = mdl->r;
-
-    if(mdl->vlist)
-        njCnkDirectVlist(mdl->vlist, (NJS_DIRECT_BUF*)_nj_vertex_buf_);
-
+    head++;
+    {
+        Uint16* vlist = (Uint16*)mdl->vlist;
+        if(vlist)
+            njCnkDirectVlist(vlist, (NJS_DIRECT_BUF*)_nj_vertex_buf_);
+    }  
     //plist calls
-
+    {
+        Uint32* plist = mdl->plist;
+        njCnkDirectPlist(plist, (NJS_DIRECT_BUF*)_nj_vertex_buf_,head);
+    }
 
     head->mode = unk_A90;
     

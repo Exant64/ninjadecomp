@@ -108,10 +108,11 @@ Uint32	njCnkDirectPlistSize( Uint16* vl )
         if(type < 8)
         {
             if(type == 1)
-                continue;
+                ;
             else if(type == 2)
-                continue;
-            else if(type == 3);
+                ;
+            else if(type == 3)
+                ;
         }
         else
         {
@@ -138,12 +139,12 @@ Uint32	njCnkDirectPlistSize( Uint16* vl )
                         {
                             case 0x41:
                             case 0x42:
-                                vl += 32;
-                                njCnkDirectTextureSize(vl, val);
+                                i += 32;
+                                i += njCnkDirectTextureSize(vl, val);
                                 break;
                             case 0x40:
-                                vl += 32;
-                                njCnkDirectPolygonSize(vl, val);
+                                i += 32;
+                                i += njCnkDirectPolygonSize(vl, val);
                                 break;
                         }
                     }
@@ -153,12 +154,12 @@ Uint32	njCnkDirectPlistSize( Uint16* vl )
                         {
                             case 0x41:
                             case 0x42:
-                                vl += 16;
-                                njCnkDirectTextureSize(vl, val);
+                                i += 16;
+                                i += njCnkDirectTextureSize(vl, val);
                                 break;
                             case 0x40:
-                                vl += 16;
-                                njCnkDirectPolygonSize(vl, val);
+                                i += 16;
+                                i += njCnkDirectPolygonSize(vl, val);
                                 break;
                         }
                         
