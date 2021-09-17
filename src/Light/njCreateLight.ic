@@ -1,85 +1,51 @@
-	.IMPORT __nj_light_control_
-	.IMPORT _njUnitMatrix
-	.IMPORT __nj_light_material_
-	.EXPORT _njCreateLight
-	.SECTION PSG,CODE,ALIGN=4
-func_00000000:
-	mov #17,R1
-	cmp/hs R1,R4
-	bt lbl_00000056
-	shll R4
-	mova lbl_00000010,R0
-	mov.w @(R0,R4),R0
-	braf R0
-	nop
-lbl_00000010:
-	.data.l h'00260022
-	mov.b R5,@(R0,R0)
-	mov.b @(R0,R2),R0
-	.data.w h'0052
-	mov.l @(R0,R3),R0
-	.data.w h'0050
-	mov.b @(R0,R3),R0
-	mov.l @(R0,R4),R0
-	stc SGR,R0
-	mov.b @(R0,R4),R0
-	ldtlb
-	.data.w h'004A
-	mov.l R3,@(R0,R0)
-	clrs
-	mov.b R3,@(R0,R0)
-	mov.l R4,@(R0,R0)
-	rts
-	fldi1 FR0
-	fmov FR4,FR0
-	rts
-	fsqrt FR0
-	fmov FR4,FR0
-	fsqrt FR4
-	rts
-	fmul FR4,FR0
-	fmul FR4,FR4
-	fmul FR4,FR4
-	fmul FR4,FR4
-	fmul FR4,FR4
-	fmul FR4,FR4
-	fmov FR4,FR0
-	fmul FR4,FR0
-	rts
-	fmul FR4,FR0
-lbl_00000056:
-	fmul FR4,FR4
-	fmul FR4,FR4
-	fmul FR4,FR4
-	fmul FR4,FR4
-	fmul FR4,FR4
-	fmul FR4,FR4
-	fmul FR4,FR4
-	fmov FR4,FR0
-	rts
-	nop
-	nop
-	rts
-	nop
-func_00000070:
-	fmov @R5+,FR3
-	fmul FR4,FR3
-	fmov @R5+,FR2
-	fmul FR4,FR2
-	fmov @R5+,FR1
-	fmul FR4,FR1
-	fmov @R5+,FR0
-	fmul FR4,FR0
-	fmov FR3,@R4
-	add #4,R4
-	fmov FR2,@R4
-	add #4,R4
-	fmov FR1,@R4
-	add #4,R4
-	rts
-	fmov FR0,@R4
-_njCreateLight:
-	mov.w lbl_000000A2,R0
+#include <NinjaDev.h>
+#include <machine.h>
+
+float njFastPower(float f, int p)
+{
+    switch(p)
+    {
+        case 0:
+            return 1.0f;
+        case 1:
+            return sqrtf(f);
+        case 3:
+            return f * sqrtf(f);
+        case 15: f *= f;
+        case 13: f *= f;
+        case 11: f *= f;
+        case 9: f *= f;
+        case 7: f *= f;
+        case 5: 
+            f *= f;
+            f *= f;
+            return f;
+        default:
+        case 16: f *= f;
+        case 14: f *= f;
+        case 12: f *= f;
+        case 10: f *= f;
+        case 18: f *= f;
+        case 6: f *= f;
+        case 4: f *= f;
+        case 2: return f;
+    }
+}
+
+void nullsub_1(){}
+
+void njScalorARGB(NJS_ARGB *dst, NJS_ARGB *src, float mul)
+{
+  dst->a = src->a * mul;
+  dst->r = src->r * mul;
+  dst->g = src->g * mul;
+  dst->b = src->b * mul;
+}
+
+#pragma inline_asm(njCreateLight)
+void njCreateLight(NJS_LIGHT_PTR light, Int type)
+{
+    mov.w lbl_000000A2,R0
 	mov.l lbl_000000A4,R3
 	mov #32,R1
 	mov.l @(R0,R3),R2
@@ -91,6 +57,7 @@ _njCreateLight:
 lbl_000000A2:
 	.data.w h'0080
 lbl_000000A4:
+    .IMPORT __nj_light_control_
 	.data.l __nj_light_control_
 lbl_000000A8:
 	mov.l R14,@-R15
@@ -231,12 +198,13 @@ lbl_000001A4:
 lbl_000001A8:
 	.data.l h'3E4CCCCC
 lbl_000001AC:
+    .IMPORT __nj_light_material_
 	.data.l __nj_light_material_+48
 lbl_000001B0:
 	mov #40,R0
 	mov.l @(R0,R6),R4
 	add #-24,R0
-	bsr func_00000000
+	bsr _njFastPower
 	fmov @(R0,R6),FR4
 	fmov FR0,FR2
 	fmul FR2,FR2
@@ -249,28 +217,28 @@ lbl_000001C2:
 	mov #36,R5
 	fmov @(R0,R6),FR4
 	add R7,R5
-	bsr func_00000070
+	bsr _njScalorARGB
 	add R6,R4
 	mov #4,R0
 	mov #84,R5
 	mov #16,R4
 	fmov @(R0,R7),FR4
 	add R6,R5
-	bsr func_00000070
+	bsr _njScalorARGB
 	add R5,R4
 	mov #8,R0
 	mov #84,R5
 	mov #32,R4
 	fmov @(R0,R7),FR4
 	add R6,R5
-	bsr func_00000070
+	bsr _njScalorARGB
 	add R5,R4
 	mov #12,R0
 	mov #84,R5
 	mov #48,R4
 	fmov @(R0,R7),FR4
 	add R6,R5
-	bsr func_00000070
+	bsr _njScalorARGB
 	add R5,R4
 	mov.l lbl_00000208,R2
 	mov R14,R4
@@ -279,6 +247,6 @@ lbl_000001C2:
 	jmp @R2
 	add #0,R4
 lbl_00000208:
+    .IMPORT _njUnitMatrix
 	.data.l _njUnitMatrix
-	rts
-	nop
+}

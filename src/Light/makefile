@@ -1,7 +1,7 @@
 PROJECT =	Light
 
 PROJECT_SRC	= \
-		njCreateLight_.src\
+		njCreateLight.ic\
 		njDeleteAllLight.c\
 		njDeleteLight.c\
 		njlightalloff.c\
