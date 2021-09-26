@@ -5,8 +5,7 @@ PKMDWORD njCnkModPolygon(Uint16* plist, NJS_CNK_MOD_BUF* buf, Uint16 val, PKMDWO
     PKMDWORD pSQ = sq;
     Uint16 count;
     int calc;
-    plist += 3;
-    _builtin_prefetch(plist);
+    _builtin_prefetch(plist + 3);
     count = val & 0x3FFF;
     calc = ((val >> -0xE) & 3) << 1;
 

@@ -3,55 +3,55 @@
 #pragma inline_asm(njCnkModVertex)
 int njCnkModVertex(void* a1)
 {
-    mov.l @R4+,R1
-	mov.l @R4+,R3
-	mov.l @R4+,R7
-	pref @R3
-	mov.l @R4+,R2
-	mov R3,R5
-	add #12,R5
-	fmov @R4+,FR0
-	fmov @R4+,FR1
-	fmov @R4+,FR2
-	fmov @R4+,FR3
-	mova lbl_00000070,R0
-	fmov @R0+,FR8
-	fmov @R0,FR9
-	pref @R5
+    mov.l @R4+,R1 ;r1 = vNum
+	mov.l @R4+,R3 ;r3 = pVlist
+	mov.l @R4+,R7 ;r7 = pVertexBuf
+	pref @R3 ;prefetch(pVlist)
+	mov.l @R4+,R2 ;r2 = pSQ
+	mov R3,R5 ;r5 = pVlist
+	add #12,R5 ;r5 += 12
+	fmov @R4+,FR0 ; fr0=a5
+	fmov @R4+,FR1 ; fr1=a6
+	fmov @R4+,FR2 ; fr2=cx
+	fmov @R4+,FR3 ; fr3=cy
+	mova lbl_00000070,R0 
+	fmov @R0+,FR8 ;fr8 = f[0]
+	fmov @R0,FR9 ;fr9 = f[1]
+	pref @R5 ; prefetch next vertex
 	mov #0,R0
 	mov #0,R6
 lbl_00000022:
-	fmov @R3+,FR4
-	fmov @R3+,FR5
-	fmov @R3+,FR6
-	fldi1 FR7
-	ftrv XMTRX,FV4
-	add #12,R5
-	fldi1 FR7
-	pref @R5
-	fdiv FR6,FR7
-	add #16,R2
-	fmov FR6,@-R2
-	fcmp/gt FR8,FR6
-	bt lbl_00000040
-	add #1,R6
-	fmov FR9,FR7
+	fmov @R3+,FR4 ;fr4 = vX;
+	fmov @R3+,FR5 ;fr5 = vY;
+	fmov @R3+,FR6 ;fr6 = vZ;
+	fldi1 FR7 ;fr7 = 1.0
+	ftrv XMTRX,FV4 ;apply matrix to position
+	add #12,R5 ;get next vertex
+	fldi1 FR7 ;fr7 = 1.0
+	pref @R5 ;prefetch next vertex
+	fdiv FR6,FR7 ;fr7 = 1.0 / vZ
+	add #16,R2 ;pSQ += 4;
+	fmov FR6,@-R2 ;--pSQ = vZ
+	fcmp/gt FR8,FR6 ;if(fr6 > f[0])
+	bt lbl_00000040 ;if true skip the two lines below
+	add #1,R6 ;increment vertex count
+	fmov FR9,FR7 ;fr7 = f[1]
 lbl_00000040:
-	fmul FR1,FR5
-	fmul FR0,FR4
-	fmul FR7,FR5
-	fmov FR7,@-R2
-	fmul FR7,FR4
-	fadd FR3,FR5
+	fmul FR1,FR5 ;vY *= a6;
+	fmul FR0,FR4 ;vX *= a5
+	fmul FR7,FR5 ;vY *= fr7
+	fmov FR7,@-R2 ; *--pSQ = FR7;
+	fmul FR7,FR4 ;vX *= fr7
+	fadd FR3,FR5 ;vY += cy;
 	add #1,R0
-	fmov FR5,@-R2
+	fmov FR5,@-R2 ; *--pSQ = vY
 	tst #1,R0
-	fadd FR2,FR4
+	fadd FR2,FR4 ;VX += cx;
 	bf/s lbl_0000005E
-	fmov FR4,@-R2
-	ocbi @R7
-	add #32,R7
-	pref @R2
+	fmov FR4,@-R2 ; *--pSQ = vX
+	ocbi @R7 ;invalidate cache for vertex buf
+	add #32,R7 ;get next vertex buf
+	pref @R2 ;prefetch pSQ
 lbl_0000005E:
 	dt R1
 	bf/s lbl_00000022
@@ -62,9 +62,9 @@ lbl_0000005E:
 	pref @R2
 lbl_0000006C:
 	rts
-	mov R6,R0
+	mov R6,R0 ; return vertex count
 lbl_00000070:
-	.data.l h'3727C5AC
+	.data.l h'3727C5AC ;todo float array
 	mov.l @(0,R0),R0
 	.data.w h'47C3
 }
