@@ -1,7 +1,9 @@
-	.EXPORT _njCnkModVertex
-	.SECTION PSG,CODE,ALIGN=4
-_njCnkModVertex:
-	mov.l @R4+,R1
+
+
+#pragma inline_asm(njCnkModVertex)
+int njCnkModVertex(void* a1)
+{
+    mov.l @R4+,R1
 	mov.l @R4+,R3
 	mov.l @R4+,R7
 	pref @R3
@@ -65,5 +67,4 @@ lbl_00000070:
 	.data.l h'3727C5AC
 	mov.l @(0,R0),R0
 	.data.w h'47C3
-	rts
-	nop
+}

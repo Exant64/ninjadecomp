@@ -21,9 +21,9 @@ PROJECT_SRC	= \
 		njCnkModelSM_.src\
 		njCnkModelS_.src\
 		njCnkModel_.src\
-		njCnkModifier_.src\
-		njCnkModPolygon_.src\
-		njCnkModVertex_.src\
+		njCnkModifier.c\
+		njCnkModPolygon.c\
+		njCnkModVertex.ic\
 		njCnkPolygonClip_.src\
 		njCnkPolygonD8Clip_.src\
 		njCnkPolygonD8DbClip_.src\

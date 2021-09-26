@@ -4,7 +4,7 @@
 #include "KAMUI.H"
 #include "sg_chain.h"
 #include "sg_tmr.h"
-
+#include <kmyparamdefs.h>
 //it gets created as a function which is pretty weird, so ill split it up, not sure what to do about it
 #define NJD_GET_MAPPING_ADDRESS_(addr)	\
 		((PKMDWORD)(((KMDWORD)(addr) & 0x03FFFFFF) | 0xE0000000)); \
@@ -12,6 +12,7 @@
 		*((volatile PKMDWORD)(0xFF000038)) = *((volatile PKMDWORD)(0xFF00003C)) = (KMDWORD)(addr) >> 24;
 
 #define NJD_GET_MAPPING_ADDRESS(addr) ((PKMDWORD)(((KMDWORD)(addr) & 0x03FFFFFF) | 0xE0000000)); 
+#define NJD_SEND_SQ(addr) *((volatile PKMDWORD)(0xFF000038)) = *((volatile PKMDWORD)(0xFF00003C)) = ((KMDWORD)(addr) >> 24) & 0x1C;
 #define NJD_GET_SQ(addr)	\
 						 	_nj_sq_base_ = (PKMDWORD)((KMDWORD)addr & 0xFC000000); \
 							*((volatile PKMDWORD)(0xFF000038)) = *((volatile PKMDWORD)(0xFF00003C)) = ((KMDWORD)(addr) >> 24) & 0x1C;
@@ -30,20 +31,25 @@ extern void	njSetCurrentContext( int ctx );
 
 extern void _NJ_GO_TO_LOOP();
 
+typedef	struct	{
+	Float	x;
+	Float	y;
+	Float	ooz;
+	Float	z;
+} NJS_CNK_MOD_BUF;
+
+typedef struct NJS_MODIFIER_WORK{
+    int vNum; //0
+    Uint16* pVlist; //4
+    NJS_CNK_MOD_BUF* pVertexBuf; //8
+    PKMDWORD pSQ; //12
+    float a5; //16
+    float a6; //20
+    float cx; //24
+    float cy; //28
+} NJS_MODIFIER_WORK;
+
 //njKm
-
-#define NJD_KM_ZBUFFER_MODE 0x4000000
-#define NJD_KM_MIPMAP_MASK 0xFFFFF0FF
-#define NJD_KM_TEXFILTER_MASK 0xFFFF9FFF
-#define NJD_KM_SUPERSAMPLE_MODE 0x1000
-#define NJD_KM_TEXCLAMP_MASK 0xFFFE7FFF
-#define NJD_KM_TEXFLIP_MASK 0xFFF9FFFF
-#define NJD_KM_POLYCULL_MASK 0xE7FFFFFF
-#define NJD_KM_SPECULAR_MODE 4
-#define NJD_KM_ALPHA_MODE 0x100000
-#define NJD_KM_IGNORETEXTUREALPHA_MODE 0x80000
-#define NJD_KM_TEXSHADE_MASK 0xFFFFFF3F
-
 typedef struct NJS_PARAMETERKM{
 	KMDWORD GLOBALPARAMBUFFER; //0
 	KMDWORD ISPPARAMBUFFER; //4

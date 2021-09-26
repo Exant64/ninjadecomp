@@ -18,13 +18,13 @@ void	njCnkDirectCullingMode( Uint32 mode )
     switch(mode)
     {
         case 2:
-            _nj_direct_culling_mode_ = 0x10000000;
+            _nj_direct_culling_mode_ = KMY_CULLING_NEGATIVE;
             break;
         case 3:
-            _nj_direct_culling_mode_ = 0x18000000;
+            _nj_direct_culling_mode_ = KMY_CULLING_POSITIVE;
             break;
         default:
-            _nj_direct_culling_mode_ = 0x8000000;
+            _nj_direct_culling_mode_ = KMY_CULLING_SMALL;
             break;
     }
 }
@@ -34,8 +34,8 @@ void* njCnkDirectGlobalOpaqueD8(NJS_DIRECT_GLOBAL_D8* gl)
     NJS_DIRECT_GLOBAL_D8* global = gl;
     gl++;
     global->TEXTUREADDR = _nj_parameterkm_.TexturePARAMBUFFER;
-    global->TSPPARAM = (_nj_parameterkm_.TSPPARAMBUFFER & 0x3EFFFFF) | 0x20080000;
-    global->ISPPARAM = (_nj_parameterkm_.ISPPARAMBUFFER & 0xE7FFFFFF) | _nj_direct_culling_mode_;
+    global->TSPPARAM = (_nj_parameterkm_.TSPPARAMBUFFER & 0x3EFFFFF) | KMY_SRCBLEND_ONE | KMY_IGNORE_TEXALPHA;
+    global->ISPPARAM = (_nj_parameterkm_.ISPPARAMBUFFER & KMY_CULLING_MASK) | _nj_direct_culling_mode_;
     global->GP = global->GLOBALPARAM = _nj_parameterkm_.GLOBALPARAMBUFFER;
     _nj_direct_global_cnt_++;
     return gl;
@@ -47,7 +47,7 @@ void* njCnkDirectGlobalTransD8(NJS_DIRECT_GLOBAL_D8* gl)
     gl++;
     global->TEXTUREADDR = _nj_parameterkm_.TexturePARAMBUFFER;
     global->TSPPARAM = _nj_parameterkm_.TSPPARAMBUFFER;
-    global->ISPPARAM = (_nj_parameterkm_.ISPPARAMBUFFER & 0xE7FFFFFF) | _nj_direct_culling_mode_;
+    global->ISPPARAM = (_nj_parameterkm_.ISPPARAMBUFFER & KMY_CULLING_MASK) | _nj_direct_culling_mode_;
     global->GP = global->GLOBALPARAM = _nj_parameterkm_.GLOBALPARAMBUFFER;
     _nj_direct_global_cnt_++;
     return gl;
@@ -69,8 +69,8 @@ void* njCnkDirectGlobalOpaque(NJS_DIRECT_GLOBAL* gl)
 
     gl++;
     global->TEXTUREADDR = _nj_parameterkm_.TexturePARAMBUFFER;
-    global->TSPPARAM = (_nj_parameterkm_.TSPPARAMBUFFER & 0x3EFFFFF) | 0x20080000;
-    global->ISPPARAM = (_nj_parameterkm_.ISPPARAMBUFFER & 0xE7FFFFFF) | _nj_direct_culling_mode_;
+    global->TSPPARAM = (_nj_parameterkm_.TSPPARAMBUFFER & 0x3EFFFFF) | KMY_SRCBLEND_ONE | KMY_IGNORE_TEXALPHA;
+    global->ISPPARAM = (_nj_parameterkm_.ISPPARAMBUFFER & KMY_CULLING_MASK) | _nj_direct_culling_mode_;
     global->GP = global->GLOBALPARAM = _nj_parameterkm_.GLOBALPARAMBUFFER;
     _nj_direct_global_cnt_++;
     return gl;
@@ -189,7 +189,7 @@ NJS_DIRECT_HEAD*	njCnkDirectPlist( Uint16* vl, NJS_DIRECT_BUF* buf, NJS_DIRECT_G
                     type <<= 8;
                     if(!unk_A90)
                     {
-                        NJS_DIRECT_HEAD* nextHead;
+                        void* nextHead;
                         NJS_DIRECT_GLOBAL* pHead = (NJS_DIRECT_GLOBAL*)head;
 
                         Uint32 vtx = 0;
@@ -319,7 +319,7 @@ NJS_DIRECT_HEAD*	njCnkDirectPlist( Uint16* vl, NJS_DIRECT_BUF* buf, NJS_DIRECT_G
                     }
                     else
                     {
-                        NJS_DIRECT_HEAD* nextHead;
+                        void* nextHead;
                         NJS_DIRECT_GLOBAL_D8* pHead = (NJS_DIRECT_GLOBAL_D8*)head;
 
                         Uint32 vtx = 0;
@@ -447,7 +447,6 @@ NJS_DIRECT_HEAD*	njCnkDirectPlist( Uint16* vl, NJS_DIRECT_BUF* buf, NJS_DIRECT_G
                                 _nj_direct_vertex_cnt_ += vtx;
                                 break;
                         }
-                        _nj_direct_vertex_cnt_ += vtx;
                     }
 
                     (Uint8*)vl += ((size-1) * 2);       

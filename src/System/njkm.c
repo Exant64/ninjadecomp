@@ -60,6 +60,30 @@ void njSetkmPointer()
     }
 }
 
+PKMDWORD njEndModifier(PKMDWORD sq)
+{
+    sq += 2;
+    *--sq = KMY_VOLUME_INSIDE_LAST;
+    *--sq = (_nj_parameterkm_.GLOBALPARAMBUFFER & 0x30000) | KMY_PARAM_MODIFIER | KMY_LIST_OPAQUEMODIFIER | KMY_OBJ_LAST_MODIFIER; 
+    _builtin_prefetch(sq);
+    sq += 8;
+    return sq;
+}
+
+PKMDWORD njStartModifier()
+{
+    PKMDWORD p;
+    NJD_GET_SQ(_nj_parameterkm_.OpaqueMod);
+    p = NJD_GET_MAPPING_ADDRESS(_nj_parameterkm_.OpaqueMod);
+    p += 2;
+    *--p = KMY_VOLUME_NORMAL;
+    *--p = (_nj_parameterkm_.GLOBALPARAMBUFFER & 0x30000) | KMY_LIST_OPAQUEMODIFIER | KMY_PARAM_MODIFIER;
+    _builtin_prefetch(p);
+    _nj_listtype_ = &_nj_parameterkm_.OpaqueMod;
+    p += 8;
+    return p;   
+}
+
 void njEndVertex(PKMDWORD pDST)
 {
     *_nj_listtype_ = ((KMDWORD)pDST & 0x3FFFFFF) | *_nj_sq_base_;
@@ -128,37 +152,37 @@ void njSetkmModelAttr(Uint32 p)
 void njZBufferkmMode(Uint32 p)
 {
     if(p == 1)
-        _nj_parameterkm_.ISPPARAMBUFFER &= ~NJD_KM_ZBUFFER_MODE;
+        _nj_parameterkm_.ISPPARAMBUFFER &= KMY_ZWRITE_DISABLE_MASK;
     else if(p == 0)
-        _nj_parameterkm_.ISPPARAMBUFFER |= NJD_KM_ZBUFFER_MODE;
+        _nj_parameterkm_.ISPPARAMBUFFER |= KMY_ZWRITE_DISABLE;
 }
 
 void njMipmapkmAdjust(Uint32 p)
 {
-    _nj_parameterkm_.TSPPARAMBUFFER = (_nj_parameterkm_.TSPPARAMBUFFER & NJD_KM_MIPMAP_MASK) | p;
+    _nj_parameterkm_.TSPPARAMBUFFER = (_nj_parameterkm_.TSPPARAMBUFFER & KMY_MIPMAP_MASK) | p;
 }
 
 void njTextureFilterkmMode(Uint32 p)
 {
-    _nj_parameterkm_.TSPPARAMBUFFER = (_nj_parameterkm_.TSPPARAMBUFFER & NJD_KM_TEXFILTER_MASK) | p;
+    _nj_parameterkm_.TSPPARAMBUFFER = (_nj_parameterkm_.TSPPARAMBUFFER & KMY_FILTER_MASK) | p;
 }
 
 void njSuperSamplekmMode(Uint32 p)
 {
     if(p == 1)
-        _nj_parameterkm_.TSPPARAMBUFFER |= NJD_KM_SUPERSAMPLE_MODE;
+        _nj_parameterkm_.TSPPARAMBUFFER |= KMY_SUPER_SAMPLE;
     else if(p == 0)
-        _nj_parameterkm_.TSPPARAMBUFFER &= ~NJD_KM_SUPERSAMPLE_MODE;
+        _nj_parameterkm_.TSPPARAMBUFFER &= KMY_SUPER_SAMPLE_MASK;
 }
 
 void njTextureClampkmMode(Uint32 p)
 {
-    _nj_parameterkm_.TSPPARAMBUFFER = (_nj_parameterkm_.TSPPARAMBUFFER & NJD_KM_TEXCLAMP_MASK) | p;
+    _nj_parameterkm_.TSPPARAMBUFFER = (_nj_parameterkm_.TSPPARAMBUFFER & KMY_CLAMP_MASK) | p;
 }
 
 void njTextureFlipkmMode(Uint32 p)
 {
-    _nj_parameterkm_.TSPPARAMBUFFER = (_nj_parameterkm_.TSPPARAMBUFFER & NJD_KM_TEXFLIP_MASK) | p;
+    _nj_parameterkm_.TSPPARAMBUFFER = (_nj_parameterkm_.TSPPARAMBUFFER & KMY_FLIP_MASK) | p;
 }
 
 void njkmPolygonCullingSize(float val)
@@ -168,7 +192,7 @@ void njkmPolygonCullingSize(float val)
 
 void njPolygonCullingkmMode(Uint32 p)
 {
-    _nj_parameterkm_.ISPPARAMBUFFER = (_nj_parameterkm_.ISPPARAMBUFFER & NJD_KM_POLYCULL_MASK) | p;
+    _nj_parameterkm_.ISPPARAMBUFFER = (_nj_parameterkm_.ISPPARAMBUFFER & KMY_CULLING_MASK) | p;
 }
 
 
@@ -179,29 +203,29 @@ void njColorBlendingkmMode(Uint32 a, Uint32 b)
     else
     {
         if(a)
-            _nj_parameterkm_.TSPPARAMBUFFER = (_nj_parameterkm_.TSPPARAMBUFFER & 0x1FFFFFFF) | (b & 0xE0000000);
+            _nj_parameterkm_.TSPPARAMBUFFER = (_nj_parameterkm_.TSPPARAMBUFFER & KMY_SRCBLEND_MASK) | (b & 0xE0000000);
         else
-            _nj_parameterkm_.TSPPARAMBUFFER = (_nj_parameterkm_.TSPPARAMBUFFER & 0xE3FFFFFF) | (b & 0x1C000000);
+            _nj_parameterkm_.TSPPARAMBUFFER = (_nj_parameterkm_.TSPPARAMBUFFER & KMY_DSTBLEND_MASK) | (b & 0x1C000000);
     }
 }
 
 void njSpecularkmMode(Uint32 p)
 {
     if(p == 1)
-        _nj_parameterkm_.GLOBALPARAMBUFFER |= NJD_KM_SPECULAR_MODE;
+        _nj_parameterkm_.GLOBALPARAMBUFFER |= KMY_OBJ_OFFSET;
     else if(p == 0)
-        _nj_parameterkm_.GLOBALPARAMBUFFER &= ~NJD_KM_SPECULAR_MODE;
+        _nj_parameterkm_.GLOBALPARAMBUFFER &= KMY_OBJ_OFFSET_MASK;
 }
 
 void njAlphakmMode(Uint32 p)
 {
     if(p == 1)
     {
-        _nj_parameterkm_.TSPPARAMBUFFER |= NJD_KM_ALPHA_MODE;
+        _nj_parameterkm_.TSPPARAMBUFFER |= KMY_ALPHA_ENABLE;
     }
     else if(p == 0)
     {
-        _nj_parameterkm_.TSPPARAMBUFFER &= ~NJD_KM_ALPHA_MODE;
+        _nj_parameterkm_.TSPPARAMBUFFER &= KMY_ALPHA_ENABLE_MASK;
     }
 }
 
@@ -210,17 +234,17 @@ void njIgnoreTextureAlphakmMode(Uint32 p)
 {
     if(p == 1)
     {
-        _nj_parameterkm_.TSPPARAMBUFFER |= NJD_KM_IGNORETEXTUREALPHA_MODE;
+        _nj_parameterkm_.TSPPARAMBUFFER |= KMY_IGNORE_TEXALPHA;
     }
     else if(p == 0)
     {
-        _nj_parameterkm_.TSPPARAMBUFFER &= ~NJD_KM_IGNORETEXTUREALPHA_MODE;
+        _nj_parameterkm_.TSPPARAMBUFFER &= KMY_IGNORE_TEXALPHA_MASK;
     }
 }
 
 void njTextureShadingkmMode(Uint32 p)
 {
-    _nj_parameterkm_.TSPPARAMBUFFER = (_nj_parameterkm_.TSPPARAMBUFFER & NJD_KM_TEXSHADE_MASK) | p;
+    _nj_parameterkm_.TSPPARAMBUFFER = (_nj_parameterkm_.TSPPARAMBUFFER & KMY_SHADING_MASK) | p;
 }
 
 Sint32 njSetkmCnkTextureNum(Uint32 a, Uint32 b)

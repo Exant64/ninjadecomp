@@ -42,7 +42,7 @@ void	njSetQuadTexture( Sint32 texid, Uint32 col )
             *(--ptr) = (_nj_parameterkm_.TSPPARAMBUFFER & 0xFFF7FFFF) | 0x100000;
             *(--ptr) = _nj_parameterkm_.ISPPARAMBUFFER;
         
-            //PVR_CMD_SPRITE | 16_BIT | use_texture | PVR_LIST_TR_POLY | 
+            //KMY_PARAM_SPRITE | KMY_LIST_TRANS | KMY_GROUP_STRIP1 | KMY_OBJ_TEXTURE |KMY_OBJ_16BITUV
             *(--ptr) = (_nj_parameterkm_.GLOBALPARAMBUFFER & 0x30080) | 0xA2800009;
             _builtin_prefetch((void*)ptr);
             ptr+=8;
